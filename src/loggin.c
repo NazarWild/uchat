@@ -39,9 +39,8 @@ void to_chat(GtkWidget* widget, void *data) {
         printf("Are you kidding me?\n");
     }
 
-    else {
+    else
         mx_log_in((char *) user_name, (char *) user_password, widge);
-    }
 }
 
 void create_user(GtkWidget* widget, void *data) {

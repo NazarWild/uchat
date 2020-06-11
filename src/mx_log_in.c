@@ -2,6 +2,9 @@
 
 int mx_log_in(char *login, char *pass, t_widget_my *widge) {
 	char *arr[] = {"ndykyy", "okolevatov", "dmushynska", "opoliarenk", NULL};
+	t_userdata *data = (t_userdata *)malloc(sizeof(t_userdata));
+	data->login = strdup(login);
+	data->to = strdup("okolevatov");
 	bool connect = false;
 	int i = 0;
 	pass = "lol";
@@ -14,7 +17,7 @@ int mx_log_in(char *login, char *pass, t_widget_my *widge) {
 	}
 	if (connect) {
 		printf("%s connected\n", login);
-		mx_connection(widge);
+		mx_connection(widge, data);
 	}
 	else {
 		printf("NO SUCH USER %s\n", login);

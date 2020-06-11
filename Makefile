@@ -1,4 +1,4 @@
-NAME = klient
+NAME = klient_2
 
 SERVER = server
 

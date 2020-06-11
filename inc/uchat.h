@@ -39,8 +39,15 @@ typedef struct s_widget_my {
     GtkStyleContext *window_pad;
 }              t_widget_my;
 
+typedef struct s_userdata {
+	char *login;
+	char *pass;
+	char *to;
+	int sockfd;
+}              t_userdata;
+
 int mx_log_in(char *login, char *pass, t_widget_my *widge);
-void mx_connection(t_widget_my *widge);
+void mx_connection(t_widget_my *widge, t_userdata *data);
 int main (int argc, char *argv[]);
 
 #endif

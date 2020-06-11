@@ -8,34 +8,42 @@ static char *read_line(void) {
     return line;
 }
 
-static void *Write(void *sock) {
-    int socket = *((int*)sock);
+static void *Write(void *dat) {
+    t_userdata *data = (t_userdata *) dat;
     char *buff;
-
+    char *str = (char *)malloc(sizeof(char) * 40);
+    printf("\t%s\n", data->login);
     while(1) {
         buff = read_line();
-        write(socket, buff, strlen(buff));
+        sprintf(str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\"}", data->login, data->to, buff);
+        printf("\t%s\n", str);
+        exit(0);
+        write(data->sockfd, str, strlen(str));
     }
+    int exit;
+    pthread_exit(&exit);
     return (void*)0;
 }
 
-static void *Read(void *sock) {
-    int socket = *((int*)sock);
+static void *Read(void *dat) {
+    t_userdata data = *((t_userdata *) dat);
     char buff[1024];
     int len;
 
     while(1) {
-        len = read(socket, buff, 1024);
+        len = read(data.sockfd, buff, 1024);
         write(1, buff, len);
     }
+    int exit;
+    pthread_exit(&exit);
     return (void*)0;
 }
 
-void mx_connection(t_widget_my *widge) {
+void mx_connection(t_widget_my *widge, t_userdata *data) {
     int sockfd, portno;
     struct sockaddr_in serv_addr;
     struct hostent *server;
-    //pthread_t preg;
+    pthread_t preg;
     
     portno = 6969;
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -62,8 +70,11 @@ void mx_connection(t_widget_my *widge) {
     }
     gtk_widget_hide(widge->window);
     gtk_widget_show_all(widge->chat);
+    data->sockfd = sockfd;
+    printf("%s", data->login);
     //while (1) {
-     //   pthread_create(&preg, 0, Write, &sockfd);
-     //   pthread_create(&preg, 0, Read, &sockfd);
+        Write(&data);
+        //pthread_create(&preg, 0, Write, &data);
+        //pthread_create(&preg, 0, Read, &data);
     //}
 }
