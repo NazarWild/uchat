@@ -31,11 +31,11 @@ static void *Read(void *sock) {
     return (void*)0;
 }
 
-void mx_connection(void) {
+void mx_connection(t_widget_my *widge) {
     int sockfd, portno;
     struct sockaddr_in serv_addr;
     struct hostent *server;
-    pthread_t preg;
+    //pthread_t preg;
     
     portno = 6969;
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -45,7 +45,7 @@ void mx_connection(void) {
         exit(1);
     }
      
-    server = gethostbyname("10.111.9.3");
+    server = gethostbyname("10.111.9.5");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -55,13 +55,15 @@ void mx_connection(void) {
     serv_addr.sin_family = AF_INET;
     bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(portno);
-    
+
     if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
         perror("ERROR connecting");
         exit(1);
     }
-    while (1) {
-        pthread_create(&preg, 0, Write, &sockfd);
-        pthread_create(&preg, 0, Read, &sockfd);
-    }
+    gtk_widget_hide(widge->window);
+    gtk_widget_show_all(widge->chat);
+    //while (1) {
+     //   pthread_create(&preg, 0, Write, &sockfd);
+     //   pthread_create(&preg, 0, Read, &sockfd);
+    //}
 }

@@ -1,6 +1,6 @@
 #include "../inc/uchat.h"
 
-int mx_log_in(char *login, char *pass) {
+int mx_log_in(char *login, char *pass, t_widget_my *widge) {
 	char *arr[] = {"ndykyy", "okolevatov", "dmushynska", "opoliarenk", NULL};
 	bool connect = false;
 	int i = 0;
@@ -14,7 +14,7 @@ int mx_log_in(char *login, char *pass) {
 	}
 	if (connect) {
 		printf("%s connected\n", login);
-		mx_connection();
+		mx_connection(widge);
 	}
 	else {
 		printf("NO SUCH USER %s\n", login);
