@@ -92,7 +92,7 @@ void doprocessing (int sock, char *ip) {
       }
       char happy[] = { 0xE2, 0x9C, 0x93 };
       printf("socket: %d, ip: %s send: %s\n",sock,ip,buffer);
-      n = write(sock,happy,strlen(happy));
+      n = write(sock,happy,strlen(happy) - 1);
       write(sock,"\n",1);
       
       if (n < 0) {

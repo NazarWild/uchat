@@ -2,6 +2,8 @@ NAME = klient_2
 
 SERVER = server
 
+SERVER_SRC = src/userver.c
+
 FILES = mx_log_in \
 		mx_connection \
 		loggin \
@@ -18,7 +20,7 @@ SRC_COMPILE = $(addsuffix .c, $(SRC_PREFFIX))
 
 OBJ = $(addsuffix .o, $(FILES))
 
-CFLAGS = -std=c11 `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0`
+CFLAGS = -std=c11 `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0` -lpthread
 
 all: install
 
@@ -31,8 +33,9 @@ $(NAME) : $(SRC) $(INC)
 	@cp $(OBJ) obj/
 	@rm -rf $(OBJ)
 
-$(SERVER) :
-	@clang src/userver.c -o $(SERVER)
+$(SERVER) : $(SERVER_SRC)
+	@clang $(CFLAGS) -c $(SERVER_SRC)
+	@clang $(SERVER_SRC) -o $(SERVER)
 
 uninstall: clean
 	@rm -rf $(NAME)

@@ -12,12 +12,10 @@ static void *Write(void *dat) {
     t_userdata *data = (t_userdata *) dat;
     char *buff;
     char *str = (char *)malloc(sizeof(char) * 40);
-    printf("\t%s\n", data->login);
     while(1) {
         buff = read_line();
+        buff[strlen(buff) - 1] = '\0';
         sprintf(str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\"}", data->login, data->to, buff);
-        printf("\t%s\n", str);
-        exit(0);
         write(data->sockfd, str, strlen(str));
     }
     int exit;
@@ -26,12 +24,12 @@ static void *Write(void *dat) {
 }
 
 static void *Read(void *dat) {
-    t_userdata data = *((t_userdata *) dat);
+    t_userdata *data = (t_userdata *) dat;
     char buff[1024];
     int len;
 
     while(1) {
-        len = read(data.sockfd, buff, 1024);
+        len = read(data->sockfd, buff, 1024);
         write(1, buff, len);
     }
     int exit;
@@ -53,7 +51,7 @@ void mx_connection(t_widget_my *widge, t_userdata *data) {
         exit(1);
     }
      
-    server = gethostbyname("10.111.9.5");
+    server = gethostbyname("10.111.10.3");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -68,13 +66,11 @@ void mx_connection(t_widget_my *widge, t_userdata *data) {
         perror("ERROR connecting");
         exit(1);
     }
+    data->sockfd = sockfd;
     gtk_widget_hide(widge->window);
     gtk_widget_show_all(widge->chat);
-    data->sockfd = sockfd;
-    printf("%s", data->login);
-    //while (1) {
-        Write(&data);
-        //pthread_create(&preg, 0, Write, &data);
-        //pthread_create(&preg, 0, Read, &data);
-    //}
+    while (1) {
+        pthread_create(&preg, 0, Write, data);
+        pthread_create(&preg, 0, Read, data);
+    }
 }
