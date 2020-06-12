@@ -5,11 +5,11 @@ SERVER = server
 SERVER_SRC = src/userver.c
 
 FILES = mx_log_in \
-		mx_connection \
-		mx_login_win \
-		mx_chat_win \
-		mx_create_widge \
-		main \
+	mx_connection \
+	mx_login_win \
+	mx_chat_win \
+	mx_create_widge \
+	main \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
@@ -23,7 +23,9 @@ SRC_COMPILE = $(addsuffix .c, $(SRC_PREFFIX))
 
 OBJ = $(addsuffix .o, $(FILES))
 
-CFLAGS = -std=c11 `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0` -lpthread
+CFLAGS = -std=c11 `pkg-config --libs --cflags gtk+-3.0` -lpthread
+
+CFLAGS_SER = -std=c11 -lpthread
 
 all: install
 
@@ -37,7 +39,7 @@ $(NAME) : $(SRC) $(INC)
 	@rm -rf $(OBJ)
 
 $(SERVER) : $(SERVER_SRC)
-	@clang $(CFLAGS) -c $(SERVER_SRC)
+	@clang $(CFLAGS_SER) -c $(SERVER_SRC)
 	@clang $(SERVER_SRC) -o $(SERVER)
 
 uninstall: clean
@@ -46,5 +48,6 @@ uninstall: clean
 
 clean:
 	@rm -rf obj
+	@rm userver.o
 
 reinstall: uninstall install

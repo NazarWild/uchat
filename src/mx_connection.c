@@ -11,12 +11,15 @@ static char *read_line(void) {
 static void *Write(void *dat) {
     t_userdata *data = (t_userdata *) dat;
     char *buff;
-    char *str = (char *)malloc(sizeof(char) * 40);
+    char *str;
+
     while(1) {
-        buff = read_line();
+        buff = read_line();//get_text
         buff[strlen(buff) - 1] = '\0';
+        str = (char *)malloc(sizeof(char) * (strlen(buff) + strlen(data->login) + strlen(data->to) + 10));
         sprintf(str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\"}", data->login, data->to, buff);
         write(data->sockfd, str, strlen(str));
+        free(str);
     }
     int exit;
     pthread_exit(&exit);
@@ -30,7 +33,7 @@ static void *Read(void *dat) {
 
     while(1) {
         len = read(data->sockfd, buff, 1024);
-        write(1, buff, len);
+        write(1, buff, len);//set_text
     }
     int exit;
     pthread_exit(&exit);
@@ -42,7 +45,8 @@ void mx_connection(t_widget_my *widge, t_userdata *data) {
     struct sockaddr_in serv_addr;
     struct hostent *server;
     pthread_t preg;
-    
+    //char *str;
+
     portno = 6969;
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
    
@@ -51,7 +55,7 @@ void mx_connection(t_widget_my *widge, t_userdata *data) {
         exit(1);
     }
      
-    server = gethostbyname("10.111.9.1");
+    server = gethostbyname("10.111.10.3");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -67,8 +71,11 @@ void mx_connection(t_widget_my *widge, t_userdata *data) {
         exit(1);
     }
     data->sockfd = sockfd;
-    while (1) {
-        pthread_create(&preg, 0, Write, data);
-        pthread_create(&preg, 0, Read, data);
-    }
+    //str = (char *)malloc(sizeof(char) * (strlen(buff) + strlen(data->login) + strlen(data->to) + 10));
+    //sprintf(str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\"}", data->login, data->to, buff);
+    //write(data->sockfd, str, strlen(str));
+    //free(str);
+    mx_chat_win(widge);
+    pthread_create(&preg, 0, Write, data);
+    pthread_create(&preg, 0, Read, data);
 }
