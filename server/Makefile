@@ -1,15 +1,11 @@
-NAME = klient
+NAME = server
 
-FILES = mx_log_in \
-	mx_connection \
-	mx_login_win \
-	mx_chat_win \
-	mx_create_widge \
-	main \
+FILES = u_server \
+		cJSON \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
-HEADER = inc/uchat.h
+HEADER = ../inc/uchat.h
 
 DEL_SRC = $(addsuffix .c, $(FILES))
 
@@ -19,7 +15,7 @@ SRC_COMPILE = $(addsuffix .c, $(SRC_PREFFIX))
 
 OBJ = $(addsuffix .o, $(FILES))
 
-CFLAGS = -std=c11 `pkg-config --libs --cflags gtk+-3.0` -lpthread
+CFLAGS = -std=c11
 
 all: install
 
