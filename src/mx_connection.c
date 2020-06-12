@@ -51,7 +51,7 @@ void mx_connection(t_widget_my *widge, t_userdata *data) {
         exit(1);
     }
      
-    server = gethostbyname("10.111.10.3");
+    server = gethostbyname("10.111.9.1");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -67,8 +67,6 @@ void mx_connection(t_widget_my *widge, t_userdata *data) {
         exit(1);
     }
     data->sockfd = sockfd;
-    gtk_widget_hide(widge->window);
-    gtk_widget_show_all(widge->chat);
     while (1) {
         pthread_create(&preg, 0, Write, data);
         pthread_create(&preg, 0, Read, data);

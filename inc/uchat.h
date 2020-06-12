@@ -48,6 +48,10 @@ typedef struct s_userdata {
 
 int mx_log_in(char *login, char *pass, t_widget_my *widge);
 void mx_connection(t_widget_my *widge, t_userdata *data);
+
+void mx_create_widge(t_widget_my *widge);
+void mx_login_win(t_widget_my *widge);
 int main (int argc, char *argv[]);
+void mx_chat_win(t_widget_my *widge);
 
 #endif

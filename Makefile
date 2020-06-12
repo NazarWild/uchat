@@ -6,7 +6,10 @@ SERVER_SRC = src/userver.c
 
 FILES = mx_log_in \
 		mx_connection \
-		loggin \
+		mx_login_win \
+		mx_chat_win \
+		mx_create_widge \
+		main \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
