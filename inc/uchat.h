@@ -12,7 +12,13 @@
 #include <fcntl.h>
 #include <stdbool.h>
 #include <malloc/malloc.h>
+#include "cJSON.h"
 #include <gtk/gtk.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+
+#define PORT 6969
+#define USERS 200
 
 typedef struct s_widget_my {
     GtkBuilder *builder;
