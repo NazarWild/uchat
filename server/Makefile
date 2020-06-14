@@ -1,11 +1,11 @@
-NAME = server
+NAME = uchat_server
 
 FILES = u_server \
 		cJSON \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
-HEADER = ../inc/uchat.h
+HEADER = inc/uchat.h
 
 DEL_SRC = $(addsuffix .c, $(FILES))
 

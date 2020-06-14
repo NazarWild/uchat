@@ -1,20 +1,22 @@
 #include "../inc/uchat.h"
 
-static char *read_line(void) {
-    char *line = NULL;
-    size_t bufsize = 0;
+static void in_chat(GtkWidget* widget, void *data) {
+    t_widget_my *widge = (t_widget_my*)data;
 
-    getline(&line, &bufsize, stdin);
-    return line;
+    const gchar *str = gtk_entry_get_text(GTK_ENTRY(widge->enter));
+    widge->str = strdup(str);
 }
 
 static void *Write(void *dat) {
     t_userdata *data = (t_userdata *) dat;
     char *buff;
     char *str;
+    //data->widge = (t_widget_my *)malloc(sizeof(t_widget_my));
+
 
     while(1) {
-        buff = read_line();//get_text
+        //g_signal_connect (widge->chat, "clicked", G_CALLBACK(in_chat), widge);
+        //buff = (data->widge)->str;
         buff[strlen(buff) - 1] = '\0';
         str = (char *)malloc(sizeof(char) * (strlen(buff) + strlen(data->login) + strlen(data->to) + 10));
         sprintf(str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\"}", data->login, data->to, buff);
@@ -33,7 +35,8 @@ static void *Read(void *dat) {
 
     while(1) {
         len = read(data->sockfd, buff, 1024);
-        write(1, buff, len);//set_text
+        write(1, buff, strlen(buff));
+        //gtk_entry_set_text(GTK_ENTRY(widge->vivod), buff);
     }
     int exit;
     pthread_exit(&exit);
@@ -45,7 +48,7 @@ void mx_connection(t_widget_my *widge, t_userdata *data) {
     struct sockaddr_in serv_addr;
     struct hostent *server;
     pthread_t preg;
-    //char *str;
+    char *str;
 
     portno = 6969;
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -55,7 +58,7 @@ void mx_connection(t_widget_my *widge, t_userdata *data) {
         exit(1);
     }
      
-    server = gethostbyname("10.111.10.3");
+    server = gethostbyname("10.111.9.3");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -71,11 +74,19 @@ void mx_connection(t_widget_my *widge, t_userdata *data) {
         exit(1);
     }
     data->sockfd = sockfd;
-    //str = (char *)malloc(sizeof(char) * (strlen(buff) + strlen(data->login) + strlen(data->to) + 10));
-    //sprintf(str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\"}", data->login, data->to, buff);
-    //write(data->sockfd, str, strlen(str));
-    //free(str);
+    str = (char *)malloc(sizeof(char) * (strlen(data->login) + strlen(data->pass) + 11));
+    sprintf(str, "{\"LOGIN\":\"%s\",\"PASS\":\"%s\"}", data->login, data->pass);
+    write(data->sockfd, str, strlen(str));
+    free(str);
+
+    char buff[1024];
+    read(data->sockfd, buff, 1024);
     mx_chat_win(widge);
-    pthread_create(&preg, 0, Write, data);
-    pthread_create(&preg, 0, Read, data);
+    //if (atoi(buff) == 1) {
+        //gtk_entry_set_text(GTK_ENTRY(widge->vivod), "");
+        //pthread_create(&preg, 0, Write, data);
+        pthread_create(&preg, 0, Read, data);
+    //}
+    //else
+    //    printf("WRONG PASSWORD OR LOGIN");
 }

@@ -1,4 +1,4 @@
-NAME = klient
+NAME = uchat
 
 FILES = mx_log_in \
 	mx_connection \

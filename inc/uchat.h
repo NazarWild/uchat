@@ -43,6 +43,11 @@ typedef struct s_widget_my {
 
     GtkStyleContext *style_user_name;
     GtkStyleContext *window_pad;
+
+    //ndykyy
+    char *str;//чисто строка
+    GtkWidget *enter;// під считування з поля - get text 
+    GtkWidget *vivod; // під запис на лейбл через set text
 }              t_widget_my;
 
 typedef struct s_userdata {
@@ -50,11 +55,11 @@ typedef struct s_userdata {
 	char *pass;
 	char *to;
 	int sockfd;
+    t_widget_my *widge;
 }              t_userdata;
 
 int mx_log_in(char *login, char *pass, t_widget_my *widge);
 void mx_connection(t_widget_my *widge, t_userdata *data);
-
 void mx_create_widge(t_widget_my *widge);
 void mx_login_win(t_widget_my *widge);
 int main (int argc, char *argv[]);

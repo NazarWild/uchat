@@ -1,4 +1,4 @@
-#include "../../inc/uchat.h"
+#include "../inc/uchat.h"
 
 void parse_object(cJSON *root) {
     cJSON* FROM = cJSON_GetObjectItemCaseSensitive(root, "FROM");

@@ -15,6 +15,9 @@ void mx_create_widge(t_widget_my *widge) {
     widge->create_user_password = gtk_entry_new();
     widge->repeat_user_password = gtk_entry_new();
 
+    widge->enter = gtk_entry_new();//nd
+    widge->vivod = gtk_entry_new();//nd
+
     widge->user_name = GTK_WIDGET(gtk_builder_get_object (widge->builder, "user_name"));
     widge->user_password = GTK_WIDGET(gtk_builder_get_object (widge->builder, "user_password"));
 
@@ -23,4 +26,7 @@ void mx_create_widge(t_widget_my *widge) {
     widge->repeat_user_password = GTK_WIDGET(gtk_builder_get_object (widge->builder, "repeat_user_password"));
     widge->registration = GTK_WIDGET(gtk_builder_get_object (widge->builder, "registration"));
     widge->return_sign_in = GTK_WIDGET(gtk_builder_get_object (widge->builder, "return_sign_in"));
+
+    widge->enter = GTK_WIDGET(gtk_builder_get_object (widge->builder, "enter mess"));//nd
+    widge->vivod = GTK_WIDGET(gtk_builder_get_object (widge->builder, "show mess"));//nd
 }

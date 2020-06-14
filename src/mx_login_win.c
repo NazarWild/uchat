@@ -53,7 +53,6 @@ void to_chat(GtkWidget* widget, void *data) {
     if (strlen(user_name) == 0 || strlen(user_password) == 0) {
         printf("Are you kidding me?\n");
     }
-
     else
         mx_log_in((char *) user_name, (char *) user_password, widge);
 }
