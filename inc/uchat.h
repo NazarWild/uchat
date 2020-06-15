@@ -41,8 +41,16 @@ typedef struct s_widget_my {
     GtkWidget *registration;
     GtkWidget *return_sign_in;
 
-    GtkStyleContext *style_user_name;
-    GtkStyleContext *window_pad;
+    // GtkStyleContext *style_user_name;
+    // GtkStyleContext *window_pad;
+
+    GtkWidget *command_line;
+    GtkWidget *setting;
+    GtkLabel *message;
+
+    GtkWidget *check;
+
+    GtkFixed *message_win;
 
     //ndykyy
     char *str;//чисто строка

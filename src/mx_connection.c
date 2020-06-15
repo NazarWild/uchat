@@ -58,7 +58,7 @@ void mx_connection(t_widget_my *widge, t_userdata *data) {
         exit(1);
     }
      
-    server = gethostbyname("10.111.9.3");
+    server = gethostbyname("10.111.9.1");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -79,8 +79,8 @@ void mx_connection(t_widget_my *widge, t_userdata *data) {
     write(data->sockfd, str, strlen(str));
     free(str);
 
-    char buff[1024];
-    read(data->sockfd, buff, 1024);
+    // char buff[1024];
+    // read(data->sockfd, buff, 1024);
     mx_chat_win(widge);
     //if (atoi(buff) == 1) {
         //gtk_entry_set_text(GTK_ENTRY(widge->vivod), "");
