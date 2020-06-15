@@ -15,6 +15,8 @@ void mx_create_widge(t_widget_my *widge) {
     widge->create_user_password = gtk_entry_new();
     widge->repeat_user_password = gtk_entry_new();
 
+    widge->command_line = gtk_entry_new();
+
     widge->enter = gtk_entry_new();//nd
     widge->vivod = gtk_entry_new();//nd
 
@@ -29,4 +31,12 @@ void mx_create_widge(t_widget_my *widge) {
 
     widge->enter = GTK_WIDGET(gtk_builder_get_object (widge->builder, "enter mess"));//nd
     widge->vivod = GTK_WIDGET(gtk_builder_get_object (widge->builder, "show mess"));//nd
+
+
+    widge->command_line = GTK_WIDGET(gtk_builder_get_object (widge->builder, "command_line"));
+    widge->setting = GTK_WIDGET(gtk_builder_get_object (widge->builder, "setting"));
+    widge->message = GTK_LABEL(gtk_builder_get_object (widge->builder, "message"));
+
+
+    widge->message_win = GTK_FIXED(gtk_builder_get_object (widge->builder, "message_win"));
 }
