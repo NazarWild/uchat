@@ -2,6 +2,8 @@ NAME = uchat_server
 
 FILES = u_server \
 		cJSON \
+		mx_create_table \
+		mx_sqlite
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
@@ -15,7 +17,7 @@ SRC_COMPILE = $(addsuffix .c, $(SRC_PREFFIX))
 
 OBJ = $(addsuffix .o, $(FILES))
 
-CFLAGS = -std=c11
+CFLAGS = -std=c11 -l sqlite3
 
 all: install
 
