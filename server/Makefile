@@ -17,14 +17,14 @@ SRC_COMPILE = $(addsuffix .c, $(SRC_PREFFIX))
 
 OBJ = $(addsuffix .o, $(FILES))
 
-CFLAGS = -std=c11 -l sqlite3
+CFLAGS = -std=c11 
 
 all: install
 
 install: $(NAME)
 
 $(NAME) : $(SRC) $(INC)
-	@clang $(CFLAGS) -c $(SRC_COMPILE)
+	@clang $(CFLAGS) -c $(SRC_COMPILE) -l sqlite3
 	@clang $(CFLAGS) $(OBJ) -o $(NAME)
 	@mkdir -p obj
 	@cp $(OBJ) obj/
