@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
 
     widge->builder = gtk_builder_new ();
 
-    if (gtk_builder_add_from_file (widge->builder, "src/login.glade", &error) == 0)
+    if (gtk_builder_add_from_file (widge->builder, "src/login_new.glade", &error) == 0)
     {
         g_printerr ("Error loading file: %s\n", error->message);
         g_clear_error (&error);

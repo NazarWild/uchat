@@ -3,7 +3,12 @@ NAME = uchat_server
 FILES = u_server \
 		cJSON \
 		mx_create_table \
-		mx_sqlite
+		mx_sqlite \
+		mx_registr \
+		mx_sign_in_error \
+		mx_pass_connect \
+		mx_creating \
+
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

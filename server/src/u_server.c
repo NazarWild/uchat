@@ -1,6 +1,6 @@
 #include "../inc/uchat.h"
 
-void parse_object(cJSON *root) {
+static void parse_object(cJSON *root) {
     cJSON* FROM = cJSON_GetObjectItemCaseSensitive(root, "FROM");
     cJSON* TO = cJSON_GetObjectItemCaseSensitive(root, "TO");
     cJSON* MESS = cJSON_GetObjectItemCaseSensitive(root, "MESS");
@@ -17,14 +17,17 @@ void parse_object(cJSON *root) {
     cJSON_Delete(root);
 }
 
-void *mx_some_sending(void *cli_fd) {
+static void *mx_some_sending(void *cli_fd) {
     int fd = *((int *) cli_fd);
     char buff[1024];
-    int ret;
+    int ret = 0;
     cJSON* request_json = NULL;
 
-    //proverka na paroli mx_pass_connect
-
+    if (mx_registr(fd) == false) {
+        mx_sign_in_error(fd);
+        pthread_exit(&ret);
+        //otpravliaem cJSON chto ne poluchilos voiti i zacrivaem potok
+    }
     while(read(fd, buff, 1024) > 0) { 
         //tut budu parsit info from JSON file
         write(1, "THIS SHIT WRITED THIS: ", 24);
@@ -45,6 +48,7 @@ int main(int argc, char *argv[]) {
     int clen = sizeof(cli_addr);
     pthread_t thread;
 
+    mx_tables();
     if (argc > 1)
         inet_aton(argv[1], &serv_addr.sin_addr);
     else {
