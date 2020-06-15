@@ -2,6 +2,8 @@ NAME = uchat_server
 
 FILES = u_server \
 		cJSON \
+		mx_registr \
+		mx_sign_in_error \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

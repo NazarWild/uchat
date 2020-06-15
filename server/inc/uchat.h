@@ -20,6 +20,8 @@
 #define USERS 200
 
 int main(int argc, char *argv[]);
+bool mx_registr(int fd); //server
+void mx_sign_in_error(int fd); //server
 
 
 
