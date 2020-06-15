@@ -6,6 +6,8 @@ FILES = u_server \
 		mx_sqlite \
 		mx_registr \
 		mx_sign_in_error \
+		mx_pass_connect \
+		mx_creating \
 
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))

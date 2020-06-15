@@ -48,6 +48,7 @@ int main(int argc, char *argv[]) {
     int clen = sizeof(cli_addr);
     pthread_t thread;
 
+    mx_tables();
     if (argc > 1)
         inet_aton(argv[1], &serv_addr.sin_addr);
     else {
