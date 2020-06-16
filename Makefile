@@ -1,6 +1,7 @@
 NAME = uchat
 
 FILES = mx_log_in \
+	mx_register \
 	mx_connection \
 	mx_login_win \
 	mx_chat_win \

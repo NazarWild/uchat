@@ -41,9 +41,6 @@ typedef struct s_widget_my {
     GtkWidget *registration;
     GtkWidget *return_sign_in;
 
-    // GtkStyleContext *style_user_name;
-    // GtkStyleContext *window_pad;
-
     GtkWidget *command_line;
     GtkWidget *setting;
     GtkLabel *message;
@@ -53,21 +50,17 @@ typedef struct s_widget_my {
     GtkFixed *message_win;
 
     //ndykyy
-    char *str;//чисто строка
-    GtkWidget *enter;// під считування з поля - get text 
-    GtkWidget *vivod; // під запис на лейбл через set text
+    char *login;
+    char *pass;
+    char *to;
+    int sockfd;
+    char *str;
+
 }              t_widget_my;
 
-typedef struct s_userdata {
-	char *login;
-	char *pass;
-	char *to;
-	int sockfd;
-    t_widget_my *widge;
-}              t_userdata;
-
 int mx_log_in(char *login, char *pass, t_widget_my *widge);
-void mx_connection(t_widget_my *widge, t_userdata *data);
+int mx_register(char *login, char *pass, t_widget_my *widge);
+void mx_connection(t_widget_my *widge);
 void mx_create_widge(t_widget_my *widge);
 void mx_login_win(t_widget_my *widge);
 int main (int argc, char *argv[]);

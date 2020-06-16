@@ -1,49 +1,38 @@
 #include "../inc/uchat.h"
 
-static void in_chat(GtkWidget* widget, void *data) {
-    t_widget_my *widge = (t_widget_my*)data;
+static void send_message(GtkWidget* widget, void *dat) {
+    t_widget_my *widge = (t_widget_my *)dat;
+    char *str; //строка которую отправляем Лехе
+    char *message = (char *)gtk_entry_get_text(GTK_ENTRY(widge->command_line)); //считываем данные с ввода
 
-    const gchar *str = gtk_entry_get_text(GTK_ENTRY(widge->enter));
-    widge->str = strdup(str);
-}
+    gtk_label_set_text(widge->message, ""); //потм убрать, обнуляем лейбл
 
-static void *Write(void *dat) {
-    t_userdata *data = (t_userdata *) dat;
-    char *buff;
-    char *str;
-    //data->widge = (t_widget_my *)malloc(sizeof(t_widget_my));
-
-
-    while(1) {
-        //g_signal_connect (widge->chat, "clicked", G_CALLBACK(in_chat), widge);
-        //buff = (data->widge)->str;
-        buff[strlen(buff) - 1] = '\0';
-        str = (char *)malloc(sizeof(char) * (strlen(buff) + strlen(data->login) + strlen(data->to) + 10));
-        sprintf(str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\"}", data->login, data->to, buff);
-        write(data->sockfd, str, strlen(str));
-        free(str);
+    if (strlen(message) == 0) { //если пустая строка, ничего не делать
+        printf("Are you kidding me?\n");
     }
-    int exit;
-    pthread_exit(&exit);
-    return (void*)0;
+    else {
+        asprintf(&str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\"}\n", widge->login, widge->to, message); //записываем в строку данные для Лехи
+        write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
+        gtk_label_set_text(widge->message, message); //заполняем лейбл текстом
+        gtk_entry_set_text(GTK_ENTRY(widge->command_line), ""); //обнуляем вводимую строку, следовательно обнуляеться message
+    }
 }
 
 static void *Read(void *dat) {
-    t_userdata *data = (t_userdata *) dat;
+    t_widget_my *widge = (t_widget_my *) dat;
     char buff[1024];
     int len;
 
     while(1) {
-        len = read(data->sockfd, buff, 1024);
-        write(1, buff, strlen(buff));
-        //gtk_entry_set_text(GTK_ENTRY(widge->vivod), buff);
+        len = read(widge->sockfd, buff, 1024);
+        //gtk_label_set_text(widge->message, buff); //заполняем лейбл текстом
     }
     int exit;
     pthread_exit(&exit);
     return (void*)0;
 }
 
-void mx_connection(t_widget_my *widge, t_userdata *data) {
+void mx_connection(t_widget_my *widge) {
     int sockfd, portno;
     struct sockaddr_in serv_addr;
     struct hostent *server;
@@ -58,7 +47,7 @@ void mx_connection(t_widget_my *widge, t_userdata *data) {
         exit(1);
     }
      
-    server = gethostbyname("10.111.9.1");
+    server = gethostbyname("10.111.9.5");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -73,19 +62,19 @@ void mx_connection(t_widget_my *widge, t_userdata *data) {
         perror("ERROR connecting");
         exit(1);
     }
-    data->sockfd = sockfd;
-    str = (char *)malloc(sizeof(char) * (strlen(data->login) + strlen(data->pass) + 11));
-    sprintf(str, "{\"LOGIN\":\"%s\",\"PASS\":\"%s\"}", data->login, data->pass);
-    write(data->sockfd, str, strlen(str));
+    widge->sockfd = sockfd;
+
+    asprintf(&str, "{\"LOGIN\":\"%s\",\"PASS\":\"%s\"}\n", widge->login, widge->pass); //записываем в строку логин и пароль для Лехи
+    write(widge->sockfd, str, strlen(str)); //отпраявляем логин и пароль Лехе
     free(str);
 
     // char buff[1024];
     // read(data->sockfd, buff, 1024);
-    mx_chat_win(widge);
+    mx_chat_win(widge); //открываем окно чата
+
     //if (atoi(buff) == 1) {
-        //gtk_entry_set_text(GTK_ENTRY(widge->vivod), "");
-        //pthread_create(&preg, 0, Write, data);
-        pthread_create(&preg, 0, Read, data);
+    g_signal_connect (widge->setting, "clicked", G_CALLBACK(send_message), widge);
+    pthread_create(&preg, 0, Read, widge);
     //}
     //else
     //    printf("WRONG PASSWORD OR LOGIN");
