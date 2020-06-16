@@ -32,19 +32,16 @@ void create_label(void *data) {
 void mx_chat_win(t_widget_my *widge) {
     widge->chat = GTK_WIDGET(gtk_builder_get_object (widge->builder, "chat"));
 
-    widge->check = gtk_label_new("lollll");
+    // widge->check = gtk_label_new("lollll");
 
-    gtk_fixed_put(widge->message_win, widge->check, 15, 150);
-
-    gtk_label_set_justify(widge->message, GTK_JUSTIFY_LEFT);
-    gtk_label_set_line_wrap(widge->message, FALSE);
+    // gtk_fixed_put(widge->message_win, widge->check, 15, 150);
 
     gtk_widget_hide(widge->window);
     gtk_widget_show_all(widge->chat);
     //
     g_signal_connect (widge->chat, "destroy", G_CALLBACK (gtk_main_quit), NULL);
 
-    g_signal_connect (widge->setting, "clicked", G_CALLBACK (send_message), widge);
+    // g_signal_connect (widge->setting, "clicked", G_CALLBACK (send_message), widge);
 
     // g_signal_connect (widge->setting, "clicked", G_CALLBACK (create_label), widge);
 
