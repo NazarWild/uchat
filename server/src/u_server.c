@@ -27,7 +27,7 @@ static void *mx_some_sending(void *cli_fd) {
     cJSON* request_json = NULL;
 
     if (mx_registr(fd) == false) {
-        mx_sign_in_error(fd);
+        //mx_sign_in_error(fd);
         pthread_exit(&ret);
         //otpravliaem cJSON chto ne poluchilos voiti i zacrivaem potok
     }

@@ -5,7 +5,6 @@ static void if_registration(cJSON *root, int fd) {
     int ret;
 
     if (cJSON_IsTrue(reg) == 1) {
-        write(1, "HERE REGISTRATION\n", 19);
         mx_creating(root, fd);
         pthread_exit(&ret);
     } 
@@ -36,13 +35,13 @@ bool mx_registr(int fd) {
         if_registration(request_json, fd);
         if (loging(request_json) == false) {
             bzero(buff, 1024);
-            write(1, "HERE PROBLEM", 13);
+            write(fd, "-1", 2);
             cJSON_Delete(request_json);
-            write(1, "\nHERE PROBLEM", 14);
             return false;
         } 
         else {
             bzero(buff, 1024);
+            write(fd, "+1", 2);
             cJSON_Delete(request_json);
             return true;
         }
