@@ -3,8 +3,7 @@
 void mx_create_table(char *name_table, char *values_table) {
     char *sql;
 
-    asprintf(&sql, "DROP TABLE IF EXISTS %s; CREATE TABLE %s(%s);", name_table,
-                    name_table, values_table);
+    asprintf(&sql, "CREATE TABLE IF NOT EXISTS %s(%s);", name_table, values_table);
     mx_sqlite(sql, NULL, NULL);
     free(sql);
 }
