@@ -31,6 +31,6 @@ void mx_create_widge(t_widget_my *widge) {
     widge->setting = GTK_WIDGET(gtk_builder_get_object (widge->builder, "setting"));
     widge->message = GTK_LABEL(gtk_builder_get_object (widge->builder, "message"));
 
-
+    widge->name_exists = GTK_LABEL(gtk_builder_get_object (widge->builder, "name_exists"));//nd
     widge->message_win = GTK_FIXED(gtk_builder_get_object (widge->builder, "message_win"));
 }

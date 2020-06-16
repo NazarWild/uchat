@@ -68,14 +68,17 @@ void mx_connection(t_widget_my *widge) {
     write(widge->sockfd, str, strlen(str)); //отпраявляем логин и пароль Лехе
     free(str);
 
-    // char buff[1024];
-    // read(data->sockfd, buff, 1024);
-    mx_chat_win(widge); //открываем окно чата
-
-    //if (atoi(buff) == 1) {
-    g_signal_connect (widge->setting, "clicked", G_CALLBACK(send_message), widge);
-    pthread_create(&preg, 0, Read, widge);
+    char buff[1024];
+    read(sockfd, buff, 1024);
+    gtk_widget_hide(GTK_WIDGET(widge->name_exists));
+    printf("%s\n",buff);
+    if (atoi(buff) != -1) {
+        mx_chat_win(widge);
+        g_signal_connect (widge->setting, "clicked", G_CALLBACK(send_message), widge);
+        pthread_create(&preg, 0, Read, widge);
+    }
+    //else {
+    //    gtk_widget_show(GTK_WIDGET(widge->name_exists));
+    //    gtk_label_set_text(widge->name_exists, "WRONG LOGIN OR PASSWORD");
     //}
-    //else
-    //    printf("WRONG PASSWORD OR LOGIN");
 }
