@@ -35,12 +35,19 @@ void create_user(GtkWidget* widget, void *data) {
 
     const gchar *repeat_user_password = gtk_entry_get_text(GTK_ENTRY(widge->repeat_user_password));
 
+    // if (!strcmp(create_user_password, repeat_user_password)) {
     gtk_widget_hide(widge->win_reg);
 
     gtk_widget_show_all(widge->win_sign);
 
     g_print("User login : %s\nUser password : %s\nUser password again : %s\n",
-            create_user_name, create_user_password, repeat_user_password);
+            create_user_name, create_user_password, repeat_user_password); //позже убрать
+    // }
+    // else {
+    //     gtk_entry_set_text(GTK_ENTRY(widge->repeat_user_password), "");
+    //     GdkRGBA red = {0, 0xffff, 0x0000, 0x0000};
+    //     gtk_widget_override_background_color(widge->repeat_user_password, GTK_STATE_FLAG_NORMAL, &red);
+    // }
 }
 
 void to_chat(GtkWidget* widget, void *data) {
