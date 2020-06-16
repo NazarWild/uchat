@@ -1,19 +1,22 @@
 #include "../inc/uchat.h"
 
-static void parse_object(cJSON *root) {
+static void parse_object(cJSON *root, int fd) {
     cJSON* FROM = cJSON_GetObjectItemCaseSensitive(root, "FROM");
     cJSON* TO = cJSON_GetObjectItemCaseSensitive(root, "TO");
     cJSON* MESS = cJSON_GetObjectItemCaseSensitive(root, "MESS");
+    // тут буду смотреть кому сообщение и смотрерть через бд его дескриптор, после чего отсылать сообщение 
+    // если дескриптор -1, то пользователь не в сети и буду записывать в бд сообщение сразу 
+    // после чего как только он зайдет надо будет подгружать сообщения 
 
-    if (cJSON_IsString(FROM) && (FROM->valuestring != NULL))
-        write(1, FROM->valuestring, strlen(FROM->valuestring));
-    write(1," ",1);
-    if (cJSON_IsString(TO) && (TO->valuestring != NULL))
-        write(1, TO->valuestring, strlen(TO->valuestring));
-    write(1," ",1);
-    if (cJSON_IsString(MESS) && (MESS->valuestring != NULL))
-        write(1,  MESS->valuestring,strlen(MESS->valuestring));
-    write(1," ",1);
+    // if (cJSON_IsString(FROM) && (FROM->valuestring != NULL))
+    //     write(1, FROM->valuestring, strlen(FROM->valuestring));
+    // write(1," ",1);
+    // if (cJSON_IsString(TO) && (TO->valuestring != NULL))
+    //     write(1, TO->valuestring, strlen(TO->valuestring));
+    // write(1," ",1);
+    // if (cJSON_IsString(MESS) && (MESS->valuestring != NULL))
+    //     write(1,  MESS->valuestring,strlen(MESS->valuestring));
+    // write(1," ",1);
     cJSON_Delete(root);
 }
 
@@ -32,8 +35,15 @@ static void *mx_some_sending(void *cli_fd) {
         //tut budu parsit info from JSON file
         write(1, "THIS SHIT WRITED THIS: ", 24);
         write(1, buff, strlen(buff));
+
+        write(1, "HERE PROBLEM\n", 14);
+        write(fd, "WHAT YOU WANT NAZAR)?\n", 23);
+        write(1, "WTF?\n", 6);
         request_json = cJSON_Parse(buff);
-        parse_object(request_json);
+        write(1, "So\n", 3);
+        parse_object(request_json, fd);
+        write(1, "I DON|T \n", 10);
+
         bzero(buff, 1024);
     }
     printf("EXIT FROM THREAD\n");
