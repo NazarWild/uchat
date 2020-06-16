@@ -59,6 +59,7 @@ typedef struct s_widget_my {
 }              t_widget_my;
 
 int mx_log_in(char *login, char *pass, t_widget_my *widge);
+int mx_register(char *login, char *pass, t_widget_my *widge);
 void mx_connection(t_widget_my *widge);
 void mx_create_widge(t_widget_my *widge);
 void mx_login_win(t_widget_my *widge);
