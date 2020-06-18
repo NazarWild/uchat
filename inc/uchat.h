@@ -46,7 +46,7 @@ typedef struct s_widget_my {
     GtkLabel *message;
 
     GtkWidget *check;
-
+    GtkLabel *name_exists; //nd
     GtkFixed *message_win;
 
     //ndykyy
