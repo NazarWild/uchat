@@ -17,7 +17,7 @@ int mx_register(char *login, char *pass, t_widget_my *widge) {
         exit(1);
     }
 
-    server = gethostbyname("10.111.9.5");
+    server = gethostbyname("10.111.9.1");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -38,10 +38,20 @@ int mx_register(char *login, char *pass, t_widget_my *widge) {
     char buff[1024];
     read(sockfd, buff, 1024);
     printf("%s\n",buff);
-    gtk_widget_hide(GTK_WIDGET(widge->name_exists));
+    // gtk_widget_hide(GTK_WIDGET(widge->name_exists));
     if (atoi(buff) == -2) {
         gtk_widget_show(GTK_WIDGET(widge->name_exists));
         gtk_label_set_text(widge->name_exists, "REGISTER FALSE");
+    }
+    else {
+        gtk_widget_hide(GTK_WIDGET(widge->name_exists));
+        gtk_widget_hide(widge->win_reg);
+        gtk_widget_show_all(widge->win_sign);
+        gtk_entry_set_text(GTK_ENTRY(widge->create_user_name), "");
+
+        gtk_entry_set_text(GTK_ENTRY(widge->create_user_password), "");
+
+        gtk_entry_set_text(GTK_ENTRY(widge->repeat_user_password), "");
     }
     return 1;
 }

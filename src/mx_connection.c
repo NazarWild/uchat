@@ -5,15 +5,16 @@ static void send_message(GtkWidget* widget, void *dat) {
     char *str; //строка которую отправляем Лехе
     char *message = (char *)gtk_entry_get_text(GTK_ENTRY(widge->command_line)); //считываем данные с ввода
 
-    gtk_label_set_text(widge->message, ""); //потм убрать, обнуляем лейбл
+    // gtk_label_set_text(widge->message, ""); //потм убрать, обнуляем лейбл
 
     if (strlen(message) == 0) { //если пустая строка, ничего не делать
         printf("Are you kidding me?\n");
     }
     else {
+        mx_message_to(widge, message);
         asprintf(&str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\"}\n", widge->login, widge->to, message); //записываем в строку данные для Лехи
         write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
-        gtk_label_set_text(widge->message, message); //заполняем лейбл текстом
+        // gtk_label_set_text(widge->message, message); //заполняем лейбл текстом
         gtk_entry_set_text(GTK_ENTRY(widge->command_line), ""); //обнуляем вводимую строку, следовательно обнуляеться message
     }
 }
@@ -25,7 +26,8 @@ static void *Read(void *dat) {
 
     while(1) {
         len = read(widge->sockfd, buff, 1024);
-        //gtk_label_set_text(widge->message, buff); //заполняем лейбл текстом
+        mx_message_to(widge, buff);
+        // gtk_label_set_text(widge->message, buff); //заполняем лейбл текстом
     }
     int exit;
     pthread_exit(&exit);
@@ -41,13 +43,13 @@ void mx_connection(t_widget_my *widge) {
 
     portno = 6969;
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
-   
+
     if (sockfd < 0) {
         perror("ERROR opening socket");
         exit(1);
     }
-     
-    server = gethostbyname("10.111.9.5");
+
+    server = gethostbyname("10.111.9.1");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -70,15 +72,15 @@ void mx_connection(t_widget_my *widge) {
 
     char buff[1024];
     read(sockfd, buff, 1024);
-    gtk_widget_hide(GTK_WIDGET(widge->name_exists));
+    gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
     printf("%s\n",buff);
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
         g_signal_connect (widge->setting, "clicked", G_CALLBACK(send_message), widge);
         pthread_create(&preg, 0, Read, widge);
     }
-    //else {
-    //    gtk_widget_show(GTK_WIDGET(widge->name_exists));
-    //    gtk_label_set_text(widge->name_exists, "WRONG LOGIN OR PASSWORD");
-    //}
+    else {
+        gtk_widget_show(GTK_WIDGET(widge->wrong_login));
+        gtk_label_set_text(widge->wrong_login, "WRONG LOGIN OR PASSWORD");
+    }
 }

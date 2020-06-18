@@ -15,6 +15,8 @@ void to_reg(GtkWidget* widget, void*data) {
 void to_sign_in(GtkWidget* widget, void*data) {
     t_widget_my *widge = (t_widget_my*)data;
 
+    gtk_widget_hide(GTK_WIDGET(widge->name_exists));
+
     gtk_entry_set_text(GTK_ENTRY(widge->create_user_name), "");
 
     gtk_entry_set_text(GTK_ENTRY(widge->create_user_password), "");
@@ -38,12 +40,16 @@ void create_user(GtkWidget* widget, void *data) {
     if (strlen(create_user_name) == 0 || strlen(create_user_password) == 0|| strlen(repeat_user_password) == 0) {
         printf("Are you kidding me?\n");
     }
-    if (!strcmp(create_user_password, repeat_user_password)) {
-    mx_register((char *) create_user_name, (char *) create_user_password, widge);
-    gtk_widget_hide(widge->win_reg);
-    gtk_widget_show_all(widge->win_sign);
-}
-
+    if (strcmp(create_user_password, repeat_user_password) == 0) {
+        mx_register((char *) create_user_name, (char *) create_user_password, widge);
+        // gtk_widget_hide(widge->win_reg);
+        // gtk_widget_show_all(widge->win_sign);
+    }
+    else {
+        gtk_widget_show(GTK_WIDGET(widge->name_exists));
+        gtk_label_set_text(widge->name_exists, "CONFIRM PASSWORD");
+        gtk_entry_set_text(GTK_ENTRY(widge->repeat_user_password), "");
+    }
     // g_print("User login : %s\nUser password : %s\nUser password again : %s\n",
     //         create_user_name, create_user_password, repeat_user_password); //позже убрать
     // // }
