@@ -29,25 +29,28 @@ typedef struct s_widget_my {
     GtkWidget *win_reg;
     GtkWidget *win_sign;
     
-    GtkWidget *user_name;
-    GtkWidget *user_password;
+    GtkWidget *user_name; //ввод юзера
+    GtkWidget *user_password; //ввод пароля
 
-    GtkWidget *sign_in;
-    GtkWidget *sign_up;
+    GtkWidget *sign_in; //кнопка входа
+    GtkWidget *sign_up; //кнопка регистрации
 
     GtkWidget *create_user_name;
     GtkWidget *create_user_password;
     GtkWidget *repeat_user_password;
     GtkWidget *registration;
-    GtkWidget *return_sign_in;
+    GtkWidget *return_sign_in; //кнопка назад
 
-    GtkWidget *command_line;
+    GtkWidget *command_line; //ввод сообщения
     GtkWidget *setting;
-    GtkLabel *message;
+    GtkWidget *message; //временно
 
-    GtkWidget *check;
-    GtkLabel *name_exists; //nd
-    GtkFixed *message_win;
+    GtkLabel *name_exists; //nd ошибка регистрации
+    GtkLabel *wrong_login; // ошибка входа
+    GtkFixed *message_win; //окно переписки
+
+    GtkWidget *list_box;
+    GtkWidget *sw;
 
     //ndykyy
     char *login;
@@ -65,5 +68,8 @@ void mx_create_widge(t_widget_my *widge);
 void mx_login_win(t_widget_my *widge);
 int main (int argc, char *argv[]);
 void mx_chat_win(t_widget_my *widge);
+void mx_design(t_widget_my *widge);
+void mx_message_from(t_widget_my *widge, const gchar *text);
+void mx_message_to(t_widget_my *widge, const gchar *text);
 
 #endif

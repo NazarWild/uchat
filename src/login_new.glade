@@ -80,6 +80,21 @@
                 <property name="y">160</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkLabel" id="wrong_login">
+                <property name="width_request">130</property>
+                <property name="height_request">20</property>
+                <property name="can_focus">False</property>
+                <property name="no_show_all">True</property>
+                <attributes>
+                  <attribute name="foreground" value="#ffff00000000"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="x">130</property>
+                <property name="y">17</property>
+              </packing>
+            </child>
           </object>
         </child>
         <child>
@@ -169,14 +184,13 @@
                 <property name="height_request">20</property>
                 <property name="can_focus">False</property>
                 <property name="no_show_all">True</property>
-                <property name="label" translatable="yes">Username already exists</property>
                 <attributes>
                   <attribute name="foreground" value="#ffff00000000"/>
                 </attributes>
               </object>
               <packing>
-                <property name="x">129</property>
-                <property name="y">7</property>
+                <property name="x">145</property>
+                <property name="y">9</property>
               </packing>
             </child>
           </object>
@@ -309,17 +323,17 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkListBox">
+              <object class="GtkListBox" id="list_box">
                 <property name="width_request">600</property>
                 <property name="height_request">410</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
               </object>
             </child>
-            <child>
+            <!-- <child>
               <object class="GtkLabel" id="message">
                 <property name="width_request">300</property>
-                <property name="height_request">25</property>
+                <property name="height_request">50</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label">label</property>
@@ -329,7 +343,7 @@
                 <property name="x">15</property>
                 <property name="y">350</property>
               </packing>
-            </child>
+            </child> -->
           </object>
           <packing>
             <property name="x">200</property>
