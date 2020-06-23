@@ -46,3 +46,10 @@ void mx_select(char *search, char *tables, int (*callback)(void *, int, char **,
     free(sql);
 }
 
+void mx_delete_from_db(char *name_table, char *condition) {
+    char *sql;
+
+    asprintf(&sql, "DELETE FROM %s WHERE %s;", name_table, condition);
+    mx_sqlite(sql, 0, 0);
+    free(sql);
+}
