@@ -8,6 +8,7 @@ FILES = u_server \
 		mx_sign_in_error \
 		mx_pass_connect \
 		mx_creating \
+		mx_list \
 
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
