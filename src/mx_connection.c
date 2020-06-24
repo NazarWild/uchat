@@ -25,7 +25,7 @@ static void *Read(void *dat) {
 
     while(1) {
         len = read(widge->sockfd, buff, 1024);
-        //gtk_label_set_text(widge->message, buff); //заполняем лейбл текстом
+        gtk_label_set_text(widge->message, buff); //заполняем лейбл текстом
     }
     int exit;
     pthread_exit(&exit);
@@ -47,7 +47,7 @@ void mx_connection(t_widget_my *widge) {
         exit(1);
     }
      
-    server = gethostbyname("10.111.9.5");
+    server = gethostbyname("10.111.10.3");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
