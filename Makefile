@@ -1,4 +1,4 @@
-NAME = uchat_test
+NAME = uchat
 
 FILES = mx_log_in \
 	mx_register \
@@ -9,6 +9,9 @@ FILES = mx_log_in \
 	main \
 	mx_profile_gtk \
 	mx_profile_photo_box \
+	mx_design \
+	mx_message_to \
+	mx_message_from \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

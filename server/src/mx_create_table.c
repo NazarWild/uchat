@@ -25,9 +25,12 @@ void mx_tables() {
                     "FOREIGN KEY (chats_id) REFERENCES chats(chats_id) "
                     "ON DELETE CASCADE ON UPDATE CASCADE");
     mx_create_table("messeges",
+                    "users_id INT, "
                     "chats_id INT, "
                     "text TEXT, "
                     "type_text INT, "
+                    "time TEXT, "
+                    "FOREIGN KEY(users_id) REFERENCES persons_id(users_id), "
                     "FOREIGN KEY(chats_id) REFERENCES chats(chats_id) "
                     "ON DELETE CASCADE ON UPDATE CASCADE ");
 }

@@ -29,8 +29,12 @@ void mx_create_widge(t_widget_my *widge) {
 
     widge->command_line = GTK_WIDGET(gtk_builder_get_object (widge->builder, "command_line"));
     widge->setting = GTK_WIDGET(gtk_builder_get_object (widge->builder, "setting"));
-    widge->message = GTK_LABEL(gtk_builder_get_object (widge->builder, "message"));
+    // widge->message = GTK_WIDGET(gtk_builder_get_object (widge->builder, "message"));
 
     widge->name_exists = GTK_LABEL(gtk_builder_get_object (widge->builder, "name_exists"));//nd
+    widge->wrong_login = GTK_LABEL(gtk_builder_get_object (widge->builder, "wrong_login"));//nd
+
     widge->message_win = GTK_FIXED(gtk_builder_get_object (widge->builder, "message_win"));
+
+    widge->list_box = GTK_WIDGET(gtk_builder_get_object(widge->builder, "list_box"));
 }

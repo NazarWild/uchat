@@ -10,6 +10,11 @@ typedef struct s_login_pass {
     // int socket;
 } t_login_pass;
 
+typedef struct s_list {
+    void  *data;
+    struct s_list *next;
+} t_list;
+
 void mx_sqlite(char *sql, int (*callback)(void *, int, char **, char **), void *data);
 void mx_create_table(char *name_table, char *values_table);
 void mx_tables();

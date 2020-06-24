@@ -8,6 +8,9 @@ FILES = u_server \
 		mx_sign_in_error \
 		mx_pass_connect \
 		mx_creating \
+		mx_send_mess \
+		mx_itoa \
+		mx_list \
 
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
@@ -22,7 +25,7 @@ SRC_COMPILE = $(addsuffix .c, $(SRC_PREFFIX))
 
 OBJ = $(addsuffix .o, $(FILES))
 
-CFLAGS = -std=c11 -l sqlite3
+CFLAGS = -std=c11
 
 all: install
 
@@ -30,7 +33,7 @@ install: $(NAME)
 
 $(NAME) : $(SRC) $(INC)
 	@clang $(CFLAGS) -c $(SRC_COMPILE)
-	@clang $(CFLAGS) $(OBJ) -o $(NAME)
+	@clang $(CFLAGS) $(OBJ) -o $(NAME) -l sqlite3
 	@mkdir -p obj
 	@cp $(OBJ) obj/
 	@rm -rf $(OBJ)

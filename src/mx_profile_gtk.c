@@ -20,7 +20,6 @@ void func(GtkWidget* widget, void *data) {
 void delete(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
 
-    
 }
 
 void profile_photo(GtkWidget* widget, void *data) {
@@ -30,8 +29,7 @@ void profile_photo(GtkWidget* widget, void *data) {
 
 void logout(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
-
-    
+   
 }
 
 void mx_profile_gtk(t_widget_my *widge) {
