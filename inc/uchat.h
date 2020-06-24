@@ -52,6 +52,8 @@ typedef struct s_widget_my {
     GtkWidget *list_box;
     GtkWidget *sw;
 
+    GtkWidget *send_button;
+
     //ndykyy
     char *login;
     char *pass;

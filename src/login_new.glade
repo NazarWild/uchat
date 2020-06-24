@@ -179,7 +179,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <child>
-                  <object class="GtkListBox">
+                  <object class="GtkListBox" id="list_box">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
@@ -206,12 +206,8 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Don't you want to be evil like me don't you wanna be cruel lol kek che</property>
-                                    <property name="justify">right</property>
-                                    <property name="width_chars">10</property>
-                                    <property name="max_width_chars">10</property>
                                     <property name="xalign">1</property>
                                     <attributes>
-                                      <attribute name="font-desc" value="Serif 14"/>
                                       <attribute name="background" value="#e9e9b9b96e6e"/>
                                     </attributes>
                                   </object>

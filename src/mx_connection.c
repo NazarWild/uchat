@@ -48,13 +48,8 @@ void mx_connection(t_widget_my *widge) {
         perror("ERROR opening socket");
         exit(1);
     }
-<<<<<<< HEAD
-     
-    server = gethostbyname("10.111.9.3");
-=======
 
-    server = gethostbyname("10.111.9.1");
->>>>>>> 1b963737d9130e75e834afd0a7d56302f5e437d1
+    server = gethostbyname("10.111.9.5");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -81,7 +76,7 @@ void mx_connection(t_widget_my *widge) {
     printf("%s\n",buff);
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
-        g_signal_connect (widge->setting, "clicked", G_CALLBACK(send_message), widge);
+        g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
         pthread_create(&preg, 0, Read, widge);
     }
     else {

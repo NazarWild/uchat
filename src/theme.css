@@ -3,9 +3,17 @@
 }
 
 #message_to {
-    margin-left: 250px;
+    color: gray;
 }
 
 #message_from {
-    margin-left: 150px;
+    color: rgb(101, 41, 160);
+}
+
+#send_button {
+    border-radius: 100px;
+}
+
+#list_box:hover {
+    background-color: green;
 }
