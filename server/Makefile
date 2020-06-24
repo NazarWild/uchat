@@ -8,13 +8,10 @@ FILES = u_server \
 		mx_sign_in_error \
 		mx_pass_connect \
 		mx_creating \
-<<<<<<< HEAD
 		mx_send_mess \
 		mx_itoa \
-=======
 		mx_list \
->>>>>>> dashuta
-
+		mx_whoonline \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
