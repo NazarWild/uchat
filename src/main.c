@@ -34,6 +34,6 @@ int main(int argc, char *argv[]) {
     
 
     gtk_main ();
-    system("leaks -q klient");
+    //system("leaks -q klient");
     return 0;
 }

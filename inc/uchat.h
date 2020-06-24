@@ -55,6 +55,20 @@ typedef struct s_widget_my {
     GtkWidget *send_button;
 
     //ndykyy
+    GtkLabel *fullname;
+    GtkLabel *nickname;
+    GtkLabel *birth;
+    GtkWidget *fullname_entry;
+    GtkWidget *nickname_entry;
+    GtkWidget *birth_entry;
+    GtkWidget *status;
+    GtkWidget *profile_photo_button;
+    GtkWidget *man1;
+    GtkWidget *man2;
+    GtkWidget *man3;
+    GtkWidget *girl1;
+    GtkWidget *girl2;
+    GtkWidget *girl3;
     char *login;
     char *pass;
     char *to;
@@ -74,4 +88,6 @@ void mx_design(t_widget_my *widge);
 void mx_message_from(t_widget_my *widge, const gchar *text);
 void mx_message_to(t_widget_my *widge, const gchar *text);
 
+void mx_profile_gtk(t_widget_my *widge);
+void mx_profile_photo_box(t_widget_my *widge);
 #endif
