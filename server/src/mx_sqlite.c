@@ -45,4 +45,3 @@ void mx_select(char *search, char *tables, int (*callback)(void *, int, char **,
     mx_sqlite(sql, callback, data);
     free(sql);
 }
-

@@ -25,7 +25,8 @@ bool mx_registr(int fd); //server
 void mx_sign_in_error(int fd); //server
 void mx_creating(cJSON* root, int fd); //server
 bool mx_pass_connect(char *login, char *pass);
-
+void mx_send_mess(cJSON *root, int fd);
+char *mx_itoa(int number);
 
 
 
