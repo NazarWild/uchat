@@ -70,12 +70,11 @@ void to_chat(GtkWidget* widget, void *data) {
     const gchar *user_password = gtk_entry_get_text(GTK_ENTRY(widge->user_password));
 
     mx_profile_gtk(widge);
-    //mx_smile_box();
-    // if (strlen(user_name) == 0 || strlen(user_password) == 0) {
-    //    printf("Are you kidding me?\n");
-    // }
-    // else
-    //    mx_log_in((char *) user_name, (char *) user_password, widge);
+    if (strlen(user_name) == 0 || strlen(user_password) == 0) {
+       printf("Are you kidding me?\n");
+    }
+    else
+       mx_log_in((char *) user_name, (char *) user_password, widge);
 }
 
 void mx_login_win(t_widget_my *widge) {
