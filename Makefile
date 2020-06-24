@@ -7,6 +7,8 @@ FILES = mx_log_in \
 	mx_chat_win \
 	mx_create_widge \
 	main \
+	mx_profile_gtk \
+	mx_profile_photo_box \
 	mx_design \
 	mx_message_to \
 	mx_message_from \

@@ -17,11 +17,7 @@ int mx_register(char *login, char *pass, t_widget_my *widge) {
         exit(1);
     }
 
-<<<<<<< HEAD
-    server = gethostbyname("10.111.9.3");
-=======
     server = gethostbyname("10.111.9.1");
->>>>>>> 1b963737d9130e75e834afd0a7d56302f5e437d1
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);

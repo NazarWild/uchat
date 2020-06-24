@@ -48,13 +48,8 @@ void mx_connection(t_widget_my *widge) {
         perror("ERROR opening socket");
         exit(1);
     }
-<<<<<<< HEAD
-     
-    server = gethostbyname("10.111.9.3");
-=======
 
-    server = gethostbyname("10.111.9.1");
->>>>>>> 1b963737d9130e75e834afd0a7d56302f5e437d1
+    server = gethostbyname("10.111.9.3");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
