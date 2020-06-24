@@ -16,7 +16,7 @@ void mx_tables() {
                     "socket INT DEFAULT -1");
     mx_create_table("chats",
                     "chats_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    "chat TEXT DEFAULT 'chat'");
+                    "chat TEXT NOT NULL");
     mx_create_table("users_chat",
                     "users_id INT, "
                     "chats_id INT, "
