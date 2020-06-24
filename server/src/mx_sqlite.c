@@ -45,6 +45,7 @@ void mx_select(char *search, char *tables, int (*callback)(void *, int, char **,
     mx_sqlite(sql, callback, data);
     free(sql);
 }
+<<<<<<< HEAD
 
 void mx_delete_from_db(char *name_table, char *condition) {
     char *sql;
@@ -53,3 +54,5 @@ void mx_delete_from_db(char *name_table, char *condition) {
     mx_sqlite(sql, 0, 0);
     free(sql);
 }
+=======
+>>>>>>> b2ae374b1b801aeed402aff56d1f1df7cf212751
