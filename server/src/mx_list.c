@@ -38,7 +38,7 @@ void mx_push_front(t_list **list, void *data) {
 
 int callback_list(void *data, int argc, char **argv, char **ColName) {
     mx_push_front((t_list **)data, (void *)strdup(argv[0]));
-    return 1;
+    return 0;
 }
 
 t_list *mx_where_not_1() {
