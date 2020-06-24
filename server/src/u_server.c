@@ -6,9 +6,14 @@ static void parse_object(cJSON *root, int fd) {
     // после чего как только он зайдет надо будет подгружать сообщения 
 
     //show who online
+    mx_whoonline(fd);
+
     //delete account 
     
+    
+    //send mess and adding to db
     mx_send_mess(root, fd);
+
     cJSON_Delete(root);
 }
 

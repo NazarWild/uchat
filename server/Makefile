@@ -11,7 +11,7 @@ FILES = u_server \
 		mx_send_mess \
 		mx_itoa \
 		mx_list \
-
+		mx_whoonline \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
