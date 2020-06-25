@@ -9,7 +9,7 @@ static void parse_object(cJSON *root, int fd) {
     mx_whoonline(fd);
 
     //delete account 
-    
+    //mx_delet();
     
     //send mess and adding to db
     mx_send_mess(root, fd);
