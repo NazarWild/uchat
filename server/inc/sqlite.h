@@ -22,5 +22,10 @@ void mx_add_to_table(char *name_table, char *values_table, char *values);
 void mx_set_value(char *name_table, char *str_change, char *search_condition);
 void mx_select(char *search, char *tables, int (*callback)(void *, int, char **, char **), void *data);
 bool mx_path_connect(char *login, char *pass);
+t_list *mx_where_not_1();
+void mx_pop_front(t_list **head);
+t_list *mx_create_node(void *data);
+void mx_push_front(t_list **list, void *data);
+
 
 #endif

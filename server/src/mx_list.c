@@ -38,23 +38,23 @@ void mx_push_front(t_list **list, void *data) {
 
 int callback_list(void *data, int argc, char **argv, char **ColName) {
     mx_push_front((t_list **)data, (void *)strdup(argv[0]));
-    return 1;
+    return 0;
 }
 
 t_list *mx_where_not_1() {
-    t_list *list = 0;
+    t_list *list = 0; 
 
     mx_select("login", "persons_id where socket > -1", callback_list, &list);
     for (t_list *new = list; new != NULL; new = new->next)
         printf("%s\n", (char *)new->data);
-    for (t_list *new = list; new != NULL; new = new->next) {
-        t_list *old = new;
-        free((char *)new->data);
-        mx_pop_front(&new);
-        new = old;
-    }
+    // for (t_list *new = list; new != NULL; new = new->next) {
+    //     t_list *old = new;
+    //     free((char *)new->data);
+    //     mx_pop_front(&new);
+    //     new = old;
+    // }
     // for (t_list *new = list; new != NULL; new = new->next)
     //     printf("%s\n", (char *)new->data);
-    list = NULL;
+    //list = NULL;
     return list;
 }

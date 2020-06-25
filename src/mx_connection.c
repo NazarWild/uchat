@@ -80,8 +80,8 @@ void mx_connection(t_widget_my *widge) {
     gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
-        g_signal_connect (widge->setting, "clicked", G_CALLBACK(send_message), widge);
         g_signal_connect (widge->profile_button, "clicked", G_CALLBACK(profile), widge);
+        g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
         pthread_create(&preg, 0, Read, widge);
     }
     else {

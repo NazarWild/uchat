@@ -1,5 +1,10 @@
 #include "../inc/uchat.h"
 
+void design_css(t_widget_my *widge) {
+    gtk_widget_set_name(widge->send_button, "send_button");
+    gtk_widget_set_name(widge->list_box, "list_box");
+}
+
 void mx_create_widge(t_widget_my *widge) {
     widge->window = GTK_WIDGET(gtk_builder_get_object (widge->builder, "window"));
 
@@ -37,6 +42,6 @@ void mx_create_widge(t_widget_my *widge) {
     widge->message_win = GTK_FIXED(gtk_builder_get_object (widge->builder, "message_win"));
 
     widge->list_box = GTK_WIDGET(gtk_builder_get_object(widge->builder, "list_box"));
-
     widge->profile_button = GTK_WIDGET(gtk_builder_get_object(widge->builder, "profile_button"));
+    widge->send_button = GTK_WIDGET(gtk_builder_get_object(widge->builder, "send_button"));
 }
