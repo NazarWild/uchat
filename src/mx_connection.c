@@ -76,7 +76,7 @@ void mx_connection(t_widget_my *widge) {
     printf("%s\n",buff);
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
-        g_signal_connect (widge->setting, "clicked", G_CALLBACK(send_message), widge);
+        g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
         pthread_create(&preg, 0, Read, widge);
     }
     else {
