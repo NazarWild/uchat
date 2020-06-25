@@ -34,6 +34,11 @@ static void *Read(void *dat) {
     return (void*)0;
 }
 
+void profile(GtkWidget* widget, void *data) {
+    t_widget_my *widge = (t_widget_my *)data;
+    mx_profile_gtk(widge);
+}
+
 void mx_connection(t_widget_my *widge) {
     int sockfd, portno;
     struct sockaddr_in serv_addr;
@@ -49,7 +54,7 @@ void mx_connection(t_widget_my *widge) {
         exit(1);
     }
 
-    server = gethostbyname("10.111.9.3");
+    server = gethostbyname("10.111.9.5");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -73,10 +78,10 @@ void mx_connection(t_widget_my *widge) {
     char buff[1024];
     read(sockfd, buff, 1024);
     gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
-    printf("%s\n",buff);
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
         g_signal_connect (widge->setting, "clicked", G_CALLBACK(send_message), widge);
+        g_signal_connect (widge->profile_button, "clicked", G_CALLBACK(profile), widge);
         pthread_create(&preg, 0, Read, widge);
     }
     else {

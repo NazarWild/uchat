@@ -52,6 +52,8 @@ typedef struct s_widget_my {
     GtkWidget *list_box;
     GtkWidget *sw;
 
+    GtkWidget *profile_button;
+
     //ndykyy
     GtkLabel *fullname;
     GtkLabel *nickname;
