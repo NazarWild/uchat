@@ -12,7 +12,6 @@ static int count_of_struct(t_list *online) {
 
     while(online) {
         counter++;
-        printf("online: %s", (char *) online->data);
         online = online->next;
     }
     return counter;

@@ -26,6 +26,7 @@ t_list *mx_where_not_1();
 void mx_pop_front(t_list **head);
 t_list *mx_create_node(void *data);
 void mx_push_front(t_list **list, void *data);
+void mx_add_mess(char *login, char *chats, char *text, int type_text);
 
 
 #endif
