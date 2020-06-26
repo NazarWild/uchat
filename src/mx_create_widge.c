@@ -42,6 +42,6 @@ void mx_create_widge(t_widget_my *widge) {
     widge->message_win = GTK_FIXED(gtk_builder_get_object (widge->builder, "message_win"));
 
     widge->list_box = GTK_WIDGET(gtk_builder_get_object(widge->builder, "list_box"));
-
+    widge->profile_button = GTK_WIDGET(gtk_builder_get_object(widge->builder, "profile_button"));
     widge->send_button = GTK_WIDGET(gtk_builder_get_object(widge->builder, "send_button"));
 }
