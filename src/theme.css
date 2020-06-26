@@ -1,4 +1,4 @@
-#row {
+/* #row {
     margin-top: 20px;
 }
 
@@ -17,3 +17,19 @@
 #list_box:hover {
     background-color: green;
 }
+
+window {
+    background-color: salmon;
+}
+
+button {
+    background-image: linear-gradient(#4e6c7c, #4e6c7c);
+}
+
+button:active {
+    background-image: linear-gradient(#dfd8cb, #dfd8cb);
+}
+
+button label {
+    color: lavender;
+} */

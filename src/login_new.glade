@@ -7,6 +7,11 @@
     <property name="can_focus">False</property>
     <property name="icon_name">folder</property>
   </object>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">10</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1</property>
+  </object>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -179,55 +184,66 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <child>
-                  <object class="GtkListBox" id="list_box">
+                  <object class="GtkScrolledWindow">
+                    <property name="width_request">599</property>
+                    <property name="height_request">400</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="vadjustment">adjustment1</property>
+                    <property name="hscrollbar_policy">automatic</property>
+                    <property name="shadow_type">out</property>
                     <child>
-                      <object class="GtkListBoxRow">
-                        <property name="width_request">590</property>
-                        <property name="height_request">40</property>
+                      <object class="GtkListBox" id="list_box">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="activatable">False</property>
-                        <property name="selectable">False</property>
+                        <property name="can_focus">False</property>
                         <child>
-                          <object class="GtkFixed">
+                          <object class="GtkListBoxRow">
+                            <property name="width_request">590</property>
+                            <property name="height_request">40</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can_focus">True</property>
+                            <property name="activatable">False</property>
+                            <property name="selectable">False</property>
                             <child>
-                              <object class="GtkBox">
-                                <property name="width_request">590</property>
-                                <property name="height_request">35</property>
+                              <object class="GtkFixed">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="orientation">vertical</property>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkBox">
+                                    <property name="width_request">590</property>
+                                    <property name="height_request">35</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Don't you want to be evil like me don't you wanna be cruel lol kek che</property>
-                                    <property name="xalign">1</property>
-                                    <attributes>
-                                      <attribute name="background" value="#e9e9b9b96e6e"/>
-                                    </attributes>
+                                    <property name="orientation">vertical</property>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label" translatable="yes">Don't you want to be evil like me don't you wanna be cruel lol kek che</property>
+                                        <property name="xalign">1</property>
+                                        <attributes>
+                                          <attribute name="background" value="#e9e9b9b96e6e"/>
+                                        </attributes>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="pack_type">end</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
                                   </object>
-                                  <packing>
-                                    <property name="expand">True</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">0</property>
-                                  </packing>
                                 </child>
                               </object>
                             </child>
                           </object>
                         </child>
                       </object>
+                      <packing>
+                        <property name="reorderable">True</property>
+                      </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="reorderable">True</property>
-                  </packing>
                 </child>
                 <child type="tab">
                   <object class="GtkLabel">
@@ -340,14 +356,14 @@
     </child>
   </object>
   <object class="GtkWindow" id="window">
-    <property name="can_focus">False</property>
+    <property name="can_focus">True</property>
     <property name="window_position">center</property>
     <child>
       <object class="GtkFixed">
         <property name="width_request">440</property>
         <property name="height_request">250</property>
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can_focus">True</property>
         <child>
           <object class="GtkFixed" id="win_sign">
             <property name="width_request">440</property>
