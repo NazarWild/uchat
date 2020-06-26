@@ -25,15 +25,17 @@ SRC_COMPILE = $(addsuffix .c, $(SRC_PREFFIX))
 
 OBJ = $(addsuffix .o, $(FILES))
 
-CFLAGS = -std=c11 `pkg-config --libs --cflags gtk+-3.0` -lpthread
+CFLAGS = -std=c11 `pkg-config --cflags gtk+-3.0`  #`pkg-config --libs gtk+-3.0`
+
+OFLAGS = `pkg-config --libs gtk+-3.0` -lpthread
 
 all: install
 
 install: $(NAME)
-
+	
 $(NAME) : $(SRC) $(INC)
 	@clang $(CFLAGS) -c $(SRC_COMPILE)
-	@clang $(CFLAGS) $(OBJ) -o $(NAME)
+	@clang $(CFLAGS) $(OBJ) -o $(NAME) $(OFLAGS)
 	@mkdir -p obj
 	@cp $(OBJ) obj/
 	@rm -rf $(OBJ)
