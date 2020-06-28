@@ -1,6 +1,7 @@
 NAME = uchat
 
 FILES = mx_log_in \
+	cJSON \
 	mx_register \
 	mx_connection \
 	mx_login_win \
@@ -12,6 +13,7 @@ FILES = mx_log_in \
 	mx_design \
 	mx_message_to \
 	mx_message_from \
+	mx_parse_sign_in \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
