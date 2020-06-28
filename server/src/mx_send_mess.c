@@ -1,9 +1,9 @@
 #include "../inc/uchat.h" 
 
 static int callback_persons_id(void *data, int argc, char **argv, char **ColName) {
+    char **new = (char **)data;
 
-    data = strdup(argv[0]);
-
+    *new = strdup(argv[0]);
     return 0;
 }
 
@@ -11,6 +11,12 @@ void mx_send_mess(cJSON *root, int fd) {
     cJSON* FROM = cJSON_GetObjectItemCaseSensitive(root, "FROM");
     cJSON* TO = cJSON_GetObjectItemCaseSensitive(root, "TO");
     cJSON* MESS = cJSON_GetObjectItemCaseSensitive(root, "MESS");
+
+    write(1, "HE thend this: ", 16);
+    write(1, MESS->valuestring, strlen(MESS->valuestring));
+
+
+
     char *str = NULL;
     char *data = NULL; 
 
