@@ -12,6 +12,7 @@ void func(GtkWidget* widget, void *data) {
     printf("nickname = %s\n", nick);
     printf("birth = %s\n", birth);
     printf("status = %s\n", statu);
+    printf("res = %s\n", widge->res_png);
     //gtk_entry_set_text(GTK_ENTRY(widge->fullname_entry), "");
     //gtk_entry_set_text(GTK_ENTRY(widge->nickname_entry), "");
     //gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "");

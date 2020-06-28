@@ -4,36 +4,42 @@ void girl1(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     GtkWidget *girl1 = gtk_image_new_from_file("res/girl1.png");
 
+    widge->res_png = "res/girl1.png";
     gtk_button_set_image(GTK_BUTTON(widge->profile_photo_button), girl1);
 }
 void girl2(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     GtkWidget *girl2 = gtk_image_new_from_file("res/girl2.png");
 
+    widge->res_png = "res/girl2.png";
     gtk_button_set_image(GTK_BUTTON(widge->profile_photo_button), girl2);
 }
 void girl3(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     GtkWidget *girl3 = gtk_image_new_from_file("res/girl3.png");
 
+    widge->res_png = "res/girl3.png";
     gtk_button_set_image(GTK_BUTTON(widge->profile_photo_button), girl3); 
 }
 void man1(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     GtkWidget *man1 = gtk_image_new_from_file("res/man1.png");
 
+    widge->res_png = "res/man1.png";
     gtk_button_set_image(GTK_BUTTON(widge->profile_photo_button), man1);
 }
 void man2(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     GtkWidget *man2 = gtk_image_new_from_file("res/man2.png");//2
 
+    widge->res_png = "res/man2.png";
     gtk_button_set_image(GTK_BUTTON(widge->profile_photo_button), man2);
 }
 void man3(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     GtkWidget *man3 = gtk_image_new_from_file("res/man3.png");
 
+    widge->res_png = "res/man3.png";
     gtk_button_set_image(GTK_BUTTON(widge->profile_photo_button), man3);
 }
 void mx_profile_photo_box(t_widget_my *widge) {

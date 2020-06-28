@@ -1,9 +1,9 @@
-/* #row {
+#row {
     margin-top: 20px;
 }
 
 #message_to {
-    color: gray;
+    color: black;
 }
 
 #message_from {
@@ -15,7 +15,7 @@
 }
 
 #list_box:hover {
-    background-color: green;
+    background-color: blue;
 }
 
 window {
@@ -32,4 +32,4 @@ button:active {
 
 button label {
     color: lavender;
-} */
+}
