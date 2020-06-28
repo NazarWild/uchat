@@ -18,6 +18,14 @@ static int count_of_struct(t_list *online) {
     return counter;
 }
 
+static void adding_sys(cJSON *root) {
+    cJSON *is_online = NULL;
+
+    is_online = cJSON_CreateTrue();
+
+    cJSON_AddItemToObject(root,"ONLINE", is_online);
+}
+
 void mx_whoonline(int fd) {
     t_list *online_struct = mx_where_not_1();
     cJSON *on = cJSON_CreateObject();
@@ -26,6 +34,7 @@ void mx_whoonline(int fd) {
     cJSON *str = NULL;
 
     int count_of = count_of_struct(online_struct);
+    adding_sys(on);
 
     cJSON_AddItemToObject(on, "who_online", who_online);
     for (int i = 0; i < count_of; i++) {
