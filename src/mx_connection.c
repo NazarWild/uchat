@@ -28,19 +28,17 @@ static void *Read(void *dat) {
     while(1) {
         len = read(widge->sockfd, buff, 1024);
         json = cJSON_Parse(buff);
-        //if (json == NULL)
+        if (json == NULL) {
             mx_message_to(widge, buff);
-        //else {
+        }
+        else {
             who_online = cJSON_GetObjectItemCaseSensitive(json, "who_online");
-            cJSON_ArrayForEach(peoples, who_online) {
-            }
-            while(peoples) {
-                user = cJSON_GetObjectItemCaseSensitive(peoples, "online");
-                printf("this dick online = %s\n", user->valuestring);
-                peoples = peoples->next;
-            }
+                cJSON_ArrayForEach(peoples, who_online) {
+                    user = cJSON_GetObjectItemCaseSensitive(peoples, "online");
+                    printf("this dick online = %s\n", user->valuestring);
+                }
             printf("konec\n");
-        //}
+        }
     }
     int exit;
     pthread_exit(&exit);
@@ -67,7 +65,7 @@ void mx_connection(t_widget_my *widge) {
         exit(1);
     }
 
-    server = gethostbyname("10.111.9.3");
+    server = gethostbyname("10.111.9.5");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
