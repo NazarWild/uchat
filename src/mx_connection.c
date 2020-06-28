@@ -16,29 +16,37 @@ static void send_message(GtkWidget* widget, void *dat) {
     }
 }
 
+static bool if_online(cJSON *js) {
+    cJSON *online = cJSON_GetObjectItemCaseSensitive(js, "ONLINE");
+
+    if(cJSON_IsTrue(online) == 1)
+        return false;
+    return true;
+}
+
 static void *Read(void *dat) {
     t_widget_my *widge = (t_widget_my *) dat;
-    char buff[1024];
+    char *buff = (char *)malloc(1024);
     int len;
     cJSON *json;
-    const cJSON *who_online = NULL;
-    const cJSON *peoples = NULL;
+    cJSON *who_online = NULL;
+    cJSON *peoples = NULL;
     cJSON *user;
 
     while(1) {
         len = read(widge->sockfd, buff, 1024);
         json = cJSON_Parse(buff);
-        if (json == NULL) {
+        if (if_online(json))
             mx_message_to(widge, buff);
-        }
         else {
             who_online = cJSON_GetObjectItemCaseSensitive(json, "who_online");
-                cJSON_ArrayForEach(peoples, who_online) {
-                    user = cJSON_GetObjectItemCaseSensitive(peoples, "online");
-                    printf("this dick online = %s\n", user->valuestring);
-                }
+            cJSON_ArrayForEach(peoples, who_online) {
+                user = cJSON_GetObjectItemCaseSensitive(peoples, "online");
+                printf("this dick online = %s\n", user->valuestring);
+            }
             printf("konec\n");
         }
+        cJSON_Delete(json);
     }
     int exit;
     pthread_exit(&exit);
