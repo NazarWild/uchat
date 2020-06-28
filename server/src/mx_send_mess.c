@@ -17,8 +17,10 @@ void mx_send_mess(cJSON *root, int fd) {
     if (cJSON_IsString(FROM) && (FROM->valuestring != NULL) 
         && cJSON_IsString(TO) && (TO->valuestring != NULL)
         && cJSON_IsString(MESS) && (MESS->valuestring != NULL)) {
-        if (strcmp(TO->valuestring, "PAPA_BOT") == 0)
+        if (strcmp(TO->valuestring, "PAPA_BOT") == 0) {
             mx_papa_bot(FROM, MESS, fd);
+            return ;
+        }
         asprintf(&str, "persons_id where login = '%s'", TO->valuestring);
         mx_select("socket", str, callback_persons_id, &data);
         free(str);

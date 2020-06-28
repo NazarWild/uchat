@@ -9,9 +9,9 @@ static void parse_object(cJSON *root, int fd) {
     mx_whoonline(fd);
 
     //delete account 
-    //mx_delet();
+    mx_delete(fd, root);
     
-    //send mess and adding to db
+    //send mess and adding to db/ and PAPA_BOT
     mx_send_mess(root, fd);
 
     cJSON_Delete(root);
@@ -28,6 +28,9 @@ static void *mx_some_sending(void *cli_fd) {
 
     if (mx_registr(fd) == false) //otpravliaem cJSON chto ne poluchilos voiti i zacrivaem potok
         pthread_exit(&ret);
+
+    // tut nado podgrughat s db v client
+
     while(read(fd, buff, 1024) > 0) { //tut budu parsit info from JSON file
         
         request_json = cJSON_Parse(buff);
