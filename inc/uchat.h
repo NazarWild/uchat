@@ -41,7 +41,8 @@ typedef struct s_widget_my {
     GtkWidget *registration;
     GtkWidget *return_sign_in; //кнопка назад
 
-    GtkWidget *command_line; //ввод сообщения
+    GtkWidget *command_line;
+    GtkWidget *com_event_box; //ввод сообщения
     GtkWidget *setting;
     GtkWidget *message; //временно
 
