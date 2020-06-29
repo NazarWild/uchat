@@ -1,5 +1,10 @@
 #include "../inc/uchat.h"
 
+void p(GtkButton *butt) {
+    printf("%s\n", gtk_button_get_label(butt));
+}
+
+
 void mx_create_friend(t_widget_my *widge, const gchar *text) {
     GtkWidget *row, *user, *fixed, *box;
 
@@ -15,14 +20,17 @@ void mx_create_friend(t_widget_my *widge, const gchar *text) {
     gtk_widget_set_size_request(box, 180, 35);
     gtk_container_add (GTK_CONTAINER (fixed), box);
 
-    user = gtk_button_new_with_label(text);
+    widge->friend_button[widge->id_friend] = gtk_button_new_with_label(text);
     gtk_widget_set_size_request(box, 170, 35);
-    gtk_container_add (GTK_CONTAINER (box), user);
+    gtk_container_add (GTK_CONTAINER (box), widge->friend_button[widge->id_friend]);
     // gtk_container_add_with_properties (GTK_CONTAINER (box), message_to, "expand", TRUE, "fill", TRUE, NULL);
 
-    gtk_widget_set_name(user, "user");
+    // gtk_widget_set_name(widge->friend_button, "user");
+    g_signal_connect (widge->friend_button[widge->id_friend], "clicked", G_CALLBACK(p), NULL);
 
     gtk_list_box_insert (GTK_LIST_BOX(widge->friends), row, -1);
+
+    widge->id_friend++;
 
     gtk_widget_show_all (widge->friends);
 }

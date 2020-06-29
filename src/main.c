@@ -2,6 +2,7 @@
 
 int main(int argc, char *argv[]) {
     t_widget_my *widge = (t_widget_my *)malloc(sizeof(t_widget_my));
+    widge->id_friend = 0;
 
     GError *error = NULL;
 

@@ -4,6 +4,7 @@ static void design_css(t_widget_my *widge) {
     gtk_widget_set_name(widge->send_button, "send_button");
     gtk_widget_set_name(widge->list_box, "list_box");
     gtk_widget_set_name(widge->return_sign_in, "return_sign_in");
+    gtk_widget_set_name(widge->command_line, "command_line");
 }
 
 void mx_create_widge(t_widget_my *widge) {

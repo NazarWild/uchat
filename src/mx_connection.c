@@ -10,6 +10,7 @@ static void send_message(GtkWidget* widget, void *dat) {
     }
     else {
         mx_create_friend(widge, message);
+        widge->break_l = 0;
         mx_message_to(widge, message);
         asprintf(&str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\"}\n", widge->login, widge->to, message); //записываем в строку данные для Лехи
         write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
