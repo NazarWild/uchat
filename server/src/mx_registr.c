@@ -10,12 +10,34 @@ static void if_registration(cJSON *root, int fd) {
     } 
 }
 
-static bool loging(cJSON *root, int fd) {
-    cJSON* log = cJSON_GetObjectItemCaseSensitive(root, "LOGIN");
-    cJSON* pass = cJSON_GetObjectItemCaseSensitive(root, "PASS");
+static int callback_persons_id(void *data, int argc, char **argv, char **ColName) {
+    char **new = (char **)data;
+
+    *new = strdup(argv[0]);
+    return 0;
+}
+
+static void set_socket(int fd) {
     char *ita = NULL;
     char *new = NULL;
     char *forb_new = NULL;
+    char *users_id = NULL;
+
+    ita = mx_itoa(fd);
+    mx_select("users_id", "persons_id", callback_persons_id, users_id);
+    mx_add_to_table("sockets", "users_id", users_id);
+    asprintf(&new, "socket = %s", ita);
+    asprintf(&forb_new, "users_id = '%s'", users_id);
+    free(users_id);
+    mx_set_value("sockets", new, forb_new);
+    free(new);
+    free(forb_new);
+    free(ita);
+}
+
+static bool loging(cJSON *root, int fd) {
+    cJSON* log = cJSON_GetObjectItemCaseSensitive(root, "LOGIN");
+    cJSON* pass = cJSON_GetObjectItemCaseSensitive(root, "PASS");
     
     if (cJSON_IsString(log) && log->valuestring != NULL 
         && cJSON_IsString(pass) && pass->valuestring != NULL) { 
@@ -23,13 +45,7 @@ static bool loging(cJSON *root, int fd) {
         write(1, "LOGIN\n" , 7);
         
         if(mx_pass_connect(log->valuestring, pass->valuestring) == true) {
-            ita = mx_itoa(fd);
-            asprintf(&new, "socket = %s", ita);
-            asprintf(&forb_new, "login = '%s'", log->valuestring);
-            mx_set_value("persons_id", new, forb_new);
-            free(new);
-            free(forb_new);
-            free(ita);
+            //set_socket(fd);
             return true; 
         } 
         else  

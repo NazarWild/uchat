@@ -1,20 +1,23 @@
 #include "../inc/uchat.h"
 
-static void parse_object(cJSON *root, int fd) {
+static bool parse_object(cJSON *root, int fd) {
     // тут буду смотреть кому сообщение и смотрерть через бд его дескриптор, после чего отсылать сообщение 
     // если дескриптор -1, то пользователь не в сети и буду записывать в бд сообщение сразу 
     // после чего как только он зайдет надо будет подгружать сообщения 
 
     //show who online
-    mx_whoonline(fd);
+    //mx_whoonline(fd);
 
     //delete account 
-    mx_delete(fd, root);
+    if (mx_delete(fd, root) == true) {
+        return false;
+    }
     
     //send mess and adding to db/ and PAPA_BOT
-    mx_send_mess(root, fd);
+    //mx_send_mess(root, fd);
 
     cJSON_Delete(root);
+    return true;
 }
 
 static void *mx_some_sending(void *cli_fd) {
@@ -22,9 +25,6 @@ static void *mx_some_sending(void *cli_fd) {
     char buff[1024];
     int ret = 0;
     cJSON* request_json = NULL;
-
-    char *new = NULL;
-    char *f_new = NULL;
 
     if (mx_registr(fd) == false) //otpravliaem cJSON chto ne poluchilos voiti i zacrivaem potok
         pthread_exit(&ret);
@@ -34,15 +34,11 @@ static void *mx_some_sending(void *cli_fd) {
     while(read(fd, buff, 1024) > 0) { //tut budu parsit info from JSON file
         
         request_json = cJSON_Parse(buff);
-        parse_object(request_json, fd);
-
+        if (parse_object(request_json, fd) == false)
+            break;
         bzero(buff, 1024);
     }
-    asprintf(&new, "socket = %s", mx_itoa(fd));
-    asprintf(&f_new, "socket = %s", "-1");
-    mx_set_value("persons_id", f_new, new);
-    free(new);
-    free(f_new);
+    mx_delete_socket(fd);
     printf("EXIT FROM THREAD\n");
     pthread_exit(&ret);
 }
