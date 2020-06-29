@@ -34,6 +34,7 @@ void mx_create_widge(t_widget_my *widge) {
 
 
     widge->command_line = GTK_WIDGET(gtk_builder_get_object (widge->builder, "command_line"));
+    widge->com_event_box = GTK_WIDGET(gtk_builder_get_object (widge->builder, "com_event_box"));
     widge->setting = GTK_WIDGET(gtk_builder_get_object (widge->builder, "setting"));
     // widge->message = GTK_WIDGET(gtk_builder_get_object (widge->builder, "message"));
 

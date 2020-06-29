@@ -74,7 +74,7 @@ void mx_connection(t_widget_my *widge) {
         exit(1);
     }
 
-    server = gethostbyname("10.111.9.1");
+    server = gethostbyname("10.111.9.3");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -100,6 +100,7 @@ void mx_connection(t_widget_my *widge) {
         mx_chat_win(widge);
         g_signal_connect (widge->profile_button, "clicked", G_CALLBACK(profile), widge);
         g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
+        g_signal_connect (widge->command_line, "activate", G_CALLBACK(send_message), widge);
         pthread_create(&preg, 0, Read, widge);
     }
     else {
