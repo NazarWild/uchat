@@ -51,6 +51,12 @@ typedef struct s_widget_my {
 
     GtkWidget *list_box;
     GtkWidget *sw;
+    GtkWidget *profile_button;
+    GtkWidget *send_button;
+
+    GtkWidget *scroll;
+
+    GtkWidget *friends;
 
     //ndykyy
     GtkLabel *fullname;
@@ -72,7 +78,7 @@ typedef struct s_widget_my {
     char *to;
     int sockfd;
     char *str;
-
+    char *res_png;
 }              t_widget_my;
 
 int mx_log_in(char *login, char *pass, t_widget_my *widge);
@@ -85,7 +91,9 @@ void mx_chat_win(t_widget_my *widge);
 void mx_design(t_widget_my *widge);
 void mx_message_from(t_widget_my *widge, const gchar *text);
 void mx_message_to(t_widget_my *widge, const gchar *text);
+void mx_create_friend(t_widget_my *widge, const gchar *text);
 
 void mx_profile_gtk(t_widget_my *widge);
 void mx_profile_photo_box(t_widget_my *widge);
+bool mx_parse_sign_in(t_widget_my *widge, char *log, char *pass, char *rpt);
 #endif

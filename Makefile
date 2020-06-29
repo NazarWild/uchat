@@ -1,6 +1,7 @@
 NAME = uchat
 
 FILES = mx_log_in \
+	cJSON \
 	mx_register \
 	mx_connection \
 	mx_login_win \
@@ -12,6 +13,8 @@ FILES = mx_log_in \
 	mx_design \
 	mx_message_to \
 	mx_message_from \
+	mx_parse_sign_in \
+	create_friend \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
@@ -25,15 +28,17 @@ SRC_COMPILE = $(addsuffix .c, $(SRC_PREFFIX))
 
 OBJ = $(addsuffix .o, $(FILES))
 
-CFLAGS = -std=c11 `pkg-config --libs --cflags gtk+-3.0` -lpthread
+CFLAGS = -std=c11 `pkg-config --cflags gtk+-3.0`  #`pkg-config --libs gtk+-3.0`
+
+OFLAGS = `pkg-config --libs gtk+-3.0` -lpthread
 
 all: install
 
 install: $(NAME)
-
+	
 $(NAME) : $(SRC) $(INC)
 	@clang $(CFLAGS) -c $(SRC_COMPILE)
-	@clang $(CFLAGS) $(OBJ) -o $(NAME)
+	@clang $(CFLAGS) $(OBJ) -o $(NAME) $(OFLAGS)
 	@mkdir -p obj
 	@cp $(OBJ) obj/
 	@rm -rf $(OBJ)

@@ -1,11 +1,64 @@
 #row {
     margin-top: 20px;
-}
+} */
 
 #message_to {
-    margin-left: 250px;
+    color: black;
+}
+/* #message_to {
+    background-color: lightcoral;
+} */
+
+/* #message_from {
+    color: rgb(101, 41, 160);
+} */
+/* 
+#send_button {
+    border-radius: 100px;
+} */
+
+#list_box:hover {
+    background-color: blue;
+}
+/* #list_box:hover {
+    background-color: green;
+} */
+
+/* window {
+    background-color: rgba(107, 95, 94, 0.521);
+} */
+
+window {
+    background-image: linear-gradient(rgb(71, 64, 64), rgb(255, 255, 255));
 }
 
-#message_from {
-    margin-left: 150px;
+button {
+    background-image: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
+    border-radius: 20px;
+    border-color: lightsalmon;
+    border-width: 1px;
+}
+
+button:active {
+    background-image: linear-gradient(#d3c0c0, #d3c0c0);
+}
+/* 
+button label {
+    color: lavender;
+} */
+
+#user {
+    margin-left: 5px;
+    background-image: linear-gradient(rgba(107, 95, 94, 0.521), rgba(107, 95, 94, 0.521));
+}
+
+/* #box {
+    border: lightgray;
+    border-width: 10px;
+} */
+
+#return_sign_in {
+    border-radius: 30px;
+    border-color: rgb(32, 177, 39);
+    border-width: 2px;
 }

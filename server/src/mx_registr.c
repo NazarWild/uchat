@@ -19,7 +19,9 @@ static bool loging(cJSON *root, int fd) {
     
     if (cJSON_IsString(log) && log->valuestring != NULL 
         && cJSON_IsString(pass) && pass->valuestring != NULL) { 
+
         write(1, "LOGIN\n" , 7);
+        
         if(mx_pass_connect(log->valuestring, pass->valuestring) == true) {
             ita = mx_itoa(fd);
             asprintf(&new, "socket = %s", ita);
@@ -28,7 +30,7 @@ static bool loging(cJSON *root, int fd) {
             free(new);
             free(forb_new);
             free(ita);
-            return true;
+            return true; 
         } 
         else  
             return false;

@@ -37,7 +37,6 @@ int mx_register(char *login, char *pass, t_widget_my *widge) {
     free(str);
     char buff[1024];
     read(sockfd, buff, 1024);
-    printf("%s\n",buff);
     // gtk_widget_hide(GTK_WIDGET(widge->name_exists));
     if (atoi(buff) == -2) {
         gtk_widget_show(GTK_WIDGET(widge->name_exists));

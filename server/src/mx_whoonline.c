@@ -1,13 +1,49 @@
 #include "../inc/uchat.h"
 
-void online_show(int fd) {
-    
+static void send_online(cJSON *ON, int fd) {
+    char *string = cJSON_Print(ON);
+
+    write(fd, string, strlen(string));
+    free(string);
 }
 
-void mx_whoonline(cJSON *root, int fd) {
-    cJSON *WHOONLINE = cJSON_GetObjectItemCaseSensitive(root, "ONLINE");
+static int count_of_struct(t_list *online) {
+    int counter = 0;
+    t_list *list = online;
 
-    if (cJSON_IsTrue(WHOONLINE) == 1) {
-        online_show(fd);
+    while(list) {
+        counter++;
+        list = list->next;
     }
+    return counter;
+}
+
+static void adding_sys(cJSON *root) {
+    cJSON *is_online = NULL;
+
+    is_online = cJSON_CreateTrue();
+
+    cJSON_AddItemToObject(root,"ONLINE", is_online);
+}
+
+void mx_whoonline(int fd) {
+    t_list *online_struct = mx_where_not_1();
+    cJSON *on = cJSON_CreateObject();
+    cJSON *who_online = cJSON_CreateArray();
+    cJSON *online = NULL;
+    cJSON *str = NULL;
+
+    int count_of = count_of_struct(online_struct);
+    adding_sys(on);
+
+    cJSON_AddItemToObject(on, "who_online", who_online);
+    for (int i = 0; i < count_of; i++) {
+        online = cJSON_CreateObject();
+        cJSON_AddItemToArray(who_online, online);
+        str = cJSON_CreateString((char *) online_struct->data);
+        cJSON_AddItemToObject(online, "online", str);
+        online_struct = online_struct->next;
+    }
+    send_online(on, fd);
+    cJSON_Delete(on);
 }

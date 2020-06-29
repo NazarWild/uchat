@@ -1,34 +1,30 @@
 #include "../inc/uchat.h"
 
-// static GtkWidget *create_row (const gchar *text) {
-//     GtkWidget *row, *box, *label;
-
-//     row = gtk_list_box_row_new ();
-
-//     box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 50);
-//     gtk_container_add (GTK_CONTAINER (row), box);
-
-//     label = gtk_label_new (text);
-//     gtk_container_add_with_properties (GTK_CONTAINER (box), label, "expand", TRUE, NULL);
-
-//     return row;
-// }
-
 void mx_message_to(t_widget_my *widge, const gchar *text) {
-    GtkWidget *row, *message_to;
+    GtkWidget *row, *message_to, *fixed, *box;
 
-    // row = create_row(text);
     row = gtk_list_box_row_new ();
-    gtk_widget_set_name(row, "row");
+    gtk_widget_set_size_request(row, 590, 40);
+    gtk_list_box_row_set_activatable(GTK_LIST_BOX_ROW(row), FALSE);
+    gtk_list_box_row_set_selectable(GTK_LIST_BOX_ROW(row), FALSE);
+
+    fixed = gtk_fixed_new();
+    gtk_container_add (GTK_CONTAINER (row), fixed);
+
+    box = gtk_box_new (GTK_ORIENTATION_VERTICAL, TRUE);
+    gtk_widget_set_size_request(box, 580, 35);
+    gtk_container_add (GTK_CONTAINER (fixed), box);
+
     message_to = gtk_label_new (text);
+    gtk_label_set_xalign(GTK_LABEL(message_to), 1);
+    gtk_container_add_with_properties (GTK_CONTAINER (box), message_to, "expand", TRUE, "fill", TRUE, NULL);
+
     gtk_widget_set_name(message_to, "message_to");
-    gtk_widget_set_size_request(row, 0, 30);
-    gtk_widget_set_size_request(message_to, 0, 30);
-    gtk_container_add(GTK_CONTAINER (row), message_to);
+    gtk_widget_set_name(box, "box");
+
     gtk_list_box_insert (GTK_LIST_BOX(widge->list_box), row, -1);
 
     gtk_widget_show_all (widge->list_box);
-    // gtk_widget_show_all (widge->sw);
 }
 
 
