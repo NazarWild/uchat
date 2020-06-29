@@ -99,6 +99,25 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
+              <object class="GtkScrolledWindow">
+                <property name="width_request">180</property>
+                <property name="height_request">320</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <child>
+                  <object class="GtkListBox" id="friends">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="x">8</property>
+                <property name="y">0</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkButton">
                 <property name="label" translatable="yes">Help BOT</property>
                 <property name="width_request">174</property>
@@ -355,6 +374,50 @@
       <placeholder/>
     </child>
   </object>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <object class="GtkWindow" id="window">
     <property name="can_focus">True</property>
     <property name="window_position">center</property>

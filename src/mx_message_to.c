@@ -20,6 +20,7 @@ void mx_message_to(t_widget_my *widge, const gchar *text) {
     gtk_container_add_with_properties (GTK_CONTAINER (box), message_to, "expand", TRUE, "fill", TRUE, NULL);
 
     gtk_widget_set_name(message_to, "message_to");
+    gtk_widget_set_name(box, "box");
 
     gtk_list_box_insert (GTK_LIST_BOX(widge->list_box), row, -1);
 
