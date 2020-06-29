@@ -53,8 +53,8 @@ t_list *mx_where_not_1() {
         mx_pop_front(&new);
         new = old;
     }
-    // for (t_list *new = list; new != NULL; new = new->next)
-    //     printf("%s\n", (char *)new->data);
+    for (t_list *new = list; new != NULL; new = new->next)
+        printf("%s\n", (char *)new->data);
     list = NULL;
     return list;
 }
