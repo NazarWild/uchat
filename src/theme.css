@@ -1,6 +1,6 @@
 #row {
     margin-top: 20px;
-} */
+}
 
 #message_to {
     color: black;
@@ -34,7 +34,7 @@ window {
 
 button {
     background-image: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
-    border-radius: 20px;
+    border-radius: 10px;
     border-color: lightsalmon;
     border-width: 1px;
 }
@@ -61,4 +61,8 @@ button label {
     border-radius: 30px;
     border-color: rgb(32, 177, 39);
     border-width: 2px;
+}
+
+#command_line {
+    border-radius: 10px;
 }

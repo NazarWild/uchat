@@ -58,6 +58,12 @@ typedef struct s_widget_my {
 
     GtkWidget *friends;
 
+    GtkWidget *friend_button[100];
+    int id_friend;
+    int i;
+    int break_l;
+    int try;
+
     //ndykyy
     GtkLabel *fullname;
     GtkLabel *nickname;
