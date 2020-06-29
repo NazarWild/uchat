@@ -1,35 +1,58 @@
 /* #row {
     margin-top: 20px;
-}
+} */
 
-#message_to {
-    color: gray;
-}
+/* #message_to {
+    background-color: lightcoral;
+} */
 
-#message_from {
+/* #message_from {
     color: rgb(101, 41, 160);
-}
-
+} */
+/* 
 #send_button {
     border-radius: 100px;
-}
+} */
 
-#list_box:hover {
+/* #list_box:hover {
     background-color: green;
-}
+} */
+
+/* window {
+    background-color: rgba(107, 95, 94, 0.521);
+} */
 
 window {
-    background-color: salmon;
+    background-image: linear-gradient(rgb(71, 64, 64), rgb(255, 255, 255));
 }
 
 button {
-    background-image: linear-gradient(#4e6c7c, #4e6c7c);
+    background-image: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
+    border-radius: 20px;
+    border-color: lightsalmon;
+    border-width: 1px;
 }
 
 button:active {
-    background-image: linear-gradient(#dfd8cb, #dfd8cb);
+    background-image: linear-gradient(#d3c0c0, #d3c0c0);
 }
-
+/* 
 button label {
     color: lavender;
 } */
+
+#user {
+    margin-left: 5px;
+    background-image: linear-gradient(rgba(107, 95, 94, 0.521), rgba(107, 95, 94, 0.521));
+}
+
+/* #box {
+    border: lightgray;
+    border-width: 10px;
+} */
+
+#return_sign_in {
+    border-radius: 30px;
+    border-color: rgb(32, 177, 39);
+    border-width: 2px;
+}

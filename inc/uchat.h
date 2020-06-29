@@ -56,6 +56,8 @@ typedef struct s_widget_my {
 
     GtkWidget *scroll;
 
+    GtkWidget *friends;
+
     //ndykyy
     GtkLabel *fullname;
     GtkLabel *nickname;
@@ -89,7 +91,9 @@ void mx_chat_win(t_widget_my *widge);
 void mx_design(t_widget_my *widge);
 void mx_message_from(t_widget_my *widge, const gchar *text);
 void mx_message_to(t_widget_my *widge, const gchar *text);
+void mx_create_friend(t_widget_my *widge, const gchar *text);
 
 void mx_profile_gtk(t_widget_my *widge);
 void mx_profile_photo_box(t_widget_my *widge);
+
 #endif

@@ -12,6 +12,7 @@ FILES = mx_log_in \
 	mx_design \
 	mx_message_to \
 	mx_message_from \
+	create_friend \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
