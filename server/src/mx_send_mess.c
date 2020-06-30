@@ -27,7 +27,7 @@ void mx_send_mess(cJSON *root, int fd) {
     cJSON* TO = cJSON_GetObjectItemCaseSensitive(root, "TO");
     cJSON* MESS = cJSON_GetObjectItemCaseSensitive(root, "MESS");
 
-    write(1, "HE thend this: ", 16);
+    write(1, "He send this: ", 16);
     write(1, MESS->valuestring, strlen(MESS->valuestring)); 
 
     if (cJSON_IsString(FROM) && (FROM->valuestring != NULL) 

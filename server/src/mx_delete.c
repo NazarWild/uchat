@@ -9,6 +9,7 @@ static void deleteing_request(cJSON *root) {
     mx_set_value("persons_id", "login = 'DELETE'", str2);
     free(str2);
 } 
+
 bool mx_delete(int fd, cJSON *root) {
     cJSON *delete = cJSON_GetObjectItemCaseSensitive(root, "DELETE");
     int exit;

@@ -14,7 +14,7 @@ int callback_int(void *data, int argc, char **argv, char **ColName) {
 }
 
 void mx_add_mess(char *login, char *chats, char *text, int type_text) {
-    char *sql;
+    char *sql; 
     char *time;
     int users_id = -1;
     int chats_id = -1;
