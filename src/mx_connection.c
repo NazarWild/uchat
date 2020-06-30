@@ -1,5 +1,18 @@
 #include "../inc/uchat.h"
 
+void change_color(GtkWidget* widget, void *dat) {
+    t_widget_my *widge = (t_widget_my *)dat;
+
+    if (widge->color_mode == 1) {
+        gtk_css_provider_load_from_path (widge->dark, "src/theme.css", NULL);\
+        widge->color_mode = 0;
+    }
+    else {
+        gtk_css_provider_load_from_path (widge->dark, "src/light.css", NULL);
+        widge->color_mode = 1;
+    }
+}
+
 static void send_message(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
     char *str; //строка которую отправляем Лехе
@@ -10,7 +23,6 @@ static void send_message(GtkWidget* widget, void *dat) {
     }
     else {
         mx_create_friend(widge, message);
-        widge->break_l = 0;
         mx_message_to(widge, message);
         asprintf(&str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\"}\n", widge->login, widge->to, message); //записываем в строку данные для Лехи
         write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
@@ -66,8 +78,9 @@ void mx_connection(t_widget_my *widge) {
     struct hostent *server;
     pthread_t preg;
     char *str;
-
+    char buff[1024];
     portno = 6969;
+    for (int i = 0; i < 150; i++) {
     widge->sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     if (widge->sockfd < 0) {
@@ -75,7 +88,7 @@ void mx_connection(t_widget_my *widge) {
         exit(1);
     }
 
-    server = gethostbyname("10.111.9.3");
+    server = gethostbyname("10.111.9.5");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -94,14 +107,16 @@ void mx_connection(t_widget_my *widge) {
     write(widge->sockfd, str, strlen(str)); //отпраявляем логин и пароль Лехе
     free(str);
 
-    char buff[1024];
+
     read(widge->sockfd, buff, 1024);
+    }
     gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
         g_signal_connect (widge->profile_button, "clicked", G_CALLBACK(profile), widge);
         g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
         g_signal_connect (widge->command_line, "activate", G_CALLBACK(send_message), widge);
+        g_signal_connect (widge->setting, "clicked", G_CALLBACK(change_color), widge);
         pthread_create(&preg, 0, Read, widge);
     }
     else {

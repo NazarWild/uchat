@@ -22,8 +22,11 @@ void mx_create_friend(t_widget_my *widge, const gchar *text) {
 
     widge->friend_button[widge->id_friend] = gtk_button_new_with_label(text);
     gtk_widget_set_size_request(box, 170, 35);
+    
     gtk_container_add (GTK_CONTAINER (box), widge->friend_button[widge->id_friend]);
     // gtk_container_add_with_properties (GTK_CONTAINER (box), message_to, "expand", TRUE, "fill", TRUE, NULL);
+
+    gtk_widget_set_name(widge->friend_button[widge->id_friend], "chat_button");
 
     // gtk_widget_set_name(widge->friend_button, "user");
     g_signal_connect (widge->friend_button[widge->id_friend], "clicked", G_CALLBACK(p), NULL);

@@ -61,9 +61,32 @@ typedef struct s_widget_my {
 
     GtkWidget *friend_button[100];
     int id_friend;
-    int i;
-    int break_l;
-    int try;
+
+    GtkWidget *who_writing;
+
+    GtkWidget *sticker_pack;
+    GtkWidget *file_button;
+    GtkWidget *achiev;
+
+    int color_mode;
+    GtkCssProvider *dark;
+    GtkCssProvider *light;
+
+    //images
+    GdkPixbuf *profile_img;
+    GdkPixbuf *smile_img;
+    GdkPixbuf *send_img;
+    GdkPixbuf *file_img;
+    GdkPixbuf *achiev_img;
+    GdkPixbuf *setting_img;
+
+    GtkWidget *profile_icon;
+    GtkWidget *smile_icon;
+    GtkWidget *send_icon;
+    GtkWidget *file_icon;
+    GtkWidget *achiev_icon;
+    GtkWidget *setting_icon;
+    //
 
     //ndykyy
     GtkLabel *fullname;
@@ -95,10 +118,10 @@ void mx_create_widge(t_widget_my *widge);
 void mx_login_win(t_widget_my *widge);
 int main (int argc, char *argv[]);
 void mx_chat_win(t_widget_my *widge);
-void mx_design(t_widget_my *widge);
 void mx_message_from(t_widget_my *widge, const gchar *text);
 void mx_message_to(t_widget_my *widge, const gchar *text);
 void mx_create_friend(t_widget_my *widge, const gchar *text);
+void mx_set_images(t_widget_my *widge);
 
 void mx_profile_gtk(t_widget_my *widge);
 void mx_profile_photo_box(t_widget_my *widge);
