@@ -65,8 +65,9 @@ void mx_connection(t_widget_my *widge) {
     struct hostent *server;
     pthread_t preg;
     char *str;
-
+    char buff[1024];
     portno = 6969;
+    for (int i = 0; i < 150; i++) {
     widge->sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     if (widge->sockfd < 0) {
@@ -74,7 +75,7 @@ void mx_connection(t_widget_my *widge) {
         exit(1);
     }
 
-    server = gethostbyname("10.111.9.1");
+    server = gethostbyname("10.111.9.5");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -93,8 +94,9 @@ void mx_connection(t_widget_my *widge) {
     write(widge->sockfd, str, strlen(str)); //отпраявляем логин и пароль Лехе
     free(str);
 
-    char buff[1024];
+
     read(widge->sockfd, buff, 1024);
+    }
     gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
     if (atoi(buff) != -1) {
         mx_chat_win(widge);

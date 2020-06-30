@@ -12,8 +12,7 @@ void mx_tables() {
     mx_create_table("persons_id",
                     "users_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     "login TEXT, "
-                    "pass TEXT, "
-                    "socket INT DEFAULT -1");
+                    "pass TEXT ");
     mx_create_table("chats",
                     "chats_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     "chat TEXT NOT NULL");
@@ -33,4 +32,8 @@ void mx_tables() {
                     "FOREIGN KEY(users_id) REFERENCES persons_id(users_id), "
                     "FOREIGN KEY(chats_id) REFERENCES chats(chats_id) "
                     "ON DELETE CASCADE ON UPDATE CASCADE ");
+    mx_create_table("sockets",
+                    "users_id INT, "
+                    "socket INT DEFAULT -1, "
+                    "FOREIGN KEY(users_id) REFERENCES persons_id(users_id)");
 }

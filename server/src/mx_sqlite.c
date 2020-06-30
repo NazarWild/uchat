@@ -1,6 +1,6 @@
 #include "../inc/sqlite.h"
 
-void mx_sqlite(char *sql, int (*callback)(void *, int, char **, char **), void *data) {
+void mx_sqlite(char *sql, int(*callback)(void *, int, char **, char **), void *data) {
     sqlite3 *db;
     char *err_msg = 0;
     int rc = sqlite3_open("data_base.db", &db);
