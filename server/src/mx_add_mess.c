@@ -1,5 +1,18 @@
 #include "../inc/uchat.h"
 
+static int callback_persons_id(void *data, int argc, char **argv, char **ColName) {
+    char **new = (char **)data;
+
+    *new = strdup(argv[0]);
+    return 0;
+}
+
+int callback_int(void *data, int argc, char **argv, char **ColName) {
+    int *result = (int *)data;
+    *result = atoi(argv[0]);
+    return 0;
+}
+
 int mx_get_id_and_create_chat(int login1, int login2) {
     char *sql;
     int id;
@@ -25,17 +38,28 @@ void mx_add_users_to_chat(int login, int chats_id) {
     free(sql);
 }
 
-static int callback_persons_id(void *data, int argc, char **argv, char **ColName) {
-    char **new = (char **)data;
 
-    *new = strdup(argv[0]);
-    return 0;
-}
+char *mx_parse_str(char *str) {
+    int counter = 0;
+    int str_len = strlen(str);
+    char *newstr;
+    int size;
+    int i;
 
-int callback_int(void *data, int argc, char **argv, char **ColName) {
-    int *result = (int *)data;
-    *result = atoi(argv[0]);
-    return 0;
+    for (i = 0 ; str[i] != '\0'; i++)
+        if (str[i] == '\'')
+            counter++;
+    size = str_len + counter;
+    newstr = malloc(sizeof(char *) * (size + 1));
+    newstr[size] = '\0';
+    counter = 0;
+    for (i = 0; i < str_len; i++) {
+        if (str[i] == '\'')
+            newstr[counter++] = '\'';
+        newstr[counter++] = str[i];
+    }
+    printf("%s\n", newstr);
+    return newstr;
 }
 
 void mx_add_message(char *login, int chats_id, char *text, int type_text) {
