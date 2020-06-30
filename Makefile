@@ -10,7 +10,6 @@ FILES = mx_log_in \
 	main \
 	mx_profile_gtk \
 	mx_profile_photo_box \
-	mx_design \
 	mx_message_to \
 	mx_message_from \
 	mx_parse_sign_in \

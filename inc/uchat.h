@@ -68,6 +68,10 @@ typedef struct s_widget_my {
     GtkWidget *file_button;
     GtkWidget *achiev;
 
+    int color_mode;
+    GtkCssProvider *dark;
+    GtkCssProvider *light;
+
     //images
     GdkPixbuf *profile_img;
     GdkPixbuf *smile_img;
@@ -114,7 +118,6 @@ void mx_create_widge(t_widget_my *widge);
 void mx_login_win(t_widget_my *widge);
 int main (int argc, char *argv[]);
 void mx_chat_win(t_widget_my *widge);
-void mx_design(t_widget_my *widge);
 void mx_message_from(t_widget_my *widge, const gchar *text);
 void mx_message_to(t_widget_my *widge, const gchar *text);
 void mx_create_friend(t_widget_my *widge, const gchar *text);

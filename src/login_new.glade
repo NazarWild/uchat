@@ -275,7 +275,7 @@
                 <property name="width_chars">0</property>
                 <property name="max_width_chars">0</property>
                 <property name="shadow_type">none</property>
-                <property name="primary_icon_name">go-first-symbolic-rtl</property>
+                <property name="primary_icon_pixbuf">../img_chat/arrow.png</property>
               </object>
               <packing>
                 <property name="x">115</property>
