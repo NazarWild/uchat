@@ -4,6 +4,9 @@ static void design_css(t_widget_my *widge) {
     gtk_widget_set_name(widge->send_button, "send_button");
     gtk_widget_set_name(widge->list_box, "list_box");
     gtk_widget_set_name(widge->return_sign_in, "return_sign_in");
+    gtk_widget_set_name(widge->command_line, "command_line");
+    gtk_widget_set_name(widge->who_writing, "who_writing");
+    gtk_widget_set_name(widge->list_box, "list_box");
 }
 
 void mx_create_widge(t_widget_my *widge) {
@@ -34,6 +37,7 @@ void mx_create_widge(t_widget_my *widge) {
 
 
     widge->command_line = GTK_WIDGET(gtk_builder_get_object (widge->builder, "command_line"));
+    widge->com_event_box = GTK_WIDGET(gtk_builder_get_object (widge->builder, "com_event_box"));
     widge->setting = GTK_WIDGET(gtk_builder_get_object (widge->builder, "setting"));
     // widge->message = GTK_WIDGET(gtk_builder_get_object (widge->builder, "message"));
 
@@ -48,5 +52,13 @@ void mx_create_widge(t_widget_my *widge) {
 
     widge->friends = GTK_WIDGET(gtk_builder_get_object(widge->builder, "friends"));
 
+    widge->who_writing = GTK_WIDGET(gtk_builder_get_object(widge->builder, "who_writing"));
+
+    widge->sticker_pack = GTK_WIDGET(gtk_builder_get_object(widge->builder, "sticker_pack"));
+    widge->file_button = GTK_WIDGET(gtk_builder_get_object(widge->builder, "file_button"));
+    widge->achiev = GTK_WIDGET(gtk_builder_get_object(widge->builder, "achiev"));
+    widge->setting = GTK_WIDGET(gtk_builder_get_object(widge->builder, "setting"));
+
+    mx_set_images(widge);
     design_css(widge);
 }

@@ -15,6 +15,7 @@ FILES = u_server \
 		mx_add_mess \
 		mx_papa_bot \
 		mx_delete \
+		mx_delete_socket \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

@@ -29,7 +29,8 @@ void mx_send_mess(cJSON *root, int fd);
 char *mx_itoa(int number);
 void mx_whoonline(int fd);
 void mx_papa_bot(cJSON *FROM, cJSON *MESS, int fd);
-void mx_delete(int fd, cJSON *root);
+bool mx_delete(int fd, cJSON *root);
+void mx_delete_socket(int fd);
 
 
 
