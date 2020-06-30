@@ -13,10 +13,6 @@ int callback_int(void *data, int argc, char **argv, char **ColName) {
     return 0;
 }
 
-<<<<<<< HEAD
-void mx_add_mess(char *login, char *chats, char *text, int type_text) {
-    char *sql; 
-=======
 int mx_get_id_and_create_chat(int login1, int login2) {
     char *sql;
     int id;
@@ -68,7 +64,6 @@ char *mx_parse_str(char *str) {
 
 void mx_add_message(char *login, int chats_id, char *text, int type_text) {
     char *sql;
->>>>>>> ba91c90179a1d0a586bac1c048bc63659e68f68d
     char *time;
     int users_id = -1;
 
