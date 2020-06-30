@@ -1,5 +1,18 @@
 #include "../inc/uchat.h"
 
+void change_color(GtkWidget* widget, void *dat) {
+    t_widget_my *widge = (t_widget_my *)dat;
+
+    if (widge->color_mode == 1) {
+        gtk_css_provider_load_from_path (widge->dark, "src/theme.css", NULL);\
+        widge->color_mode = 0;
+    }
+    else {
+        gtk_css_provider_load_from_path (widge->dark, "src/light.css", NULL);
+        widge->color_mode = 1;
+    }
+}
+
 static void send_message(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
     char *str; //строка которую отправляем Лехе
@@ -100,6 +113,8 @@ void mx_connection(t_widget_my *widge) {
         mx_chat_win(widge);
         g_signal_connect (widge->profile_button, "clicked", G_CALLBACK(profile), widge);
         g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
+        g_signal_connect (widge->command_line, "activate", G_CALLBACK(send_message), widge);
+        g_signal_connect (widge->setting, "clicked", G_CALLBACK(change_color), widge);
         pthread_create(&preg, 0, Read, widge);
     }
     else {

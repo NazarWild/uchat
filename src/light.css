@@ -29,11 +29,11 @@
 } */
 
 window {
-    background-image: linear-gradient(rgb(71, 64, 64), rgb(255, 255, 255));
+    background-image: linear-gradient(rgb(255, 255, 255), rgb(94, 30, 119));
 }
 
 button {
-    background-image: linear-gradient(#ffffff, #ffffff);
+    background-image: linear-gradient(#ffffff, #e4e3e3);
     border-radius: 10px;
     border-width: 1px;
 }
@@ -63,6 +63,7 @@ button label {
 }
 
 #command_line {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.521), rgba(157, 157, 187, 0.521));
     border-radius: 10px;
 }
 
@@ -80,6 +81,6 @@ button label {
 
 } */
 
-#list_box {
-    background-image: linear-gradient(rgba(191, 133, 202, 0.521), rgba(69, 90, 148, 0.521));
-}
+/* #list_box {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.521), rgba(157, 157, 187, 0.521));
+} */

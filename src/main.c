@@ -2,16 +2,21 @@
 
 int main(int argc, char *argv[]) {
     t_widget_my *widge = (t_widget_my *)malloc(sizeof(t_widget_my));
+    widge->id_friend = 0;
+    widge->color_mode = 0;
 
     GError *error = NULL;
 
     gtk_init (&argc, &argv);
-    GtkCssProvider *provider = gtk_css_provider_new ();
+    
+    //css
+    widge->dark = gtk_css_provider_new ();
 
-    gtk_css_provider_load_from_path (provider, "src/theme.css", NULL);
+    gtk_css_provider_load_from_path (widge->dark, "src/theme.css", NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
-                                            GTK_STYLE_PROVIDER(provider),
+                                            GTK_STYLE_PROVIDER(widge->dark),
                                             GTK_STYLE_PROVIDER_PRIORITY_USER);
+    //
 
     widge->builder = gtk_builder_new ();
 
@@ -30,7 +35,6 @@ int main(int argc, char *argv[]) {
     // gtk_container_add(GTK_CONTAINER (widge->list_box), widge->sw);
 
     mx_login_win(widge);
-    // mx_design(widge);
     
 
     gtk_main ();

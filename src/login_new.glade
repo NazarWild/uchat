@@ -2,46 +2,17 @@
 <!-- Generated with glade 3.36.0 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
-  <object class="GtkImage" id="achive">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">folder</property>
-  </object>
   <object class="GtkAdjustment" id="adjustment1">
     <property name="upper">10</property>
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
-  </object>
-  <object class="GtkImage" id="image1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">emoji-people-symbolic</property>
-  </object>
-  <object class="GtkImage" id="setting_image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="pixbuf">../src/sett.png</property>
-  </object>
-  <object class="GtkImage" id="image3">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">document-new-symbolic</property>
-  </object>
-  <object class="GtkImage" id="profile_image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">avatar-default-symbolic</property>
-  </object>
-  <object class="GtkImage" id="send_image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">mail-send-symbolic</property>
   </object>
   <object class="GtkWindow" id="chat">
     <property name="width_request">800</property>
     <property name="height_request">500</property>
     <property name="can_focus">False</property>
     <property name="window_position">center</property>
+    <property name="resizable">False</property>
     <child>
       <object class="GtkFixed">
         <property name="visible">True</property>
@@ -81,9 +52,7 @@
                 <property name="height_request">44</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="primary_icon_name">edit-find-symbolic</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">False</property>
+                <property name="primary_icon_pixbuf">../img_chat/search.png</property>
               </object>
               <packing>
                 <property name="x">10</property>
@@ -149,7 +118,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="image">setting_image</property>
               </object>
               <packing>
                 <property name="x">22</property>
@@ -164,7 +132,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="image">profile_image</property>
               </object>
               <packing>
                 <property name="x">82</property>
@@ -172,13 +139,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="achiev">
                 <property name="width_request">35</property>
                 <property name="height_request">35</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="image">achive</property>
               </object>
               <packing>
                 <property name="x">140</property>
@@ -197,84 +163,41 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkNotebook">
-                <property name="width_request">600</property>
-                <property name="height_request">445</property>
+              <object class="GtkButton" id="who_writing">
+                <property name="width_request">0</property>
+                <property name="height_request">35</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="label">user_name</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="y">5</property>
+                <property name="x">10</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow">
+                <property name="width_request">599</property>
+                <property name="height_request">400</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="vadjustment">adjustment1</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="shadow_type">out</property>
                 <child>
-                  <object class="GtkScrolledWindow">
-                    <property name="width_request">599</property>
-                    <property name="height_request">400</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="vadjustment">adjustment1</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="shadow_type">out</property>
-                    <child>
-                      <object class="GtkListBox" id="list_box">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <child>
-                          <object class="GtkListBoxRow">
-                            <property name="width_request">590</property>
-                            <property name="height_request">40</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="activatable">False</property>
-                            <property name="selectable">False</property>
-                            <child>
-                              <object class="GtkFixed">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkBox">
-                                    <property name="width_request">590</property>
-                                    <property name="height_request">35</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="orientation">vertical</property>
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">Don't you want to be evil like me don't you wanna be cruel lol kek che</property>
-                                        <property name="xalign">1</property>
-                                        <attributes>
-                                          <attribute name="background" value="#e9e9b9b96e6e"/>
-                                        </attributes>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="pack_type">end</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="reorderable">True</property>
-                      </packing>
-                    </child>
-                  </object>
-                </child>
-                <child type="tab">
-                  <object class="GtkLabel">
+                  <object class="GtkListBox" id="list_box">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">opoliarenk</property>
                   </object>
                   <packing>
-                    <property name="tab_fill">False</property>
+                    <property name="reorderable">True</property>
                   </packing>
                 </child>
               </object>
+              <packing>
+                <property name="y">45</property>
+              </packing>
             </child>
           </object>
           <packing>
@@ -294,7 +217,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="image">image1</property>
               </object>
               <packing>
                 <property name="x">20</property>
@@ -308,7 +230,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="image">image3</property>
               </object>
               <packing>
                 <property name="x">67</property>
@@ -322,7 +243,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="image">send_image</property>
               </object>
               <packing>
                 <property name="x">525</property>
@@ -347,7 +267,7 @@
               <object class="GtkEntry" id="command_line">
                 <property name="name">re</property>
                 <property name="width_request">400</property>
-                <property name="height_request">30</property>
+                <property name="height_request">35</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="max_length">70</property>
@@ -355,11 +275,11 @@
                 <property name="width_chars">0</property>
                 <property name="max_width_chars">0</property>
                 <property name="shadow_type">none</property>
-                <property name="primary_icon_name">go-first-symbolic-rtl</property>
+                <property name="primary_icon_pixbuf">../img_chat/arrow.png</property>
               </object>
               <packing>
                 <property name="x">115</property>
-                <property name="y">12</property>
+                <property name="y">9.9</property>
               </packing>
             </child>
           </object>
@@ -421,6 +341,7 @@
   <object class="GtkWindow" id="window">
     <property name="can_focus">True</property>
     <property name="window_position">center</property>
+    <property name="resizable">False</property>
     <child>
       <object class="GtkFixed">
         <property name="width_request">440</property>
@@ -439,6 +360,7 @@
                 <property name="height_request">40</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="max_length">10</property>
                 <property name="placeholder_text" translatable="yes">Username</property>
               </object>
               <packing>
@@ -454,7 +376,7 @@
                 <property name="can_focus">True</property>
                 <property name="visibility">False</property>
                 <property name="invisible_char">●</property>
-                <property name="primary_icon_pixbuf">img_398183.png</property>
+                <property name="primary_icon_pixbuf">../img_chat/img_398183.png</property>
                 <property name="placeholder_text" translatable="yes">Password</property>
                 <property name="input_purpose">password</property>
               </object>
@@ -520,6 +442,7 @@
                 <property name="height_request">40</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="max_length">10</property>
                 <property name="placeholder_text" translatable="yes">Username</property>
               </object>
               <packing>
@@ -535,7 +458,7 @@
                 <property name="can_focus">True</property>
                 <property name="visibility">False</property>
                 <property name="invisible_char">●</property>
-                <property name="primary_icon_pixbuf">img_398183.png</property>
+                <property name="primary_icon_pixbuf">../img_chat/img_398183.png</property>
                 <property name="placeholder_text" translatable="yes">Password</property>
                 <property name="input_purpose">password</property>
               </object>
@@ -552,7 +475,7 @@
                 <property name="can_focus">True</property>
                 <property name="visibility">False</property>
                 <property name="invisible_char">●</property>
-                <property name="primary_icon_pixbuf">img_398183.png</property>
+                <property name="primary_icon_pixbuf">../img_chat/img_398183.png</property>
                 <property name="placeholder_text" translatable="yes">Confirm Password</property>
                 <property name="input_purpose">password</property>
               </object>
