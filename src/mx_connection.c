@@ -1,16 +1,33 @@
 #include "../inc/uchat.h"
 
-void change_color(GtkWidget* widget, void *dat) {
+void theme_1(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
-    if (widge->color_mode == 1) {
-        gtk_css_provider_load_from_path (widge->dark, "src/theme.css", NULL);
-        widge->color_mode = 0;
-    }
-    else {
-        gtk_css_provider_load_from_path (widge->dark, "src/light.css", NULL);
-        widge->color_mode = 1;
-    }
+    gtk_css_provider_load_from_path (widge->dark, "src/light.css", NULL);
+}
+
+void theme_2(GtkWidget* widget, void *dat) {
+    t_widget_my *widge = (t_widget_my *)dat;
+
+    gtk_css_provider_load_from_path (widge->dark, "src/theme.css", NULL);
+}
+
+void theme_3(GtkWidget* widget, void *dat) {
+    t_widget_my *widge = (t_widget_my *)dat;
+
+    gtk_widget_hide(widge->win_sett);
+    gtk_widget_show_all(widge->main_chat);
+}
+
+
+void setting_win(GtkWidget* widget, void *dat) {
+    t_widget_my *widge = (t_widget_my *)dat;
+
+    g_signal_connect (widge->theme_1, "clicked", G_CALLBACK(theme_1), widge);
+    g_signal_connect (widge->theme_2, "clicked", G_CALLBACK(theme_2), widge);
+    g_signal_connect (widge->theme_3, "clicked", G_CALLBACK(theme_3), widge);
+    gtk_widget_hide(widge->main_chat);
+    gtk_widget_show_all(widge->win_sett);
 }
 
 static void send_message(GtkWidget* widget, void *dat) {
@@ -88,7 +105,7 @@ void mx_connection(t_widget_my *widge) {
         exit(1);
     }
 
-    server = gethostbyname("10.111.9.5");
+    server = gethostbyname("10.111.7.8");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -116,7 +133,7 @@ void mx_connection(t_widget_my *widge) {
         g_signal_connect (widge->profile_button, "clicked", G_CALLBACK(profile), widge);
         g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
         g_signal_connect (widge->command_line, "activate", G_CALLBACK(send_message), widge);
-        g_signal_connect (widge->setting, "clicked", G_CALLBACK(change_color), widge);
+        g_signal_connect (widge->setting, "clicked", G_CALLBACK(setting_win), widge);
         pthread_create(&preg, 0, Read, widge);
     }
     else {
