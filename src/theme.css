@@ -17,9 +17,6 @@
     border-radius: 100px;
 } */
 
-#list_box:hover {
-    background-color: blue;
-}
 /* #list_box:hover {
     background-color: green;
 } */
@@ -39,7 +36,7 @@ button {
 }
 
 button:active {
-    background-image: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
+    background-image: linear-gradient(rgb(14, 12, 12), rgb(31, 27, 27));
 }
 /* 
 button label {

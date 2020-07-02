@@ -4,7 +4,7 @@ void change_color(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
     if (widge->color_mode == 1) {
-        gtk_css_provider_load_from_path (widge->dark, "src/theme.css", NULL);\
+        gtk_css_provider_load_from_path (widge->dark, "src/theme.css", NULL);
         widge->color_mode = 0;
     }
     else {
