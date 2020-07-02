@@ -324,20 +324,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <object class="GtkWindow" id="window">
     <property name="can_focus">True</property>
     <property name="window_position">center</property>

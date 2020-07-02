@@ -4,7 +4,7 @@ void change_color(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
     if (widge->color_mode == 1) {
-        gtk_css_provider_load_from_path (widge->dark, "src/theme.css", NULL);\
+        gtk_css_provider_load_from_path (widge->dark, "src/theme.css", NULL);
         widge->color_mode = 0;
     }
     else {
@@ -87,7 +87,7 @@ void mx_connection(t_widget_my *widge) {
         exit(1);
     }
 
-    server = gethostbyname("10.111.9.1");
+    server = gethostbyname("10.111.9.5");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
