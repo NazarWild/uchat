@@ -38,7 +38,6 @@ void mx_add_users_to_chat(int login, int chats_id) {
     free(sql);
 }
 
-
 char *mx_parse_str(char *str) {
     int counter = 0;
     int str_len = strlen(str);
