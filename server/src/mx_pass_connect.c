@@ -7,12 +7,12 @@ static int callback_persons_id(void *data, int argc, char **argv, char **ColName
     return 0;
 }
 
-bool mx_pass_connect(char *login, char *pass) {
+bool mx_pass_connect(char *login, char *pass, use_mutex_t *mutex) {
     char *str = NULL;
     char *data = NULL;
 
     asprintf(&str, "persons_id where login = '%s'", login);
-    mx_select("pass", str, callback_persons_id, &data);
+    mx_select("pass", str, callback_persons_id, &data, mutex);
     free(str);
     if (data == NULL)
         return false;

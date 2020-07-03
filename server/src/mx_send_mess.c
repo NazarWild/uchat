@@ -7,22 +7,22 @@ static int callback_persons_id(void *data, int argc, char **argv, char **ColName
     return 0;
 }
 
-static char *sockets(cJSON* TO, cJSON* FROM) {
+static char *sockets(cJSON* TO, cJSON* FROM, use_mutex_t *mutex) {
     char *str1 = NULL;
     char *str2 = NULL;
     char *data1 = NULL;
     char *data2 = NULL;
 
     asprintf(&str1, "persons_id where login = '%s'", TO->valuestring);
-    mx_select("users_id", str1, callback_persons_id, &data1);
+    mx_select("users_id", str1, callback_persons_id, &data1, mutex);
     asprintf(&str2, "persons_id where login = '%s'", FROM->valuestring);
-    mx_select("users_id", str2, callback_persons_id, &data2);
+    mx_select("users_id", str2, callback_persons_id, &data2, mutex);
     free(str1);
     free(str2);
     return data1;
 }
 
-void mx_send_mess(cJSON *root, int fd) {
+void mx_send_mess(cJSON *root, int fd, use_mutex_t *mutex) {
     cJSON* FROM = cJSON_GetObjectItemCaseSensitive(root, "FROM");
     cJSON* TO = cJSON_GetObjectItemCaseSensitive(root, "TO");
     cJSON* MESS = cJSON_GetObjectItemCaseSensitive(root, "MESS");
@@ -37,7 +37,7 @@ void mx_send_mess(cJSON *root, int fd) {
             mx_papa_bot(FROM, MESS, fd);
             return ;
         }
-        sockets(TO, FROM);
+        sockets(TO, FROM, mutex);
     //     if (data == NULL) {
     //         //adding mess, to database 
     //         //mx_add_mess(FROM->valuestring, ,MESS->valuestring, 1);

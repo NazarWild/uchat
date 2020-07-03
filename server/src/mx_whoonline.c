@@ -26,8 +26,8 @@ static void adding_sys(cJSON *root) {
     cJSON_AddItemToObject(root,"ONLINE", is_online);
 }
 
-void mx_whoonline(int fd) {
-    t_list *online_struct = mx_where_not_1();
+void mx_whoonline(int fd, use_mutex_t *mutex) {
+    t_list *online_struct = mx_where_not_1(mutex);
     cJSON *on = cJSON_CreateObject();
     cJSON *who_online = cJSON_CreateArray();
     cJSON *online = NULL;

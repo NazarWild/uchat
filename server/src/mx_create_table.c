@@ -4,7 +4,7 @@ void mx_create_table(char *name_table, char *values_table) {
     char *sql;
 
     asprintf(&sql, "CREATE TABLE IF NOT EXISTS %s(%s);", name_table, values_table);
-    mx_sqlite(sql, NULL, NULL);
+    mx_sqlite(sql, NULL, NULL, NULL);
     free(sql);
 }
 
