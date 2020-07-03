@@ -10,8 +10,14 @@ typedef struct s_login_pass {
     // int socket;
 } t_login_pass;
 
+typedef struct use_mutex_tag {
+    pthread_mutex_t mutex;
+    int cli_fd;
+} use_mutex_t;
+
 typedef struct s_list {
-    void  *data;
+    void *data;
+    int users_id;
     struct s_list *next;
 } t_list;
 
@@ -24,8 +30,8 @@ void mx_select(char *search, char *tables, int (*callback)(void *, int, char **,
 bool mx_path_connect(char *login, char *pass);
 t_list *mx_where_not_1();
 void mx_pop_front(t_list **head);
-t_list *mx_create_node(void *data);
-void mx_push_front(t_list **list, void *data);
+t_list *mx_create_node(void *data, int users_id);
+void mx_push_front(t_list **list, void *data, int users_id);
 void mx_add_mess(char *login, char *chats, char *text, int type_text);
 void mx_delete_from_db(char *name_table, char *condition);
 
