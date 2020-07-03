@@ -7,6 +7,10 @@ static void design_css(t_widget_my *widge) {
     gtk_widget_set_name(widge->command_line, "command_line");
     gtk_widget_set_name(widge->who_writing, "who_writing");
     gtk_widget_set_name(widge->list_box, "list_box");
+    gtk_widget_set_name(widge->theme_1, "theme_1");
+    gtk_widget_set_name(widge->theme_2, "theme_2");
+    gtk_widget_set_name(widge->theme_3, "theme_3");
+    gtk_widget_set_name(widge->win_sett, "win_sett");
 }
 
 void mx_create_widge(t_widget_my *widge) {
@@ -14,6 +18,7 @@ void mx_create_widge(t_widget_my *widge) {
 
     widge->win_sign = GTK_WIDGET(gtk_builder_get_object (widge->builder, "win_sign"));
     widge->win_reg = GTK_WIDGET(gtk_builder_get_object (widge->builder, "win_reg"));
+    widge->win_sett = GTK_WIDGET(gtk_builder_get_object (widge->builder, "win_sett"));
 
     widge->sign_in = GTK_WIDGET(gtk_builder_get_object (widge->builder, "sign_in"));
     widge->sign_up = GTK_WIDGET(gtk_builder_get_object (widge->builder, "sign_up"));
@@ -58,6 +63,12 @@ void mx_create_widge(t_widget_my *widge) {
     widge->file_button = GTK_WIDGET(gtk_builder_get_object(widge->builder, "file_button"));
     widge->achiev = GTK_WIDGET(gtk_builder_get_object(widge->builder, "achiev"));
     widge->setting = GTK_WIDGET(gtk_builder_get_object(widge->builder, "setting"));
+
+    widge->theme_1 = GTK_WIDGET(gtk_builder_get_object(widge->builder, "theme_1"));
+    widge->theme_2 = GTK_WIDGET(gtk_builder_get_object(widge->builder, "theme_2"));
+    widge->theme_3 = GTK_WIDGET(gtk_builder_get_object(widge->builder, "theme_3"));
+
+    widge->main_chat = GTK_WIDGET(gtk_builder_get_object(widge->builder, "main_chat"));
 
     mx_set_images(widge);
     design_css(widge);

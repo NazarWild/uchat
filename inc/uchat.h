@@ -28,6 +28,7 @@ typedef struct s_widget_my {
 
     GtkWidget *win_reg;
     GtkWidget *win_sign;
+    GtkWidget *win_sett;
     
     GtkWidget *user_name; //ввод юзера
     GtkWidget *user_password; //ввод пароля
@@ -70,7 +71,12 @@ typedef struct s_widget_my {
 
     int color_mode;
     GtkCssProvider *dark;
-    GtkCssProvider *light;
+
+    GtkWidget *theme_1;
+    GtkWidget *theme_2;
+    GtkWidget *theme_3;
+
+    GtkWidget *main_chat;
 
     //images
     GdkPixbuf *profile_img;

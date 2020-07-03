@@ -1,16 +1,33 @@
 #include "../inc/uchat.h"
 
-void change_color(GtkWidget* widget, void *dat) {
+void theme_1(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
-    if (widge->color_mode == 1) {
-        gtk_css_provider_load_from_path (widge->dark, "src/theme.css", NULL);\
-        widge->color_mode = 0;
-    }
-    else {
-        gtk_css_provider_load_from_path (widge->dark, "src/light.css", NULL);
-        widge->color_mode = 1;
-    }
+    gtk_css_provider_load_from_path (widge->dark, "src/light.css", NULL);
+}
+
+void theme_2(GtkWidget* widget, void *dat) {
+    t_widget_my *widge = (t_widget_my *)dat;
+
+    gtk_css_provider_load_from_path (widge->dark, "src/theme.css", NULL);
+}
+
+void theme_3(GtkWidget* widget, void *dat) {
+    t_widget_my *widge = (t_widget_my *)dat;
+
+    gtk_widget_hide(widge->win_sett);
+    gtk_widget_show_all(widge->main_chat);
+}
+
+
+void setting_win(GtkWidget* widget, void *dat) {
+    t_widget_my *widge = (t_widget_my *)dat;
+
+    g_signal_connect (widge->theme_1, "clicked", G_CALLBACK(theme_1), widge);
+    g_signal_connect (widge->theme_2, "clicked", G_CALLBACK(theme_2), widge);
+    g_signal_connect (widge->theme_3, "clicked", G_CALLBACK(theme_3), widge);
+    gtk_widget_hide(widge->main_chat);
+    gtk_widget_show_all(widge->win_sett);
 }
 
 static void send_message(GtkWidget* widget, void *dat) {
@@ -22,7 +39,6 @@ static void send_message(GtkWidget* widget, void *dat) {
         printf("Are you kidding me?\n");
     }
     else {
-        mx_create_friend(widge, message);
         mx_message_to(widge, message);
         asprintf(&str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\"}\n", widge->login, widge->to, message); //записываем в строку данные для Лехи
         write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
@@ -56,9 +72,8 @@ static void *Read(void *dat) {
             who_online = cJSON_GetObjectItemCaseSensitive(json, "who_online");
             cJSON_ArrayForEach(peoples, who_online) {
                 user = cJSON_GetObjectItemCaseSensitive(peoples, "online");
-                printf("this dick online = %s\n", user->valuestring);
+                mx_create_friend(widge, user->valuestring);
             }
-            printf("konec\n");
         }
         cJSON_Delete(json);
     }
@@ -80,7 +95,6 @@ void mx_connection(t_widget_my *widge) {
     char *str;
     char buff[1024];
     portno = 6969;
-    for (int i = 0; i < 150; i++) {
     widge->sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     if (widge->sockfd < 0) {
@@ -88,7 +102,7 @@ void mx_connection(t_widget_my *widge) {
         exit(1);
     }
 
-    server = gethostbyname("10.111.9.5");
+    server = gethostbyname("10.111.9.1");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -109,14 +123,13 @@ void mx_connection(t_widget_my *widge) {
 
 
     read(widge->sockfd, buff, 1024);
-    }
     gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
         g_signal_connect (widge->profile_button, "clicked", G_CALLBACK(profile), widge);
         g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
         g_signal_connect (widge->command_line, "activate", G_CALLBACK(send_message), widge);
-        g_signal_connect (widge->setting, "clicked", G_CALLBACK(change_color), widge);
+        g_signal_connect (widge->setting, "clicked", G_CALLBACK(setting_win), widge);
         pthread_create(&preg, 0, Read, widge);
     }
     else {
