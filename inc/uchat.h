@@ -115,6 +115,8 @@ typedef struct s_widget_my {
     int sockfd;
     char *str;
     char *res_png;
+    int port;
+    char *ip;
 }              t_widget_my;
 
 int mx_log_in(char *login, char *pass, t_widget_my *widge);
