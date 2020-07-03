@@ -35,16 +35,17 @@ void mx_push_front(t_list **list, void *data) {
     (*list)->next = tmp;
 }
 
-
 int callback_list(void *data, int argc, char **argv, char **ColName) {
-    mx_push_front((t_list **)data, (void *)strdup(argv[0]));
+    mx_push_front((t_list **)data, (void *)strdup(argv[0])); // сюда надо еще добавлять юзер айди
     return 0;
 }
 
-t_list *mx_where_not_1() {
+
+t_list *mx_where_not_1(use_mutex_t *mutex) {
     t_list *list = 0; 
 
-    mx_select("login", "persons_id where socket > -1", callback_list, &list);
+    mx_select("users_id", "sockets where socket > -1", callback_list, &list, NULL);
+
     // for (t_list *new = list; new != NULL; new = new->next)
     //     printf("%s\n", (char *)new->data);
     // for (t_list *new = list; new != NULL; new = new->next) {

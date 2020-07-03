@@ -20,7 +20,9 @@
 # text files
 *.txt
 *.pdf
+*.db
 
 # current project
+data_base.db
 uchat
 uchat_server

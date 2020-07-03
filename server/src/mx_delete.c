@@ -1,14 +1,15 @@
 #include "../inc/uchat.h"
 
-static void deleteing_request(cJSON *root) {
+static void deleteing_request(cJSON *root, use_mutex_t *mutex) {
     cJSON *delete = cJSON_GetObjectItemCaseSensitive(root, "ACCOUNT");
     char *str2 = NULL;
-    
+
     asprintf(&str2, "login = '%s'", delete->valuestring);
-    mx_set_value("persons_id", "pass = 'DELETE'", str2);
-    mx_set_value("persons_id", "login = 'DELETE'", str2);
+    mx_set_value("persons_id", "pass = 'DELETE'", str2, mutex);
+    mx_set_value("persons_id", "login = 'DELETE'", str2, mutex);
     free(str2);
 } 
+
 bool mx_delete(int fd, cJSON *root) {
     cJSON *delete = cJSON_GetObjectItemCaseSensitive(root, "DELETE");
     int exit;
