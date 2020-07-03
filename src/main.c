@@ -7,6 +7,15 @@ int main(int argc, char *argv[]) {
 
     GError *error = NULL;
 
+    if (argc == 3) {               //dodat check na pravelnist vvoda
+        widge->ip = argv[1];
+        widge->port = atoi(argv[2]);
+    }
+    else {
+        printf("usage : ./uchat [ip] [port]\n");
+        exit(1);
+    }
+
     gtk_init (&argc, &argv);
     
     //css

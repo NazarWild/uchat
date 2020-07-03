@@ -9,7 +9,7 @@ int mx_register(char *login, char *pass, t_widget_my *widge) {
     char *str;
 
 
-    portno = 6969;
+    portno = widge->port;
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     if (sockfd < 0) {
@@ -17,7 +17,7 @@ int mx_register(char *login, char *pass, t_widget_my *widge) {
         exit(1);
     }
 
-    server = gethostbyname("10.111.9.1");
+    server = gethostbyname(widge->ip);
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
