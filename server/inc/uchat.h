@@ -17,6 +17,11 @@
 #include <arpa/inet.h>
 #include "sqlite.h"
 
+#include <openssl/ssl.h>
+#include <openssl/rsa.h>
+#include <openssl/x509.h>
+#include <openssl/evp.h>
+
 #define PORT 6969
 #define USERS 200
 

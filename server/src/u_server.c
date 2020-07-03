@@ -5,8 +5,10 @@ static bool parse_object(cJSON *root, int fd) {
     // если дескриптор -1, то пользователь не в сети и буду записывать в бд сообщение сразу 
     // после чего как только он зайдет надо будет подгружать сообщения 
 
+
+
     //show who online
-    //mx_whoonline(fd);
+    mx_whoonline(fd);
 
     //delete account 
     if (mx_delete(fd, root) == true) {
@@ -14,14 +16,15 @@ static bool parse_object(cJSON *root, int fd) {
     }
     
     //send mess and adding to db/ and PAPA_BOT
-    //mx_send_mess(root, fd);
+    mx_send_mess(root, fd);
 
     cJSON_Delete(root);
     return true;
 }
 
-static void *mx_some_sending(void *cli_fd) {
-    int fd = *((int *) cli_fd);
+static void *some_sending(void *parametr) {
+    use_mutex_t *param = (use_mutex_t *) parametr;
+    int fd = param->cli_fd;
     char buff[1024];
     int ret = 0;
     cJSON* request_json = NULL;
@@ -47,10 +50,16 @@ int main(int argc, char *argv[]) {
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
     struct sockaddr_in serv_addr;
     struct sockaddr_in cli_addr;
-    int cli_fd;
+    // int cli_fd;
     int clen = sizeof(cli_addr);
     pthread_t thread; 
 
+
+    use_mutex_t param; //creting mutex
+
+    //printf("%lu",OPENSSL_LH_strhash("HELLO BITC"));
+
+    pthread_mutex_init(&(param.mutex), NULL); //mutex init
     mx_tables();
     if (argc > 1)
         inet_aton(argv[1], &serv_addr.sin_addr);
@@ -68,12 +77,12 @@ int main(int argc, char *argv[]) {
     listen(server_fd, USERS);
 
     while (1) {
-        if ((cli_fd = accept(server_fd, (struct sockaddr *) &cli_addr, (socklen_t *) &clen)) < 0) {
+        if ((param.cli_fd = accept(server_fd, (struct sockaddr *) &cli_addr, (socklen_t *) &clen)) < 0) {
             perror("ACCEPTING ERROR");
             exit(3);
         }
         printf("THIS SHIT CONNECTED: %s\n", inet_ntoa(cli_addr.sin_addr));
-        if (pthread_create(&thread, NULL, mx_some_sending, (void *) &cli_fd) < 0) {
+        if (pthread_create(&thread, NULL, some_sending, (void *) &param) < 0) {
             perror("CREATING THREAD ERROR");
             exit(2);
         }

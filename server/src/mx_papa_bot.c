@@ -3,6 +3,7 @@
 static void mylvl(int fd, cJSON *FROM) {
     //iz bd dostaem vse chto nado to est po loginu uroven
     write(fd, "Your level: ", 13);
+    //mx_select("level", "persons_id", )
 }
 
 static void start(int fd, cJSON *FROM) {
