@@ -50,14 +50,11 @@ int main(int argc, char *argv[]) {
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
     struct sockaddr_in serv_addr;
     struct sockaddr_in cli_addr;
-    // int cli_fd;
     int clen = sizeof(cli_addr);
     pthread_t thread; 
 
 
     use_mutex_t param; //creting mutex
-
-    //printf("%lu",OPENSSL_LH_strhash("HELLO BITC"));
 
     pthread_mutex_init(&(param.mutex), NULL); //mutex init
     mx_tables();

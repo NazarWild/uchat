@@ -38,7 +38,7 @@ void mx_push_front(t_list **list, void *data, int users_id) {
 
 
 int callback_list(void *data, int argc, char **argv, char **ColName) {
-    mx_push_front((t_list **)data, (void *)strdup(argv[0]), ); // сюда надо еще добавлять юзер айди
+    //mx_push_front((t_list **)data, (void *)strdup(argv[0]), ); // сюда надо еще добавлять юзер айди
     return 0;
 }
 
