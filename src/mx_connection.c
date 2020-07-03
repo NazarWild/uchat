@@ -39,7 +39,6 @@ static void send_message(GtkWidget* widget, void *dat) {
         printf("Are you kidding me?\n");
     }
     else {
-        mx_create_friend(widge, message);
         mx_message_to(widge, message);
         asprintf(&str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\"}\n", widge->login, widge->to, message); //записываем в строку данные для Лехи
         write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
@@ -73,9 +72,8 @@ static void *Read(void *dat) {
             who_online = cJSON_GetObjectItemCaseSensitive(json, "who_online");
             cJSON_ArrayForEach(peoples, who_online) {
                 user = cJSON_GetObjectItemCaseSensitive(peoples, "online");
-                printf("this dick online = %s\n", user->valuestring);
+                mx_create_friend(widge, user->valuestring);
             }
-            printf("konec\n");
         }
         cJSON_Delete(json);
     }
@@ -97,7 +95,6 @@ void mx_connection(t_widget_my *widge) {
     char *str;
     char buff[1024];
     portno = 6969;
-    for (int i = 0; i < 150; i++) {
     widge->sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     if (widge->sockfd < 0) {
@@ -105,7 +102,7 @@ void mx_connection(t_widget_my *widge) {
         exit(1);
     }
 
-    server = gethostbyname("10.111.7.8");
+    server = gethostbyname("10.111.9.1");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
@@ -126,7 +123,6 @@ void mx_connection(t_widget_my *widge) {
 
 
     read(widge->sockfd, buff, 1024);
-    }
     gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
