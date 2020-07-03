@@ -17,22 +17,21 @@ static int callback_persons_id(void *data, int argc, char **argv, char **ColName
     return 0;
 }
 
-static void set_socket(int fd) {
+static void set_socket(int fd, char *log) {
     char *ita = NULL;
     char *new = NULL;
-    char *forb_new = NULL;
     char *users_id = NULL;
 
     ita = mx_itoa(fd);
-    mx_select("users_id", "persons_id", callback_persons_id, users_id);
-    mx_add_to_table("sockets", "users_id", users_id);
-    asprintf(&new, "socket = %s", ita);
-    asprintf(&forb_new, "users_id = '%s'", users_id);
-    free(users_id);
-    mx_set_value("sockets", new, forb_new);
+    asprintf(&new, "persons_id WHERE login = '%s'", log);
+    mx_select("users_id", new, callback_persons_id, &users_id);
     free(new);
-    free(forb_new);
+    asprintf(&new, "%s, %s", users_id, ita);
+    mx_add_to_table("sockets", "users_id, socket", new);
+    
+    free(new);
     free(ita);
+    free(users_id);
 }
 
 static bool loging(cJSON *root, int fd) {
@@ -41,11 +40,9 @@ static bool loging(cJSON *root, int fd) {
     
     if (cJSON_IsString(log) && log->valuestring != NULL 
         && cJSON_IsString(pass) && pass->valuestring != NULL) { 
-
-        write(1, "LOGIN\n" , 7);
-        
         if(mx_pass_connect(log->valuestring, pass->valuestring) == true) {
-            //set_socket(fd);
+            write(1, "LOGIN\n" , 7);
+            set_socket(fd, log->valuestring);
             return true; 
         } 
         else  
