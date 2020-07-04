@@ -81,6 +81,8 @@ void mx_login_win(t_widget_my *widge) {
 
     g_signal_connect (widge->sign_in, "clicked", G_CALLBACK(to_chat), widge);
 
+    // g_signal_connect (widge->sign_in, "clicked", G_CALLBACK(mx_test), widge);
+
     g_signal_connect (widge->registration, "clicked", G_CALLBACK(create_user), widge);
 
     g_signal_connect (widge->return_sign_in, "clicked", G_CALLBACK(to_sign_in), widge);

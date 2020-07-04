@@ -2,8 +2,10 @@
 
 void p(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
-
-    gtk_button_set_label (GTK_BUTTON(widge->who_writing), (char *) gtk_button_get_label(GTK_BUTTON(widge->friend_button[widge->id_friend])));
+    char *login = (char *) gtk_button_get_label(GTK_BUTTON(widget));
+    
+    gtk_button_set_label (GTK_BUTTON(widge->who_writing), login);
+    widge->to = login;
 }
 
 
