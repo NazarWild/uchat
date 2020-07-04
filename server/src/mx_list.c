@@ -51,7 +51,7 @@ int callback_list(void *data, int argc, char **argv, char **ColName) {
 }
 
 t_list *mx_where_not_1(use_mutex_t *mutex) {
-    t_list *list = 0;
+    t_list *list = NULL;
     // t_online *online = malloc(sizeof(t_online));
     t_sqlite *lite = malloc(sizeof(t_sqlite));
 
@@ -60,7 +60,7 @@ t_list *mx_where_not_1(use_mutex_t *mutex) {
     lite->sql = "SELECT DISTINCT persons_id.login, sockets.users_id, "
                 "sockets.online from persons_id INNER JOIN sockets on "
                 "persons_id.users_id = sockets.users_id";
-    mx_sqlite(lite, NULL);
+    mx_sqlite(lite, mutex);
     free(lite);
     return list;
 }
