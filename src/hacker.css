@@ -1,0 +1,73 @@
+
+#message_to {
+    color: black;
+}
+
+window {
+    background-image: linear-gradient(rgb(0, 0, 0), rgba(0, 0, 0, 0.329));
+}
+
+button {
+    background-image: linear-gradient(rgb(189, 170, 170), rgb(189, 170, 170));
+    border-radius: 10px;
+    border-width: 0px;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+button:active {
+    box-shadow: none;
+    background-image: linear-gradient(rgb(128, 111, 111), rgb(168, 146, 146));
+}
+
+button label {
+    color: #ffffff;
+    /* text-shadow: none; */
+}
+
+#user {
+    margin-left: 5px;
+    background-image: linear-gradient(rgba(107, 95, 94, 0.521), rgba(107, 95, 94, 0.521));
+}
+
+#return_sign_in {
+    border-radius: 30px;
+    /* border-color: rgb(32, 177, 39); */
+    border-width: 2px;
+}
+
+#command_line {
+    border-radius: 10px;
+}
+
+#chat_button {
+    margin-left: 8px;
+}
+
+#who_writing {
+    border-radius: 0px;
+}
+
+#list_box {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.801), rgba(0, 0, 0, 0.699));
+}
+
+#theme_1 {
+    background-image: linear-gradient(rgba(221, 152, 235, 0.527), rgba(178, 193, 233, 0.521));
+}
+
+#theme_2 {
+    background-image: linear-gradient(rgb(147, 180, 185), rgba(190, 209, 81, 0.877));
+}
+
+#theme_3 {
+    background-image: linear-gradient(rgb(255, 255, 255), rgb(0, 255, 221));
+}
+
+#win_sett {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.521), rgba(255, 255, 255, 0.685));
+}
+
+#choose_user {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.801), rgba(0, 0, 0, 0.699));
+}

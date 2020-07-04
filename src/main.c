@@ -7,12 +7,21 @@ int main(int argc, char *argv[]) {
 
     GError *error = NULL;
 
+    if (argc == 3) {               //dodat check na pravelnist vvoda
+        widge->ip = argv[1];
+        widge->port = atoi(argv[2]);
+    }
+    else {
+        printf("usage : ./uchat [ip] [port]\n");
+        exit(1);
+    }
+
     gtk_init (&argc, &argv);
     
     //css
     widge->dark = gtk_css_provider_new ();
 
-    gtk_css_provider_load_from_path (widge->dark, "src/theme.css", NULL);
+    gtk_css_provider_load_from_path (widge->dark, "src/default.css", NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
                                             GTK_STYLE_PROVIDER(widge->dark),
                                             GTK_STYLE_PROVIDER_PRIORITY_USER);
