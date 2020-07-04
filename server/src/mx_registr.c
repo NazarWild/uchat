@@ -1,11 +1,11 @@
 #include "../inc/uchat.h"
 
-static void if_registration(cJSON *root, int fd) {
+static void if_registration(cJSON *root, use_mutex_t *mutex) {
     cJSON* reg = cJSON_GetObjectItemCaseSensitive(root, "REG");
     int ret;
 
     if (cJSON_IsTrue(reg) == 1) {
-        mx_creating(root, fd);
+        mx_creating(root, mutex);
         pthread_exit(&ret);
     } 
 }
@@ -40,7 +40,7 @@ static bool loging(cJSON *root, int fd, use_mutex_t *mutex) {
     
     if (cJSON_IsString(log) && log->valuestring != NULL 
         && cJSON_IsString(pass) && pass->valuestring != NULL) { 
-        if(mx_pass_connect(log->valuestring, pass->valuestring) == true) {
+        if(mx_pass_connect(log->valuestring, pass->valuestring, mutex) == true) {
             write(1, "LOGIN\n" , 7);
             set_socket(fd, log->valuestring, mutex);
             return true; 
@@ -51,22 +51,22 @@ static bool loging(cJSON *root, int fd, use_mutex_t *mutex) {
     return false; 
 }
 
-bool mx_registr(int fd, use_mutex_t *mutex) {
+bool mx_registr(use_mutex_t *mutex) {
     char buff[2048];
     cJSON* request_json = NULL;
 
-    if (read(fd, buff, 2048) > 0) { //this while or if i don't know
+    if (read(mutex->cli_fd, buff, 2048) > 0) { //this while or if i don't know
         request_json = cJSON_Parse(buff);
-        if_registration(request_json, fd);
-        if (loging(request_json, fd, mutex) == false) {
+        if_registration(request_json, mutex);
+        if (loging(request_json, mutex->cli_fd, mutex) == false) {
             bzero(buff, 1024);
-            write(fd, "-1", 2);
+            write(mutex->cli_fd, "-1", 2);
             cJSON_Delete(request_json);
             return false;
         } 
         else {
             bzero(buff, 1024);
-            write(fd, "+1", 2);
+            write(mutex->cli_fd, "+1", 2);
             cJSON_Delete(request_json);
             return true;
         }

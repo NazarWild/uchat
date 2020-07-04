@@ -22,7 +22,7 @@ static char *sockets(cJSON* TO, cJSON* FROM, use_mutex_t *mutex) {
     return data1;
 }
 
-void mx_send_mess(cJSON *root, int fd, use_mutex_t *mutex) {
+void mx_send_mess(cJSON *root, use_mutex_t *mutex) {
     cJSON* FROM = cJSON_GetObjectItemCaseSensitive(root, "FROM");
     cJSON* TO = cJSON_GetObjectItemCaseSensitive(root, "TO");
     cJSON* MESS = cJSON_GetObjectItemCaseSensitive(root, "MESS");
@@ -34,7 +34,7 @@ void mx_send_mess(cJSON *root, int fd, use_mutex_t *mutex) {
         && cJSON_IsString(TO) && (TO->valuestring != NULL)
         && cJSON_IsString(MESS) && (MESS->valuestring != NULL)) {
         if (strcmp(TO->valuestring, "PAPA_BOT") == 0) {
-            mx_papa_bot(FROM, MESS, fd);
+            mx_papa_bot(FROM, MESS, mutex);
             return ;
         }
         sockets(TO, FROM, mutex);

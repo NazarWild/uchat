@@ -65,12 +65,16 @@ void mx_add_message(char *login, int chats_id, char *text, int type_text, use_mu
     char *sql;
     char *time;
     int users_id = -1;
+    t_sqlite *lite = malloc(sizeof(t_sqlite));
 
     mx_parse_str(text);
     asprintf(&sql, "persons_id where login = '%s'", login);
     mx_select("users_id", sql, callback_int, &users_id, mutex);
     free(sql);
-    mx_sqlite("SELECT time('now','localtime');", callback_persons_id, &time, mutex);
+    lite->callback = callback_persons_id;
+    lite->data = &time;
+    lite->sql = "SELECT time('now','localtime');";
+    mx_sqlite(lite, mutex);
     asprintf(&sql, "%i, %i, '%s', %i, '%s'", users_id, chats_id, text, type_text, time);
     mx_add_to_table("messeges", "users_id, chats_id, text, type_text, time", sql, mutex);
     free(sql);

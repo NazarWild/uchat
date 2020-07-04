@@ -1,4 +1,4 @@
-#include "../inc/sqlite.h"
+#include "../inc/uchat.h"
 
 void mx_sqlite(t_sqlite *lite, use_mutex_t *mutex) {
     sqlite3 *db;

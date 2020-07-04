@@ -1,7 +1,6 @@
 #ifndef SQLITE_H
 #define SQLITE_H
 
-#include "uchat.h"
 #include <sqlite3.h>
 
 typedef struct s_login_pass {
@@ -36,8 +35,8 @@ void mx_select(char *search, char *tables, int (*callback)(void *, int, char **,
 bool mx_path_connect(char *login, char *pass, use_mutex_t *mutex);
 t_list *mx_where_not_1(use_mutex_t *mutex);
 void mx_pop_front(t_list **head);
-t_list *mx_create_node(void *data, int users_id);
-void mx_push_front(t_list **list, void *data, int users_id);
+t_list *mx_create_node(void *data);
+void mx_push_front(t_list **list, void *data);
 void mx_add_mess(char *login, char *chats, char *text, int type_text, use_mutex_t *mutex);
 void mx_delete_from_db(char *name_table, char *condition, use_mutex_t *mutex);
 
