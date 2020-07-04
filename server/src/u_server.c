@@ -24,7 +24,6 @@ static bool parse_object(cJSON *root, use_mutex_t *param) {
 
 static void *some_sending(void *parametr) {
     use_mutex_t *param = (use_mutex_t *) parametr;
-    // fd = param->cli_fd;
     char buff[1024];
     int ret = 0;
     cJSON* request_json = NULL;
@@ -53,7 +52,6 @@ int main(int argc, char *argv[]) {
     int clen = sizeof(cli_addr);
     pthread_t thread; 
 
-
     use_mutex_t param; //creting mutex
 
     pthread_mutex_init(&(param.mutex), NULL); //mutex init
@@ -66,7 +64,6 @@ int main(int argc, char *argv[]) {
     }
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
-
     if (bind(server_fd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
         perror("BINDING ERROR");
         exit(2);

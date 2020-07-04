@@ -13,6 +13,7 @@ static int count_of_struct(t_list *online) {
 
     while(list) {
         counter++;
+        write(1, (char *) list->data, strlen((char *) list->data));
         list = list->next;
     }
     return counter;

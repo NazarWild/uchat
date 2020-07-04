@@ -5,6 +5,8 @@ void mx_sqlite(t_sqlite *lite, use_mutex_t *mutex) {
     char *err_msg = 0;
     int rc = sqlite3_open("data_base.db", &db);
 
+    if (mutex != NULL)
+        pthread_mutex_lock(&(mutex->mutex));
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
@@ -17,6 +19,8 @@ void mx_sqlite(t_sqlite *lite, use_mutex_t *mutex) {
         sqlite3_close(db);
         return;
     }
+    if (mutex != NULL)
+        pthread_mutex_unlock(&(mutex->mutex));
     sqlite3_close(db);
 }
 
