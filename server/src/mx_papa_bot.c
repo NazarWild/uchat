@@ -1,23 +1,23 @@
 #include "../inc/uchat.h"
 
-static void mylvl(int fd, cJSON *FROM) {
+static void mylvl(use_mutex_t *mutex, cJSON *FROM) {
     //iz bd dostaem vse chto nado to est po loginu uroven
-    write(fd, "Your level: ", 13);
+    write(mutex->cli_fd, "Your level: ", 13);
     //mx_select("level", "persons_id", )
 }
 
-static void start(int fd, cJSON *FROM) {
+static void start(use_mutex_t *mutex, cJSON *FROM) {
     // nachinaem cacueto zagadku proveriaya na raiting i v zavisimosti ot raitinga vivodim zagadku
     // pervaya zagadka shifr cezara
 
 }
 
-static void command_false(int fd, cJSON *FROM) {
+static void command_false(use_mutex_t *mutex, cJSON *FROM) {
     // commanda ne izvestna
-    write(fd, "Chto eto za slovo?", 19);
+    write(mutex->cli_fd, "Chto eto za slovo?", 19);
 }
 
-static void answer(int fd, cJSON *FROM) {
+static void answer(use_mutex_t *mutex, cJSON *FROM) {
     // poluchaem iz db raiting 
     if (0 == 0) { //left is number of raiting
         //doing something interesting
@@ -33,20 +33,20 @@ static void answer(int fd, cJSON *FROM) {
     else if (3 == 3) {
         //doing something interesting
     }
-    write(fd, "hphah you are so stuped, wrong answer!!", 40);
+    write(mutex->cli_fd, "hphah you are so stuped, wrong answer!!", 40);
 }
 
-void mx_papa_bot(cJSON *FROM, cJSON *MESS, int fd) { //vsegda nado budet otpravliat chto oni v etom chate ili tipa togo chtobi pisat im commands
+void mx_papa_bot(cJSON *FROM, cJSON *MESS, use_mutex_t *mutex) { //vsegda nado budet otpravliat chto oni v etom chate ili tipa togo chtobi pisat im commands
     char *mess = strdup(MESS->valuestring);
 
     if (strcmp(mess, "./mylvl") == 0)
-        mylvl(fd, FROM);
+        mylvl(mutex, FROM);
     else if (strcmp(mess, "./start") == 0)
-        start(fd, FROM);
+        start(mutex, FROM);
     else if (strncmp(mess, "./answer:", 10) == 0) 
-        answer(fd, FROM);
+        answer(mutex, FROM);
     else 
-        command_false(fd, FROM);
+        command_false(mutex, FROM);
 }
 
 

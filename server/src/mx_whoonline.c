@@ -26,7 +26,7 @@ static void adding_sys(cJSON *root) {
     cJSON_AddItemToObject(root,"ONLINE", is_online);
 }
 
-void mx_whoonline(int fd, use_mutex_t *mutex) {
+void mx_whoonline(use_mutex_t *mutex) {
     t_list *online_struct = mx_where_not_1(mutex);
     cJSON *on = cJSON_CreateObject();
     cJSON *who_online = cJSON_CreateArray();
@@ -44,6 +44,6 @@ void mx_whoonline(int fd, use_mutex_t *mutex) {
         cJSON_AddItemToObject(online, "online", str);
         online_struct = online_struct->next;
     }
-    send_online(on, fd);
+    send_online(on, mutex->cli_fd);
     cJSON_Delete(on);
 }

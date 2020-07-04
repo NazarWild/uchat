@@ -1,10 +1,14 @@
-#include "../inc/sqlite.h"
+#include "../inc/uchat.h"
 
 void mx_create_table(char *name_table, char *values_table) {
     char *sql;
+    t_sqlite *lite = malloc(sizeof(t_sqlite));
 
     asprintf(&sql, "CREATE TABLE IF NOT EXISTS %s(%s);", name_table, values_table);
-    mx_sqlite(sql, NULL, NULL, NULL);
+    lite->callback = NULL;
+    lite->data = NULL;
+    lite->sql = sql;
+    mx_sqlite(lite, NULL);
     free(sql);
 }
 

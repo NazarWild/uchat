@@ -10,14 +10,14 @@ static void deleteing_request(cJSON *root, use_mutex_t *mutex) {
     free(str2);
 } 
 
-bool mx_delete(int fd, cJSON *root) {
+bool mx_delete(use_mutex_t *param, cJSON *root) {
     cJSON *delete = cJSON_GetObjectItemCaseSensitive(root, "DELETE");
     int exit;
 
     if (cJSON_IsTrue(delete) == 1) {
         //zapros na udalenie danih SQL
-        deleteing_request(root);
-        write(fd, "Your account was succesful deleted", 35);//pishem chto account udachno udalen
+        deleteing_request(root, param);
+        write(param->cli_fd, "Your account was succesful deleted", 35);//pishem chto account udachno udalen
         return true;
     }
     return false;

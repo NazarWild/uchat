@@ -1,6 +1,6 @@
 #include "../inc/uchat.h"
 
-static bool parse_object(cJSON *root, int fd) {
+static bool parse_object(cJSON *root, use_mutex_t *param) {
     // тут буду смотреть кому сообщение и смотрерть через бд его дескриптор, после чего отсылать сообщение 
     // если дескриптор -1, то пользователь не в сети и буду записывать в бд сообщение сразу 
     // после чего как только он зайдет надо будет подгружать сообщения 
@@ -8,15 +8,15 @@ static bool parse_object(cJSON *root, int fd) {
 
 
     //show who online
-    mx_whoonline(fd);
+    mx_whoonline(param);
 
     //delete account 
-    if (mx_delete(fd, root) == true) {
+    if (mx_delete(param, root) == true) {
         return false;
     }
     
     //send mess and adding to db/ and PAPA_BOT
-    mx_send_mess(root, fd);
+    mx_send_mess(root, param);
 
     cJSON_Delete(root);
     return true;
@@ -24,24 +24,24 @@ static bool parse_object(cJSON *root, int fd) {
 
 static void *some_sending(void *parametr) {
     use_mutex_t *param = (use_mutex_t *) parametr;
-    int fd = param->cli_fd;
+    // fd = param->cli_fd;
     char buff[1024];
     int ret = 0;
     cJSON* request_json = NULL;
 
-    if (mx_registr(fd) == false) //otpravliaem cJSON chto ne poluchilos voiti i zacrivaem potok
+    if (mx_registr(param) == false) //otpravliaem cJSON chto ne poluchilos voiti i zacrivaem potok
         pthread_exit(&ret);
 
     // tut nado podgrughat s db v client
 
-    while(read(fd, buff, 1024) > 0) { //tut budu parsit info from JSON file
+    while(read(param->cli_fd, buff, 1024) > 0) { //tut budu parsit info from JSON file
         
         request_json = cJSON_Parse(buff);
-        if (parse_object(request_json, fd) == false)
+        if (parse_object(request_json, param) == false)
             break;
         bzero(buff, 1024);
     }
-    mx_delete_socket(fd);
+    mx_delete_socket(param);
     printf("EXIT FROM THREAD\n");
     pthread_exit(&ret);
 }
