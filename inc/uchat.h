@@ -78,6 +78,10 @@ typedef struct s_widget_my {
 
     GtkWidget *main_chat;
 
+    GtkWidget *scrolled;
+
+    GtkWidget *choose_user;
+
     //images
     GdkPixbuf *profile_img;
     GdkPixbuf *smile_img;

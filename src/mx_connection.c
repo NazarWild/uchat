@@ -3,13 +3,13 @@
     void theme_1(GtkWidget* widget, void *dat) {
         t_widget_my *widge = (t_widget_my *)dat;
 
-        gtk_css_provider_load_from_path (widge->dark, "src/light.css", NULL);
+        gtk_css_provider_load_from_path (widge->dark, "src/hacker.css", NULL);
     }
 
     void theme_2(GtkWidget* widget, void *dat) {
         t_widget_my *widge = (t_widget_my *)dat;
 
-        gtk_css_provider_load_from_path (widge->dark, "src/theme.css", NULL);
+        gtk_css_provider_load_from_path (widge->dark, "src/default.css", NULL);
     }
 
     void theme_3(GtkWidget* widget, void *dat) {
@@ -131,8 +131,10 @@
         if (atoi(buff) != -1) {
             mx_chat_win(widge);
             g_signal_connect (widge->profile_button, "clicked", G_CALLBACK(profile), widge);
+            g_signal_connect (widge->who_writing, "clicked", G_CALLBACK(theme_2), widge);
             g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
             g_signal_connect (widge->command_line, "activate", G_CALLBACK(send_message), widge);
+            g_signal_connect (widge->achiev, "clicked", G_CALLBACK(theme_1), widge);
             g_signal_connect (widge->setting, "clicked", G_CALLBACK(setting_win), widge);
             pthread_create(&preg, 0, Read, widge);
         }

@@ -11,7 +11,14 @@ static void design_css(t_widget_my *widge) {
     gtk_widget_set_name(widge->theme_2, "theme_2");
     gtk_widget_set_name(widge->theme_3, "theme_3");
     gtk_widget_set_name(widge->win_sett, "win_sett");
+    gtk_widget_set_name(widge->scrolled, "scrolled");
+    gtk_widget_set_name(widge->choose_user, "choose_user");
 }
+
+void relieff_set(t_widget_my *widge) {
+    gtk_button_set_relief(GTK_BUTTON(widge->who_writing), GTK_RELIEF_NONE);
+}
+
 
 void mx_create_widge(t_widget_my *widge) {
     widge->window = GTK_WIDGET(gtk_builder_get_object (widge->builder, "window"));
@@ -70,6 +77,11 @@ void mx_create_widge(t_widget_my *widge) {
 
     widge->main_chat = GTK_WIDGET(gtk_builder_get_object(widge->builder, "main_chat"));
 
+    widge->scrolled = GTK_WIDGET(gtk_builder_get_object(widge->builder, "scrolled"));
+
+    widge->choose_user = GTK_WIDGET(gtk_builder_get_object(widge->builder, "choose_user"));
+
     mx_set_images(widge);
+    // relieff_set(widge);
     design_css(widge);
 }
