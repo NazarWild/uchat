@@ -16,7 +16,13 @@ void mx_tables() {
     mx_create_table("persons_id",
                     "users_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     "login TEXT, "
-                    "pass TEXT ");
+                    "pass TEXT,"
+                    "theme INT,"
+                    "language INT,"
+                    "status TEXT,"
+                    "photo TEXT,"
+                    "fullname TEXT,"
+                    "date_of_birthd TEXT");
     mx_create_table("chats",
                     "chats_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     "chat TEXT NOT NULL");
@@ -39,5 +45,6 @@ void mx_tables() {
     mx_create_table("sockets",
                     "users_id INT, "
                     "socket INT DEFAULT -1, "
+                    "online INT DEFAULT 1, "
                     "FOREIGN KEY(users_id) REFERENCES persons_id(users_id)");
 }

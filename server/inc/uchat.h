@@ -38,6 +38,12 @@ typedef struct s_sqlite {
     void *data;
 } t_sqlite;
 
+typedef struct s_online {
+    char *login;
+    int id;
+    bool online;
+} t_online;
+
 typedef struct use_mutex_tag {
     pthread_mutex_t mutex;
     int cli_fd;
