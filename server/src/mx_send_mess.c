@@ -7,47 +7,43 @@ static int callback_persons_id(void *data, int argc, char **argv, char **ColName
     return 0;
 }
 
-static char *sockets(cJSON* TO, cJSON* FROM, use_mutex_t *mutex) {
+static void sockets(cJSON* TO, cJSON* FROM, cJSON* MESS, use_mutex_t *mutex) {
     char *str1 = NULL;
-    char *str2 = NULL;
-    char *data1 = NULL;
+    char *data = NULL;
     char *data2 = NULL;
 
-    asprintf(&str1, "persons_id where login = '%s'", TO->valuestring);
-    mx_select("users_id", str1, callback_persons_id, &data1, mutex);
-    asprintf(&str2, "persons_id where login = '%s'", FROM->valuestring);
-    mx_select("users_id", str2, callback_persons_id, &data2, mutex);
+    asprintf(&str1, "sockets where users_id = %d", 2);
+    mx_select("socket", str1, callback_persons_id, &data, mutex);
     free(str1);
-    free(str2);
-    return data1;
+    // надо найти у двух юзеров общий чат, если его нет, то создать чат и внести кто туда относится!
+    // asprintf(&str1, "users_chat where users_id = %s AND users_id = %s", TO->valuestring, FROM->valuestring);
+    // mx_select("chats_id", str1, callback_persons_id, &data, mutex);
+    if (data != NULL)
+        write(atoi(data), MESS->valuestring, strlen(MESS->valuestring));
+    
+    //mx_add_message(FROM->valuestring, NULL, MESS->valuestring, 0, mutex);
 }
 
 void mx_send_mess(cJSON *root, use_mutex_t *mutex) {
     cJSON* FROM = cJSON_GetObjectItemCaseSensitive(root, "FROM");
     cJSON* TO = cJSON_GetObjectItemCaseSensitive(root, "TO");
     cJSON* MESS = cJSON_GetObjectItemCaseSensitive(root, "MESS");
+    cJSON* TYPE = cJSON_GetObjectItemCaseSensitive(root, "TYPE");
 
-    write(1, "He send this: ", 16);
+    write(1, "He send this: ", 14);
     write(1, MESS->valuestring, strlen(MESS->valuestring)); 
+    write(1, "\n", 1);
 
     if (cJSON_IsString(FROM) && (FROM->valuestring != NULL) 
         && cJSON_IsString(TO) && (TO->valuestring != NULL)
-        && cJSON_IsString(MESS) && (MESS->valuestring != NULL)) {
+        && cJSON_IsString(MESS) && (MESS->valuestring != NULL)
+        && strcmp("text", TYPE->valuestring) == 0) {
         if (strcmp(TO->valuestring, "PAPA_BOT") == 0) {
             mx_papa_bot(FROM, MESS, mutex);
             return ;
         }
-        sockets(TO, FROM, mutex);
-    //     if (data == NULL) {
-    //         //adding mess, to database 
-    //         //mx_add_mess(FROM->valuestring, ,MESS->valuestring, 1);
-            
-    //         return ;
-    //     }
-    //     write(atoi(data), MESS->valuestring, strlen(MESS->valuestring));
-    //     //adding mess to database
-    //     //mx_add_mess(FROM->valuestring, , MESS->valuestring, 1);
-    // }
-    // free(data);
-        }
+        sockets(TO, FROM, MESS,mutex);
+    }
+    else 
+        mx_file_type(root, mutex);
 }

@@ -66,7 +66,7 @@ t_list *mx_where_not_1(use_mutex_t *mutex);
 void mx_pop_front(t_list **head);
 t_list *mx_create_node(void *data);
 void mx_push_front(t_list **list, void *data);
-void mx_add_mess(char *login, char *chats, char *text, int type_text, use_mutex_t *mutex);
+void mx_add_message(char *login, int chats_id, char *text, int type_text, use_mutex_t *mutex);
 void mx_delete_from_db(char *name_table, char *condition, use_mutex_t *mutex);
 
 int main(int argc, char *argv[]);
@@ -80,6 +80,10 @@ void mx_whoonline(use_mutex_t *param);
 void mx_papa_bot(cJSON *FROM, cJSON *MESS, use_mutex_t *mutex);
 bool mx_delete(use_mutex_t *param, cJSON *root);
 void mx_delete_socket(use_mutex_t *param);
+void mx_free_online(t_list *online_struct);
+void mx_file_type(cJSON *root, use_mutex_t *mutex);
+char *mx_strjoin(const char *s1, const char *s2);
+char *mx_strnew(const int size);
 
 
 

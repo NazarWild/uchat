@@ -4,7 +4,6 @@ static void send_online(cJSON *ON, int fd) {
     char *string = cJSON_Print(ON);
 
     write(1, string, strlen(string));
-    exit(0);
     write(fd, string, strlen(string));
     free(string);
 }
@@ -32,7 +31,7 @@ static void adding_param(cJSON *online, t_online *arr_users) {
     cJSON *user_id = NULL;
     cJSON *online_bool = NULL;
 
-    user_id = cJSON_CreateString( arr_users->id);
+    user_id = cJSON_CreateString( mx_itoa(arr_users->id));
     cJSON_AddItemToObject(online, "user_id", user_id);
     if (arr_users->online == true) 
         online_bool = cJSON_CreateTrue();
@@ -42,7 +41,8 @@ static void adding_param(cJSON *online, t_online *arr_users) {
 }
 
 void mx_whoonline(use_mutex_t *mutex) {
-    t_list *online_struct = mx_where_not_1(mutex);
+    t_list *tmp = mx_where_not_1(mutex);
+    t_list *online_struct = tmp;
     cJSON *on = cJSON_CreateObject();
     cJSON *users = cJSON_CreateArray();
     cJSON *online = NULL;
@@ -60,9 +60,10 @@ void mx_whoonline(use_mutex_t *mutex) {
         cJSON_AddItemToArray(users, online);
         str = cJSON_CreateString( struco->login);
         cJSON_AddItemToObject(online, "login", str);
-        
+        adding_param(online, struco);
         online_struct = online_struct->next;
     }
     send_online(on, mutex->cli_fd);
+    mx_free_online(tmp);
     cJSON_Delete(on);
 }
