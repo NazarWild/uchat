@@ -5,16 +5,11 @@ static bool parse_object(cJSON *root, use_mutex_t *param) {
     // если дескриптор -1, то пользователь не в сети и буду записывать в бд сообщение сразу 
     // после чего как только он зайдет надо будет подгружать сообщения 
 
-
-
     //show who online
     mx_whoonline(param);
-
     //delete account 
-    if (mx_delete(param, root) == true) {
+    if (mx_delete(param, root) == true)
         return false;
-    }
-    
     //send mess and adding to db/ and PAPA_BOT
     mx_send_mess(root, param);
 
@@ -24,7 +19,7 @@ static bool parse_object(cJSON *root, use_mutex_t *param) {
 
 static void *some_sending(void *parametr) {
     use_mutex_t *param = (use_mutex_t *) parametr;
-    char buff[1024];
+    char buff[200000];
     int ret = 0;
     cJSON* request_json = NULL;
 
@@ -32,8 +27,9 @@ static void *some_sending(void *parametr) {
         pthread_exit(&ret);
 
     // tut nado podgrughat s db v client
+    //mx_whoonline(param);
 
-    while(read(param->cli_fd, buff, 1024) > 0) { //tut budu parsit info from JSON file
+    while(read(param->cli_fd, buff, 200000) > 0) { //tut budu parsit info from JSON file
         
         request_json = cJSON_Parse(buff);
         if (parse_object(request_json, param) == false)

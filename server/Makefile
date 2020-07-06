@@ -16,6 +16,10 @@ FILES = u_server \
 		mx_papa_bot \
 		mx_delete \
 		mx_delete_socket \
+		mx_free_online \
+		mx_file_type \
+		mx_strjoin \
+		mx_strnew \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
