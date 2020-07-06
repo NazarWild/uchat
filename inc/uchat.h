@@ -20,6 +20,13 @@
 #define PORT 6969
 #define USERS 200
 
+typedef struct s_list {
+    char *login;
+    char *id;
+    bool online;
+    struct s_list *next;
+}              t_list;
+
 typedef struct s_widget_my {
     GtkBuilder *builder;
 
@@ -121,6 +128,9 @@ typedef struct s_widget_my {
     char *res_png;
     int port;
     char *ip;
+    char *filename;
+    int bytes;
+    t_list *login_id;
 }              t_widget_my;
 
 int mx_log_in(char *login, char *pass, t_widget_my *widge);
@@ -138,4 +148,6 @@ void mx_set_images(t_widget_my *widge);
 void mx_profile_gtk(t_widget_my *widge);
 void mx_profile_photo_box(t_widget_my *widge);
 bool mx_parse_sign_in(t_widget_my *widge, char *log, char *pass, char *rpt);
+
+void mx_dialog_open(t_widget_my *widge);
 #endif
