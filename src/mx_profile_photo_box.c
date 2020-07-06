@@ -1,5 +1,7 @@
 #include "../inc/uchat.h"
 
+//https://lms.ucode.world/api/media/profile_photo/login.png
+
 void girl1(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     GtkWidget *girl1 = gtk_image_new_from_file("img_chat/res/girl1.png");

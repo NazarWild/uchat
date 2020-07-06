@@ -40,18 +40,35 @@ static void send_message(GtkWidget* widget, void *dat) {
     }
     else {
         mx_message_to(widge, message);
-        asprintf(&str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\"}\n", widge->login, widge->to, message); //записываем в строку данные для Лехи
+        asprintf(&str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\"}\n", widge->login, widge->to, message); //записываем в строку данные для Лехи
+        write(1, str, strlen(str));
         write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
         gtk_entry_set_text(GTK_ENTRY(widge->command_line), ""); //обнуляем вводимую строку, следовательно обнуляеться message
     }
 }
 
 static bool if_online(cJSON *js) {
-    cJSON *online = cJSON_GetObjectItemCaseSensitive(js, "ONLINE");
+    cJSON *online = cJSON_GetObjectItemCaseSensitive(js, "USERS");
 
     if(cJSON_IsTrue(online) == 1)
         return false;
     return true;
+}
+
+void mx_pop_front(t_list **head) {
+    t_list *first = *head;
+    *head = (*head)->next;
+    free(first->login);
+    free(first->id);
+    first->login = NULL;
+    first->id = NULL;
+}
+
+void free_list(t_list **head) {
+    while(*head) {
+        mx_pop_front(head);
+        (*head) = (*head)->next;
+    }
 }
 
 static void *Read(void *dat) {
@@ -59,26 +76,37 @@ static void *Read(void *dat) {
     char *buff = (char *)malloc(1024);
     int len;
     cJSON *json;
-    cJSON *users = NULL;
+    cJSON *user = NULL;
     cJSON *peoples = NULL;
     cJSON *user_id;
     cJSON *login;
     cJSON *online;
+    t_list *p = widge->login_id;
 
     while(1) {
         len = read(widge->sockfd, buff, 1024);
         json = cJSON_Parse(buff);
-        if (if_online(json))
+        //if (if_online(json))
             mx_message_to(widge, buff);
-        else {
-            users = cJSON_GetObjectItemCaseSensitive(json, "who_online");//""
-            cJSON_ArrayForEach(peoples, users) {
-                //login = cJSON_GetObjectItemCaseSensitive(peoples, "login");
-                //user_id = cJSON_GetObjectItemCaseSensitive(peoples, "id");
-                online = cJSON_GetObjectItemCaseSensitive(peoples, "online");
-                mx_create_friend(widge, online->valuestring);
-            }
-        }
+        // else {
+        //     //free_list(&widge->login_id);
+        //     user = cJSON_GetObjectItemCaseSensitive(json, "user");
+        //     cJSON_ArrayForEach(peoples, user) { 
+        //         login = cJSON_GetObjectItemCaseSensitive(peoples, "login");
+        //         user_id = cJSON_GetObjectItemCaseSensitive(peoples, "user_id");
+        //         //online = cJSON_GetObjectItemCaseSensitive(peoples, "online");
+        //         write(1, login->valuestring, strlen(login->valuestring));
+        //         write(1, "\n", 1);
+        //         write(1, user_id->valuestring, strlen(user_id->valuestring));
+        //         write(1, "\n", 1);
+
+        //         //p->online = cJSON_IsTrue(online);
+        //         p->login = strdup(login->valuestring);
+        //         p->id = strdup(user_id->valuestring);
+        //         mx_create_friend(widge, login->valuestring);
+        //         p = p->next;
+        //     }
+        // }
         cJSON_Delete(json);
     }
     int exit;
@@ -88,6 +116,8 @@ static void *Read(void *dat) {
 
 void profile(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
+    t_list *p = widge->login_id;
+
     mx_profile_gtk(widge);
 }
 

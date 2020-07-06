@@ -1,5 +1,37 @@
 #include "../inc/uchat.h"
 
+static bool parsing_profile_data(t_widget_my *widge, char *birth) {
+    int i = 0;
+    int day;
+    int month;
+    int year;
+
+    if (strlen(birth) == 10) {
+        day = (birth[0] - 48) * 10 + (birth[1] - 48);
+        month = (birth[3] - 48) * 10 + (birth[4] - 48);
+        year = atoi(&birth[6]);
+        if (birth[2] != '.' || birth[5] != '.') {
+            gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "[dd.mm.year]");
+            return false;
+        }
+        if (day > 31 && day <= 0) {
+            gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "INVALID NUMBER OF DAY");
+            return false;
+        }
+        if (month > 12 && month <= 0) {
+            gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "INVALID NUMBER OF MONTH");
+            return false;
+        }
+        if (year > 2020 && year <= 0) {
+            gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "INVALID NUMBER OF YEAR");
+            return false;
+        }
+        printf("day = %d month = %d year = %d\n", day, month, year);
+    }
+
+    return true;
+}
+
 void func(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
 
@@ -8,11 +40,14 @@ void func(GtkWidget* widget, void *data) {
     const gchar *birth = gtk_entry_get_text(GTK_ENTRY(widge->birth_entry));
     char *statu = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(widge->status));
 
-    printf("fullname = %s\n", full);
-    printf("nickname = %s\n", nick);
-    printf("birth = %s\n", birth);
-    printf("status = %s\n", statu);
-    printf("res = %s\n", widge->res_png);
+    //printf("fullname = %s\n", full);
+    //printf("nickname = %s\n", nick);
+    if (!parsing_profile_data(widge, (char *) birth))
+        printf("birth = %s\n", birth);
+    else
+        printf("HUI TEBE\n");
+    //printf("status = %s\n", statu);
+    //printf("res = %s\n", widge->res_png);
     //gtk_entry_set_text(GTK_ENTRY(widge->fullname_entry), "");
     //gtk_entry_set_text(GTK_ENTRY(widge->nickname_entry), "");
     //gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "");
@@ -71,7 +106,7 @@ void mx_profile_gtk(t_widget_my *widge) {
     label = gtk_label_new("STATUS");
     full = gtk_label_new("FULLNAME");
     nick = gtk_label_new("NICKNAME");
-    birth = gtk_label_new("DATE OF BIRTH");
+    birth = gtk_label_new("DATE OF BIRTH\n   (dd.mm.year)");
     status = gtk_combo_box_text_new();
     gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(status), "1", "SINGLE");
     gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(status), "2", "IN LOVE");
