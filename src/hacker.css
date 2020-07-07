@@ -64,9 +64,9 @@ button label {
     background-image: linear-gradient(rgb(255, 255, 255), rgb(0, 255, 221));
 }
 
-#win_sett {
+/* #win_sett {
     background-image: linear-gradient(rgba(255, 255, 255, 0.521), rgba(255, 255, 255, 0.685));
-}
+} */
 
 #choose_user {
     background-image: linear-gradient(rgba(0, 0, 0, 0.801), rgba(0, 0, 0, 0.699));

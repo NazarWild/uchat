@@ -9,7 +9,7 @@ FILES = mx_log_in \
 	mx_create_widge \
 	main \
 	mx_profile_gtk \
-	mx_profile_photo_box \
+	mx_photo_set \
 	mx_message_to \
 	mx_message_from \
 	mx_parse_sign_in \

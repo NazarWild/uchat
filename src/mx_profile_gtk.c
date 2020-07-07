@@ -1,5 +1,11 @@
 #include "../inc/uchat.h"
 
+void profile_exit(GtkWidget* widget, void *data) {
+    t_widget_my *widge = (t_widget_my *)data;
+
+    widge->on_profile = 0;
+}
+
 static bool parsing_profile_data(t_widget_my *widge, char *birth) {
     int i = 0;
     int day;
@@ -11,24 +17,30 @@ static bool parsing_profile_data(t_widget_my *widge, char *birth) {
         month = (birth[3] - 48) * 10 + (birth[4] - 48);
         year = atoi(&birth[6]);
         if (birth[2] != '.' || birth[5] != '.') {
-            gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "[dd.mm.year]");
+            gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "");
+            gtk_entry_set_placeholder_text(GTK_ENTRY(widge->birth_entry), "[dd.mm.year]");
             return false;
         }
-        if (day > 31 && day <= 0) {
-            gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "INVALID NUMBER OF DAY");
+        if (day > 31 || day <= 0) {
+            gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "");
+            gtk_entry_set_placeholder_text(GTK_ENTRY(widge->birth_entry), "INVALID NUMBER OF DAY");
+            // gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "INVALID NUMBER OF DAY");
             return false;
         }
-        if (month > 12 && month <= 0) {
-            gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "INVALID NUMBER OF MONTH");
+        if (month > 12 || month <= 0) {
+            gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "");
+            gtk_entry_set_placeholder_text(GTK_ENTRY(widge->birth_entry), "INVALID NUMBER OF MONTH");
             return false;
         }
-        if (year > 2020 && year <= 0) {
-            gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "INVALID NUMBER OF YEAR");
+        if (year > 2020 || year <= 0) {
+            gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "");
+            gtk_entry_set_placeholder_text(GTK_ENTRY(widge->birth_entry), "INVALID NUMBER OF YEAR");
             return false;
         }
         printf("day = %d month = %d year = %d\n", day, month, year);
     }
-
+    else
+        return false;
     return true;
 }
 
@@ -42,10 +54,8 @@ void func(GtkWidget* widget, void *data) {
 
     //printf("fullname = %s\n", full);
     //printf("nickname = %s\n", nick);
-    if (!parsing_profile_data(widge, (char *) birth))
+    if (parsing_profile_data(widge, (char *) birth))
         printf("birth = %s\n", birth);
-    else
-        printf("HUI TEBE\n");
     //printf("status = %s\n", statu);
     //printf("res = %s\n", widge->res_png);
     //gtk_entry_set_text(GTK_ENTRY(widge->fullname_entry), "");
@@ -53,14 +63,15 @@ void func(GtkWidget* widget, void *data) {
     //gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "");
 }
 
+void set_photo(GtkWidget* widget, void *data) {
+    t_widget_my *widge = (t_widget_my *)data;
+    
+    mx_photo_set(widge);
+}
+
 void delete(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
 
-}
-
-void profile_photo(GtkWidget* widget, void *data) {
-    t_widget_my *widge = (t_widget_my *)data;
-    mx_profile_photo_box(widge);
 }
 
 void logout(GtkWidget* widget, void *data) {
@@ -69,7 +80,6 @@ void logout(GtkWidget* widget, void *data) {
 }
 
 void mx_profile_gtk(t_widget_my *widge) {
-    GtkWidget *window;
     GtkWidget *save;
     GtkWidget *delete_b;//button
     GtkWidget *logout_b;//button
@@ -82,9 +92,12 @@ void mx_profile_gtk(t_widget_my *widge) {
     GtkWidget *birth_entry;//entry
     GtkWidget *nick_entry;//entry
     GtkWidget *full_entry;//entry
+    GtkWidget *anon = gtk_image_new_from_file("img_chat/anonym.png");
     GtkWidget *png = gtk_button_new();
-    widge->profile_photo_button = png;
 
+    gtk_button_set_image(GTK_BUTTON(png), anon);
+    widge->profile_photo_button = png;
+    widge->res_png = "img_chat/anonym.png";
     GtkWidget *sep_h1 = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
     GtkWidget *sep_h2 = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
     GtkWidget *sep_h3 = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
@@ -97,9 +110,14 @@ void mx_profile_gtk(t_widget_my *widge) {
     GtkWidget *box2 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
     GtkWidget *box3 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
 
-    window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_default_size(GTK_WINDOW(window), 600, 400);
-    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER_ALWAYS);
+    widge->window_profile = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+
+    gtk_window_set_default_size(GTK_WINDOW(widge->window_profile), 600, 400);
+    gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
+    gtk_window_move(GTK_WINDOW(widge->window_profile), widge->window_x + 100, widge->window_y + 72);
+    // gtk_widget_hide(widge->chat);
+
+    // gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER_ALWAYS);
     nick_entry = gtk_entry_new();
     full_entry = gtk_entry_new();
     birth_entry = gtk_entry_new();
@@ -154,7 +172,8 @@ void mx_profile_gtk(t_widget_my *widge) {
     g_signal_connect(save, "clicked", G_CALLBACK(func), widge);
     g_signal_connect(delete_b, "clicked", G_CALLBACK(delete), widge);
     g_signal_connect(logout_b, "clicked", G_CALLBACK(logout), widge);
-    g_signal_connect(png, "clicked", G_CALLBACK(profile_photo), widge);
-    gtk_container_add (GTK_CONTAINER (window), box);
-    gtk_widget_show_all (window);
+    g_signal_connect(png, "clicked", G_CALLBACK(set_photo), widge);
+    g_signal_connect(widge->window_profile, "destroy", G_CALLBACK(profile_exit), widge);
+    gtk_container_add (GTK_CONTAINER (widge->window_profile), box);
+    gtk_widget_show_all (widge->window_profile);
 }
