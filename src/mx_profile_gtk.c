@@ -28,7 +28,8 @@ static bool parsing_profile_data(t_widget_my *widge, char *birth) {
         }
         printf("day = %d month = %d year = %d\n", day, month, year);
     }
-
+    else
+        return false;
     return true;
 }
 
@@ -42,10 +43,8 @@ void func(GtkWidget* widget, void *data) {
 
     //printf("fullname = %s\n", full);
     //printf("nickname = %s\n", nick);
-    if (!parsing_profile_data(widge, (char *) birth))
+    if (parsing_profile_data(widge, (char *) birth))
         printf("birth = %s\n", birth);
-    else
-        printf("HUI TEBE\n");
     //printf("status = %s\n", statu);
     //printf("res = %s\n", widge->res_png);
     //gtk_entry_set_text(GTK_ENTRY(widge->fullname_entry), "");
@@ -53,14 +52,15 @@ void func(GtkWidget* widget, void *data) {
     //gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "");
 }
 
+void set_photo(GtkWidget* widget, void *data) {
+    t_widget_my *widge = (t_widget_my *)data;
+    
+    mx_photo_set(widge);
+}
+
 void delete(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
 
-}
-
-void profile_photo(GtkWidget* widget, void *data) {
-    t_widget_my *widge = (t_widget_my *)data;
-    mx_profile_photo_box(widge);
 }
 
 void logout(GtkWidget* widget, void *data) {
@@ -82,9 +82,12 @@ void mx_profile_gtk(t_widget_my *widge) {
     GtkWidget *birth_entry;//entry
     GtkWidget *nick_entry;//entry
     GtkWidget *full_entry;//entry
+    GtkWidget *anon = gtk_image_new_from_file("img_chat/anonym.png");
     GtkWidget *png = gtk_button_new();
-    widge->profile_photo_button = png;
 
+    gtk_button_set_image(GTK_BUTTON(png), anon);
+    widge->profile_photo_button = png;
+    widge->res_png = "img_chat/anonym.png";
     GtkWidget *sep_h1 = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
     GtkWidget *sep_h2 = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
     GtkWidget *sep_h3 = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
@@ -154,7 +157,7 @@ void mx_profile_gtk(t_widget_my *widge) {
     g_signal_connect(save, "clicked", G_CALLBACK(func), widge);
     g_signal_connect(delete_b, "clicked", G_CALLBACK(delete), widge);
     g_signal_connect(logout_b, "clicked", G_CALLBACK(logout), widge);
-    g_signal_connect(png, "clicked", G_CALLBACK(profile_photo), widge);
+    g_signal_connect(png, "clicked", G_CALLBACK(set_photo), widge);
     gtk_container_add (GTK_CONTAINER (window), box);
     gtk_widget_show_all (window);
 }

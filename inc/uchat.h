@@ -146,7 +146,7 @@ void mx_create_friend(t_widget_my *widge, const gchar *text);
 void mx_set_images(t_widget_my *widge);
 
 void mx_profile_gtk(t_widget_my *widge);
-void mx_profile_photo_box(t_widget_my *widge);
+void mx_photo_set(t_widget_my *widge);
 bool mx_parse_sign_in(t_widget_my *widge, char *log, char *pass, char *rpt);
 
 void mx_dialog_open(t_widget_my *widge);
