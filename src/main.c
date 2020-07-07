@@ -4,6 +4,7 @@ int main(int argc, char *argv[]) {
     t_widget_my *widge = (t_widget_my *)malloc(sizeof(t_widget_my));
     widge->id_friend = 0;
     widge->color_mode = 0;
+    widge->on_profile = 0;
 
     GError *error = NULL;
 
@@ -47,6 +48,8 @@ int main(int argc, char *argv[]) {
     
 
     gtk_main ();
-    //system("leaks -q klient");
+    // free(widge->main_chat);
+    // free(widge);
+    // system("leaks -q uchat");
     return 0;
 }

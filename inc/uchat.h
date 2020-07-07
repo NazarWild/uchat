@@ -89,6 +89,12 @@ typedef struct s_widget_my {
 
     GtkWidget *choose_user;
 
+    gint window_x;
+    gint window_y;
+    GtkWidget *window_profile;
+    
+    int on_profile;
+
     //images
     GdkPixbuf *profile_img;
     GdkPixbuf *smile_img;

@@ -26,7 +26,6 @@ button:active {
 
 #return_sign_in {
     border-radius: 30px;
-    /* border-color: rgb(32, 177, 39); */
     border-width: 2px;
 }
 
@@ -43,6 +42,7 @@ button:active {
 }
 
 #list_box {
+    /* background-image: url("/Users/opoliarenk/Desktop/ndykyy.png"); */
     background-image: linear-gradient(rgba(221, 152, 235, 0.527), rgba(178, 193, 233, 0.521));
 }
 
@@ -51,16 +51,16 @@ button:active {
 }
 
 #theme_2 {
-    background-image: linear-gradient(rgb(147, 180, 185), rgba(190, 209, 81, 0.877));
+    background-image: linear-gradient(rgb(0, 0, 0), rgba(0, 0, 0, 0.329));
 }
 
 #theme_3 {
     background-image: linear-gradient(rgb(255, 255, 255), rgb(0, 255, 221));
 }
 
-#win_sett {
+/* #win_sett {
     background-image: linear-gradient(rgba(255, 255, 255, 0.521), rgba(255, 255, 255, 0.685));
-}
+} */
 
 #choose_user {
     background-image: linear-gradient(rgba(221, 152, 235, 0.527), rgba(178, 193, 233, 0.521));
