@@ -1,5 +1,11 @@
 #include "../inc/uchat.h"
 
+void send_file(GtkWidget* widget, void *dat) {
+    t_widget_my *widge = (t_widget_my *)dat;
+
+    mx_dialog_open(widge);
+}
+
 void theme_1(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
@@ -22,7 +28,7 @@ void theme_3(GtkWidget* widget, void *dat) {
 
 void setting_win(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
-    mx_dialog_open(widge);
+
     g_signal_connect (widge->theme_1, "clicked", G_CALLBACK(theme_1), widge);
     g_signal_connect (widge->theme_2, "clicked", G_CALLBACK(theme_2), widge);
     g_signal_connect (widge->theme_3, "clicked", G_CALLBACK(theme_3), widge);
@@ -116,9 +122,13 @@ static void *Read(void *dat) {
 
 void profile(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
-    t_list *p = widge->login_id;
 
-    mx_profile_gtk(widge);
+    if (widge->on_profile == 0) {
+        t_list *p = widge->login_id;
+
+        widge->on_profile = 1;
+        mx_profile_gtk(widge);
+    }
 }
 
 void mx_connection(t_widget_my *widge) {
@@ -166,6 +176,7 @@ void mx_connection(t_widget_my *widge) {
         g_signal_connect (widge->command_line, "activate", G_CALLBACK(send_message), widge);
         g_signal_connect (widge->achiev, "clicked", G_CALLBACK(theme_1), widge);
         g_signal_connect (widge->setting, "clicked", G_CALLBACK(setting_win), widge);
+        g_signal_connect (widge->file_button, "clicked", G_CALLBACK(send_file), widge);
         pthread_create(&preg, 0, Read, widge);
     }
     else {
