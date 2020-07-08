@@ -19,7 +19,7 @@ static bool parse_object(cJSON *root, use_mutex_t *param) {
 
 static void *some_sending(void *parametr) {
     use_mutex_t *param = (use_mutex_t *) parametr;
-    char buff[200000];
+    char buff[2048];
     int ret = 0;
     cJSON* request_json = NULL;
 
@@ -28,8 +28,10 @@ static void *some_sending(void *parametr) {
 
     // tut nado podgrughat s db v client
     //mx_whoonline(param);
+    //posle chego podgrugat vse chati, to est CHATS:
+    //mx_chats_send(param);
 
-    while(read(param->cli_fd, buff, 200000) > 0) { //tut budu parsit info from JSON file
+    while(read(param->cli_fd, buff, 2048) > 0) { //tut budu parsit info from JSON file
         request_json = cJSON_Parse(buff);
         if (parse_object(request_json, param) == false)
             break;

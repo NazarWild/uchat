@@ -33,7 +33,9 @@ static void adding_param(cJSON *online, t_online *arr_users) {
 
     user_id = cJSON_CreateString( mx_itoa(arr_users->id));
     cJSON_AddItemToObject(online, "user_id", user_id);
-    if (arr_users->online == true) 
+    printf("id of user: %d\n",arr_users->id);
+    printf("online: %d\n",arr_users->online);
+    if (arr_users->online == 1) 
         online_bool = cJSON_CreateTrue();
     else 
         online_bool = cJSON_CreateFalse();
