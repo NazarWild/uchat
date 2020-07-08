@@ -38,7 +38,7 @@
             <child>
               <object class="GtkButton" id="theme_1">
                 <property name="width_request">80</property>
-                <property name="height_request">50</property>
+                <property name="height_request">60</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -51,26 +51,26 @@
             <child>
               <object class="GtkButton" id="theme_2">
                 <property name="width_request">80</property>
-                <property name="height_request">50</property>
+                <property name="height_request">60</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
-                <property name="x">240</property>
+                <property name="x">250</property>
                 <property name="y">10</property>
               </packing>
             </child>
             <child>
               <object class="GtkButton" id="theme_3">
                 <property name="width_request">80</property>
-                <property name="height_request">50</property>
+                <property name="height_request">60</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
-                <property name="x">330</property>
+                <property name="x">350</property>
                 <property name="y">10</property>
               </packing>
             </child>
@@ -379,7 +379,7 @@
                 <child>
                   <object class="GtkEntry" id="command_line">
                     <property name="name">re</property>
-                    <property name="width_request">400</property>
+                    <property name="width_request">402</property>
                     <property name="height_request">35</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -391,7 +391,7 @@
                     <property name="primary_icon_pixbuf">../img_chat/arrow.png</property>
                   </object>
                   <packing>
-                    <property name="x">115</property>
+                    <property name="x">114</property>
                     <property name="y">9.9</property>
                   </packing>
                 </child>

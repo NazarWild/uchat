@@ -1,6 +1,12 @@
 
 #message_to {
-    color: black;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8));
+    box-shadow: none;
+    text-shadow: none;
+}
+
+#message_to label {
+    color: rgb(26, 89, 97);
 }
 
 window {
@@ -8,7 +14,7 @@ window {
 }
 
 button {
-    background-image: linear-gradient(rgb(189, 170, 170), rgb(189, 170, 170));
+    background-image: linear-gradient(rgba(37, 33, 33, 0.550), rgba(37, 33, 33, 0.550));
     border-radius: 10px;
     border-width: 0px;
     box-shadow: none;
@@ -17,7 +23,12 @@ button {
 
 button:active {
     box-shadow: none;
-    background-image: linear-gradient(rgb(128, 111, 111), rgb(168, 146, 146));
+    background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8));
+}
+
+button image {
+    box-shadow: none;
+    text-shadow: none;
 }
 
 button label {
@@ -49,20 +60,21 @@ button label {
 }
 
 #list_box {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.801), rgba(0, 0, 0, 0.699));
+    background-image: url("/Users/opoliarenk/Desktop/chat/img_chat/wallpaper/2.jpg");
+    /* background-image: linear-gradient(rgba(37, 33, 33, 0.801), rgba(37, 33, 33, 0.801)); */
 }
-
+/* 
 #theme_1 {
-    background-image: linear-gradient(rgba(221, 152, 235, 0.527), rgba(178, 193, 233, 0.521));
+    background-image: url("/Users/opoliarenk/Desktop/chat/img_chat/wallpaper/2.jpg");
 }
 
 #theme_2 {
-    background-image: linear-gradient(rgb(147, 180, 185), rgba(190, 209, 81, 0.877));
+    background-image: url("/Users/opoliarenk/Desktop/chat/img_chat/wallpaper/wall.jpg");
 }
 
 #theme_3 {
     background-image: linear-gradient(rgb(255, 255, 255), rgb(0, 255, 221));
-}
+} */
 
 /* #win_sett {
     background-image: linear-gradient(rgba(255, 255, 255, 0.521), rgba(255, 255, 255, 0.685));
@@ -70,4 +82,13 @@ button label {
 
 #choose_user {
     background-image: linear-gradient(rgba(0, 0, 0, 0.801), rgba(0, 0, 0, 0.699));
+}
+
+/* label {
+    color: #ffffff;
+} */
+
+#row {
+    margin-top: 5px;
+    padding-right: 5px;
 }

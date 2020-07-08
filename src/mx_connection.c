@@ -93,7 +93,7 @@ static void *Read(void *dat) {
         len = read(widge->sockfd, buff, 1024);
         json = cJSON_Parse(buff);
         //if (if_online(json))
-            mx_message_to(widge, buff);
+            mx_message_from(widge, buff);
         // else {
         //     //free_list(&widge->login_id);
         //     user = cJSON_GetObjectItemCaseSensitive(json, "user");
