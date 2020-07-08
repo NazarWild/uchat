@@ -102,6 +102,14 @@ typedef struct s_widget_my {
     GdkPixbuf *file_img;
     GdkPixbuf *achiev_img;
     GdkPixbuf *setting_img;
+    GdkPixbuf *wallpaper1_img;
+    GdkPixbuf *wallpaper2_img;
+    GdkPixbuf *wallpaper3_img;
+    GdkPixbuf *wallpaper4_img;
+    GdkPixbuf *wallpaper5_img;
+    GdkPixbuf *wallpaper6_img;
+    GdkPixbuf *wallpaper7_img;
+    GdkPixbuf *wallpaper8_img;
 
     GtkWidget *profile_icon;
     GtkWidget *smile_icon;
@@ -109,6 +117,14 @@ typedef struct s_widget_my {
     GtkWidget *file_icon;
     GtkWidget *achiev_icon;
     GtkWidget *setting_icon;
+    GtkWidget *wallpaper1_icon;
+    GtkWidget *wallpaper2_icon;
+    GtkWidget *wallpaper3_icon;
+    GtkWidget *wallpaper4_icon;
+    GtkWidget *wallpaper5_icon;
+    GtkWidget *wallpaper6_icon;
+    GtkWidget *wallpaper7_icon;
+    GtkWidget *wallpaper8_icon;
     //
 
     //ndykyy
