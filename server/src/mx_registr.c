@@ -28,6 +28,7 @@ static void set_socket(int fd, char *log, use_mutex_t *mutex) {
     free(new);
     asprintf(&new, "%s, %s", users_id, ita);
     mx_add_to_table("sockets", "users_id, socket", new, mutex);
+    mutex->user_id = atoi(users_id);
 
     free(new);
     free(ita);
