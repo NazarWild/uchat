@@ -19,7 +19,7 @@ void mx_photo_set(t_widget_my *widge) {
         printf("filename = %s\n", filename);
         GtkWidget *photo = gtk_image_new_from_file(filename);
 
-        widge->res_png = "img_chat/res/girl3.png";
+        widge->res_png = filename;
         gtk_button_set_image(GTK_BUTTON(widge->profile_photo_button), photo);
         g_free (filename);
     }

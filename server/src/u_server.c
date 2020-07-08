@@ -30,7 +30,6 @@ static void *some_sending(void *parametr) {
     //mx_whoonline(param);
 
     while(read(param->cli_fd, buff, 200000) > 0) { //tut budu parsit info from JSON file
-        
         request_json = cJSON_Parse(buff);
         if (parse_object(request_json, param) == false)
             break;

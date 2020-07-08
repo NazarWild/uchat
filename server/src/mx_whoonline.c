@@ -4,7 +4,7 @@ static void send_online(cJSON *ON, int fd) {
     char *string = cJSON_Print(ON);
 
     write(1, string, strlen(string));
-    write(fd, string, strlen(string));
+    write(fd, string, 1024); //nd
     free(string);
 }
 

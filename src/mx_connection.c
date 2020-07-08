@@ -46,7 +46,7 @@ static void send_message(GtkWidget* widget, void *dat) {
     }
     else {
         mx_message_to(widge, message);
-        asprintf(&str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\"}\n", widge->login, widge->to, message); //записываем в строку данные для Лехи
+        asprintf(&str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\",\"BYTES\":%lu}\n", widge->login, widge->to, message, strlen(str));
         write(1, str, strlen(str));
         write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
         gtk_entry_set_text(GTK_ENTRY(widge->command_line), ""); //обнуляем вводимую строку, следовательно обнуляеться message
@@ -92,27 +92,28 @@ static void *Read(void *dat) {
     while(1) {
         len = read(widge->sockfd, buff, 1024);
         json = cJSON_Parse(buff);
-        //if (if_online(json))
+        if (if_online(json))
             mx_message_to(widge, buff);
-        // else {
-        //     //free_list(&widge->login_id);
-        //     user = cJSON_GetObjectItemCaseSensitive(json, "user");
-        //     cJSON_ArrayForEach(peoples, user) { 
-        //         login = cJSON_GetObjectItemCaseSensitive(peoples, "login");
-        //         user_id = cJSON_GetObjectItemCaseSensitive(peoples, "user_id");
-        //         //online = cJSON_GetObjectItemCaseSensitive(peoples, "online");
-        //         write(1, login->valuestring, strlen(login->valuestring));
-        //         write(1, "\n", 1);
-        //         write(1, user_id->valuestring, strlen(user_id->valuestring));
-        //         write(1, "\n", 1);
+        else {
+            //free_list(&widge->login_id);
+            user = cJSON_GetObjectItemCaseSensitive(json, "user");
+            cJSON_ArrayForEach(peoples, user) { 
+                login = cJSON_GetObjectItemCaseSensitive(peoples, "login");
+                user_id = cJSON_GetObjectItemCaseSensitive(peoples, "user_id");
+                online = cJSON_GetObjectItemCaseSensitive(peoples, "online");
+                write(1, login->valuestring, strlen(login->valuestring));
+                write(1, "\n", 1);
+                write(1, user_id->valuestring, strlen(user_id->valuestring));
+                write(1, "\n", 1);
+                printf("%d\n", online->valueint);
 
-        //         //p->online = cJSON_IsTrue(online);
-        //         p->login = strdup(login->valuestring);
-        //         p->id = strdup(user_id->valuestring);
-        //         mx_create_friend(widge, login->valuestring);
-        //         p = p->next;
-        //     }
-        // }
+                //p->online = online->valueint;
+                //p->login = strdup(login->valuestring);
+                //p->id = strdup(user_id->valuestring);
+                mx_create_friend(widge, login->valuestring);
+                //p = p->next;
+            }
+        }
         cJSON_Delete(json);
     }
     int exit;
@@ -167,6 +168,7 @@ void mx_connection(t_widget_my *widge) {
 
 
     read(widge->sockfd, buff, 1024);
+    //mx_message_to(widge, buff);
     gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
