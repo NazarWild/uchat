@@ -79,7 +79,7 @@ t_list *mx_where_not_1(use_mutex_t *mutex) {
     t_sqlite *lite = malloc(sizeof(t_sqlite));
 
     lite->data = &list;
-    lite->callback = callback_list_not_online;
+    lite->callback = callback_list_online;
     lite->sql = "SELECT DISTINCT persons_id.login, sockets.users_id "
                 "from persons_id INNER JOIN sockets on "
                 "persons_id.users_id = sockets.users_id";
