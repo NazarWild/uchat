@@ -45,7 +45,7 @@ button:active {
 }
 
 #list_box {
-    background-image: url("/Users/opoliarenk/Desktop/chat/img_chat/wallpaper/wallpaper6.jpg");
+    background-image: url("../img_chat/wallpaper/wallpaper6.jpg");
     /* background-image: linear-gradient(rgba(221, 152, 235, 0.527), rgba(178, 193, 233, 0.521)); */
 }
 

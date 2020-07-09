@@ -15,6 +15,7 @@
 #include "cJSON.h"
 #include <gtk/gtk.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <arpa/inet.h>
 
 #define PORT 6969
@@ -152,6 +153,8 @@ typedef struct s_widget_my {
     char *ip;
     char *filename;
     int bytes;
+    int int_of_dot;
+    int int_of_slesh;
     t_list *login_id;
 }              t_widget_my;
 
