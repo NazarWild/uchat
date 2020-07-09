@@ -24,7 +24,6 @@ static bool parsing_profile_data(t_widget_my *widge, char *birth) {
         if (day > 31 || day <= 0) {
             gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "");
             gtk_entry_set_placeholder_text(GTK_ENTRY(widge->birth_entry), "INVALID NUMBER OF DAY");
-            // gtk_entry_set_text(GTK_ENTRY(widge->birth_entry), "INVALID NUMBER OF DAY");
             return false;
         }
         if (month > 12 || month <= 0) {
@@ -121,10 +120,11 @@ void mx_profile_gtk(t_widget_my *widge) {
     nick_entry = gtk_entry_new();
     full_entry = gtk_entry_new();
     birth_entry = gtk_entry_new();
+    gtk_entry_set_placeholder_text(GTK_ENTRY(birth_entry), "[dd.mm.year]");
     label = gtk_label_new("STATUS");
     full = gtk_label_new("FULLNAME");
     nick = gtk_label_new("NICKNAME");
-    birth = gtk_label_new("DATE OF BIRTH\n   (dd.mm.year)");
+    birth = gtk_label_new("DATE OF BIRTH");
     status = gtk_combo_box_text_new();
     gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(status), "1", "SINGLE");
     gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(status), "2", "IN LOVE");
