@@ -32,11 +32,7 @@ void mx_send_mess(cJSON *root, use_mutex_t *mutex) {
     cJSON* BYTES = cJSON_GetObjectItemCaseSensitive(root, "BYTES");
 
     write(1, "He send this: ", 14);
-    char *path = mx_strjoin("/Users/ndykyy/Desktop/new_file.", TYPE->valuestring);
-    int stream = open(path, O_RDWR | O_CREAT);
-    write(stream, MESS->valuestring, BYTES->valueint);
-    close(stream);
-    write(1, MESS->valuestring, BYTES->valueint); 
+    write(1, MESS->valuestring, strlen(MESS->valuestring)); 
     write(1, "\n", 1);
 
     if (cJSON_IsString(TO) && (TO->valuestring != NULL)

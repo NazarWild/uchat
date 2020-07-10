@@ -202,6 +202,27 @@ static unsigned char* cJSON_strdup(const unsigned char* string, const internal_h
     return copy;
 }
 
+static unsigned char* cJSON_strdup_special(const unsigned char* string, const internal_hooks * const hooks, int length)
+{
+    //size_t length = 0;
+    unsigned char *copy = NULL;
+
+    if (string == NULL)
+    {
+        return NULL;
+    }
+
+    //length = strlen((const char*)string) + sizeof("");
+    copy = (unsigned char*)hooks->allocate(length);
+    if (copy == NULL)
+    {
+        return NULL;
+    }
+    memcpy(copy, string, length);
+
+    return copy;
+}
+
 CJSON_PUBLIC(void) cJSON_InitHooks(cJSON_Hooks* hooks)
 {
     if (hooks == NULL)
@@ -2048,9 +2069,51 @@ static cJSON_bool add_item_to_object(cJSON * const object, const char * const st
     return add_item_to_array(object, item);
 }
 
+static cJSON_bool add_item_to_object_special(cJSON * const object, const char * const string, cJSON * const item, const internal_hooks * const hooks, const cJSON_bool constant_key, int length)
+{
+    char *new_key = NULL;
+    int new_type = cJSON_Invalid;
+
+    if ((object == NULL) || (string == NULL) || (item == NULL) || (object == item))
+    {
+        return false;
+    }
+
+    if (constant_key)
+    {
+        new_key = (char*)cast_away_const(string);
+        new_type = item->type | cJSON_StringIsConst;
+    }
+    else
+    {
+        new_key = (char*)cJSON_strdup_special((const unsigned char*)string, hooks, length);
+        if (new_key == NULL)
+        {
+            return false;
+        }
+
+        new_type = item->type & ~cJSON_StringIsConst;
+    }
+
+    if (!(item->type & cJSON_StringIsConst) && (item->string != NULL))
+    {
+        hooks->deallocate(item->string);
+    }
+
+    item->string = new_key;
+    item->type = new_type;
+
+    return add_item_to_array(object, item);
+}
+
 CJSON_PUBLIC(cJSON_bool) cJSON_AddItemToObject(cJSON *object, const char *string, cJSON *item)
 {
     return add_item_to_object(object, string, item, &global_hooks, false);
+}
+
+CJSON_PUBLIC(cJSON_bool) cJSON_AddItemToObject_special(cJSON *object, const char *string, cJSON *item, int length)
+{
+    return add_item_to_object_special(object, string, item, &global_hooks, false, length);
 }
 
 /* Add an item to an object with constant string as key */
@@ -2457,6 +2520,23 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateString(const char *string)
     {
         item->type = cJSON_String;
         item->valuestring = (char*)cJSON_strdup((const unsigned char*)string, &global_hooks);
+        if(!item->valuestring)
+        {
+            cJSON_Delete(item);
+            return NULL;
+        }
+    }
+
+    return item;
+}
+
+CJSON_PUBLIC(cJSON *) cJSON_CreateString_special(const char *string, int length)
+{
+    cJSON *item = cJSON_New_Item(&global_hooks);
+    if(item)
+    {
+        item->type = cJSON_String;
+        item->valuestring = (char*)cJSON_strdup_special((const unsigned char*)string, &global_hooks, length);
         if(!item->valuestring)
         {
             cJSON_Delete(item);
