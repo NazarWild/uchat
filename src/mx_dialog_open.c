@@ -21,8 +21,6 @@ static char *parsing_filename(char *filename, t_widget_my *widge) {
 
     for (; filename[i] != '.'; i--) {}
     widge->int_of_dot = i;
-    for (; filename[i] != '/'; i--) {}
-    widge->int_of_slesh = i;
     return &filename[widge->int_of_dot + 1];
 }
 
@@ -35,37 +33,30 @@ int mx_len_of_file(char *file) {
     return file_size;
 }
 
-char *mx_file_to_str(t_widget_my *widge) {
-    if(!widge->filename)
-        return NULL;
-    int stream = open(widge->filename, O_RDONLY);
-    char c;
-    char *str = NULL;
-    int i = 0;
-    if(stream <= 0) {
-        return NULL;
+void sending_file(t_widget_my *widge) {
+    if(widge->filename) {
+        int stream = open(widge->filename, O_RDONLY);
+        char str[mx_len_of_file(widge->filename)];
+
+        widge->bytes = mx_len_of_file(widge->filename);
+        stream = open(widge->filename, O_RDONLY);
+        read(stream, str, widge->bytes);
+        write(widge->sockfd, str, widge->bytes);
+        close(stream);
     }
-    while(read(stream, &c, 1)) {
-        i++;
+    else {
+        write(2, "error in sending file\n", 23);
     }
-    close(stream);
-    stream = open(widge->filename, O_RDONLY);
-    str = mx_strnew(widge->bytes);
-    read(stream, str, widge->bytes);
-    close(stream);
-    return str;
 }
 
 static cJSON *create_json(t_widget_my *widge) {
     cJSON *send = cJSON_CreateObject();
     cJSON *TO = cJSON_CreateString(widge->to);
-    cJSON *MESS = NULL;
+    cJSON *MESS = cJSON_CreateString("/Users/ndykyy/Desktop/");//okolevatov
     cJSON *TYPE = cJSON_CreateString(parsing_filename(widge->filename, widge));
     cJSON *BYTES = cJSON_CreateNumber(widge->bytes);
     char *file_without_dot = strdup(widge->filename);
 
-    file_without_dot[widge->int_of_slesh + 1] = '\0';
-    MESS = cJSON_CreateStringReference(file_without_dot);
     cJSON_AddItemToObject(send, "TO", TO);
     cJSON_AddItemToObject(send, "MESS", MESS);
     cJSON_AddItemToObject(send, "TYPE", TYPE);
@@ -80,7 +71,6 @@ void mx_dialog_open(t_widget_my *widge) {
     cJSON *file_js;
     char *str;
     int res;
-    char *file;
     char *str_js;
 
     dialog = gtk_file_chooser_dialog_new ("Open File", GTK_WINDOW(widge->chat), action, ("_Cancel"), 
@@ -94,13 +84,11 @@ void mx_dialog_open(t_widget_my *widge) {
         widge->bytes = mx_len_of_file(widge->filename);
         printf("bytes = %d filename = %s\n", widge->bytes, widge->filename);
 
-        file = mx_file_to_str(widge);
-
         //write(1, file, widge->bytes);
         file_js = create_json(widge);
         str_js = cJSON_Print(file_js);
         write(widge->sockfd, str_js, strlen(str_js));
-        write(widge->sockfd, file, widge->bytes);
+        sending_file(widge);
         g_free (widge->filename);
     }
     gtk_widget_destroy (dialog);
