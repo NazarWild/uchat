@@ -67,7 +67,7 @@ bool mx_registr(use_mutex_t *mutex) {
         } 
         else {
             bzero(buff, 1024);
-            write(mutex->cli_fd, "+1", 2);
+            mx_whoonline(mutex);
             cJSON_Delete(request_json);
             return true;
         }

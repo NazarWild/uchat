@@ -27,7 +27,6 @@ static void *some_sending(void *parametr) {
         pthread_exit(&ret);
 
     // tut nado podgrughat s db v client
-    //mx_whoonline(param);
     //posle chego podgrugat vse chati, to est CHATS:
     //mx_chats_send(param);
 
