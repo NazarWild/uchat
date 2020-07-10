@@ -41,7 +41,7 @@ void mx_add_users_to_chat(int login, int chats_id, use_mutex_t *mutex) {
 char *mx_parse_str(char *str) {
     int counter = 0;
     int str_len = strlen(str);
-    char *newstr;
+    char *newstr = strdup(str);
     int size;
     int i;
 
@@ -49,6 +49,7 @@ char *mx_parse_str(char *str) {
         if (str[i] == '\'')
             counter++;
     size = str_len + counter;
+    free(newstr);
     newstr = malloc(sizeof(char *) * (size + 1));
     newstr[size] = '\0';
     counter = 0;
@@ -57,43 +58,23 @@ char *mx_parse_str(char *str) {
             newstr[counter++] = '\'';
         newstr[counter++] = str[i];
     }
-    printf("%s\n", newstr);
     return newstr;
 }
 
-void mx_add_message(char *login, int chats_id, char *text, int type_text, use_mutex_t *mutex) {
+void mx_add_message(int chats_id, char *text, int type_text, use_mutex_t *mutex) {
     char *sql;
     char *time;
-    int users_id = -1;
-    t_sqlite *lite = malloc(sizeof(t_sqlite));
+    t_sqlite *lite = malloc(sizeof(t_sqlite) * 1);
 
-    mx_parse_str(text);
-    asprintf(&sql, "persons_id where login = '%s'", login);
-    mx_select("users_id", sql, callback_int, &users_id, mutex);
-    free(sql);
-    lite->callback = callback_persons_id;
+    text = mx_parse_str(text);
     lite->data = &time;
-    lite->sql = "SELECT time('now','localtime');";
+    lite->callback = callback_persons_id;
+    lite->sql = "SELECT datetime('now','localtime');";
     mx_sqlite(lite, mutex);
-    asprintf(&sql, "%i, %i, '%s', %i, '%s'", users_id, chats_id, text, type_text, time);
+    asprintf(&sql, "%i, %i, '%s', %i, '%s'", mutex->user_id, chats_id, text, type_text, time);
     mx_add_to_table("messeges", "users_id, chats_id, text, type_text, time", sql, mutex);
     free(sql);
+    free(time);
+    free(text);
+    free(lite);
 }
-
-// void mx_add_mess(char *login, char *chats, char *text, int type_text) {
-//     char *sql;
-//     char *time;
-//     int users_id = -1;
-//     int chats_id = -1;
-
-//     asprintf(&sql, "persons_id where login = '%s'", login);
-//     mx_select("users_id", sql, callback_int, &users_id);
-//     free(sql);
-//     asprintf(&sql, "chats where chat = '%s'", chats);
-//     mx_select("chats_id", sql, callback_int, &chats_id);
-//     free(sql);
-//     mx_sqlite("SELECT time('now','localtime');", callback_persons_id, &time);
-//     asprintf(&sql, "%i, %i, '%s', %i, '%s'", users_id, chats_id, text, type_text, time);
-//     mx_add_to_table("messeges", "users_id, chats_id, text, type_text, time", sql);
-//     free(sql);
-// }

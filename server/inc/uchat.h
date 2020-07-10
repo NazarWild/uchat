@@ -38,6 +38,11 @@ typedef struct s_sqlite {
     void *data;
 } t_sqlite;
 
+typedef struct s_messeges {
+    char *text;
+    int chats_id;
+} t_messeges;
+
 typedef struct s_online {
     char *login;
     int id;
@@ -67,8 +72,10 @@ t_list *mx_where_not_1(use_mutex_t *mutex);
 void mx_pop_front(t_list **head);
 t_list *mx_create_node(void *data);
 void mx_push_front(t_list **list, void *data);
-void mx_add_message(char *login, int chats_id, char *text, int type_text, use_mutex_t *mutex);
+void mx_add_message(int chats_id, char *text, int type_text, use_mutex_t *mutex);
 void mx_delete_from_db(char *name_table, char *condition, use_mutex_t *mutex);
+t_list *mx_history_chat(int text_id, int chats_id, use_mutex_t *mutex);
+t_list *mx_list_last_users_messeges(use_mutex_t *mutex);
 
 int main(int argc, char *argv[]);
 bool mx_registr(use_mutex_t *mutex); //server
