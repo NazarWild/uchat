@@ -19,18 +19,18 @@ static bool same_login(char *login, use_mutex_t *mutex) {
     return true;
 }
 
-void mx_creating(cJSON* root, use_mutex_t *mutex) { 
+void mx_creating(cJSON* root, use_mutex_t *mutex) {      
     cJSON* log = cJSON_GetObjectItemCaseSensitive(root, "LOGIN");
     cJSON* pass = cJSON_GetObjectItemCaseSensitive(root, "PASS");
     char *add_this = NULL;
     
-    asprintf(&add_this, "'%s', '%s'", log->valuestring, pass->valuestring);
+    asprintf(&add_this, "'%s', '%s', %d", log->valuestring, pass->valuestring, 0);
     if (same_login(log->valuestring, mutex) == false) {
         write(mutex->cli_fd, "-2", 2);
         free(add_this);
     }
     else {
-        mx_add_to_table("persons_id", "login, pass", add_this, mutex);
+        mx_add_to_table("persons_id", "login, pass, level", add_this, mutex);
         write(mutex->cli_fd, "2", 1);
         free(add_this);
     }

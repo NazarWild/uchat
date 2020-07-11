@@ -21,6 +21,7 @@ static void set_socket(int fd, char *log, use_mutex_t *mutex) {
     char *ita = NULL;
     char *new = NULL;
     char *users_id = NULL;
+    char *level = NULL;
 
     ita = mx_itoa(fd);
     asprintf(&new, "persons_id WHERE login = '%s'", log);
@@ -29,7 +30,11 @@ static void set_socket(int fd, char *log, use_mutex_t *mutex) {
     asprintf(&new, "%s, %s", users_id, ita);
     mx_add_to_table("sockets", "users_id, socket", new, mutex);
     mutex->user_id = atoi(users_id);
-
+    free(new);
+    asprintf(&new, "persons_id WHERE login = '%s'", log);
+    mx_select("level", new, callback_persons_id, &level, mutex);
+    mutex->lvl = atoi(level);
+    printf("Level %d", mutex->lvl);
     free(new);
     free(ita);
     free(users_id);
@@ -56,7 +61,7 @@ bool mx_registr(use_mutex_t *mutex) {
     char buff[2048];
     cJSON* request_json = NULL;
 
-    if (read(mutex->cli_fd, buff, 2048) > 0) { //this while or if i don't know
+    if (read(mutex->cli_fd, buff, 2048) > 0) { 
         request_json = cJSON_Parse(buff);
         if_registration(request_json, mutex);
         if (loging(request_json, mutex->cli_fd, mutex) == false) {

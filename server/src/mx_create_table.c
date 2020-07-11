@@ -20,12 +20,13 @@ void mx_tables() {
                     "theme INT,"
                     "language INT,"
                     "status TEXT,"
+                    "level INT, "
                     "photo TEXT,"
                     "fullname TEXT,"
                     "date_of_birthd TEXT");
     mx_create_table("chats",
                     "chats_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    "chat TEXT NOT NULL");
+                    "chat TEXT NOT NULL"); 
     mx_create_table("users_chat",
                     "users_id INT, "
                     "chats_id INT, "
@@ -34,6 +35,7 @@ void mx_tables() {
                     "FOREIGN KEY (chats_id) REFERENCES chats(chats_id) "
                     "ON DELETE CASCADE ON UPDATE CASCADE");
     mx_create_table("messeges",
+                    "text_id INTEGER PRIMARY KEY AUTOINCREMENT, " //i dont know just create this shit 
                     "users_id INT, "
                     "chats_id INT, "
                     "text TEXT, "

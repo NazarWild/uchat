@@ -22,7 +22,7 @@ t_list *mx_list_last_users_messeges(use_mutex_t *mutex) {
     mx_sqlite(lite, mutex);
     free(lite);
     free(sql);
-    char *str = ((t_messeges *)list->data)->text;
+    //char *str = ((t_messeges *)list->data)->text;
     return list;
 }
 

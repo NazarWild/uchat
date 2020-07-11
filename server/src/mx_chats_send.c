@@ -11,13 +11,23 @@ static void creating_cJSON(cJSON *users, t_messeges *chat) {
 void mx_chats_send(use_mutex_t *mutex) {
     t_list *chats = mx_list_last_users_messeges(mutex);
     cJSON *root = cJSON_CreateObject();
-    cJSON *users = cJSON_CreateArray();
+    cJSON *users = NULL;
+    char *str = NULL;
 
-    cJSON_AddItemToObject(root, "chats", users);
+    if (chats != NULL) {
+        users = cJSON_CreateArray();
+        cJSON_AddItemToObject(root, "chats", users);
+    }
+    else {
+        users = cJSON_CreateFalse();
+        cJSON_AddItemToObject(root, "chats", users);
+        write(1, "DELETING", 8);
+    }
     while(chats) {
         creating_cJSON(users, (t_messeges *) chats->data);
         chats = chats->next;
     }
-    cJSON_Print(root);
-    exit(0);
+    str = cJSON_Print(root);
+    write(mutex->cli_fd, str, strlen(str));
+    cJSON_Delete(users);
 }

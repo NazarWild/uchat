@@ -22,6 +22,7 @@ FILES = u_server \
 		mx_strnew \
 		mx_chats_send \
 		mx_list_last_users_messeges \
+		mx_answers_papa \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

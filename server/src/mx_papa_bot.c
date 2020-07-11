@@ -2,8 +2,15 @@
 
 static void mylvl(use_mutex_t *mutex) {
     //iz bd dostaem vse chto nado to est po loginu uroven
-    write(mutex->cli_fd, "Your level: ", 13);
-    //mx_select("level", "persons_id", )
+    cJSON *root = cJSON_CreateObject();
+    cJSON *level = cJSON_CreateNumber(mutex->lvl);
+    char *str = NULL;
+
+    cJSON_AddItemToObject(root, "Level: ", level);
+    str = cJSON_Print(root);
+    write(mutex->cli_fd, str, strlen(str));
+    free(str);
+    cJSON_Delete(root);
 }
 
 static void start(use_mutex_t *mutex) {
@@ -14,26 +21,7 @@ static void start(use_mutex_t *mutex) {
 
 static void command_false(use_mutex_t *mutex) {
     // commanda ne izvestna
-    write(mutex->cli_fd, "Chto eto za slovo?", 19);
-}
-
-static void answer(use_mutex_t *mutex) {
-    // poluchaem iz db raiting 
-    if (0 == 0) { //left is number of raiting
-        //doing something interesting
-        //answers
-        //if answer ok return ;
-    }
-    else if (1 == 1) {
-        //doing something interesting
-    }
-    else if (2 == 2) {
-        //doing something interesting
-    }
-    else if (3 == 3) {
-        //doing something interesting
-    }
-    write(mutex->cli_fd, "hphah you are so stuped, wrong answer!!", 40);
+    write(mutex->cli_fd, "Chto eto za slovo?", 18);
 }
 
 void mx_papa_bot(cJSON *MESS, use_mutex_t *mutex) { //vsegda nado budet otpravliat chto oni v etom chate ili tipa togo chtobi pisat im commands
@@ -44,7 +32,7 @@ void mx_papa_bot(cJSON *MESS, use_mutex_t *mutex) { //vsegda nado budet otpravli
     else if (strcmp(mess, "./start") == 0)
         start(mutex);
     else if (strncmp(mess, "./answer:", 10) == 0) 
-        answer(mutex);
+        mx_answers_papa(mutex);
     else 
         command_false(mutex);
 }

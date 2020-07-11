@@ -53,6 +53,7 @@ typedef struct use_mutex_tag {
     pthread_mutex_t mutex;
     int cli_fd;
     int user_id;
+    short int lvl;
 } use_mutex_t;
 
 typedef struct s_list {
@@ -75,6 +76,7 @@ void mx_add_message(int chats_id, char *text, int type_text, use_mutex_t *mutex)
 void mx_delete_from_db(char *name_table, char *condition, use_mutex_t *mutex);
 t_list *mx_history_chat(int text_id, int chats_id, use_mutex_t *mutex);
 t_list *mx_list_last_users_messeges(use_mutex_t *mutex);
+void mx_answers_papa(use_mutex_t *mutex);
 
 int main(int argc, char *argv[]);
 bool mx_registr(use_mutex_t *mutex); //server
