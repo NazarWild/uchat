@@ -4,7 +4,7 @@ int callback_list_last_users_messeges(void *data, int argc, char **argv, char **
     t_messeges *send = malloc(sizeof(t_messeges));
 
     send->text = strdup(argv[0]);
-    send->chats_id = atoi(argv[1]);
+    send->id = atoi(argv[1]);
     mx_push_front((t_list **)data, send);
     return 0;
 }

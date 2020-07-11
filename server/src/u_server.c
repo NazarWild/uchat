@@ -28,7 +28,7 @@ static void *some_sending(void *parametr) {
 
     // tut nado podgrughat s db v client
     //posle chego podgrugat vse chati, to est CHATS:
-    //mx_chats_send(param);
+    mx_chats_send(param);
 
     while(read(param->cli_fd, buff, 2048) > 0) { //tut budu parsit info from JSON file
         request_json = cJSON_Parse(buff);

@@ -40,7 +40,7 @@ typedef struct s_sqlite {
 
 typedef struct s_messeges {
     char *text;
-    int chats_id;
+    int id;
 } t_messeges;
 
 typedef struct s_online {
@@ -57,7 +57,6 @@ typedef struct use_mutex_tag {
 
 typedef struct s_list {
     void *data;
-    int users_id;
     struct s_list *next;
 } t_list;
 

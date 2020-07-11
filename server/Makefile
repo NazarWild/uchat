@@ -20,6 +20,8 @@ FILES = u_server \
 		mx_file_type \
 		mx_strjoin \
 		mx_strnew \
+		mx_chats_send \
+		mx_list_last_users_messeges \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
