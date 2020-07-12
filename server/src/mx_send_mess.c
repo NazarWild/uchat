@@ -15,32 +15,32 @@ static void send_mess(int to, char *mess, use_mutex_t *mutex) {
     free(new);
 }
 
-static void sockets(cJSON* TO, cJSON* MESS, use_mutex_t *mutex) {
+static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, use_mutex_t *mutex) {
     char *str1 = NULL;
     char *data = NULL;
     char *data2 = NULL;
+    int chat_id = atoi(CHAT_ID->valuestring);
 
     asprintf(&str1, "sockets where users_id = %d", atoi(TO->valuestring));
     mx_select("socket", str1, callback_persons_id, &data, mutex);
     free(str1);
-    // надо найти у двух юзеров общий чат, если его нет, то создать чат и внести кто туда относится!
-    // asprintf(&str1, "users_chat where users_id = %s AND users_id = %s", TO->valuestring, FROM->valuestring);
-    // mx_select("chats_id", str1, callback_persons_id, &data, mutex);
     if (data != NULL)
         send_mess(atoi(data), MESS->valuestring, mutex);
-    
-    //mx_add_message(FROM->valuestring, NULL, MESS->valuestring, 0, mutex);
+    if (chat_id == 0) //если чата не сущевствует и это новое сообщение, то создаем такой чат
+        mx_new_chat(TO, MESS, CHAT_ID, mutex);
+    else // в другом случае добавляем сообщение в чат 
+        mx_add_message(chat_id, MESS->valuestring, 0, mutex);
+    // надо найти у двух юзеров общий чат, если его нет, то создать чат и внести кто туда относится!
+    // asprintf(&str1, "user_chat where ")
+    // mx_select("chats_id", str1, callback_persons_id, &data, mutex);
 }
 
-void mx_send_mess(cJSON *root, use_mutex_t *mutex) {
+void mx_send_mess(cJSON *root, use_mutex_t *mutex) { //надо отправлять чат айди тоже
     cJSON* TO = cJSON_GetObjectItemCaseSensitive(root, "TO");
     cJSON* MESS = cJSON_GetObjectItemCaseSensitive(root, "MESS");
     cJSON* TYPE = cJSON_GetObjectItemCaseSensitive(root, "TYPE");
     cJSON* BYTES = cJSON_GetObjectItemCaseSensitive(root, "BYTES");
-
-    // write(1, "He send this: ", 14);
-    // write(1, MESS->valuestring, strlen(MESS->valuestring)); 
-    // write(1, "\n", 1);
+    cJSON* CHAT_ID = cJSON_GetObjectItemCaseSensitive(root, "CHAT_ID");
 
     if (cJSON_IsString(TO) && (TO->valuestring != NULL)
         && cJSON_IsString(MESS) && (MESS->valuestring != NULL)
@@ -49,7 +49,7 @@ void mx_send_mess(cJSON *root, use_mutex_t *mutex) {
             mx_papa_bot(MESS, mutex);
             return ;
         }
-        sockets(TO, MESS, mutex);
+        sockets(TO, MESS, CHAT_ID, mutex);
     }
     else 
         mx_file_type(root, mutex);

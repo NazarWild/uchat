@@ -94,6 +94,7 @@ void mx_file_type(cJSON *root, use_mutex_t *mutex);
 char *mx_strjoin(const char *s1, const char *s2);
 char *mx_strnew(const int size);
 void mx_chats_send(use_mutex_t *mutex);
+void mx_new_chat(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, use_mutex_t *mutex);
 
 
 
