@@ -91,10 +91,16 @@ void mx_profile_gtk(t_widget_my *widge) {
     GtkWidget *birth_entry;//entry
     GtkWidget *nick_entry;//entry
     GtkWidget *full_entry;//entry
-    GtkWidget *anon = gtk_image_new_from_file("img_chat/anonym.png");
+    GdkPixbuf *anon_pix;
     GtkWidget *png = gtk_button_new();
 
-    gtk_button_set_image(GTK_BUTTON(png), anon);
+    GtkWidget *photo;
+
+    anon_pix = gdk_pixbuf_new_from_file("img_chat/anonym.png", NULL);
+    anon_pix = gdk_pixbuf_scale_simple(anon_pix, 200, 200, GDK_INTERP_BILINEAR);
+    photo = gtk_image_new_from_pixbuf(anon_pix);
+    gtk_button_set_image (GTK_BUTTON(png), photo);
+
     widge->profile_photo_button = png;
     widge->res_png = "img_chat/anonym.png";
     GtkWidget *sep_h1 = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
