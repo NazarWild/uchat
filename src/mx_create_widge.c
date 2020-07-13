@@ -10,6 +10,9 @@ static void design_css(t_widget_my *widge) {
     gtk_widget_set_name(widge->theme_1, "theme_1");
     gtk_widget_set_name(widge->theme_2, "theme_2");
     gtk_widget_set_name(widge->theme_3, "theme_3");
+    gtk_widget_set_name(widge->theme_4, "theme_4");
+    gtk_widget_set_name(widge->theme_5, "theme_5");
+    gtk_widget_set_name(widge->theme_6, "theme_6");
     gtk_widget_set_name(widge->win_sett, "win_sett");
     gtk_widget_set_name(widge->scrolled, "scrolled");
     gtk_widget_set_name(widge->choose_user, "choose_user");
@@ -74,12 +77,19 @@ void mx_create_widge(t_widget_my *widge) {
     widge->theme_1 = GTK_WIDGET(gtk_builder_get_object(widge->builder, "theme_1"));
     widge->theme_2 = GTK_WIDGET(gtk_builder_get_object(widge->builder, "theme_2"));
     widge->theme_3 = GTK_WIDGET(gtk_builder_get_object(widge->builder, "theme_3"));
+    widge->theme_4 = GTK_WIDGET(gtk_builder_get_object(widge->builder, "theme_4"));
+    widge->theme_5 = GTK_WIDGET(gtk_builder_get_object(widge->builder, "theme_5"));
+    widge->theme_6 = GTK_WIDGET(gtk_builder_get_object(widge->builder, "theme_6"));
+
+    widge->back = GTK_WIDGET(gtk_builder_get_object(widge->builder, "back"));
 
     widge->main_chat = GTK_WIDGET(gtk_builder_get_object(widge->builder, "main_chat"));
 
     widge->scrolled = GTK_WIDGET(gtk_builder_get_object(widge->builder, "scrolled"));
 
     widge->choose_user = GTK_WIDGET(gtk_builder_get_object(widge->builder, "choose_user"));
+
+    gtk_list_box_unselect_all (GTK_LIST_BOX(widge->list_box));
 
     mx_set_images(widge);
     // relieff_set(widge);

@@ -24,53 +24,80 @@
             <property name="width_request">800</property>
             <property name="height_request">500</property>
             <child>
-              <object class="GtkLabel">
-                <property name="width_request">0</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Choose your theme :</property>
-              </object>
-              <packing>
-                <property name="x">20</property>
-                <property name="y">25</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkButton" id="theme_1">
-                <property name="width_request">80</property>
-                <property name="height_request">60</property>
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
-                <property name="x">150</property>
+                <property name="x">50</property>
                 <property name="y">10</property>
               </packing>
             </child>
             <child>
               <object class="GtkButton" id="theme_2">
-                <property name="width_request">80</property>
-                <property name="height_request">60</property>
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
-                <property name="x">250</property>
+                <property name="x">170</property>
                 <property name="y">10</property>
               </packing>
             </child>
             <child>
               <object class="GtkButton" id="theme_3">
-                <property name="width_request">80</property>
-                <property name="height_request">60</property>
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
-                <property name="x">350</property>
+                <property name="x">290</property>
+                <property name="y">10</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="theme_4">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="x">410</property>
+                <property name="y">10</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="theme_5">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="x">530</property>
+                <property name="y">10</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="theme_6">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="x">650</property>
                 <property name="y">10</property>
               </packing>
             </child>
@@ -88,8 +115,8 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="lang_eng">
-                <property name="label" translatable="yes">eng</property>
+              <object class="GtkButton" id="back">
+                <property name="label" translatable="yes">back</property>
                 <property name="width_request">80</property>
                 <property name="height_request">50</property>
                 <property name="visible">True</property>
@@ -292,7 +319,7 @@
                 </child>
                 <child>
                   <object class="GtkScrolledWindow" id="scrolled">
-                    <property name="width_request">599</property>
+                    <property name="width_request">600</property>
                     <property name="height_request">400</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
