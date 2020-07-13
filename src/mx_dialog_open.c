@@ -89,6 +89,7 @@ void mx_dialog_open(t_widget_my *widge) {
         str_js = cJSON_Print(file_js);
         write(widge->sockfd, str_js, strlen(str_js));
         sending_file(widge);
+        mx_send_file_to(widge, widge->filename);
         g_free (widge->filename);
     }
     gtk_widget_destroy (dialog);

@@ -16,6 +16,16 @@ FILES = mx_log_in \
 	create_friend \
 	set_images \
 	mx_dialog_open \
+	setting_win \
+	theme_1 \
+	theme_2 \
+	theme_3 \
+	theme_4 \
+	theme_5 \
+	theme_6 \
+	remove_friend_list \
+	send_file_to \
+
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
