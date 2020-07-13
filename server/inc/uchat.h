@@ -38,9 +38,16 @@ typedef struct s_sqlite {
     void *data;
 } t_sqlite;
 
+typedef struct s_history {
+    char *text;
+    int text_id;
+} t_history;
+
 typedef struct s_messeges {
     char *text;
-    int id;
+    int chats_id;
+    t_list *who_is_here;
+    int who_write;
 } t_messeges;
 
 typedef struct s_online {

@@ -47,6 +47,7 @@ void mx_tables() {
     mx_create_table("sockets",
                     "users_id INT, "
                     "socket INT DEFAULT -1, "
-                    "online INT DEFAULT 1, "
-                    "FOREIGN KEY(users_id) REFERENCES persons_id(users_id)");
+                    // "online INT DEFAULT 1, "
+                    "FOREIGN KEY(users_id) REFERENCES persons_id(users_id)"
+                    "ON DELETE CASCADE ON UPDATE CASCADE ");
 }
