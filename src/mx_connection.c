@@ -1,39 +1,15 @@
 #include "../inc/uchat.h"
 
-void send_file(GtkWidget* widget, void *dat) {
-    t_widget_my *widge = (t_widget_my *)dat;
-
-    mx_dialog_open(widge);
-}
-
-void theme_1(GtkWidget* widget, void *dat) {
+void hazker_mode(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
     gtk_css_provider_load_from_path (widge->dark, "src/hacker.css", NULL);
 }
 
-void theme_2(GtkWidget* widget, void *dat) {
+void send_file(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
-    gtk_css_provider_load_from_path (widge->dark, "src/default.css", NULL);
-}
-
-void theme_3(GtkWidget* widget, void *dat) {
-    t_widget_my *widge = (t_widget_my *)dat;
-
-    gtk_widget_hide(widge->win_sett);
-    gtk_widget_show_all(widge->main_chat);
-}
-
-
-void setting_win(GtkWidget* widget, void *dat) {
-    t_widget_my *widge = (t_widget_my *)dat;
-
-    g_signal_connect (widge->theme_1, "clicked", G_CALLBACK(theme_1), widge);
-    g_signal_connect (widge->theme_2, "clicked", G_CALLBACK(theme_2), widge);
-    g_signal_connect (widge->theme_3, "clicked", G_CALLBACK(theme_3), widge);
-    gtk_widget_hide(widge->main_chat);
-    gtk_widget_show_all(widge->win_sett);
+    mx_dialog_open(widge);
 }
 
 static void send_message(GtkWidget* widget, void *dat) {
@@ -171,12 +147,12 @@ void mx_connection(t_widget_my *widge) {
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
         g_signal_connect (widge->profile_button, "clicked", G_CALLBACK(profile), widge);
-        g_signal_connect (widge->who_writing, "clicked", G_CALLBACK(theme_2), widge);
         g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
         g_signal_connect (widge->command_line, "activate", G_CALLBACK(send_message), widge);
-        g_signal_connect (widge->achiev, "clicked", G_CALLBACK(theme_1), widge);
-        g_signal_connect (widge->setting, "clicked", G_CALLBACK(setting_win), widge);
+        g_signal_connect (widge->achiev, "clicked", G_CALLBACK(hazker_mode), widge);
+        g_signal_connect (widge->setting, "clicked", G_CALLBACK(mx_setting_win), widge);
         g_signal_connect (widge->file_button, "clicked", G_CALLBACK(send_file), widge);
+        g_signal_connect (widge->who_writing, "clicked", G_CALLBACK(mx_remove_friend_list), widge);
         pthread_create(&preg, 0, Read, widge);
     }
     else {

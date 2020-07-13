@@ -60,7 +60,7 @@ button label {
 }
 
 #list_box {
-    background-image: url("/Users/opoliarenk/Desktop/chat/img_chat/wallpaper/2.jpg");
+    background-image: url("../img_chat/wallpaper/2.jpg");
     /* background-image: linear-gradient(rgba(37, 33, 33, 0.801), rgba(37, 33, 33, 0.801)); */
 }
 /* 

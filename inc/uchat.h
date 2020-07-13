@@ -67,7 +67,7 @@ typedef struct s_widget_my {
 
     GtkWidget *friends;
 
-    GtkWidget *friend_button[100];
+    GtkWidget **friend_button;
     int id_friend;
 
     GtkWidget *who_writing;
@@ -82,6 +82,11 @@ typedef struct s_widget_my {
     GtkWidget *theme_1;
     GtkWidget *theme_2;
     GtkWidget *theme_3;
+    GtkWidget *theme_4;
+    GtkWidget *theme_5;
+    GtkWidget *theme_6;
+
+    GtkWidget *back;
 
     GtkWidget *main_chat;
 
@@ -92,8 +97,15 @@ typedef struct s_widget_my {
     gint window_x;
     gint window_y;
     GtkWidget *window_profile;
+
+    gint index;
     
     int on_profile;
+
+    gchar *te;
+
+    GtkWidget **message_send;
+    int message_id;
 
     //images
     GdkPixbuf *profile_img;
@@ -110,6 +122,7 @@ typedef struct s_widget_my {
     GdkPixbuf *wallpaper6_img;
     GdkPixbuf *wallpaper7_img;
     GdkPixbuf *wallpaper8_img;
+    GdkPixbuf *install_img;
 
     GtkWidget *profile_icon;
     GtkWidget *smile_icon;
@@ -125,6 +138,7 @@ typedef struct s_widget_my {
     GtkWidget *wallpaper6_icon;
     GtkWidget *wallpaper7_icon;
     GtkWidget *wallpaper8_icon;
+    GtkWidget *install_icon;
     //
 
     //ndykyy
@@ -166,6 +180,22 @@ void mx_message_from(t_widget_my *widge, const gchar *text);
 void mx_message_to(t_widget_my *widge, const gchar *text);
 void mx_create_friend(t_widget_my *widge, const gchar *text);
 void mx_set_images(t_widget_my *widge);
+void mx_setting_win(GtkWidget* widget, void *dat);
+
+void mx_theme_1(GtkWidget* widget, void *dat);
+void mx_theme_2(GtkWidget* widget, void *dat);
+void mx_theme_3(GtkWidget* widget, void *dat);
+void mx_theme_4(GtkWidget* widget, void *dat);
+void mx_theme_5(GtkWidget* widget, void *dat);
+void mx_theme_6(GtkWidget* widget, void *dat);
+
+// void mx_pop_front(t_message_list **head);
+// t_message_list *mx_create_node(void *data);
+// void mx_push_front(t_message_list **list, void *data);
+
+void mx_remove_friend_list(GtkWidget* widget, void *dat);
+void mx_send_file_to(t_widget_my *widge, const gchar *text);
+
 
 void mx_profile_gtk(t_widget_my *widge);
 void mx_photo_set(t_widget_my *widge);

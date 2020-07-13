@@ -2,9 +2,12 @@
 
 int main(int argc, char *argv[]) {
     t_widget_my *widge = (t_widget_my *)malloc(sizeof(t_widget_my));
+    widge->message_id = 0;
     widge->id_friend = 0;
     widge->color_mode = 0;
     widge->on_profile = 0;
+
+    widge->message_send = (GtkWidget **)malloc(sizeof(GtkWidget *));
 
     GError *error = NULL;
 
@@ -22,7 +25,7 @@ int main(int argc, char *argv[]) {
     //css
     widge->dark = gtk_css_provider_new ();
 
-    gtk_css_provider_load_from_path (widge->dark, "src/default.css", NULL);
+    gtk_css_provider_load_from_path (widge->dark, "src/themes/theme_1.css", NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
                                             GTK_STYLE_PROVIDER(widge->dark),
                                             GTK_STYLE_PROVIDER_PRIORITY_USER);

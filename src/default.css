@@ -11,7 +11,7 @@ window {
 }
 
 button {
-    background-image: linear-gradient(rgb(231, 216, 216), rgb(231, 216, 216));
+    background-image: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
     border-radius: 10px;
     border-width: 0px;
     box-shadow: none;
@@ -45,9 +45,13 @@ button:active {
 }
 
 #list_box {
-    background-image: url("/Users/opoliarenk/Desktop/chat/img_chat/wallpaper/wallpaper6.jpg");
-    /* background-image: linear-gradient(rgba(221, 152, 235, 0.527), rgba(178, 193, 233, 0.521)); */
+    /* background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)); */
+    /* background: fixed; */
+    /* background: ; */
+    background-image: linear-gradient(rgba(252, 243, 0, 0.274), rgba(0, 89, 255, 0.212));
 }
+
+
 
 /* #theme_1 {
     background-image: url("/Users/opoliarenk/Desktop/chat/img_chat/wallpaper/2.jpg");

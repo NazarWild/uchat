@@ -12,6 +12,8 @@ void p(GtkWidget* widget, void *data) {
 void mx_create_friend(t_widget_my *widge, const gchar *text) {
     GtkWidget *row, *user, *fixed, *box;
 
+    widge->friend_button = realloc((GtkWidget **)widge->friend_button, widge->id_friend + 1);
+
     row = gtk_list_box_row_new ();
     gtk_widget_set_size_request(row, 180, 40);
     gtk_list_box_row_set_activatable(GTK_LIST_BOX_ROW(row), FALSE);
@@ -38,6 +40,8 @@ void mx_create_friend(t_widget_my *widge, const gchar *text) {
     gtk_list_box_insert (GTK_LIST_BOX(widge->friends), row, -1);
 
     widge->id_friend++;
+
+    widge->index = gtk_list_box_row_get_index(GTK_LIST_BOX_ROW(row));
 
     gtk_widget_show_all (widge->friends);
 }

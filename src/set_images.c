@@ -30,14 +30,4 @@ void mx_set_images(t_widget_my *widge) {
     widge->setting_img = gdk_pixbuf_scale_simple(widge->setting_img, 20, 20, GDK_INTERP_BILINEAR);
     widge->setting_icon = gtk_image_new_from_pixbuf(widge->setting_img);
     gtk_button_set_image (GTK_BUTTON(widge->setting), widge->setting_icon);
-
-    widge->wallpaper1_img = gdk_pixbuf_new_from_file("./img_chat/wallpaper/wallpaper1.jpg", NULL);
-    widge->wallpaper1_img = gdk_pixbuf_scale_simple(widge->wallpaper1_img, 80, 60, GDK_INTERP_BILINEAR);
-    widge->wallpaper1_icon = gtk_image_new_from_pixbuf(widge->wallpaper1_img);
-    gtk_button_set_image (GTK_BUTTON(widge->theme_1), widge->wallpaper1_icon);
-
-    widge->wallpaper2_img = gdk_pixbuf_new_from_file("./img_chat/wallpaper/wallpaper2.jpg", NULL);
-    widge->wallpaper2_img = gdk_pixbuf_scale_simple(widge->wallpaper2_img, 80, 60, GDK_INTERP_BILINEAR);
-    widge->wallpaper2_icon = gtk_image_new_from_pixbuf(widge->wallpaper2_img);
-    gtk_button_set_image (GTK_BUTTON(widge->theme_2), widge->wallpaper2_icon);
 }

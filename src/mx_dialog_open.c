@@ -64,7 +64,7 @@ void mx_dialog_open(t_widget_my *widge) {
         char *file = mx_file_to_str(filename, widge);
         asprintf(&str, "{\"FROM\" : \"%s\",\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"%s\",\"BYTES\":%d}\n", widge->login, widge->to, file, parsing_filename(widge, filename), widge->bytes);
         write(widge->sockfd, str, widge->bytes + 50); //отпрвляем Лехе данные
-        
+        mx_send_file_to(widge, filename);
         //gtk_entry_set_text(GTK_ENTRY(widge->command_line), filename);
         g_free (filename);
     }
