@@ -106,7 +106,12 @@ typedef struct s_widget_my {
     gchar *te;
 
     GtkWidget **message_send;
+    GtkWidget **message_from;
+    // GArray *mess_arr;
     int message_id;
+    int from_id;
+
+    GtkAdjustment *try;
 
     //images
     GdkPixbuf *profile_img;
