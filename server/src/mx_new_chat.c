@@ -18,14 +18,14 @@ void mx_new_chat(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, use_mutex_t *mutex) {
     else
         asprintf(&str1, "'%s %s'", ita, TO->valuestring);
     mx_add_to_table("chats", "chat", str1, mutex);
-    write(1, "PROBLEM !\n", 10);
     asprintf(&tmp, "chats WHERE chat = %s", str1);
     mx_select("chats_id", tmp, callback_persons_id, &str2, mutex);
-    write(1, "PROBLEM 1\n", 10);
     free(tmp);
+    free(str1);
     asprintf(&str1, "%d, %d", atoi(TO->valuestring), atoi(str2));
     mx_add_to_table("users_chat", "users_id, chats_id", str1, mutex);
-    write(1, "PROBLEM 2\n", 10);
+    mx_add_message(atoi(str2), MESS->valuestring, 0, mutex);
+    free(str2);
     free(str1);
     free(ita);
 }

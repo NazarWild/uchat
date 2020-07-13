@@ -18,7 +18,6 @@ static void send_mess(int to, char *mess, use_mutex_t *mutex) {
 static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, use_mutex_t *mutex) {
     char *str1 = NULL;
     char *data = NULL;
-    char *data2 = NULL;
     int chat_id = atoi(CHAT_ID->valuestring);
 
     asprintf(&str1, "sockets where users_id = %d", atoi(TO->valuestring));
@@ -30,10 +29,15 @@ static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, use_mutex_t *mutex) 
         mx_new_chat(TO, MESS, CHAT_ID, mutex);
     else // в другом случае добавляем сообщение в чат 
         mx_add_message(chat_id, MESS->valuestring, 0, mutex);
-    // надо найти у двух юзеров общий чат, если его нет, то создать чат и внести кто туда относится!
-    // asprintf(&str1, "user_chat where ")
-    // mx_select("chats_id", str1, callback_persons_id, &data, mutex);
+    free(data);
 }
+
+// static bool is_real(cJSON* TO, cJSON* MESS) {
+//     if (cJSON_IsString(TO) && (TO->valuestring != NULL)) 
+//         return true;
+//     else 
+//         return false;
+// }
 
 void mx_send_mess(cJSON *root, use_mutex_t *mutex) { //надо отправлять чат айди тоже
     cJSON* TO = cJSON_GetObjectItemCaseSensitive(root, "TO");
@@ -42,15 +46,18 @@ void mx_send_mess(cJSON *root, use_mutex_t *mutex) { //надо отправля
     cJSON* BYTES = cJSON_GetObjectItemCaseSensitive(root, "BYTES");
     cJSON* CHAT_ID = cJSON_GetObjectItemCaseSensitive(root, "CHAT_ID");
 
-    if (cJSON_IsString(TO) && (TO->valuestring != NULL)
-        && cJSON_IsString(MESS) && (MESS->valuestring != NULL)
-        && strcmp("text", TYPE->valuestring) == 0) {
+    // if (is_real(TO, MESS) == false)
+    //     return ;
+    if (strcmp("text", TYPE->valuestring) == 0) {
         if (strcmp(TO->valuestring, "PAPA_BOT") == 0) {
             mx_papa_bot(MESS, mutex);
             return ;
         }
         sockets(TO, MESS, CHAT_ID, mutex);
     }
+    else if (strcmp("group_text", TYPE->valuestring) == 0 
+        || strcmp("group_text_file", TYPE->valuestring) == 0)
+        mx_group_chat(root, mutex);
     else 
         mx_file_type(root, mutex);
 }
