@@ -3,11 +3,13 @@
 int main(int argc, char *argv[]) {
     t_widget_my *widge = (t_widget_my *)malloc(sizeof(t_widget_my));
     widge->message_id = 0;
+    widge->from_id = 0;
     widge->id_friend = 0;
     widge->color_mode = 0;
     widge->on_profile = 0;
 
     widge->message_send = (GtkWidget **)malloc(sizeof(GtkWidget *));
+    // widge->mess_arr = g_array_new(TRUE, TRUE, sizeof widge->message_send);
 
     GError *error = NULL;
 

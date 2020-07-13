@@ -1,5 +1,14 @@
 #include "../inc/uchat.h"
 
+static void change_pos(GtkWidget *widget, void *data) {
+    static gdouble uper = 0;
+
+    if (uper != gtk_adjustment_get_upper(GTK_ADJUSTMENT(widget))) {
+        gtk_adjustment_set_value(GTK_ADJUSTMENT(widget), gtk_adjustment_get_upper(GTK_ADJUSTMENT(widget)));
+        uper = gtk_adjustment_get_upper(GTK_ADJUSTMENT(widget));
+    }
+}
+
 void hazker_mode(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
@@ -165,6 +174,7 @@ void mx_connection(t_widget_my *widge) {
         g_signal_connect (widge->setting, "clicked", G_CALLBACK(mx_setting_win), widge);
         g_signal_connect (widge->file_button, "clicked", G_CALLBACK(send_file), widge);
         g_signal_connect (widge->who_writing, "clicked", G_CALLBACK(mx_remove_friend_list), widge);
+        g_signal_connect(widge->try, "changed", G_CALLBACK(change_pos), NULL);
         pthread_create(&preg, 0, Read, widge);
     }
     else {

@@ -22,7 +22,6 @@ void relieff_set(t_widget_my *widge) {
     gtk_button_set_relief(GTK_BUTTON(widge->who_writing), GTK_RELIEF_NONE);
 }
 
-
 void mx_create_widge(t_widget_my *widge) {
     widge->window = GTK_WIDGET(gtk_builder_get_object (widge->builder, "window"));
 
@@ -86,6 +85,7 @@ void mx_create_widge(t_widget_my *widge) {
     widge->main_chat = GTK_WIDGET(gtk_builder_get_object(widge->builder, "main_chat"));
 
     widge->scrolled = GTK_WIDGET(gtk_builder_get_object(widge->builder, "scrolled"));
+    widge->try = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(widge->scrolled));
 
     widge->choose_user = GTK_WIDGET(gtk_builder_get_object(widge->builder, "choose_user"));
 
