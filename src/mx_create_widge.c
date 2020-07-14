@@ -6,7 +6,6 @@ static void design_css(t_widget_my *widge) {
     gtk_widget_set_name(widge->return_sign_in, "return_sign_in");
     gtk_widget_set_name(widge->command_line, "command_line");
     gtk_widget_set_name(widge->who_writing, "who_writing");
-    gtk_widget_set_name(widge->list_box, "list_box");
     gtk_widget_set_name(widge->theme_1, "theme_1");
     gtk_widget_set_name(widge->theme_2, "theme_2");
     gtk_widget_set_name(widge->theme_3, "theme_3");
@@ -16,6 +15,7 @@ static void design_css(t_widget_my *widge) {
     gtk_widget_set_name(widge->win_sett, "win_sett");
     gtk_widget_set_name(widge->scrolled, "scrolled");
     gtk_widget_set_name(widge->choose_user, "choose_user");
+    gtk_widget_set_name(widge->friends, "friends_listbox");
 }
 
 void relieff_set(t_widget_my *widge) {
@@ -91,7 +91,7 @@ void mx_create_widge(t_widget_my *widge) {
 
     widge->online = gtk_button_new();
 
-    gtk_list_box_unselect_all (GTK_LIST_BOX(widge->list_box));
+    // gtk_list_box_unselect_all (GTK_LIST_BOX(widge->list_box));
 
     mx_set_images(widge);
     // relieff_set(widge);

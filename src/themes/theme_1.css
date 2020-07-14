@@ -3,6 +3,10 @@
     background-image: linear-gradient(rgba(49, 219, 49, 0), rgba(49, 219, 49, 0));
 }
 
+#online_butt {
+    background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+}
+
 #message_to {
     color: rgb(255, 255, 255);
     background-image: linear-gradient(rgba(107, 95, 94, 0.521), rgba(107, 95, 94, 0.521));
@@ -11,11 +15,11 @@
 }
 
 window {
-    background-image: linear-gradient(rgb(194, 174, 174), rgb(255, 255, 255));
+    background-image: linear-gradient(rgb(104, 100, 100), rgb(158, 152, 152));
 }
 
 button {
-    background-image: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5));
     border-radius: 10px;
     border-width: 0px;
     box-shadow: none;
@@ -23,7 +27,7 @@ button {
 
 button:active {
     box-shadow: none;
-    background-image: linear-gradient(rgba(128, 111, 111, 0.685), rgba(168, 146, 146, 0.685));
+    background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
 }
 
 #user {
@@ -45,11 +49,17 @@ button:active {
 }
 
 #who_writing {
-    border-radius: 0px;
+    border-radius: 5px;
+}
+
+#friends_listbox {
+    border-radius: 10px;
+    background-image: linear-gradient(rgba(221, 152, 235, 0.5), rgba(178, 193, 233, 0.5), rgba(38, 145, 145, 0.5));
 }
 
 #list_box {
-    background-image: linear-gradient(rgba(221, 152, 235, 0.527), rgba(178, 193, 233, 0.521), rgba(38, 145, 145, 0.521));
+    border-radius: 10px;
+    background-image: linear-gradient(rgba(221, 152, 235, 0.5), rgba(178, 193, 233, 0.5), rgba(38, 145, 145, 0.5));
 }
 
 #theme_1 {
