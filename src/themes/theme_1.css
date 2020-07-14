@@ -15,7 +15,7 @@
 }
 
 window {
-    background-image: linear-gradient(rgb(104, 100, 100), rgb(158, 152, 152));
+    background-image: linear-gradient(rgb(165, 161, 161), rgb(207, 211, 211));
 }
 
 button {
@@ -23,6 +23,7 @@ button {
     border-radius: 10px;
     border-width: 0px;
     box-shadow: none;
+    text-shadow: none;
 }
 
 button:active {
@@ -54,12 +55,14 @@ button:active {
 
 #friends_listbox {
     border-radius: 10px;
-    background-image: linear-gradient(rgba(221, 152, 235, 0.5), rgba(178, 193, 233, 0.5), rgba(38, 145, 145, 0.5));
+    background-image: linear-gradient(rgba(160, 152, 235, 0.527), rgba(233, 178, 228, 0.521));
+    /* background-image: linear-gradient(rgba(221, 152, 235, 0.5), rgba(178, 193, 233, 0.5), rgba(38, 145, 145, 0.5)); */
 }
 
 #list_box {
     border-radius: 10px;
-    background-image: linear-gradient(rgba(221, 152, 235, 0.5), rgba(178, 193, 233, 0.5), rgba(38, 145, 145, 0.5));
+    background-image: linear-gradient(rgba(160, 152, 235, 0.527), rgba(233, 178, 228, 0.521));
+    /* background-image: linear-gradient(rgba(221, 152, 235, 0.5), rgba(178, 193, 233, 0.5), rgba(38, 145, 145, 0.5)); */
 }
 
 #theme_1 {

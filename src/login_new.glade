@@ -215,6 +215,9 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
+                      <packing>
+                        <property name="reorderable">True</property>
+                      </packing>
                     </child>
                   </object>
                   <packing>
@@ -224,7 +227,7 @@
                 </child>
                 <child>
                   <object class="GtkButton">
-                    <property name="label" translatable="yes">Help BOT</property>
+                    <property name="label" translatable="yes">Papa BOT</property>
                     <property name="width_request">174</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
@@ -318,7 +321,6 @@
                     <property name="height_request">400</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <!-- <property name="hscrollbar_policy">automatic</property> -->
                     <child>
                       <object class="GtkListBox" id="list_box">
                         <property name="visible">True</property>
