@@ -20,9 +20,9 @@ void mx_sqlite(t_sqlite *lite, use_mutex_t *mutex) {
         sqlite3_close(db);
         return;
     }
+    sqlite3_close(db);
     if (mutex != NULL)
         pthread_mutex_unlock(&(mutex->mutex));
-    sqlite3_close(db);
 }
 
 void mx_add_to_table(char *name_table, char *values_table, char *values, use_mutex_t *mutex) {

@@ -1,5 +1,67 @@
 #include "../inc/uchat.h"
 
+void mx_pop_front(t_list **head) {
+    t_list *first = *head;
+    *head = (*head)->next;
+    free(first->login);
+    free(first->id);
+    first->login = NULL;
+    first->id = NULL;
+}
+
+void free_list(t_list **head) {
+    while(*head)
+        mx_pop_front(head);
+}
+
+t_list *mx_create_node(char *login, char *id, int online) {
+    t_list *node = (t_list *) malloc(sizeof(t_list));
+
+    node->login = strdup(login);
+    node->id = strdup(id);
+    node->online = online;
+    node->next = NULL;  
+    return node;
+}
+
+void mx_push_back(t_list **list, char *login, char *id, int online){
+    if(*list == NULL) {
+        *list = mx_create_node(login, id, online);
+        return;
+    }
+    t_list *copy = *list;
+
+    while(copy->next != NULL) {
+        copy = copy->next;
+    }
+    copy->next = mx_create_node(login, id, online);
+    copy = copy->next;
+}
+
+void mx_parse_whoonline(t_widget_my *widge, cJSON *json) {
+    cJSON *user = NULL;
+    cJSON *peoples = NULL;
+    cJSON *user_id;
+    cJSON *login;
+    cJSON *online;
+    user = cJSON_GetObjectItemCaseSensitive(json, "user");
+    cJSON_ArrayForEach(peoples, user) { 
+        login = cJSON_GetObjectItemCaseSensitive(peoples, "login");
+        user_id = cJSON_GetObjectItemCaseSensitive(peoples, "user_id");
+        online = cJSON_GetObjectItemCaseSensitive(peoples, "online");
+
+        write(1, login->valuestring, strlen(login->valuestring));
+        write(1, "\n", 1);
+        write(1, user_id->valuestring, strlen(user_id->valuestring));
+        write(1, "\n", 1);
+        printf("%d\n",online->valueint);
+        write(1, "===================\n", strlen("===================\n"));
+        mx_push_back(&widge->login_id, login->valuestring, user_id->valuestring, online->valueint);
+        if (online->valueint == 1)
+            mx_create_friend(widge, login->valuestring);
+    }   
+}
+
 void send_file(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
@@ -46,13 +108,9 @@ static void send_message(GtkWidget* widget, void *dat) {
     }
     else {
         mx_message_to(widge, message);
-        //write(1, "HERE_send_1\n", strlen("HERE_READ_1\n"));
-        asprintf(&str, "{\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\"}\n", widge->to, message);
-        //write(1, "HERE_send_2\n", strlen("HERE_READ_1\n"));
+        asprintf(&str, "{\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\",\"CHAT_ID\":\"0\"}\n", widge->to, message);
         //write(1, str, strlen(str));
-        //write(1, "HERE_send_3\n", strlen("HERE_READ_1\n"));
         write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
-        //write(1, "HERE_send_4\n", strlen("HERE_READ_1\n"));
         gtk_entry_set_text(GTK_ENTRY(widge->command_line), ""); //обнуляем вводимую строку, следовательно обнуляеться message
         free(str);
     }
@@ -62,24 +120,25 @@ static bool if_online(cJSON *js) {
     cJSON *online = cJSON_GetObjectItemCaseSensitive(js, "USERS");
 
     if(cJSON_IsTrue(online) == 1)
-        return false;
-    return true;
+        return true;
+    return false;
 }
 
-void mx_pop_front(t_list **head) {
-    t_list *first = *head;
-    *head = (*head)->next;
-    free(first->login);
-    free(first->id);
-    first->login = NULL;
-    first->id = NULL;
+static bool if_chats(cJSON *js) {
+    cJSON *chats = cJSON_GetObjectItemCaseSensitive(js, "chats");
+
+    if(cJSON_IsTrue(chats) == 1)
+        return true;
+    return false;
 }
 
-void free_list(t_list **head) {
-    while(*head) {
-        mx_pop_front(head);
-        (*head) = (*head)->next;
-    }
+static void parse_mess(cJSON *js, t_widget_my *widge) {
+    cJSON *mess = cJSON_GetObjectItemCaseSensitive(js, "MESS");
+    cJSON *to = cJSON_GetObjectItemCaseSensitive(js, "TO");
+
+    printf("ТИ - %s\n", to->valuestring);
+    mx_message_from(widge, mess->valuestring);
+    write(1, mess->valuestring, strlen(mess->valuestring));
 }
 
 static void *Read(void *dat) {
@@ -87,41 +146,21 @@ static void *Read(void *dat) {
     char buff[2048];
     int len;
     cJSON *json;
-    cJSON *user = NULL;
-    cJSON *peoples = NULL;
-    cJSON *user_id;
-    cJSON *login;
-    cJSON *online;
     t_list *p = widge->login_id;
 
     while(1) {
-        //write(1, "HERE_READ_1\n", strlen("HERE_READ_1\n"));
+        
         len = read(widge->sockfd, buff, 2048);
-        //write(1, "HERE_READ_2\n", strlen("HERE_READ_1\n"));
+        
         json = cJSON_Parse(buff);
-        if (if_online(json)) {
+        if (!if_chats(json)) {
+            //write(1, buff, strlen(buff));
             mx_message_from(widge, buff);
-            //write(1, "HERE_READ_3\n", strlen("HERE_READ_1\n"));
+            //parse_mess(json, widge);
         }
-        else {
-            //free_list(&widge->login_id);
-            user = cJSON_GetObjectItemCaseSensitive(json, "user");
-            cJSON_ArrayForEach(peoples, user) { 
-                login = cJSON_GetObjectItemCaseSensitive(peoples, "login");
-                user_id = cJSON_GetObjectItemCaseSensitive(peoples, "user_id");
-                online = cJSON_GetObjectItemCaseSensitive(peoples, "online");
-                write(1, login->valuestring, strlen(login->valuestring));
-                write(1, "\n", 1);
-                write(1, user_id->valuestring, strlen(user_id->valuestring));
-                write(1, "\n", 1);
-                printf("%d\n", online->valueint);
-
-                //p->online = online->valueint;
-                //p->login = strdup(login->valuestring);
-                //p->id = strdup(user_id->valuestring);
-                mx_create_friend(widge, login->valuestring);
-                //p = p->next;
-            }
+        if (if_online(json)) {
+            free_list(&widge->login_id);
+            mx_parse_whoonline(widge, json);
         }
         bzero(buff, 2048);
         cJSON_Delete(json);
@@ -148,7 +187,8 @@ void mx_connection(t_widget_my *widge) {
     struct hostent *server;
     pthread_t preg;
     char *str;
-    char buff[1024];
+    char buff[2048];
+    cJSON *json;
     portno = widge->port;
     widge->sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -177,8 +217,11 @@ void mx_connection(t_widget_my *widge) {
     free(str);
 
 
-    read(widge->sockfd, buff, 1024);
-    //mx_message_to(widge, buff);
+    read(widge->sockfd, buff, 2048);
+    json = cJSON_Parse(buff);
+    if (!if_online(json))
+        mx_parse_whoonline(widge, json);
+    cJSON_Delete(json);
     gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
     if (atoi(buff) != -1) {
         mx_chat_win(widge);

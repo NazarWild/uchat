@@ -1,11 +1,27 @@
 #include "../inc/uchat.h"
 
+char *find_id(t_list *list, char *login) {
+    t_list *p = list;
+
+    while (p) {
+        if (strcmp(p->login, login) == 0)
+            break;
+        p = p->next;
+    }
+    return p->id;
+}
+
 void p(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     char *login = (char *) gtk_button_get_label(GTK_BUTTON(widget));
+    t_list *p = widge->login_id;
     
     gtk_button_set_label (GTK_BUTTON(widge->who_writing), login);
-    widge->to = login;
+    widge->to = find_id(p, login);
+            write(1, widge->to, strlen(widge->to));
+            write(1,"\n", strlen("\n"));
+            write(1, login, strlen(login));
+            write(1,"\n", strlen("\n"));
 }
 
 

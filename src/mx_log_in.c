@@ -3,10 +3,8 @@
 int mx_log_in(char *login, char *pass, t_widget_my *widge) {
     widge->login = strdup(login);
     widge->pass = strdup(pass);
-    widge->login_id = (t_list *)malloc(sizeof(t_list));
-    widge->to = "1";
-
-    memset(widge->login_id, 0, sizeof(t_list));
+    widge->to = "PAPA_BOT";
+    
     mx_connection(widge);
     return 1;
 }
