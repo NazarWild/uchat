@@ -89,6 +89,8 @@ void mx_create_widge(t_widget_my *widge) {
 
     widge->choose_user = GTK_WIDGET(gtk_builder_get_object(widge->builder, "choose_user"));
 
+    widge->online = gtk_button_new();
+
     gtk_list_box_unselect_all (GTK_LIST_BOX(widge->list_box));
 
     mx_set_images(widge);

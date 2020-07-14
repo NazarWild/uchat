@@ -100,6 +100,7 @@ typedef struct s_widget_my {
     GtkWidget *window_profile;
 
     gint index;
+    gint index_mess_to;
     
     int on_profile;
 
@@ -112,6 +113,11 @@ typedef struct s_widget_my {
     int from_id;
 
     GtkAdjustment *try;
+
+    //buttons
+    GtkWidget *online;
+    GtkWidget *offline;
+    //
 
     //images
     GdkPixbuf *profile_img;
@@ -129,6 +135,8 @@ typedef struct s_widget_my {
     GdkPixbuf *wallpaper7_img;
     GdkPixbuf *wallpaper8_img;
     GdkPixbuf *install_img;
+    GdkPixbuf *online_img;
+    GdkPixbuf *offline_img;
 
     GtkWidget *profile_icon;
     GtkWidget *smile_icon;
@@ -145,6 +153,8 @@ typedef struct s_widget_my {
     GtkWidget *wallpaper7_icon;
     GtkWidget *wallpaper8_icon;
     GtkWidget *install_icon;
+    GtkWidget *online_icon;
+    GtkWidget *offline_icon;
     //
 
     //ndykyy
@@ -185,7 +195,7 @@ int main (int argc, char *argv[]);
 void mx_chat_win(t_widget_my *widge);
 void mx_message_from(t_widget_my *widge, const gchar *text);
 void mx_message_to(t_widget_my *widge, const gchar *text);
-void mx_create_friend(t_widget_my *widge, const gchar *text);
+void mx_create_friend(t_widget_my *widge, const gchar *text, int online);
 void mx_set_images(t_widget_my *widge);
 void mx_setting_win(GtkWidget* widget, void *dat);
 
@@ -201,6 +211,7 @@ void mx_theme_6(GtkWidget* widget, void *dat);
 // void mx_push_front(t_message_list **list, void *data);
 
 void mx_remove_friend_list(GtkWidget* widget, void *dat);
+void mx_remove_mess(void *data);
 void mx_send_file_to(t_widget_my *widge, const gchar *text);
 
 

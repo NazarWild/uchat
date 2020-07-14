@@ -20,7 +20,6 @@ void mx_send_file_to(t_widget_my *widge, const gchar *text) {
 
     install_button = gtk_button_new();
     file_to = gtk_button_new_with_label(text);
-    gtk_button_set_image_position(GTK_BUTTON(file_to), GTK_POS_LEFT);
 
     widge->install_img = gdk_pixbuf_new_from_file("./img_chat/install.png", NULL);
     widge->install_img = gdk_pixbuf_scale_simple(widge->install_img, 20, 20, GDK_INTERP_BILINEAR);

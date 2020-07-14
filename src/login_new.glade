@@ -23,7 +23,7 @@
                 <property name="width_request">100</property>
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
@@ -36,7 +36,7 @@
                 <property name="width_request">100</property>
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
@@ -49,7 +49,7 @@
                 <property name="width_request">100</property>
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
@@ -62,7 +62,7 @@
                 <property name="width_request">100</property>
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
@@ -75,7 +75,7 @@
                 <property name="width_request">100</property>
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
@@ -88,7 +88,7 @@
                 <property name="width_request">100</property>
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
@@ -115,7 +115,7 @@
                 <property name="width_request">80</property>
                 <property name="height_request">50</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
@@ -129,7 +129,7 @@
                 <property name="width_request">80</property>
                 <property name="height_request">50</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
@@ -208,7 +208,7 @@
                     <property name="width_request">180</property>
                     <property name="height_request">320</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <property name="hscrollbar_policy">automatic</property>
                     <child>
                       <object class="GtkListBox" id="friends">
@@ -228,7 +228,7 @@
                     <property name="width_request">174</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <property name="receives_default">False</property>
                   </object>
                   <packing>
@@ -252,7 +252,7 @@
                     <property name="width_request">35</property>
                     <property name="height_request">35</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <property name="receives_default">True</property>
                   </object>
                   <packing>
@@ -266,7 +266,7 @@
                     <property name="width_request">35</property>
                     <property name="height_request">35</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <property name="receives_default">True</property>
                   </object>
                   <packing>
@@ -279,7 +279,7 @@
                     <property name="width_request">35</property>
                     <property name="height_request">35</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <property name="receives_default">True</property>
                   </object>
                   <packing>
@@ -303,7 +303,7 @@
                     <property name="width_request">0</property>
                     <property name="height_request">35</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <property name="label">user_name</property>
                     <property name="receives_default">True</property>
                   </object>
@@ -317,7 +317,7 @@
                     <property name="width_request">600</property>
                     <property name="height_request">400</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <!-- <property name="hscrollbar_policy">automatic</property> -->
                     <child>
                       <object class="GtkListBox" id="list_box">
@@ -349,7 +349,7 @@
                     <property name="width_request">0</property>
                     <property name="height_request">0</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <property name="receives_default">True</property>
                   </object>
                   <packing>
@@ -362,7 +362,7 @@
                     <property name="width_request">0</property>
                     <property name="height_request">0</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <property name="receives_default">True</property>
                   </object>
                   <packing>
@@ -375,7 +375,7 @@
                     <property name="width_request">0</property>
                     <property name="height_request">0</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <property name="receives_default">True</property>
                   </object>
                   <packing>
@@ -389,7 +389,7 @@
                     <property name="height_request">30</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <property name="receives_default">False</property>
                   </object>
                   <packing>
@@ -505,7 +505,7 @@
                 <property name="width_request">82</property>
                 <property name="height_request">40</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
@@ -519,7 +519,7 @@
                 <property name="width_request">82</property>
                 <property name="height_request">40</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
@@ -604,7 +604,7 @@
                 <property name="width_request">168</property>
                 <property name="height_request">40</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>
@@ -617,7 +617,7 @@
                 <property name="width_request">30</property>
                 <property name="height_request">30</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
               </object>
               <packing>

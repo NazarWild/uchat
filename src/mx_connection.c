@@ -30,6 +30,7 @@ static void send_message(GtkWidget* widget, void *dat) {
         printf("Are you kidding me?\n");
     }
     else {
+        mx_create_friend(widge, message, widge->message_id);
         mx_message_to(widge, message);
         //write(1, "HERE_send_1\n", strlen("HERE_READ_1\n"));
         asprintf(&str, "{\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\"}\n", widge->to, message);
@@ -104,7 +105,7 @@ static void *Read(void *dat) {
                 //p->online = online->valueint;
                 //p->login = strdup(login->valuestring);
                 //p->id = strdup(user_id->valuestring);
-                mx_create_friend(widge, login->valuestring);
+                mx_create_friend(widge, login->valuestring, 1);
                 //p = p->next;
             }
         }

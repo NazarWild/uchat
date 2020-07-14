@@ -1,4 +1,8 @@
 
+#online_butt:active {
+    background-image: linear-gradient(rgba(49, 219, 49, 0), rgba(49, 219, 49, 0));
+}
+
 #message_to {
     color: rgb(255, 255, 255);
     background-image: linear-gradient(rgba(107, 95, 94, 0.521), rgba(107, 95, 94, 0.521));
@@ -19,7 +23,7 @@ button {
 
 button:active {
     box-shadow: none;
-    background-image: linear-gradient(rgb(128, 111, 111), rgb(168, 146, 146));
+    background-image: linear-gradient(rgba(128, 111, 111, 0.685), rgba(168, 146, 146, 0.685));
 }
 
 #user {
@@ -101,3 +105,14 @@ button:active {
 #install_button {
     background-image: linear-gradient(rgba(221, 152, 235, 0), rgba(178, 193, 233, 0));
 }
+
+#mess_date {
+    color: rgba(107, 95, 94, 0.8);
+}
+
+#username_mess {
+    margin-right: 6px;
+    font-weight: bold;
+    color: rgba(107, 95, 94, 0.8);
+}
+

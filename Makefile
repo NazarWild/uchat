@@ -25,7 +25,7 @@ FILES = mx_log_in \
 	theme_6 \
 	remove_friend_list \
 	send_file_to \
-
+	remove_mess \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
