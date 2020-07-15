@@ -15,7 +15,7 @@
 }
 
 window {
-    background-image: linear-gradient(rgb(165, 161, 161), rgb(207, 211, 211));
+    background-image: linear-gradient(rgb(105, 103, 103), rgb(154, 158, 158));
 }
 
 button {
@@ -55,14 +55,13 @@ button:active {
 
 #friends_listbox {
     border-radius: 10px;
-    background-image: linear-gradient(rgba(160, 152, 235, 0.527), rgba(233, 178, 228, 0.521));
-    /* background-image: linear-gradient(rgba(221, 152, 235, 0.5), rgba(178, 193, 233, 0.5), rgba(38, 145, 145, 0.5)); */
+    background-image: linear-gradient(rgba(221, 152, 235, 0.5), rgba(178, 193, 233, 0.5), rgba(38, 145, 145, 0.5));
 }
 
 #list_box {
     border-radius: 10px;
-    background-image: linear-gradient(rgba(160, 152, 235, 0.527), rgba(233, 178, 228, 0.521));
-    /* background-image: linear-gradient(rgba(221, 152, 235, 0.5), rgba(178, 193, 233, 0.5), rgba(38, 145, 145, 0.5)); */
+    border-width: 10px;
+    background-image: linear-gradient(rgba(221, 152, 235, 0.5), rgba(178, 193, 233, 0.5), rgba(38, 145, 145, 0.5));
 }
 
 #theme_1 {
@@ -74,7 +73,7 @@ button:active {
 #theme_2 {
     border-color: rgb(231, 216, 216);
     border-width: 3px;
-    background-image: linear-gradient(rgba(221, 152, 221, 0.527), rgba(0, 0, 0, 0.521));
+    background-image: linear-gradient(rgba(221, 152, 221, 0.527), rgba(82, 79, 79, 0.521));
 }
 
 #theme_3 {
@@ -127,5 +126,9 @@ button:active {
     margin-right: 6px;
     font-weight: bold;
     color: rgba(107, 95, 94, 0.8);
+}
+
+#scrolled {
+    border-radius: 10px;
 }
 
