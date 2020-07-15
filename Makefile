@@ -48,14 +48,17 @@ all: install
 install: $(NAME)
 	
 $(NAME) : $(SRC) $(INC)
-	@clang $(CFLAGS) -c $(SRC_COMPILE) 
-	@clang $(CFLAGS) $(OBJ) -o $(NAME) $(OFLAGS) #-fsanitize=address
+	@cp local_lib/lib/libcrypto.dylib . 
+	@cp local_lib/lib/libssl.dylib .
+	@clang $(CFLAGS) -c $(SRC_COMPILE) -I local_lib/include
+	@clang $(CFLAGS) $(OBJ) -o $(NAME) $(OFLAGS) #-fsanitize=address -L ./ -I local_lib/include -lssl -lcrypto
 	@mkdir -p obj
 	@cp $(OBJ) obj/
 	@rm -rf $(OBJ)
 
 uninstall: clean
 	@rm -rf $(NAME)
+	@rm -rf libcrypto.dylib libssl.dylib
 
 clean:
 	@rm -rf obj
