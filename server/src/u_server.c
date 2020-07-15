@@ -4,7 +4,6 @@ static bool parse_object(cJSON *root, use_mutex_t *param) {
     // тут буду смотреть кому сообщение и смотрерть через бд его дескриптор, после чего отсылать сообщение 
     // если дескриптор -1, то пользователь не в сети и буду записывать в бд сообщение сразу 
     // после чего как только он зайдет надо будет подгружать сообщения 
-
     //show who online
     mx_whoonline(param);
     //delete account 
@@ -18,10 +17,15 @@ static bool parse_object(cJSON *root, use_mutex_t *param) {
 }
 
 static void *some_sending(void *parametr) {
-    use_mutex_t *param = (use_mutex_t *) parametr;
+    use_mutex_t *param = (use_mutex_t *) malloc(sizeof(use_mutex_t));
+    use_mutex_t *tmp = (use_mutex_t *) parametr;
     char buff[2048];
     int ret = 0;
     cJSON* request_json = NULL;
+
+    param->mutex = tmp->mutex;
+    param->cli_fd = tmp->cli_fd;
+
 
     if (mx_registr(param) == false) //otpravliaem cJSON chto ne poluchilos voiti i zacrivaem potok
         pthread_exit(&ret);
@@ -29,7 +33,6 @@ static void *some_sending(void *parametr) {
     // tut nado podgrughat s db v client
     //posle chego podgrugat vse chati, to est CHATS:
     mx_chats_send(param);
-
     while(read(param->cli_fd, buff, 2048) > 0) { //tut budu parsit info from JSON file
         request_json = cJSON_Parse(buff);
         if (parse_object(request_json, param) == false)
@@ -49,8 +52,11 @@ int main(int argc, char *argv[]) {
     pthread_t thread; 
 
     use_mutex_t param; //creting mutex
+    pthread_mutex_t mute;
 
-    pthread_mutex_init(&(param.mutex), NULL); //mutex init
+    pthread_mutex_init(&mute, NULL);
+    param.mutex = &mute;
+
     mx_tables();
     if (argc > 1)
         inet_aton(argv[1], &serv_addr.sin_addr);
@@ -65,7 +71,6 @@ int main(int argc, char *argv[]) {
         exit(2);
     }
     listen(server_fd, USERS);
-
     while (1) {
         if ((param.cli_fd = accept(server_fd, (struct sockaddr *) &cli_addr, (socklen_t *) &clen)) < 0) {
             perror("ACCEPTING ERROR");
@@ -77,5 +82,6 @@ int main(int argc, char *argv[]) {
             exit(2);
         }
     }
+    pthread_mutex_destroy(&mute);
     return 0;
 }

@@ -6,13 +6,13 @@ void mx_sqlite(t_sqlite *lite, use_mutex_t *mutex) {
     int rc = 0;
 
     if (mutex != NULL)
-        pthread_mutex_lock(&(mutex->mutex));
+        pthread_mutex_lock(mutex->mutex);
     rc = sqlite3_open("data_base.db", &db);
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
         if (mutex != NULL)
-            pthread_mutex_unlock(&(mutex->mutex));
+            pthread_mutex_unlock(mutex->mutex);
         return;
     }
     rc = sqlite3_exec(db, lite->sql, lite->callback, lite->data, &err_msg);
@@ -21,12 +21,12 @@ void mx_sqlite(t_sqlite *lite, use_mutex_t *mutex) {
         sqlite3_free(err_msg);
         sqlite3_close(db);
         if (mutex != NULL)
-            pthread_mutex_unlock(&(mutex->mutex));
+            pthread_mutex_unlock(mutex->mutex);
         return;
     }
     sqlite3_close(db);
     if (mutex != NULL)
-        pthread_mutex_unlock(&(mutex->mutex));
+        pthread_mutex_unlock(mutex->mutex);
 }
 
 void mx_add_to_table(char *name_table, char *values_table, char *values, use_mutex_t *mutex) {
@@ -38,7 +38,7 @@ void mx_add_to_table(char *name_table, char *values_table, char *values, use_mut
     lite->callback = NULL;
     lite->data = NULL;
     lite->sql = sql;
-    mx_sqlite(lite, NULL);
+    mx_sqlite(lite, mutex);
     free(sql);
     free(lite);
 }
@@ -52,7 +52,7 @@ void mx_set_value(char *name_table, char *str_change, char *search_condition, us
     lite->callback = NULL;
     lite->data = NULL;
     lite->sql = sql;
-    mx_sqlite(lite, NULL);
+    mx_sqlite(lite, mutex);
     free(sql);
     free(lite);
 }
@@ -65,7 +65,7 @@ void mx_select(char *search, char *tables, int (*callback)(void *, int, char **,
     lite->callback = callback;
     lite->data = data;
     lite->sql = sql;
-    mx_sqlite(lite, NULL);
+    mx_sqlite(lite, mutex);
     free(sql);
     free(lite);
 }
@@ -78,7 +78,7 @@ void mx_delete_from_db(char *name_table, char *condition, use_mutex_t *mutex) {
     lite->callback = NULL;
     lite->data = NULL;
     lite->sql = sql;
-    mx_sqlite(lite, NULL);
+    mx_sqlite(lite, mutex);
     free(lite);
     free(sql);
 }

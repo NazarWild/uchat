@@ -43,13 +43,6 @@ typedef struct s_history {
     int text_id;
 } t_history;
 
-typedef struct s_messeges {
-    char *text;
-    int chats_id;
-    t_list *who_is_here;
-    int who_write;
-} t_messeges;
-
 typedef struct s_online {
     char *login;
     int id;
@@ -57,7 +50,7 @@ typedef struct s_online {
 } t_online;
 
 typedef struct use_mutex_tag {
-    pthread_mutex_t mutex;
+    pthread_mutex_t *mutex;
     int cli_fd;
     int user_id;
     short int lvl;
@@ -67,6 +60,13 @@ typedef struct s_list {
     void *data;
     struct s_list *next;
 } t_list;
+
+typedef struct s_messeges {
+    char *text;
+    int chats_id;
+    t_list *who_is_here;
+    int who_write;
+} t_messeges;
 
 void mx_sqlite(t_sqlite *lite, use_mutex_t *mutex);
 void mx_create_table(char *name_table, char *values_table);
@@ -103,6 +103,7 @@ char *mx_strnew(const int size);
 void mx_chats_send(use_mutex_t *mutex);
 void mx_new_chat(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, use_mutex_t *mutex);
 void mx_group_chat(cJSON* root, use_mutex_t *mutex);
+void mx_send_group(cJSON* MESS, cJSON* USERS_GRP, cJSON* CHAT_ID, use_mutex_t *mutex);
 
 
 

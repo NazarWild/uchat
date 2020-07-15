@@ -46,7 +46,7 @@ void mx_group_chat(cJSON* root, use_mutex_t *mutex) {
         return ;
     }
     else //тут будут уже отправляться сообщения и тд.
-        
+        mx_send_group(MESS, USERS_GRP, CHAT_ID, mutex);
 
     
 }

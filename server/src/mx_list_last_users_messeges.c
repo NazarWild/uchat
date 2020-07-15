@@ -11,8 +11,9 @@ int callback_list_last_users_messeges(void *data, int argc, char **argv, char **
 
     lite->data = &who_is_here;
     lite->callback = callback_list;
-    send->text = strdup(argv[0]);
-    send->chats_id = atoi(argv[1]);
+    send->text = strdup(argv[1]);
+    send->who_write = atoi(argv[0]);
+    send->chats_id = atoi(argv[2]);
     asprintf(&lite->sql, "select distinct users_id from users_chat where chats_id = %i", send->chats_id);
     mx_sqlite(lite, NULL);
     send->who_is_here = who_is_here;
@@ -22,19 +23,23 @@ int callback_list_last_users_messeges(void *data, int argc, char **argv, char **
     return 0;
 }
 
-t_list *return_last_list(t_list *chats, use_mutex_t *mutex, t_sqlite *lite) {
+t_list *return_last_list(t_list *chats, use_mutex_t *mutex) {
+    t_sqlite *lite = malloc(sizeof(t_sqlite));
     t_list *list = 0;
     char *sql = 0;
+
     for (t_list *new = chats; new != NULL; new = new->next) {
         char *data = new->data;
-        asprintf(&sql, "select text, users_id from messeges where chats_id = %d "
-                "group by chats_id order by text_id desc;", atoi(data));
+        asprintf(&sql, "select users_id, text, chats_id from messeges where chats_id = %d "
+                " order by text_id desc limit 1;", atoi(data));
         lite->data = &list;
         lite->callback = callback_list_last_users_messeges;
         lite->sql = sql;
         mx_sqlite(lite, mutex);
         free(sql);
     }
+    free(lite);
+    return list;
 }
 
 t_list *mx_list_last_users_messeges(use_mutex_t *mutex) {
@@ -49,6 +54,6 @@ t_list *mx_list_last_users_messeges(use_mutex_t *mutex) {
     mx_sqlite(lite, mutex);
     free(sql);
     free(lite);
-    return return_last_list;
+    return return_last_list(chats, mutex);
 }
 

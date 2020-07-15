@@ -87,7 +87,7 @@ t_list *mx_where_not_1(use_mutex_t *mutex) {
     lite->callback = callback_list_not_online;
     lite->sql = "SELECT login, users_id FROM persons_id WHERE users_id NOT IN "
                 "(SELECT users_id FROM sockets);";
-    mx_sqlite(lite, NULL);
+    mx_sqlite(lite, mutex);
     free(lite);
     return list;
 }
