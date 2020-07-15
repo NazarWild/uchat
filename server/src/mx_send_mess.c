@@ -32,13 +32,6 @@ static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, use_mutex_t *mutex) 
     free(data);
 }
 
-// static bool is_real(cJSON* TO, cJSON* MESS) {
-//     if (cJSON_IsString(TO) && (TO->valuestring != NULL)) 
-//         return true;
-//     else 
-//         return false;
-// }
-
 void mx_send_mess(cJSON *root, use_mutex_t *mutex) { //надо отправлять чат айди тоже
     cJSON* TO = cJSON_GetObjectItemCaseSensitive(root, "TO");
     cJSON* MESS = cJSON_GetObjectItemCaseSensitive(root, "MESS");
@@ -46,8 +39,6 @@ void mx_send_mess(cJSON *root, use_mutex_t *mutex) { //надо отправля
     cJSON* BYTES = cJSON_GetObjectItemCaseSensitive(root, "BYTES");
     cJSON* CHAT_ID = cJSON_GetObjectItemCaseSensitive(root, "CHAT_ID");
 
-    // if (is_real(TO, MESS) == false)
-    //     return ;
     if (strcmp("text", TYPE->valuestring) == 0) {
         if (strcmp(TO->valuestring, "PAPA_BOT") == 0) {
             mx_papa_bot(MESS, mutex);

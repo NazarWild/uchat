@@ -50,7 +50,7 @@ typedef struct s_online {
 } t_online;
 
 typedef struct use_mutex_tag {
-    pthread_mutex_t mutex;
+    pthread_mutex_t *mutex;
     int cli_fd;
     int user_id;
     short int lvl;
@@ -109,6 +109,7 @@ char *mx_strnew(const int size);
 void mx_chats_send(use_mutex_t *mutex);
 void mx_new_chat(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, use_mutex_t *mutex);
 void mx_group_chat(cJSON* root, use_mutex_t *mutex);
+void mx_send_group(cJSON* MESS, cJSON* USERS_GRP, cJSON* CHAT_ID, use_mutex_t *mutex);
 
 
 
