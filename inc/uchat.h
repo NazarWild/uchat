@@ -37,87 +37,80 @@ typedef struct s_widget_my {
     GtkWidget *win_reg;
     GtkWidget *win_sign;
     GtkWidget *win_sett;
-    
+
     GtkWidget *user_name; //ввод юзера
     GtkWidget *user_password; //ввод пароля
 
     GtkWidget *sign_in; //кнопка входа
     GtkWidget *sign_up; //кнопка регистрации
 
-    GtkWidget *create_user_name;
-    GtkWidget *create_user_password;
-    GtkWidget *repeat_user_password;
-    GtkWidget *registration;
+    GtkWidget *create_user_name; //ввод логина
+    GtkWidget *create_user_password; //ввод пароля
+    GtkWidget *repeat_user_password; //повтор пароля
+    GtkWidget *registration; //кнопка регистрации
     GtkWidget *return_sign_in; //кнопка назад
 
-    GtkWidget *command_line;
+    GtkWidget *command_line; //строка ввода
     GtkWidget *com_event_box; //ввод сообщения
-    GtkWidget *setting;
-    GtkWidget *message; //временно
+    GtkWidget *setting; //кнопка настройки
 
     GtkLabel *name_exists; //nd ошибка регистрации
     GtkLabel *wrong_login; // ошибка входа
     GtkFixed *message_win; //окно переписки
 
-    GtkWidget *list_box;
-    GtkWidget *sw;
-    GtkWidget *profile_button;
-    GtkWidget *send_button;
+    GtkWidget *list_box; //лист бокс дпереписки
+    GtkWidget *profile_button; //кнопка профиля
+    GtkWidget *send_button; //кнопка отправки собщения
 
-    GtkWidget *scroll;
+    GtkWidget *friends; //лист бокс для списка друзей
 
-    GtkWidget *friends;
+    GtkWidget **friend_button; //массив друзей
+    int id_friend; //id друга
 
-    GtkWidget **friend_button;
-    int id_friend;
+    GtkWidget *who_writing; //кнопка названия чата
 
-    GtkWidget *who_writing;
+    GtkWidget *sticker_pack; //кнопка стикеров
+    GtkWidget *file_button; //кнопка отправки файлов
+    GtkWidget *achiev; //хакерный режим
 
-    GtkWidget *sticker_pack;
-    GtkWidget *file_button;
-    GtkWidget *achiev;
+    GtkCssProvider *theme; //провайдер, меняем тему
 
-    int color_mode;
-    GtkCssProvider *dark;
-
+    //кнопки тем
     GtkWidget *theme_1;
     GtkWidget *theme_2;
     GtkWidget *theme_3;
     GtkWidget *theme_4;
     GtkWidget *theme_5;
     GtkWidget *theme_6;
+    //
 
-    GtkWidget *back;
+    GtkWidget *back; //кнопка выхода из настроек
 
     GtkWidget *main_chat;
 
-    GtkWidget *scrolled;
+    GtkWidget *scrolled; //окно скрола для переписки
 
-    GtkWidget *choose_user;
+    GtkWidget *choose_user; //окно скрола для друзей
 
-    gint window_x;
-    gint window_y;
-    GtkWidget *window_profile;
+    gint window_x; //передвижение окна по х
+    gint window_y; //передвижение окна по у
+    GtkWidget *window_profile; //окно профиля
 
-    gint index;
-    gint index_mess_to;
+    gint index; //индекс последней строки в списке друзей (для удаления листа)
+    gint index_mess_to; //индекс последней строки в списке сообщений (для удаления листа)
     
-    int on_profile;
+    int on_profile; //что бы нельзя было открывать несколько профилей одновременно
 
-    gchar *te;
+    gchar *path_file;
 
-    GtkWidget **message_send;
-    GtkWidget **message_from;
-    // GArray *mess_arr;
-    int message_id;
-    int from_id;
+    GtkWidget **message_send; //массив сообщений
+    int message_id; //id сообщения
 
-    GtkAdjustment *try;
+    GtkAdjustment *slider_adj; //adj слайдер для прокрокрутки ползунка
 
-    //buttons
-    GtkWidget *online;
-    GtkWidget *offline;
-    //
+    GtkWidget *papa_bot; //папа бот...
+
+    GtkWidget *search_entry;
 
     //images
     GdkPixbuf *profile_img;
@@ -137,6 +130,8 @@ typedef struct s_widget_my {
     GdkPixbuf *install_img;
     GdkPixbuf *online_img;
     GdkPixbuf *offline_img;
+    GdkPixbuf *edit_img;
+    GdkPixbuf *trash_img;
 
     GtkWidget *profile_icon;
     GtkWidget *smile_icon;
@@ -155,6 +150,8 @@ typedef struct s_widget_my {
     GtkWidget *install_icon;
     GtkWidget *online_icon;
     GtkWidget *offline_icon;
+    GtkWidget *edit_icon;
+    GtkWidget *trash_icon;
     //
 
     //ndykyy

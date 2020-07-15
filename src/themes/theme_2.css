@@ -1,4 +1,12 @@
 
+#online_butt:active {
+    background-image: linear-gradient(rgba(49, 219, 49, 0), rgba(49, 219, 49, 0));
+}
+
+#online_butt {
+    background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+}
+
 #message_to {
     color: rgb(255, 255, 255);
     background-image: linear-gradient(rgba(107, 95, 94, 0.521), rgba(107, 95, 94, 0.521));
@@ -7,19 +15,20 @@
 }
 
 window {
-    background-image: linear-gradient(rgb(194, 174, 174), rgb(255, 255, 255));
+    background-image: linear-gradient(rgb(165, 161, 161), rgb(207, 211, 211));
 }
 
 button {
-    background-image: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5));
     border-radius: 10px;
     border-width: 0px;
     box-shadow: none;
+    text-shadow: none;
 }
 
 button:active {
     box-shadow: none;
-    background-image: linear-gradient(rgb(128, 111, 111), rgb(168, 146, 146));
+    background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
 }
 
 #user {
@@ -41,12 +50,17 @@ button:active {
 }
 
 #who_writing {
-    border-radius: 0px;
+    border-radius: 5px;
+}
+
+#friends_listbox {
+    border-radius: 10px;
+    background-image: linear-gradient(rgba(221, 152, 221, 0.527), rgba(82, 79, 79, 0.521));
 }
 
 #list_box {
-    background-image: linear-gradient(rgba(221, 152, 221, 0.527), rgba(0, 0, 0, 0.521));
-    /* background-image: linear-gradient(rgba(221, 152, 235, 0.527), rgba(178, 193, 233, 0.521)); */
+    border-radius: 10px;
+    background-image: linear-gradient(rgba(221, 152, 221, 0.527), rgba(82, 79, 79, 0.521));
 }
 
 #theme_1 {
@@ -58,7 +72,7 @@ button:active {
 #theme_2 {
     border-color: rgb(231, 216, 216);
     border-width: 3px;
-    background-image: linear-gradient(rgba(221, 152, 221, 0.527), rgba(0, 0, 0, 0.521));
+    background-image: linear-gradient(rgba(221, 152, 221, 0.527), rgba(82, 79, 79, 0.521));
 }
 
 #theme_3 {
@@ -94,7 +108,22 @@ button:active {
 }
 
 #row {
-    margin-bottom: 5px;
     margin-top: 5px;
+    margin-bottom: 5px;
     padding-right: 5px;
 }
+
+#install_button {
+    background-image: linear-gradient(rgba(221, 152, 235, 0), rgba(178, 193, 233, 0));
+}
+
+#mess_date {
+    color: rgba(107, 95, 94, 0.8);
+}
+
+#username_mess {
+    margin-right: 6px;
+    font-weight: bold;
+    color: rgba(107, 95, 94, 0.8);
+}
+

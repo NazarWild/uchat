@@ -3,9 +3,7 @@
 int main(int argc, char *argv[]) {
     t_widget_my *widge = (t_widget_my *)malloc(sizeof(t_widget_my));
     widge->message_id = 0;
-    widge->from_id = 0;
     widge->id_friend = 0;
-    widge->color_mode = 0;
     widge->on_profile = 0;
 
     widge->message_send = (GtkWidget **)malloc(sizeof(GtkWidget *));
@@ -25,11 +23,11 @@ int main(int argc, char *argv[]) {
     gtk_init (&argc, &argv);
     
     //css
-    widge->dark = gtk_css_provider_new ();
+    widge->theme = gtk_css_provider_new ();
 
-    gtk_css_provider_load_from_path (widge->dark, "src/themes/theme_1.css", NULL);
+    gtk_css_provider_load_from_path (widge->theme, "src/themes/theme_1.css", NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
-                                            GTK_STYLE_PROVIDER(widge->dark),
+                                            GTK_STYLE_PROVIDER(widge->theme),
                                             GTK_STYLE_PROVIDER_PRIORITY_USER);
     //
 
@@ -43,11 +41,6 @@ int main(int argc, char *argv[]) {
     }
 
     mx_create_widge(widge);
-
-    // widge->sw = gtk_scrolled_window_new (NULL, NULL);
-    // gtk_widget_set_hexpand (widge->sw, TRUE);
-    // gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (widge->sw), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-    // gtk_container_add(GTK_CONTAINER (widge->list_box), widge->sw);
 
     mx_login_win(widge);
     

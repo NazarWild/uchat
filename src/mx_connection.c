@@ -71,10 +71,19 @@ static void change_pos(GtkWidget *widget, void *data) {
     }
 }
 
+void mx_papa_bot(GtkWidget* widget, void *data) {
+    t_widget_my *widge = (t_widget_my *)data;
+    char *login = (char *) gtk_button_get_label(GTK_BUTTON(widget));
+    
+    gtk_button_set_label (GTK_BUTTON(widge->who_writing), login);
+    mx_remove_mess(widge);
+    widge->to = login;
+}
+
 void hazker_mode(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
-    gtk_css_provider_load_from_path (widge->dark, "src/hacker.css", NULL);
+    gtk_css_provider_load_from_path (widge->theme, "src/hacker.css", NULL);
 }
 
 void send_file(GtkWidget* widget, void *dat) {
@@ -86,13 +95,13 @@ void send_file(GtkWidget* widget, void *dat) {
 void theme_1(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
-    gtk_css_provider_load_from_path (widge->dark, "src/hacker.css", NULL);
+    gtk_css_provider_load_from_path (widge->theme, "src/hacker.css", NULL);
 }
 
 void theme_2(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
-    gtk_css_provider_load_from_path (widge->dark, "src/default.css", NULL);
+    gtk_css_provider_load_from_path (widge->theme, "src/default.css", NULL);
 }
 
 void theme_3(GtkWidget* widget, void *dat) {
@@ -116,7 +125,7 @@ void setting_win(GtkWidget* widget, void *dat) {
 static void send_message(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
     char *str; //строка которую отправляем Лехе
-    char *message = (char *)gtk_entry_get_text(GTK_ENTRY(widge->command_line)); //считываем данные с ввода
+    char *message = (char *)gtk_entry_get_text(GTK_ENTRY(widget)); //считываем данные с ввода
 
     if (strlen(message) == 0) { //если пустая строка, ничего не делать
         printf("Are you kidding me?\n");
@@ -246,7 +255,9 @@ void mx_connection(t_widget_my *widge) {
         g_signal_connect (widge->achiev, "clicked", G_CALLBACK(hazker_mode), widge);
         g_signal_connect (widge->setting, "clicked", G_CALLBACK(mx_setting_win), widge);
         g_signal_connect (widge->file_button, "clicked", G_CALLBACK(send_file), widge);
-        g_signal_connect(widge->try, "changed", G_CALLBACK(change_pos), NULL);
+        g_signal_connect(widge->slider_adj, "changed", G_CALLBACK(change_pos), NULL);
+        g_signal_connect(widge->papa_bot, "clicked", G_CALLBACK(mx_papa_bot), widge);
+        g_signal_connect (widge->search_entry, "activate", G_CALLBACK(send_message), widge);
         pthread_create(&preg, 0, Read, widge);
     }
     else {

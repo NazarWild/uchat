@@ -1,14 +1,14 @@
 #include "../inc/uchat.h"
 
-void print_1(GtkWidget *widget, void *data) {
+void print_f(GtkWidget *widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
 
     char *login = (char *) gtk_button_get_label(GTK_BUTTON(widget));
 
-    printf("from = %s\n", login);
+    printf("11111 = %s\n", login);
 }
 
-void *from_realloc(void *ptr, size_t size, ssize_t from) {
+void *y_realloc(void *ptr, size_t size, ssize_t from) {
     void *new_ptr= malloc(size);
     if (new_ptr && ptr)
     {
@@ -19,10 +19,42 @@ void *from_realloc(void *ptr, size_t size, ssize_t from) {
     return new_ptr;
 }
 
-void mx_message_from(t_widget_my *widge, const gchar *text) {
-    GtkWidget *row, *message_to, *box, *box2, *grid, *label, *grid1;
+GtkWidget *mx_user_name_mess_a(char *user) {
+    GtkWidget *box, *label, *username;
 
-    widge->message_send = from_realloc(widge->message_send, (widge->message_id + 1) * sizeof(widge->message_send), widge->message_id);
+    label = gtk_label_new("");
+    username = gtk_label_new(user);
+
+    box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
+
+    gtk_box_pack_start(GTK_BOX(box), username, 0, 0, 0);
+    gtk_box_pack_start(GTK_BOX(box), label, 1, 0, 0);
+
+    gtk_widget_set_name(username, "username_name_f");
+
+    return box;
+}
+
+GtkWidget *mx_data_mess_a(char *data) {
+    GtkWidget *box, *label, *date;
+
+    label = gtk_label_new("");
+    date = gtk_label_new(data);
+
+    box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
+
+    gtk_box_pack_start(GTK_BOX(box), date, 0, 0, 0);
+    gtk_box_pack_start(GTK_BOX(box), label, 1, 0, 0);
+
+    gtk_widget_set_name(date, "mess_date_f");
+
+    return box;
+}
+
+void mx_message_from(t_widget_my *widge, const gchar *text) {
+    GtkWidget *row, *box, *box2, *grid, *label, *box_in, *box3, *user_name, *data_box;
+
+    widge->message_send = y_realloc(widge->message_send, (widge->message_id + 1) * sizeof(widge->message_send), widge->message_id);
 
     row = gtk_list_box_row_new ();
     gtk_widget_set_size_request(row, 590, 30);
@@ -33,25 +65,37 @@ void mx_message_from(t_widget_my *widge, const gchar *text) {
 
     widge->message_send[widge->message_id] = gtk_button_new_with_label(text);
 
-    grid1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
-    gtk_widget_set_size_request(grid1, 590, 30);
+    box_in = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
+    gtk_widget_set_size_request(box_in, 590, 30);
 
-    box2 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
     box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
-    
-    gtk_box_pack_start(GTK_BOX(box2), label, 1, 0, 0);
-    gtk_box_pack_start(GTK_BOX(box), widge->message_send[widge->message_id], 1, 0, 0);
+    box2 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
+    box3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, TRUE);
 
-    gtk_container_add_with_properties (GTK_CONTAINER (grid1), box2, "expand", TRUE, NULL);
-    gtk_container_add(GTK_CONTAINER (grid1), box);
+    user_name = mx_user_name_mess_a("okolevatov");
+    data_box = mx_data_mess_a("22:53");
 
-    gtk_container_add (GTK_CONTAINER (row), grid1);
+    gtk_box_pack_start(GTK_BOX(box3), user_name, 0, 0, 0);
+    gtk_box_pack_start(GTK_BOX(box3), widge->message_send[widge->message_id], 1, 0, 0);
+    gtk_box_pack_start(GTK_BOX(box3), data_box, 0, 0, 0);
+    gtk_box_pack_start(GTK_BOX(box2), box3, 1, 0, 0);
+    gtk_box_pack_start(GTK_BOX(box), label, 1, 0, 0);
 
-    gtk_widget_set_name(widge->message_send[widge->message_id], "message_to");
+    gtk_container_add(GTK_CONTAINER (box_in), box2);
+    gtk_container_add_with_properties (GTK_CONTAINER (box_in), box, "expand", TRUE, NULL);
+
+    gtk_container_add (GTK_CONTAINER (row), box_in);
+
+    gtk_widget_set_name(widge->message_send[widge->message_id], "message_from");
+    gtk_widget_set_name(row, "row_from");
+
+    gtk_widget_set_can_focus(widge->message_send[widge->message_id], FALSE);
+    gtk_widget_set_can_focus(row, FALSE);
+
 
     gtk_list_box_insert (GTK_LIST_BOX(widge->list_box), row, -1);
 
-    g_signal_connect(widge->message_send[widge->message_id], "clicked", G_CALLBACK(print_1), widge);
+    g_signal_connect(widge->message_send[widge->message_id], "clicked", G_CALLBACK(print_f), widge);
 
     widge->message_id++;
 
@@ -59,3 +103,5 @@ void mx_message_from(t_widget_my *widge, const gchar *text) {
 
     gtk_widget_show_all (widge->list_box);
 }
+
+

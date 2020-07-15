@@ -6,7 +6,6 @@ static void design_css(t_widget_my *widge) {
     gtk_widget_set_name(widge->return_sign_in, "return_sign_in");
     gtk_widget_set_name(widge->command_line, "command_line");
     gtk_widget_set_name(widge->who_writing, "who_writing");
-    gtk_widget_set_name(widge->list_box, "list_box");
     gtk_widget_set_name(widge->theme_1, "theme_1");
     gtk_widget_set_name(widge->theme_2, "theme_2");
     gtk_widget_set_name(widge->theme_3, "theme_3");
@@ -16,6 +15,7 @@ static void design_css(t_widget_my *widge) {
     gtk_widget_set_name(widge->win_sett, "win_sett");
     gtk_widget_set_name(widge->scrolled, "scrolled");
     gtk_widget_set_name(widge->choose_user, "choose_user");
+    gtk_widget_set_name(widge->friends, "friends_listbox");
 }
 
 void relieff_set(t_widget_my *widge) {
@@ -32,14 +32,6 @@ void mx_create_widge(t_widget_my *widge) {
     widge->sign_in = GTK_WIDGET(gtk_builder_get_object (widge->builder, "sign_in"));
     widge->sign_up = GTK_WIDGET(gtk_builder_get_object (widge->builder, "sign_up"));
 
-    widge->user_name = gtk_entry_new();
-    widge->user_password = gtk_entry_new();
-    widge->create_user_name = gtk_entry_new();
-    widge->create_user_password = gtk_entry_new();
-    widge->repeat_user_password = gtk_entry_new();
-
-    widge->command_line = gtk_entry_new();
-
     widge->user_name = GTK_WIDGET(gtk_builder_get_object (widge->builder, "user_name"));
     widge->user_password = GTK_WIDGET(gtk_builder_get_object (widge->builder, "user_password"));
 
@@ -49,11 +41,9 @@ void mx_create_widge(t_widget_my *widge) {
     widge->registration = GTK_WIDGET(gtk_builder_get_object (widge->builder, "registration"));
     widge->return_sign_in = GTK_WIDGET(gtk_builder_get_object (widge->builder, "return_sign_in"));
 
-
     widge->command_line = GTK_WIDGET(gtk_builder_get_object (widge->builder, "command_line"));
     widge->com_event_box = GTK_WIDGET(gtk_builder_get_object (widge->builder, "com_event_box"));
     widge->setting = GTK_WIDGET(gtk_builder_get_object (widge->builder, "setting"));
-    // widge->message = GTK_WIDGET(gtk_builder_get_object (widge->builder, "message"));
 
     widge->name_exists = GTK_LABEL(gtk_builder_get_object (widge->builder, "name_exists"));//nd
     widge->wrong_login = GTK_LABEL(gtk_builder_get_object (widge->builder, "wrong_login"));//nd
@@ -85,13 +75,15 @@ void mx_create_widge(t_widget_my *widge) {
     widge->main_chat = GTK_WIDGET(gtk_builder_get_object(widge->builder, "main_chat"));
 
     widge->scrolled = GTK_WIDGET(gtk_builder_get_object(widge->builder, "scrolled"));
-    widge->try = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(widge->scrolled));
+
+    widge->slider_adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(widge->scrolled));
 
     widge->choose_user = GTK_WIDGET(gtk_builder_get_object(widge->builder, "choose_user"));
 
-    widge->online = gtk_button_new();
+    widge->papa_bot = GTK_WIDGET(gtk_builder_get_object (widge->builder, "papa_bot"));
 
-    gtk_list_box_unselect_all (GTK_LIST_BOX(widge->list_box));
+    widge->search_entry = GTK_WIDGET(gtk_builder_get_object (widge->builder, "search_entry"));
+    // gtk_list_box_unselect_all (GTK_LIST_BOX(widge->list_box));
 
     mx_set_images(widge);
     // relieff_set(widge);

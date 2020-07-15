@@ -37,14 +37,14 @@ void *f_realloc(void *ptr, size_t size, ssize_t from) {
 
 void mx_online_img(t_widget_my *widge, int online, GtkWidget *button) {
     if (online == 1) {
-        widge->online_img = gdk_pixbuf_new_from_file("./img_chat/online.png", NULL);
-        widge->online_img = gdk_pixbuf_scale_simple(widge->online_img, 10, 10, GDK_INTERP_BILINEAR);
+        widge->online_img = gdk_pixbuf_new_from_file("./img_chat/plus.png", NULL);
+        widge->online_img = gdk_pixbuf_scale_simple(widge->online_img, 15, 15, GDK_INTERP_BILINEAR);
         widge->online_icon = gtk_image_new_from_pixbuf(widge->online_img);
         gtk_button_set_image (GTK_BUTTON(button), widge->online_icon);
     }
     else {
-        widge->offline_img = gdk_pixbuf_new_from_file("./img_chat/offline.png", NULL);
-        widge->offline_img = gdk_pixbuf_scale_simple(widge->offline_img, 10, 10, GDK_INTERP_BILINEAR);
+        widge->offline_img = gdk_pixbuf_new_from_file("./img_chat/minus.png", NULL);
+        widge->offline_img = gdk_pixbuf_scale_simple(widge->offline_img, 20, 20, GDK_INTERP_BILINEAR);
         widge->offline_icon = gtk_image_new_from_pixbuf(widge->offline_img);
         gtk_button_set_image (GTK_BUTTON(button), widge->offline_icon);
     }
