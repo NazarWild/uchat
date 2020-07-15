@@ -39,7 +39,6 @@ void sending_file(t_widget_my *widge) {
         char str[mx_len_of_file(widge->filename)];
 
         widge->bytes = mx_len_of_file(widge->filename);
-        stream = open(widge->filename, O_RDONLY);
         read(stream, str, widge->bytes);
         write(widge->sockfd, str, widge->bytes);
         close(stream);
