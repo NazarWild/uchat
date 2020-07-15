@@ -22,9 +22,11 @@ int callback_list_last_users_messeges(void *data, int argc, char **argv, char **
     return 0;
 }
 
-t_list *return_last_list(t_list *chats, use_mutex_t *mutex, t_sqlite *lite) {
+t_list *return_last_list(t_list *chats, use_mutex_t *mutex) {
+    t_sqlite *lite = malloc(sizeof(t_sqlite));
     t_list *list = 0;
     char *sql = 0;
+
     for (t_list *new = chats; new != NULL; new = new->next) {
         char *data = new->data;
         asprintf(&sql, "select text, users_id from messeges where chats_id = %d "
@@ -35,6 +37,8 @@ t_list *return_last_list(t_list *chats, use_mutex_t *mutex, t_sqlite *lite) {
         mx_sqlite(lite, mutex);
         free(sql);
     }
+    free(lite);
+    return list;
 }
 
 t_list *mx_list_last_users_messeges(use_mutex_t *mutex) {
@@ -49,6 +53,5 @@ t_list *mx_list_last_users_messeges(use_mutex_t *mutex) {
     mx_sqlite(lite, mutex);
     free(sql);
     free(lite);
-    return return_last_list;
+    return return_last_list(chats, mutex);
 }
-

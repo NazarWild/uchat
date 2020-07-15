@@ -23,9 +23,10 @@ void mx_creating(cJSON* root, use_mutex_t *mutex) {
     cJSON* log = cJSON_GetObjectItemCaseSensitive(root, "LOGIN");
     cJSON* pass = cJSON_GetObjectItemCaseSensitive(root, "PASS");
     char *add_this = NULL;
-    
-    asprintf(&add_this, "'%s', '%s', %d", log->valuestring, pass->valuestring, 0);
-    if (same_login(log->valuestring, mutex) == false) {
+    char *login = mx_parse_str(log->valuestring);
+
+    asprintf(&add_this, "'%s', '%s', %d", login, pass->valuestring, 0);
+    if (same_login(login, mutex) == false) {
         write(mutex->cli_fd, "-2", 2);
         free(add_this);
     }
@@ -34,4 +35,5 @@ void mx_creating(cJSON* root, use_mutex_t *mutex) {
         write(mutex->cli_fd, "2", 1);
         free(add_this);
     }
+    free(login);
 }

@@ -43,12 +43,15 @@ static void set_socket(int fd, char *log, use_mutex_t *mutex) {
 static bool loging(cJSON *root, int fd, use_mutex_t *mutex) {
     cJSON* log = cJSON_GetObjectItemCaseSensitive(root, "LOGIN");
     cJSON* pass = cJSON_GetObjectItemCaseSensitive(root, "PASS");
-    
+    char *loggin;
+
     if (cJSON_IsString(log) && log->valuestring != NULL 
         && cJSON_IsString(pass) && pass->valuestring != NULL) { 
         if(mx_pass_connect(log->valuestring, pass->valuestring, mutex) == true) {
+            loggin = mx_parse_str(log->valuestring);
             write(1, "LOGIN\n" , 7);
-            set_socket(fd, log->valuestring, mutex);
+            set_socket(fd, loggin, mutex);
+            free(loggin);
             return true; 
         } 
         else  

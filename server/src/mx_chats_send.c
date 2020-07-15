@@ -1,7 +1,7 @@
 #include "../inc/uchat.h"
 
 static void creating_cJSON(cJSON *users, t_messeges *chat) { // надо знать кто последний отправил сообщение и кто учавствует в этом чате
-    cJSON *id = cJSON_CreateString(mx_itoa(chat->id));
+    cJSON *id = cJSON_CreateString(mx_itoa(chat->chats_id));
     cJSON *last_mess = cJSON_CreateString(chat->text);
 
     cJSON_AddItemToObject(users, "id", id);
