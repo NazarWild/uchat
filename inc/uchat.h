@@ -210,7 +210,7 @@ void mx_theme_6(GtkWidget* widget, void *dat);
 // t_message_list *mx_create_node(void *data);
 // void mx_push_front(t_message_list **list, void *data);
 
-void mx_remove_friend_list(GtkWidget* widget, void *dat);
+void mx_remove_friend_list(t_widget_my *widge);
 void mx_remove_mess(void *data);
 void mx_send_file_to(t_widget_my *widge, const gchar *text);
 

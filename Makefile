@@ -48,8 +48,8 @@ all: install
 install: $(NAME)
 	
 $(NAME) : $(SRC) $(INC)
-	@clang $(CFLAGS) -c $(SRC_COMPILE)
-	@clang $(CFLAGS) $(OBJ) -o $(NAME) $(OFLAGS)
+	@clang $(CFLAGS) -c $(SRC_COMPILE) 
+	@clang $(CFLAGS) $(OBJ) -o $(NAME) $(OFLAGS) #-fsanitize=address
 	@mkdir -p obj
 	@cp $(OBJ) obj/
 	@rm -rf $(OBJ)

@@ -8,9 +8,7 @@ static void delete_list_box_row(t_widget_my *widge) {
 
 }
 
-void mx_remove_friend_list(GtkWidget* widget, void *dat) {
-    t_widget_my *widge = (t_widget_my *)dat;
-
+void mx_remove_friend_list(t_widget_my *widge) {
     while(widge->index >= 0) {
         delete_list_box_row(widge);
         widge->index--;
