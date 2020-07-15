@@ -132,6 +132,7 @@ typedef struct s_widget_my {
     GdkPixbuf *offline_img;
     GdkPixbuf *edit_img;
     GdkPixbuf *trash_img;
+    GdkPixbuf *installbutt_img;
 
     GtkWidget *profile_icon;
     GtkWidget *smile_icon;
@@ -152,6 +153,7 @@ typedef struct s_widget_my {
     GtkWidget *offline_icon;
     GtkWidget *edit_icon;
     GtkWidget *trash_icon;
+    GtkWidget *installbutt_icon;
     //
 
     //ndykyy
@@ -209,8 +211,12 @@ void mx_theme_6(GtkWidget* widget, void *dat);
 
 void mx_remove_friend_list(t_widget_my *widge);
 void mx_remove_mess(void *data);
+void *mx_realloc(void *ptr, size_t size, ssize_t from);
 void mx_send_file_to(t_widget_my *widge, const gchar *text);
-
+GtkWidget *mx_time_mess_to(char *data);
+GtkWidget *mx_name_mess_to(char *user);
+GtkWidget *mx_time_mess_from(char *data);
+GtkWidget *mx_name_mess_from(char *user);
 
 void mx_profile_gtk(t_widget_my *widge);
 void mx_photo_set(t_widget_my *widge);

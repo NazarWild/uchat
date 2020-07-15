@@ -161,6 +161,7 @@ button:active {
 }
 
 #install_button {
+    border-width: 0px;
     background-image: linear-gradient(rgba(221, 152, 235, 0), rgba(178, 193, 233, 0));
 }
 

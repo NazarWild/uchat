@@ -26,6 +26,11 @@ FILES = mx_log_in \
 	remove_friend_list \
 	send_file_to \
 	remove_mess \
+	mx_realloc \
+	mx_time_mess_from \
+	mx_time_mess_to \
+	mx_name_mess_from \
+	mx_name_mess_to \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
