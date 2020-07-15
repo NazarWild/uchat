@@ -8,7 +8,7 @@
 #include <netinet/in.h>
 #include <string.h>
 #include <pthread.h>
-#include <wchar.h>	
+#include <wchar.h>
 #include <fcntl.h>
 #include <stdbool.h>
 #include <malloc/malloc.h>
@@ -18,10 +18,10 @@
 #include <sqlite3.h>
 //#include "sqlite.h"
 
-#include <openssl/ssl.h>
-#include <openssl/rsa.h>
-#include <openssl/x509.h>
-#include <openssl/evp.h>
+// #include <openssl/ssl.h>
+// #include <openssl/rsa.h>
+// #include <openssl/x509.h>
+// #include <openssl/evp.h>
 
 #define PORT 6969
 #define USERS 200

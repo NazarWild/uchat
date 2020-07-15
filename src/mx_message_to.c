@@ -9,53 +9,10 @@ void print(GtkWidget *widget, void *data) {
     printf("11111 = %s\n", login);
 }
 
-void *x_realloc(void *ptr, size_t size, ssize_t from) {
-    void *new_ptr= malloc(size);
-    if (new_ptr && ptr)
-    {
-        memcpy(new_ptr, ptr, from);
-        free(ptr);
-    }
-
-    return new_ptr;
-}
-
-GtkWidget *mx_user_name_mess(char *user) {
-    GtkWidget *box, *label, *username;
-
-    label = gtk_label_new("");
-    username = gtk_label_new(user);
-
-    box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
-
-    gtk_box_pack_start(GTK_BOX(box), label, 1, 0, 0);
-    gtk_box_pack_start(GTK_BOX(box), username, 0, 0, 0);
-
-    gtk_widget_set_name(username, "username_mess");
-
-    return box;
-}
-
-GtkWidget *mx_data_mess(char *data) {
-    GtkWidget *box, *label, *date;
-
-    label = gtk_label_new("");
-    date = gtk_label_new(data);
-
-    box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
-
-    gtk_box_pack_start(GTK_BOX(box), label, 1, 0, 0);
-    gtk_box_pack_start(GTK_BOX(box), date, 0, 0, 0);
-
-    gtk_widget_set_name(date, "mess_date");
-
-    return box;
-}
-
 void mx_message_to(t_widget_my *widge, const gchar *text) {
     GtkWidget *row, *box, *box2, *edit, *label, *box_in, *box3, *user_name, *data_box, *box4, *trash;
 
-    widge->message_send = x_realloc(widge->message_send, (widge->message_id + 1) * sizeof(widge->message_send), widge->message_id);
+    widge->message_send = mx_realloc(widge->message_send, (widge->message_id + 1) * sizeof(widge->message_send), widge->message_id);
 
     edit = gtk_button_new();
     trash = gtk_button_new();
@@ -77,8 +34,8 @@ void mx_message_to(t_widget_my *widge, const gchar *text) {
     box3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, TRUE);
     box4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
 
-    user_name = mx_user_name_mess("opoliarenk");
-    data_box = mx_data_mess("22:12");
+    user_name = mx_name_mess_to("opoliarenk");
+    data_box = mx_time_mess_to("22:12");
 
     widge->edit_img = gdk_pixbuf_new_from_file("./img_chat/edit.png", NULL);
     widge->edit_img = gdk_pixbuf_scale_simple(widge->edit_img, 20, 20, GDK_INTERP_BILINEAR);
