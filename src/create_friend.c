@@ -25,15 +25,6 @@ void p(GtkWidget* widget, void *data) {
             write(1,"\n", strlen("\n"));
 }
 
-void *f_realloc(void *ptr, size_t size, ssize_t from) {
-    void *new_ptr= malloc(size);
-    if (new_ptr && ptr)
-    {
-        memcpy(new_ptr, ptr, from);
-        free(ptr);
-    }
-    return new_ptr;
-}
 
 void mx_online_img(t_widget_my *widge, int online, GtkWidget *button) {
     if (online == 1) {
@@ -58,7 +49,7 @@ void mx_create_friend(t_widget_my *widge, const gchar *text, int online) {
     gtk_list_box_row_set_activatable(GTK_LIST_BOX_ROW(row), FALSE);
     gtk_list_box_row_set_selectable(GTK_LIST_BOX_ROW(row), FALSE);
 
-    widge->friend_button = f_realloc(widge->friend_button, (widge->id_friend + 1) * sizeof(widge->friend_button), widge->id_friend);
+    widge->friend_button = mx_realloc(widge->friend_button, (widge->id_friend + 1) * sizeof(widge->friend_button), widge->id_friend);
 
     online_button = gtk_button_new();
     mx_online_img(widge, online, online_button);
