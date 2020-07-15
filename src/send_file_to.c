@@ -3,7 +3,7 @@
 void install(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
-    printf("%s\n", widge->te);
+    printf("%s\n", widge->path_file);
 }
 
 void mx_send_file_to(t_widget_my *widge, const gchar *text) {
@@ -15,7 +15,7 @@ void mx_send_file_to(t_widget_my *widge, const gchar *text) {
     gtk_list_box_row_set_activatable(GTK_LIST_BOX_ROW(row), FALSE);
     gtk_list_box_row_set_selectable(GTK_LIST_BOX_ROW(row), FALSE);
 
-    widge->te = strdup(text);
+    widge->path_file = strdup(text);
     label = gtk_label_new("");
 
     install_button = gtk_button_new();
