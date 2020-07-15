@@ -1,5 +1,13 @@
 #include "../inc/uchat.h"
 
+void mx_create_chat(GtkWidget* widget, void *data) {
+    t_widget_my *widge = (t_widget_my *)data;
+
+    gtk_widget_grab_focus (widge->command_line);
+    gtk_entry_set_text(GTK_ENTRY(widget), "");
+    gtk_entry_set_placeholder_text(GTK_ENTRY(widget), "No such user");
+}
+
 void mx_pop_front(t_list **head) {
     t_list *first = *head;
     *head = (*head)->next;
@@ -132,7 +140,7 @@ static void send_message(GtkWidget* widget, void *dat) {
     }
     else {
         mx_message_to(widge, message);
-        mx_remove_friend_list(widge);
+        // mx_remove_friend_list(widge);
         asprintf(&str, "{\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\",\"CHAT_ID\":\"0\"}\n", widge->to, message);
         //write(1, str, strlen(str));
         write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
@@ -257,7 +265,7 @@ void mx_connection(t_widget_my *widge) {
         g_signal_connect (widge->file_button, "clicked", G_CALLBACK(send_file), widge);
         g_signal_connect(widge->slider_adj, "changed", G_CALLBACK(change_pos), NULL);
         g_signal_connect(widge->papa_bot, "clicked", G_CALLBACK(mx_papa_bot), widge);
-        g_signal_connect (widge->search_entry, "activate", G_CALLBACK(send_message), widge);
+        g_signal_connect (widge->search_entry, "activate", G_CALLBACK(mx_create_chat), widge);
         pthread_create(&preg, 0, Read, widge);
     }
     else {
