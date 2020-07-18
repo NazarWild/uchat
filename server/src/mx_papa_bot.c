@@ -1,6 +1,6 @@
 #include "../inc/uchat.h"
 
-static void mylvl(use_mutex_t *mutex) {
+static void mylvl(t_use_mutex *mutex) {
     //iz bd dostaem vse chto nado to est po loginu uroven
     cJSON *root = cJSON_CreateObject();
     cJSON *level = cJSON_CreateNumber(mutex->lvl);
@@ -13,18 +13,18 @@ static void mylvl(use_mutex_t *mutex) {
     cJSON_Delete(root);
 }
 
-static void start(use_mutex_t *mutex) {
+static void start(t_use_mutex *mutex) {
     // nachinaem cacueto zagadku proveriaya na raiting i v zavisimosti ot raitinga vivodim zagadku
     // pervaya zagadka shifr cezara
 
 }
 
-static void command_false(use_mutex_t *mutex) {
+static void command_false(t_use_mutex *mutex) {
     // commanda ne izvestna
     write(mutex->cli_fd, "Chto eto za slovo?", 18);
 }
 
-void mx_papa_bot(cJSON *MESS, use_mutex_t *mutex) { //vsegda nado budet otpravliat chto oni v etom chate ili tipa togo chtobi pisat im commands
+void mx_papa_bot(cJSON *MESS, t_use_mutex *mutex) { //vsegda nado budet otpravliat chto oni v etom chate ili tipa togo chtobi pisat im commands
     char *mess = strdup(MESS->valuestring);
 
     if (strcmp(mess, "./mylvl") == 0)

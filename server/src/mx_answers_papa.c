@@ -7,7 +7,7 @@ static int callback_persons_id(void *data, int argc, char **argv, char **ColName
     return 0;
 }
 
-void mx_answers_papa(use_mutex_t *mutex) {
+void mx_answers_papa(t_use_mutex *mutex) {
     char *data = NULL;
     char *new = NULL; 
 

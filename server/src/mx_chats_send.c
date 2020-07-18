@@ -26,7 +26,7 @@ static void creating_cJSON(cJSON *users, t_messeges *chat) { // надо зна�
     free(str);
 }
 
-void mx_chats_send(use_mutex_t *mutex) {
+void mx_chats_send(t_use_mutex *mutex) {
     t_list *chats = mx_list_last_users_messeges(mutex);
     cJSON *root = cJSON_CreateObject();
     cJSON *users = NULL;

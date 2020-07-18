@@ -1,6 +1,6 @@
 #include "../inc/uchat.h"
 
-static void deleteing_request(cJSON *root, use_mutex_t *mutex) {
+static void deleteing_request(cJSON *root, t_use_mutex *mutex) {
     cJSON *delete = cJSON_GetObjectItemCaseSensitive(root, "ACCOUNT");
     char *str2 = NULL;
 
@@ -10,7 +10,7 @@ static void deleteing_request(cJSON *root, use_mutex_t *mutex) {
     free(str2);
 } 
 
-bool mx_delete(use_mutex_t *param, cJSON *root) {
+bool mx_delete(t_use_mutex *param, cJSON *root) {
     cJSON *delete = cJSON_GetObjectItemCaseSensitive(root, "DELETE");
     int exit;
 

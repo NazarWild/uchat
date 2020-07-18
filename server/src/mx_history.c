@@ -9,7 +9,7 @@ int callback_list_history(void *data, int argc, char **argv, char **ColName) {
     return 0;
 }
 
-t_list *mx_history_chat(int text_id, int chats_id, use_mutex_t *mutex) {
+t_list *mx_history_chat(int text_id, int chats_id, t_use_mutex *mutex) {
     t_list *list = 0;
     t_sqlite *lite = malloc(sizeof(t_sqlite));
     char *sql = 0;

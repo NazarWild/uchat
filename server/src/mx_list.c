@@ -25,7 +25,9 @@ t_list *mx_create_node(void *data) {
 }
 
 void mx_push_front(t_list **list, void *data) {
+    write(1, "THIS SEG\n", 9);
     t_list *tmp = *list;
+    write(1, "THIS SE1\n", 9);
 
     if (*list == 0) {
         *list = mx_create_node(data);
@@ -74,7 +76,7 @@ void mx_delete_who_online_list(t_list *list) {
     }
 }
 
-t_list *mx_where_not_1(use_mutex_t *mutex) {
+t_list *mx_where_not_1(t_use_mutex *mutex) {
     t_list *list = NULL;
     t_sqlite *lite = malloc(sizeof(t_sqlite));
 

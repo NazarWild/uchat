@@ -7,7 +7,7 @@ static int callback_persons_id(void *data, int argc, char **argv, char **ColName
     return 0;
 }
 
-static void send_mess(int to, char *mess, use_mutex_t *mutex) {
+static void send_mess(int to, char *mess, t_use_mutex *mutex) {
     char *new = NULL;
 
     asprintf(&new, "{\"FROM\":%d,\"MESS\":%s}\n", mutex->user_id, mess);
@@ -15,7 +15,7 @@ static void send_mess(int to, char *mess, use_mutex_t *mutex) {
     free(new);
 }
 
-static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, use_mutex_t *mutex) {
+static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) {
     char *str1 = NULL;
     char *data = NULL;
     int chat_id = atoi(CHAT_ID->valuestring);
@@ -32,7 +32,7 @@ static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, use_mutex_t *mutex) 
     free(data);
 }
 
-void mx_send_mess(cJSON *root, use_mutex_t *mutex) { //надо отправлять чат айди тоже
+void mx_send_mess(cJSON *root, t_use_mutex *mutex) { //надо отправлять чат айди тоже
     cJSON* TO = cJSON_GetObjectItemCaseSensitive(root, "TO");
     cJSON* MESS = cJSON_GetObjectItemCaseSensitive(root, "MESS");
     cJSON* TYPE = cJSON_GetObjectItemCaseSensitive(root, "TYPE");
