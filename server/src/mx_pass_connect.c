@@ -21,6 +21,7 @@ bool mx_pass_connect(char *login, char *pass, t_use_mutex *mutex) {
         return false;
     if (strcmp(pass, data) == 0)
         return true;
+    printf("pass - %s data - %s\n\n\n\n", pass, data);
     write(1, "NOT LOGGED", 11);
     return false;
 }

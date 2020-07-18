@@ -32,7 +32,7 @@ int mx_register(char *login, char *pass, t_widget_my *widge) {
         perror("ERROR connecting");
         exit(1);
     }
-    asprintf(&str, "{\"REG\":true,\"LOGIN\":\"%s\",\"PASS\":\"%s\"}\n", login, pass); //записываем в строку логин и пароль для Лехи
+    asprintf(&str, "{\"REG\":true,\"LOGIN\":\"%s\",\"PASS\":\"%s\"}\n", login, mx_hash(login, pass)); //записываем в строку логин и пароль для Лехи
     write(sockfd, str, strlen(str)); //отпраявляем логин и пароль Лехе
     free(str);
     char buff[1024];

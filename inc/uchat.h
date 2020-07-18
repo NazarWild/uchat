@@ -17,6 +17,7 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <arpa/inet.h>
+#include <openssl/sha.h>
 
 #define PORT 6969
 #define USERS 200
@@ -223,4 +224,8 @@ void mx_photo_set(t_widget_my *widge);
 bool mx_parse_sign_in(t_widget_my *widge, char *log, char *pass, char *rpt);
 
 void mx_dialog_open(t_widget_my *widge);
+char *mx_find_login_by_id(t_list *p, char *id);
+
+char *mx_hash_to_string(unsigned char *hash);
+char *mx_hash(char *login, char *pass);
 #endif

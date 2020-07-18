@@ -31,6 +31,10 @@ FILES = mx_log_in \
 	mx_time_mess_to \
 	mx_name_mess_from \
 	mx_name_mess_to \
+	mx_hash_to_string \
+	mx_hash \
+	mx_find_login_by_id \
+
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
@@ -56,7 +60,7 @@ $(NAME) : $(SRC) $(INC)
 	@cp local_lib/lib/libcrypto.dylib . 
 	@cp local_lib/lib/libssl.dylib .
 	@clang $(CFLAGS) -c $(SRC_COMPILE) -I local_lib/include
-	@clang $(CFLAGS) $(OBJ) -o $(NAME) $(OFLAGS) #-fsanitize=address -L ./ -I local_lib/include -lssl -lcrypto
+	@clang $(CFLAGS) $(OBJ) -o $(NAME) $(OFLAGS) -L ./ -I local_lib/include -lssl -lcrypto
 	@mkdir -p obj
 	@cp $(OBJ) obj/
 	@rm -rf $(OBJ)
