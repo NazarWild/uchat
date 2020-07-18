@@ -32,15 +32,20 @@ void mx_chats_send(use_mutex_t *mutex) {
     cJSON *users = NULL;
     cJSON *info = NULL;
     char *str = NULL;
+    cJSON *if_chats = NULL;
 
     write(1, "\n\n", 2);
 
     if (chats != NULL) {
+        if_chats = cJSON_CreateTrue();
         users = cJSON_CreateArray();
+        cJSON_AddItemToObject(root, "if_chats", if_chats);
         cJSON_AddItemToObject(root, "chats", users);
     }
     else {
+        if_chats = cJSON_CreateTrue();
         users = cJSON_CreateFalse();
+        cJSON_AddItemToObject(root, "if_chats", if_chats);
         cJSON_AddItemToObject(root, "chats", users);
         write(1, "DELETING", 8);
     }

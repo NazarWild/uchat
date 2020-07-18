@@ -27,7 +27,7 @@ static void set_socket(int fd, char *log, use_mutex_t *mutex) {
     asprintf(&new, "persons_id WHERE login = '%s'", log);
     mx_select("users_id", new, callback_persons_id, &users_id, mutex);
     free(new);
-    asprintf(&new, "%s, %s", users_id, ita);
+    asprintf(&new, "%s, %i", users_id, mutex->user_id);
     mx_add_to_table("sockets", "users_id, socket", new, mutex);
     mutex->user_id = atoi(users_id);
     free(new);
@@ -48,16 +48,18 @@ static bool loging(cJSON *root, int fd, use_mutex_t *mutex) {
     if (cJSON_IsString(log) && log->valuestring != NULL 
         && cJSON_IsString(pass) && pass->valuestring != NULL) { 
         if(mx_pass_connect(log->valuestring, pass->valuestring, mutex) == true) {
+            // printf("до парса %s\n", log->valuestring);
             loggin = mx_parse_str(log->valuestring);
+            // printf("после %s\n", loggin);
             write(1, "LOGIN\n" , 7);
             set_socket(fd, loggin, mutex);
             free(loggin);
             return true; 
-        } 
-        else  
+        }
+        else
             return false;
     }
-    return false; 
+    return false;
 }
 
 bool mx_registr(use_mutex_t *mutex) {

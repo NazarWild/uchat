@@ -15,6 +15,7 @@ void mx_sqlite(t_sqlite *lite, use_mutex_t *mutex) {
             pthread_mutex_unlock(mutex->mutex);
         return;
     }
+    // printf("sql запрос: %s\n", lite->sql);
     rc = sqlite3_exec(db, lite->sql, lite->callback, lite->data, &err_msg);
     if (rc != SQLITE_OK) {
         fprintf(stderr, "SQL error: %s\n", err_msg);
