@@ -64,7 +64,7 @@ void mx_parse_whoonline(t_widget_my *widge, cJSON *json) {
         write(1, "===================\n", strlen("===================\n"));
         mx_push_back(&widge->login_id, login->valuestring, user_id->valuestring, online->valueint);
         //if (online->valueint == 1)
-        mx_create_friend(widge, login->valuestring, online->valueint);
+        //mx_create_friend(widge, login->valuestring, online->valueint);
     }   
 }
 
