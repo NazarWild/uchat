@@ -25,9 +25,7 @@ t_list *mx_create_node(void *data) {
 }
 
 void mx_push_front(t_list **list, void *data) {
-    write(1, "THIS SEG\n", 9);
     t_list *tmp = *list;
-    write(1, "THIS SE1\n", 9);
 
     if (*list == 0) {
         *list = mx_create_node(data);

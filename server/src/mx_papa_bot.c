@@ -16,6 +16,9 @@ static void mylvl(t_use_mutex *mutex) {
 static void start(t_use_mutex *mutex) {
     // nachinaem cacueto zagadku proveriaya na raiting i v zavisimosti ot raitinga vivodim zagadku
     // pervaya zagadka shifr cezara
+    if (mutex->lvl == 0) {
+        
+    }
 
 }
 

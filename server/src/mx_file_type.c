@@ -1,8 +1,8 @@
 #include "../inc/uchat.h"
 
 static char *creating(cJSON* TYPE, cJSON* BYTES, cJSON* MESS, t_use_mutex *mutex) {
-    char *tmp = mx_strjoin(MESS->valuestring, TYPE->valuestring);
-    char *path =  mx_strjoin("file_serv/", tmp);//пусть отправляет название с точкой в конце
+    //char *tmp = mx_strjoin(MESS->valuestring, TYPE->valuestring);
+    char *path =  mx_strjoin("file_serv/", MESS->valuestring);//пусть отправляет название с точкой в конце
     int stream = open(path, O_RDWR | O_CREAT | O_APPEND, S_IRWXU);
     char *buff = (char *)malloc(sizeof(char) * BYTES->valueint);
 
@@ -10,13 +10,12 @@ static char *creating(cJSON* TYPE, cJSON* BYTES, cJSON* MESS, t_use_mutex *mutex
     write(stream, buff, BYTES->valueint);
     close(stream);
     free(buff);
-    free(tmp);
+    //free(tmp);
     return path;
 }
 
-static void send_cj(cJSON *root, t_use_mutex *mutex, char *name) {
+static void send_cj(cJSON *root, t_use_mutex *mutex, char *path) {
     char *str = NULL;
-    char *path = mx_strjoin("file_serv/", name);
     int fd = open(path, O_RDWR);
     cJSON* CHAT_ID = cJSON_GetObjectItemCaseSensitive(root, "CHAT_ID");
     cJSON* TO = cJSON_GetObjectItemCaseSensitive(root, "TO");
@@ -38,9 +37,9 @@ void mx_file_type(cJSON *root, t_use_mutex *mutex) {
     cJSON* CHAT_ID = cJSON_GetObjectItemCaseSensitive(root, "CHAT_ID");
     char *path = NULL;
 
-    if (strcmp("file", TYPE->valuestring) == 0) {
+    if (strcmp("text", TYPE->valuestring) != 0) {
         path = creating(TYPE, BYTES, MESS, mutex);
-        //mx_add_message(atoi(CHAT_ID->valuestring), path, 1, mutex);
+        mx_add_message(atoi(CHAT_ID->valuestring), path, 1, mutex);
         send_cj(root, mutex, path);
     }
     free(path);

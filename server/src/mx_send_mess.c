@@ -7,10 +7,10 @@ static int callback_persons_id(void *data, int argc, char **argv, char **ColName
     return 0;
 }
 
-static void send_mess(int to, char *mess, t_use_mutex *mutex) {
+static void send_mess(int to, char *mess, int chat_id, t_use_mutex *mutex) {
     char *new = NULL;
 
-    asprintf(&new, "{\"FROM\":%d,\"MESS\":%s}\n", mutex->user_id, mess);
+    asprintf(&new, "{\"FROM\":%d,\"MESS\":%s,\"CHAT_ID\":%d}\n", mutex->user_id, mess, chat_id);
     write(to, new, strlen(new));
     free(new);
 }
@@ -24,7 +24,7 @@ static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) 
     mx_select("socket", str1, callback_persons_id, &data, mutex);
     free(str1);
     if (data != NULL)
-        send_mess(atoi(data), MESS->valuestring, mutex);
+        send_mess(atoi(data), MESS->valuestring, atoi(CHAT_ID->valuestring), mutex);
     if (chat_id == 0) //если чата не сущевствует и это новое сообщение, то создаем такой чат
         mx_new_chat(TO, MESS, CHAT_ID, mutex);
     else // в другом случае добавляем сообщение в чат 
@@ -52,7 +52,7 @@ void mx_send_mess(cJSON *root, t_use_mutex *mutex) { //надо отправля
         else if (strcmp("group_text", TYPE->valuestring) == 0 
             || strcmp("group_text_file", TYPE->valuestring) == 0)
             mx_group_chat(root, mutex);
-        else 
+        else
             mx_file_type(root, mutex);
     }
 }

@@ -53,12 +53,9 @@ static bool loging(cJSON *root, int fd, t_use_mutex *mutex) {
     if (cJSON_IsString(log) && log->valuestring != NULL 
         && cJSON_IsString(pass) && pass->valuestring != NULL) { 
         if(mx_pass_connect(log->valuestring, pass->valuestring, mutex) == true) {
-            // printf("до парса %s\n", log->valuestring);
             loggin = mx_parse_str(log->valuestring);
-            // printf("после %s\n", loggin);
             write(1, "LOGIN\n" , 7);
             set_socket(fd, loggin, mutex);
-            write(1, "WOW\n", 4);
             free(loggin);
             return true; 
         }

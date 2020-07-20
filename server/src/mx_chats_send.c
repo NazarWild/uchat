@@ -57,7 +57,7 @@ void mx_chats_send(t_use_mutex *mutex) {
     }
     str = cJSON_Print(root);
     write(mutex->cli_fd, str, strlen(str));
-    write(1, str, strlen(str));
+    //write(1, str, strlen(str));
     cJSON_Delete(users);
     free(str);
     write(1, "\n\n", 2);
