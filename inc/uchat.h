@@ -22,6 +22,25 @@
 #define PORT 6969
 #define USERS 200
 
+typedef struct s_message {
+    GtkWidget *message;
+    char *login;
+    int chat_id;
+    int message_id;
+} t_message;
+
+typedef struct s_page {
+    GtkWidget *list_box;
+    GtkWidget *scroll;
+    GtkAdjustment *slider_adj;
+    GtkWidget *friend_butt;
+} t_page;
+
+typedef struct s_list_gtk {
+    void *data;
+    struct s_list_gtk *next;
+} t_list_gtk;
+
 typedef struct s_list {
     char *login;
     char *id;
@@ -30,6 +49,9 @@ typedef struct s_list {
 }              t_list;
 
 typedef struct s_widget_my {
+    t_list_gtk *message_list;
+    t_list_gtk *page_list;
+
     GtkBuilder *builder;
 
     GtkWidget *window;
@@ -59,13 +81,17 @@ typedef struct s_widget_my {
     GtkLabel *wrong_login; // ошибка входа
     GtkFixed *message_win; //окно переписки
 
-    GtkWidget *list_box; //лист бокс дпереписки
+    // GtkWidget **list_box; //массив лист боксов для переписки
+    // GtkWidget **scroll; //массив окон скрола для переписки
     GtkWidget *profile_button; //кнопка профиля
     GtkWidget *send_button; //кнопка отправки собщения
 
+    // GtkAdjustment **slider_adj; //массив adj слайдер для прокрокрутки ползунка
+    int id_lb_sw;
+
     GtkWidget *friends; //лист бокс для списка друзей
 
-    GtkWidget **friend_button; //массив друзей
+    // GtkWidget **friend_button; //массив друзей
     int id_friend; //id друга
 
     GtkWidget *who_writing; //кнопка названия чата
@@ -89,8 +115,6 @@ typedef struct s_widget_my {
 
     GtkWidget *main_chat;
 
-    GtkWidget *scrolled; //окно скрола для переписки
-
     GtkWidget *choose_user; //окно скрола для друзей
 
     gint window_x; //передвижение окна по х
@@ -105,14 +129,17 @@ typedef struct s_widget_my {
 
     gchar *path_file;
 
-    GtkWidget **message_send; //массив сообщений
+    // GtkWidget **message_send; //массив сообщений
     int message_id; //id сообщения
-
-    GtkAdjustment *slider_adj; //adj слайдер для прокрокрутки ползунка
 
     GtkWidget *papa_bot; //папа бот...
 
     GtkWidget *search_entry;
+
+    GtkWidget *notebook;
+    GtkWidget *page_label;
+
+    char *login_list;
 
     //images
     GdkPixbuf *profile_img;
@@ -132,7 +159,6 @@ typedef struct s_widget_my {
     GdkPixbuf *install_img;
     GdkPixbuf *online_img;
     GdkPixbuf *offline_img;
-    GdkPixbuf *edit_img;
     GdkPixbuf *trash_img;
     GdkPixbuf *installbutt_img;
 
@@ -153,7 +179,6 @@ typedef struct s_widget_my {
     GtkWidget *install_icon;
     GtkWidget *online_icon;
     GtkWidget *offline_icon;
-    GtkWidget *edit_icon;
     GtkWidget *trash_icon;
     GtkWidget *installbutt_icon;
     //
@@ -196,7 +221,7 @@ int main (int argc, char *argv[]);
 void mx_chat_win(t_widget_my *widge);
 void mx_message_from(t_widget_my *widge, const gchar *text);
 void mx_message_to(t_widget_my *widge, const gchar *text);
-void mx_create_friend(t_widget_my *widge, const gchar *text, int online);
+void mx_create_friend(t_widget_my *widge, const gchar *text, int online, t_page *page);
 void mx_set_images(t_widget_my *widge);
 void mx_setting_win(GtkWidget* widget, void *dat);
 
@@ -207,9 +232,9 @@ void mx_theme_4(GtkWidget* widget, void *dat);
 void mx_theme_5(GtkWidget* widget, void *dat);
 void mx_theme_6(GtkWidget* widget, void *dat);
 
-// void mx_pop_front(t_message_list **head);
-// t_message_list *mx_create_node(void *data);
-// void mx_push_front(t_message_list **list, void *data);
+void mx_pop_front_gtk(t_list_gtk **head);
+t_list_gtk *mx_create_node_gtk(void *data);
+void mx_push_front_gtk(t_list_gtk **list, void *data);
 
 void mx_remove_friend_list(t_widget_my *widge);
 void mx_remove_mess(void *data);
@@ -230,4 +255,9 @@ char *mx_find_login_by_id(t_list *p, char *id);
 
 char *mx_hash_to_string(unsigned char *hash);
 char *mx_hash(char *login, char *pass);
+
+void mx_create_chat(t_page *page, t_widget_my *widge, const gchar *text);
+char *mx_itoa(int number);
+char *mx_strnew(const int size);
+
 #endif

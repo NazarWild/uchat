@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "uchat.h": "c"
+        "uchat.h": "c",
+        "array": "c",
+        "string": "c",
+        "string_view": "c",
+        "vector": "c",
+        "malloc.h": "c",
+        "sstream": "c"
     }
 }
