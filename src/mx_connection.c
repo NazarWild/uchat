@@ -63,8 +63,6 @@ void mx_parse_whoonline(t_widget_my *widge, cJSON *json) {
         printf("LOGIN : %s\nID = %s\nONLINE = %d\n", login->valuestring, user_id->valuestring, online->valueint);
         write(1, "==================\n", strlen("==================\n"));
         mx_push_back(&widge->login_id, login->valuestring, user_id->valuestring, online->valueint);
-        //if (online->valueint == 1)
-        mx_create_friend(widge, login->valuestring, online->valueint);
     }
     write(1, "=====================\n\n", strlen("=====================\n\n"));
 }
@@ -139,7 +137,6 @@ void send_message(GtkWidget* widget, void *dat) {
     }
     else {
         mx_message_to(widge, message);
-        mx_remove_friend_list(widge);
         asprintf(&str, "{\"IF_MESS\":true,\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\",\"CHAT_ID\":\"0\"}\n", widge->to, message);
         //write(1, str, strlen(str));
         write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
@@ -197,11 +194,14 @@ void mx_parse_chats(cJSON *json, t_widget_my *widge) {
             id = cJSON_GetObjectItemCaseSensitive(arr, "id");
             last_mess = cJSON_GetObjectItemCaseSensitive(arr, "last_mess");
             who_write = cJSON_GetObjectItemCaseSensitive(arr, "who_write");
-            cJSON_ArrayForEach(arr_2, who_in_chat) {
-                printf("=======HUI %s=======\n", arr_2->valuestring);
-            }
+            who_in_chat = cJSON_GetObjectItemCaseSensitive(arr, "who_in_chat");
             printf("=======CHAT ID %s=======\n", id->valuestring);
             printf("MESS : %s\nWHO_WRITE : %s\n", last_mess->valuestring,  mx_find_login_by_id(widge->login_id, who_write->valuestring));
+            printf("=======WHO IN CHAT =======\n");
+            cJSON_ArrayForEach(arr_2, who_in_chat) {
+                printf("%s\t",arr_2->valuestring);
+            }
+            printf("\n");
             printf("=====================\n");
             //mx_push_back();
         }
@@ -221,7 +221,6 @@ void *Read(void *dat) {
         len = read(widge->sockfd, buff, 2048);
         json = cJSON_Parse(buff);
 
-        printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
         //chats
         if (if_chats(json))
             mx_parse_chats(json, widge);
@@ -230,6 +229,7 @@ void *Read(void *dat) {
             free_list(&widge->login_id);
             mx_parse_whoonline(widge, json);
         }
+        printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
         //mess
         if (if_mess(json))
             parse_mess(json, widge);
@@ -244,11 +244,14 @@ void *Read(void *dat) {
 
 void *Update(void *dat) {
     t_widget_my *widge = (t_widget_my *) dat;
+    char *str;
 
     while(1) {
-        sleep(20);
-        //write(widge->sockfd, "*", strlen("*"));
+        sleep(20);//-----------------------------------------------------periods of update
+        asprintf(&str, "{\"IF_MESS\":false}\n");
+        write(widge->sockfd, str, strlen(str));
         printf("\n-----------------------------------------------I AM %s\n", widge->login);
+        free(str);
     }
     int exit;
     pthread_exit(&exit);
@@ -265,7 +268,22 @@ void profile(GtkWidget* widget, void *data) {
         mx_profile_gtk(widge);
     }
 }
+//////////////////
+gboolean show_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
+    t_widget_my *widge = (t_widget_my *)data;
+    
+    gtk_widget_show (widge->mini_window_profile);
+    return false;
+}
 
+gboolean hide_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
+    t_widget_my *widge = (t_widget_my *)data;
+    
+    gtk_widget_hide (widge->mini_window_profile);
+    return false;
+}
+
+///////////////////
 void mx_connection(t_widget_my *widge) {
     int portno;
     struct sockaddr_in serv_addr;
@@ -304,10 +322,14 @@ void mx_connection(t_widget_my *widge) {
     json = cJSON_Parse(buff);
     if (if_online(json))
         mx_parse_whoonline(widge, json);
+    mx_create_friend(widge, "nd", 1);
+    mx_create_friend(widge, "op", 1);
     cJSON_Delete(json);
     gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
+        g_signal_connect (widge->who_writing, "enter-notify-event", G_CALLBACK(show_mini_profile), widge);
+        g_signal_connect (widge->who_writing, "leave-notify-event", G_CALLBACK(hide_mini_profile), widge);
         g_signal_connect (widge->profile_button, "clicked", G_CALLBACK(profile), widge);
         g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
         g_signal_connect (widge->command_line, "activate", G_CALLBACK(send_message), widge);

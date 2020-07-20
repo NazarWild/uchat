@@ -83,6 +83,8 @@ void mx_create_widge(t_widget_my *widge) {
     widge->papa_bot = GTK_WIDGET(gtk_builder_get_object (widge->builder, "papa_bot"));
 
     widge->search_entry = GTK_WIDGET(gtk_builder_get_object (widge->builder, "search_entry"));
+
+    mx_mini_profile_gtk(widge);
     // gtk_list_box_unselect_all (GTK_LIST_BOX(widge->list_box));
 
     mx_set_images(widge);
