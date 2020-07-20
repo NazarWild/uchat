@@ -33,22 +33,26 @@ static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) 
 }
 
 void mx_send_mess(cJSON *root, t_use_mutex *mutex) { //надо отправлять чат айди тоже
-    cJSON* TO = cJSON_GetObjectItemCaseSensitive(root, "TO");
-    cJSON* MESS = cJSON_GetObjectItemCaseSensitive(root, "MESS");
-    cJSON* TYPE = cJSON_GetObjectItemCaseSensitive(root, "TYPE");
-    cJSON* BYTES = cJSON_GetObjectItemCaseSensitive(root, "BYTES");
-    cJSON* CHAT_ID = cJSON_GetObjectItemCaseSensitive(root, "CHAT_ID");
+    cJSON* if_mess = cJSON_GetObjectItemCaseSensitive(root, "IF_MESS");
 
-    if (strcmp("text", TYPE->valuestring) == 0) {
-        if (strcmp(TO->valuestring, "PAPA_BOT") == 0) {
-            mx_papa_bot(MESS, mutex);
-            return ;
+    if(cJSON_IsTrue(if_mess) == 1) {
+        cJSON* TO = cJSON_GetObjectItemCaseSensitive(root, "TO");
+        cJSON* MESS = cJSON_GetObjectItemCaseSensitive(root, "MESS");
+        cJSON* TYPE = cJSON_GetObjectItemCaseSensitive(root, "TYPE");
+        cJSON* BYTES = cJSON_GetObjectItemCaseSensitive(root, "BYTES");
+        cJSON* CHAT_ID = cJSON_GetObjectItemCaseSensitive(root, "CHAT_ID");
+
+        if (strcmp("text", TYPE->valuestring) == 0) {
+            if (strcmp(TO->valuestring, "PAPA_BOT") == 0) {
+                mx_papa_bot(MESS, mutex);
+                return ;
+            }
+            sockets(TO, MESS, CHAT_ID, mutex);
         }
-        sockets(TO, MESS, CHAT_ID, mutex);
+        else if (strcmp("group_text", TYPE->valuestring) == 0 
+            || strcmp("group_text_file", TYPE->valuestring) == 0)
+            mx_group_chat(root, mutex);
+        else 
+            mx_file_type(root, mutex);
     }
-    else if (strcmp("group_text", TYPE->valuestring) == 0 
-        || strcmp("group_text_file", TYPE->valuestring) == 0)
-        mx_group_chat(root, mutex);
-    else 
-        mx_file_type(root, mutex);
 }

@@ -96,6 +96,7 @@ typedef struct s_widget_my {
     gint window_x; //передвижение окна по х
     gint window_y; //передвижение окна по у
     GtkWidget *window_profile; //окно профиля
+    GtkWidget *mini_window_profile; //окно профиля
 
     gint index; //индекс последней строки в списке друзей (для удаления листа)
     gint index_mess_to; //индекс последней строки в списке сообщений (для удаления листа)
@@ -220,6 +221,7 @@ GtkWidget *mx_time_mess_from(char *data);
 GtkWidget *mx_name_mess_from(char *user);
 
 void mx_profile_gtk(t_widget_my *widge);
+void mx_mini_profile_gtk(t_widget_my *widge);
 void mx_photo_set(t_widget_my *widge);
 bool mx_parse_sign_in(t_widget_my *widge, char *log, char *pass, char *rpt);
 
