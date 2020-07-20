@@ -137,7 +137,7 @@ void send_message(GtkWidget* widget, void *dat) {
     }
     else {
         mx_message_to(widge, message);
-        asprintf(&str, "{\"IF_MESS\":true,\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\",\"CHAT_ID\":\"0\"}\n", widge->to, message);
+        asprintf(&str, "{\"IF_MESS\":true,\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\",\"CHAT_ID\":\"1\"}\n", widge->to, message);
         //write(1, str, strlen(str));
         write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
         gtk_entry_set_text(GTK_ENTRY(widge->command_line), ""); //обнуляем вводимую строку, следовательно обнуляеться message
@@ -242,21 +242,21 @@ void *Read(void *dat) {
     return (void *)0;
 }
 
-void *Update(void *dat) {
-    t_widget_my *widge = (t_widget_my *) dat;
-    char *str;
+// void *Update(void *dat) {
+//     t_widget_my *widge = (t_widget_my *) dat;
+//     char *str;
 
-    while(1) {
-        sleep(20);//-----------------------------------------------------periods of update
-        asprintf(&str, "{\"IF_MESS\":false}\n");
-        write(widge->sockfd, str, strlen(str));
-        printf("\n-----------------------------------------------I AM %s\n", widge->login);
-        free(str);
-    }
-    int exit;
-    pthread_exit(&exit);
-    return (void *)0;
-}
+//     while(1) {
+//         sleep(20);//-----------------------------------------------------periods of update
+//         asprintf(&str, "{\"IF_MESS\": false }\n");
+//         write(widge->sockfd, str, strlen(str));
+//         printf("\n-----------------------------------------------I AM %s\n", widge->login);
+//         free(str);
+//     }
+//     int exit;
+//     pthread_exit(&exit);
+//     return (void *)0;
+// }
 
 void profile(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
@@ -340,7 +340,7 @@ void mx_connection(t_widget_my *widge) {
         g_signal_connect(widge->papa_bot, "clicked", G_CALLBACK(mx_papa_bot), widge);
         g_signal_connect (widge->search_entry, "activate", G_CALLBACK(mx_create_chat), widge);
         pthread_create(&preg, 0, Read, widge);
-        pthread_create(&preg, 0, Update, widge);
+        //pthread_create(&preg, 0, Update, widge);
     }
     else {
         gtk_widget_show(GTK_WIDGET(widge->wrong_login));
