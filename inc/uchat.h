@@ -209,6 +209,7 @@ typedef struct s_widget_my {
     char *filename;
     int bytes;
     int int_of_dot;
+    int int_of_slesh;
     t_list *login_id;
 }              t_widget_my;
 
