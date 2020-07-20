@@ -23,14 +23,15 @@ FILES = mx_log_in \
 	theme_4 \
 	theme_5 \
 	theme_6 \
-	remove_friend_list \
 	send_file_to \
-	remove_mess \
 	mx_realloc \
 	mx_time_mess_from \
 	mx_time_mess_to \
 	mx_name_mess_from \
 	mx_name_mess_to \
+	mx_create_chat \
+	mx_itoa \
+	mx_strnew \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

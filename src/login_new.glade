@@ -183,7 +183,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkSearchEntry" id="search_entry">
+                  <object class="GtkEntry" id="search_entry">
                     <property name="width_request">174</property>
                     <property name="height_request">44</property>
                     <property name="visible">True</property>
@@ -316,6 +316,17 @@
                   </packing>
                 </child>
                 <child>
+                  <object class="GtkNotebook" id="notebook">
+                    <property name="width_request">600</property>
+                    <property name="height_request">400</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="y">45</property>
+                  </packing>
+                </child>
+                <!-- <child>
                   <object class="GtkScrolledWindow" id="scrolled">
                     <property name="width_request">600</property>
                     <property name="height_request">400</property>
@@ -334,7 +345,7 @@
                   <packing>
                     <property name="y">45</property>
                   </packing>
-                </child>
+                </child> -->
               </object>
               <packing>
                 <property name="x">200</property>
@@ -386,7 +397,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton">
+                  <object class="GtkButton" id="under_command">
                     <property name="width_request">400</property>
                     <property name="height_request">30</property>
                     <property name="visible">True</property>
@@ -408,8 +419,6 @@
                     <property name="can_focus">True</property>
                     <property name="max_length">70</property>
                     <property name="has_frame">False</property>
-                    <property name="width_chars">0</property>
-                    <property name="max_width_chars">0</property>
                     <property name="shadow_type">none</property>
                     <property name="primary_icon_pixbuf">../img_chat/arrow.png</property>
                   </object>

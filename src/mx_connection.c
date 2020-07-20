@@ -1,11 +1,43 @@
 #include "../inc/uchat.h"
 
-void mx_create_chat(GtkWidget* widget, void *data) {
+void check_chat(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
+    t_list *list = widge->login_id;
 
-    gtk_widget_grab_focus (widge->command_line);
-    gtk_entry_set_text(GTK_ENTRY(widget), "");
-    gtk_entry_set_placeholder_text(GTK_ENTRY(widget), "No such user");
+    const gchar *find_login = gtk_entry_get_text(GTK_ENTRY(widget));
+
+    while (strcmp(find_login, list->login) != 0 && list->next != NULL) {
+        list = list->next;
+    }
+    if (strcmp(find_login, list->login) == 0) {
+        t_page *page = malloc(sizeof(t_page));
+        // mx_create_chat(page, widge, list->login);
+        mx_create_friend(widge, list->login, list->online, page);
+    }
+    else {
+        gtk_entry_set_text(GTK_ENTRY(widget), "");
+        gtk_entry_set_placeholder_text(GTK_ENTRY(widget), "No such user");
+    }
+}
+
+
+static void send_message(GtkWidget* widget, void *dat) {
+    t_widget_my *widge = (t_widget_my *)dat;
+    char *str; //строка которую отправляем Лехе
+    char *message = (char *)gtk_entry_get_text(GTK_ENTRY(widge->command_line)); //считываем данные с ввода
+
+    if (strlen(message) == 0) { //если пустая строка, ничего не делать
+        printf("Are you kidding me?\n");
+    }
+    else {
+        mx_message_to(widge, message);
+        // mx_remove_friend_list(widge);
+        asprintf(&str, "{\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\",\"CHAT_ID\":\"0\"}\n", widge->to, message);
+        //write(1, str, strlen(str));
+        write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
+        gtk_entry_set_text(GTK_ENTRY(widge->command_line), ""); //обнуляем вводимую строку, следовательно обнуляеться message
+        free(str);
+    }
 }
 
 void mx_pop_front(t_list **head) {
@@ -66,26 +98,19 @@ void mx_parse_whoonline(t_widget_my *widge, cJSON *json) {
         write(1, "===================\n", strlen("===================\n"));
         mx_push_back(&widge->login_id, login->valuestring, user_id->valuestring, online->valueint);
         //if (online->valueint == 1)
-        mx_create_friend(widge, login->valuestring, online->valueint);
+        // mx_create_friend(widge, login->valuestring, online->valueint);
     }   
-}
-
-static void change_pos(GtkWidget *widget, void *data) {
-    static gdouble uper = 0;
-
-    if (uper != gtk_adjustment_get_upper(GTK_ADJUSTMENT(widget))) {
-        gtk_adjustment_set_value(GTK_ADJUSTMENT(widget), gtk_adjustment_get_upper(GTK_ADJUSTMENT(widget)));
-        uper = gtk_adjustment_get_upper(GTK_ADJUSTMENT(widget));
-    }
 }
 
 void mx_papa_bot(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     char *login = (char *) gtk_button_get_label(GTK_BUTTON(widget));
+    widge->login_list = strdup(login);
     
     gtk_button_set_label (GTK_BUTTON(widge->who_writing), login);
-    mx_remove_mess(widge);
-    widge->to = login;
+
+    int i = (int)g_object_get_data(G_OBJECT(widget), "id");
+    gtk_notebook_set_current_page(GTK_NOTEBOOK(widge->notebook), i);
 }
 
 void hazker_mode(GtkWidget* widget, void *dat) {
@@ -130,24 +155,24 @@ void setting_win(GtkWidget* widget, void *dat) {
     gtk_widget_show_all(widge->win_sett);
 }
 
-static void send_message(GtkWidget* widget, void *dat) {
-    t_widget_my *widge = (t_widget_my *)dat;
-    char *str; //строка которую отправляем Лехе
-    char *message = (char *)gtk_entry_get_text(GTK_ENTRY(widget)); //считываем данные с ввода
+// static void send_message(GtkWidget* widget, void *dat) {
+//     t_widget_my *widge = (t_widget_my *)dat;
+//     char *str; //строка которую отправляем Лехе
+//     char *message = (char *)gtk_entry_get_text(GTK_ENTRY(widget)); //считываем данные с ввода
 
-    if (strlen(message) == 0) { //если пустая строка, ничего не делать
-        printf("Are you kidding me?\n");
-    }
-    else {
-        mx_message_to(widge, message);
-        // mx_remove_friend_list(widge);
-        asprintf(&str, "{\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\",\"CHAT_ID\":\"0\"}\n", widge->to, message);
-        //write(1, str, strlen(str));
-        write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
-        gtk_entry_set_text(GTK_ENTRY(widge->command_line), ""); //обнуляем вводимую строку, следовательно обнуляеться message
-        free(str);
-    }
-}
+//     if (strlen(message) == 0) { //если пустая строка, ничего не делать
+//         printf("Are you kidding me?\n");
+//     }
+//     else {
+//         mx_message_to(widge, message);
+//         mx_remove_friend_list(widge);
+//         asprintf(&str, "{\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\",\"CHAT_ID\":\"0\"}\n", widge->to, message);
+//         //write(1, str, strlen(str));
+//         write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
+//         gtk_entry_set_text(GTK_ENTRY(widge->command_line), ""); //обнуляем вводимую строку, следовательно обнуляеться message
+//         free(str);
+//     }
+// }
 
 static bool if_online(cJSON *js) {
     cJSON *online = cJSON_GetObjectItemCaseSensitive(js, "USERS");
@@ -213,6 +238,18 @@ void profile(GtkWidget* widget, void *data) {
     }
 }
 
+void mx_create_bot(t_widget_my *widge) {
+    t_page *page = malloc(sizeof(t_page));
+    int i = 0;
+
+    g_object_set_data(G_OBJECT(widge->papa_bot), "id", (gpointer)(i));
+    mx_create_chat(page, widge, "Papa BOT");
+    mx_push_front_gtk(&widge->page_list, page);
+    widge->login_list = strdup("Papa BOT");
+    gtk_button_set_label(GTK_BUTTON(widge->who_writing), "Papa BOT");
+    gtk_notebook_set_current_page(GTK_NOTEBOOK(widge->notebook), 0);
+}
+
 void mx_connection(t_widget_my *widge) {
     int portno;
     struct sockaddr_in serv_addr;
@@ -247,7 +284,7 @@ void mx_connection(t_widget_my *widge) {
     asprintf(&str, "{\"LOGIN\":\"%s\",\"PASS\":\"%s\"}\n", widge->login, widge->pass); //записываем в строку логин и пароль для Лехи
     write(widge->sockfd, str, strlen(str)); //отпраявляем логин и пароль Лехе
     free(str);
-
+    
 
     read(widge->sockfd, buff, 2048);
     json = cJSON_Parse(buff);
@@ -257,15 +294,24 @@ void mx_connection(t_widget_my *widge) {
     gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
+        mx_create_bot(widge);//создаем окно бота
         g_signal_connect (widge->profile_button, "clicked", G_CALLBACK(profile), widge);
-        g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
-        g_signal_connect (widge->command_line, "activate", G_CALLBACK(send_message), widge);
+        // g_signal_connect (widge->command_line, "activate", G_CALLBACK(send_message), widge);
         g_signal_connect (widge->achiev, "clicked", G_CALLBACK(hazker_mode), widge);
         g_signal_connect (widge->setting, "clicked", G_CALLBACK(mx_setting_win), widge);
         g_signal_connect (widge->file_button, "clicked", G_CALLBACK(send_file), widge);
-        g_signal_connect(widge->slider_adj, "changed", G_CALLBACK(change_pos), NULL);
         g_signal_connect(widge->papa_bot, "clicked", G_CALLBACK(mx_papa_bot), widge);
-        g_signal_connect (widge->search_entry, "activate", G_CALLBACK(mx_create_chat), widge);
+        ///////////////////////////////////////////////////////////////////////////////
+        // char *login = (char *) gtk_button_get_label(GTK_BUTTON(widge->papa_bot));
+    
+        // widge->to = login;
+        // gtk_button_set_label (GTK_BUTTON(widge->who_writing), login);
+        // mx_create_chat(widge->papa_bot, widge);
+        ///////////////////////////////////////////////////////////////////////////////
+        g_signal_connect (widge->search_entry, "activate", G_CALLBACK(check_chat), widge);
+        g_signal_connect(widge->command_line, "activate", G_CALLBACK(send_message), widge);
+        g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
+        
         pthread_create(&preg, 0, Read, widge);
     }
     else {
