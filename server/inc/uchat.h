@@ -18,6 +18,7 @@
 #include <sqlite3.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
+#include <sys/stat.h>
 
 #define PORT 6969
 #define USERS 200
@@ -118,5 +119,8 @@ SSL_CTX* mx_initserverctx(void);
 void mx_loadcertificates(SSL_CTX* ctx, char* CertFile, char* KeyFile);
 int mx_callback_persons_id(void *data, int argc, char **argv,
                                                         char **ColName);
+int mx_len_of_file(char *file);
+void mx_prof_photo(cJSON *root, t_use_mutex *mutex);
+void mx_usr_prof(cJSON *root, t_use_mutex *mutex);
 
 #endif

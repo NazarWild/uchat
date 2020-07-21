@@ -1,6 +1,5 @@
 #include "../inc/uchat.h"
 
-<<<<<<< HEAD
 static int callback_persons_id(void *data, int argc, char **argv, char **ColName) {
     char **new = (char **)data;
 
@@ -21,9 +20,6 @@ static void level_up(t_use_mutex *mutex) {
 }
 
 void mx_answers_papa(t_use_mutex *mutex, char *mess) {
-=======
-void mx_answers_papa(t_use_mutex *mutex) {
->>>>>>> master
     char *data = NULL;
     char *new = NULL; 
 

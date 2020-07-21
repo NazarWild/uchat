@@ -3,7 +3,7 @@
 static void send_mess(int to, char *mess, int chat_id, t_use_mutex *mutex) {
     char *new = NULL;
 
-    asprintf(&new, "{\"FROM\":%d,\"MESS\":%s,\"CHAT_ID\":%d}\n", mutex->user_id, mess, chat_id);
+    asprintf(&new, "{\"FROM\":%d,\"MESS\":\"%s\",\"CHAT_ID\":%d}\n", mutex->user_id, mess, chat_id);
     write(to, new, strlen(new));
     free(new);
 }
