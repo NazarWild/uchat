@@ -80,7 +80,7 @@ void mx_usr_prof(cJSON *root, t_use_mutex *mutex) {
         tmp1 = mx_strjoin(tmp, data);
         free(data);
         free(tmp);
-        write(mutex->cli_fd, tmp1, strlen(tmp1));
-
+        SSL_write(mutex->my_ssl, tmp1, strlen(tmp1));
+        mx_prof_photo(root, mutex);
     }
 }

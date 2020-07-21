@@ -6,9 +6,23 @@ static bool parse_object(cJSON *root, t_use_mutex *param) {
     // после чего как только он зайдет надо будет подгружать сообщения 
     //show who online
     mx_whoonline(param);
+
+    //тут буду отсылать последние сообщение по запросу пользователя с их текст-айдишниками
+    //mx_slast_mess();
+
+    //на изменение сообщения
+    // mx_change_mess();
+
+    //на удаление сообщения
+    // mx_dell_mess();
+
+    //sending info about user which you want
+    mx_usr_prof(root, param);
+
     //delete account 
     if (mx_delete(param, root) == true)
         return false;
+
     //send mess and adding to db/ and PAPA_BOT
     mx_send_mess(root, param);
 
@@ -34,6 +48,8 @@ static void *some_sending(void *parametr) {
     // tut nado podgrughat s db v client
     //posle chego podgrugat vse chati, to est CHATS:
     mx_chats_send(param);
+    // my profile сделать тут как отсылаю пользователю его профиль
+
     while (SSL_read(param->my_ssl, buff, 2048) > 0) {
     // while(read(param->cli_fd, buff, 2048) > 0) { //tut budu parsit info from JSON file
         request_json = cJSON_Parse(buff);

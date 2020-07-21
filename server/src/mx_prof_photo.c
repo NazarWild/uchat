@@ -26,7 +26,21 @@ static int size_of_file(cJSON *root, t_use_mutex *mutex) {
 }
 
 void mx_prof_photo(cJSON *root, t_use_mutex *mutex) { // перессылка фоток чата
-    exit(0);
+    cJSON* USR_ID = cJSON_GetObjectItemCaseSensitive(root, "USR_ID");
+    int size = size_of_file(root, mutex);
+    char *request = NULL;
+    char *tmp = NULL;
+    int fd;
 
-
+    asprintf(&request, "persons_id WHERE users_id = %d", USR_ID->valueint);
+    mx_select("photo", request, mx_callback_persons_id, tmp, mutex);
+    free(request);
+    request = mx_strjoin("file_serv/", tmp);
+    fd = open(request, O_RDONLY);
+    free(tmp);
+    tmp = (char*)malloc(sizeof(char) * size);
+    read(fd, tmp, size);
+    SSL_write(mutex->my_ssl, tmp, size);
+    close(fd);
+    free(tmp);
 }

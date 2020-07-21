@@ -3,11 +3,8 @@
 static void send_mess(int to, char *mess, int chat_id, t_use_mutex *mutex) {
     char *new = NULL;
 
-    // asprintf(&new, "{\"FROM\":%d,\"MESS\":%s,\"CHAT_ID\":%d}\n", mutex->user_id, mess, chat_id);
-    // // write(to, new, strlen(new));
-    // mx_send_user_with_dif_sock(mutex, to, new, strlen(new));
     asprintf(&new, "{\"FROM\":%d,\"MESS\":\"%s\",\"CHAT_ID\":%d}\n", mutex->user_id, mess, chat_id);
-    write(to, new, strlen(new));
+    //write(to, new, strlen(new)); не знаю или это надо если есть функа ниже, которая отправляет на SSL указатель сообщения
     mx_send_user_with_dif_sock(mutex, to, new, strlen(new));
     free(new);
 }
