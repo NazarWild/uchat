@@ -25,8 +25,10 @@ static void send_cj(cJSON *root, t_use_mutex *mutex, char *path) {
     write(atoi(TO->valuestring), str, strlen(str));
     free(str);
     str = (char *) malloc(sizeof(char) * BYTES->valueint);
-    read(fd, str, BYTES->valueint);
-    write(atoi(TO->valuestring), str, BYTES->valueint);
+    SSL_read(mutex->my_ssl, str, BYTES->valueint);
+    // read(fd, str, BYTES->valueint);
+    // write(atoi(TO->valuestring), str, BYTES->valueint);
+    mx_send_user_with_dif_sock(mutex, atoi(TO->valuestring), str, BYTES->valueint);
     free(str);
 }
 

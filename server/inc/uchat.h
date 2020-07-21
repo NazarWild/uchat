@@ -40,6 +40,7 @@ typedef struct s_sqlite {
 typedef struct s_history {
     char *text;
     int text_id;
+    int chats_id;
 } t_history;
 
 typedef struct s_online {
@@ -114,9 +115,15 @@ void mx_new_chat(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex);
 void mx_group_chat(cJSON* root, t_use_mutex *mutex);
 void mx_send_group(cJSON* MESS, cJSON* USERS_GRP, cJSON* CHAT_ID,
                                                     t_use_mutex *mutex);
-SSL_CTX* mx_initserverctx(void);
-void mx_loadcertificates(SSL_CTX* ctx, char* CertFile, char* KeyFile);
 int mx_callback_persons_id(void *data, int argc, char **argv,
                                                         char **ColName);
+
+// SSL_TLS
+SSL_CTX* mx_initserverctx(void);
+// SSL *mx_search_ssl(t_use_mutex *mutex, int id);
+t_list *mx_search_ssl(t_use_mutex *mutex, int id);
+void mx_loadcertificates(SSL_CTX* ctx, char* CertFile, char* KeyFile);
+void mx_send_user_with_dif_sock(t_use_mutex *mutex, int who, char *str,
+                                                                int bytes);
 
 #endif

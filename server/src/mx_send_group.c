@@ -5,7 +5,8 @@ static void send_mess(int socket, cJSON* CHAT_ID, t_use_mutex *mutex, cJSON* MES
 
     asprintf(&str, "{\"FROM\":%d,\"MESS\":%s,\"CHAT_ID\":%d}\n", 
             mutex->user_id, MESS->valuestring, atoi(CHAT_ID->valuestring));
-    write(socket, str, strlen(str));
+    // write(socket, str, strlen(str));
+    mx_send_user_with_dif_sock(mutex, socket, str, strlen(str));
     free(str);
 }
 

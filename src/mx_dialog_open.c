@@ -42,7 +42,8 @@ void sending_file(t_widget_my *widge) {
 
         widge->bytes = mx_len_of_file(widge->filename);
         read(stream, str, widge->bytes);
-        write(widge->sockfd, str, widge->bytes);
+        // write(widge->sockfd, str, widge->bytes);
+        SSL_write(widge->ssl, str, widge->bytes);
         //write(1, str, widge->bytes);
         close(stream);
     }

@@ -27,6 +27,7 @@ FILES = u_server \
 		mx_group_chat \
 		mx_send_group \
 		mx_ssl \
+		mx_search_ssl \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

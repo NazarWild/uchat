@@ -36,6 +36,7 @@ FILES = mx_log_in \
 	mx_create_chat \
 	mx_itoa \
 	mx_strnew \
+	mx_ssl \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

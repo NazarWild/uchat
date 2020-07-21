@@ -61,13 +61,14 @@ static bool loging(cJSON *root, int fd, t_use_mutex *mutex) {
 bool mx_registr(t_use_mutex *mutex) {
     char buff[2048];
     cJSON* request_json = NULL;
-
-    if (read(mutex->cli_fd, buff, 2048) > 0) { 
+    if(SSL_read(mutex->my_ssl, buff, 2048) > 0) {
+    // if (read(mutex->cli_fd, buff, 2048) > 0) { 
         request_json = cJSON_Parse(buff);
         if_registration(request_json, mutex);
         if (loging(request_json, mutex->cli_fd, mutex) == false) {
             bzero(buff, 2048);
-            write(mutex->cli_fd, "-1", 2);
+            SSL_write(mutex->my_ssl, "-1", 2);
+            // write(mutex->cli_fd, "-1", 2);
             cJSON_Delete(request_json);
             return false;
         } 

@@ -23,5 +23,6 @@ void mx_answers_papa(t_use_mutex *mutex) {
     else if (mutex->lvl == 3) {
         //doing something interesting
     }
-    write(mutex->cli_fd, "hphah you are so stuped, wrong answer!!", 39);
+    SSL_write(mutex->my_ssl, "hphah you are so stuped, wrong answer!!", 39);
+    // write(mutex->cli_fd, "hphah you are so stuped, wrong answer!!", 39);
 }
