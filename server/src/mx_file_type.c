@@ -1,7 +1,7 @@
 #include "../inc/uchat.h"
 
 static char *creating(cJSON* TYPE, cJSON* BYTES, char *mess, t_use_mutex *mutex) {
-    char *path =  mx_strjoin("file_serv/", MESS->valuestring);//пусть отправляет название с точкой в конце
+    char *path =  mx_strjoin("file_serv/", mess);//пусть отправляет название с точкой в конце
     int stream = open(path, O_RDWR | O_CREAT | O_APPEND, S_IRWXU);
     char *buff = (char *)malloc(sizeof(char) * BYTES->valueint);
 
