@@ -1,12 +1,5 @@
 #include "../inc/uchat.h"
 
-static int callback_persons_id(void *data, int argc, char **argv, char **ColName) {
-    char **new = (char **)data;
-
-    *new = strdup(argv[0]);
-    return 0;
-}
-
 static void send_mess(int socket, cJSON* CHAT_ID, t_use_mutex *mutex, cJSON* MESS) {
     char *str = NULL;
 
@@ -25,7 +18,7 @@ void mx_send_group(cJSON* MESS, cJSON* USERS_GRP, cJSON* CHAT_ID, t_use_mutex *m
     cJSON_ArrayForEach(USER, USERS_GRP) {
         USER_ID = cJSON_GetObjectItemCaseSensitive(USER, "USER_ID");
         asprintf(&str, "sockets WHERE users_id = %d", atoi(USER_ID->valuestring));
-        mx_select("socket", str, callback_persons_id, &data, mutex);
+        mx_select("socket", str, mx_callback_persons_id, &data, mutex);
         if (data != NULL) {
             send_mess(atoi(data), CHAT_ID, mutex, MESS);
             free(data);

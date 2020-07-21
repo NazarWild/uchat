@@ -1,6 +1,8 @@
 #include "../inc/uchat.h"
 
 int callback_list_history(void *data, int argc, char **argv, char **ColName) {
+    if (argc < 1)
+        return 0;
     t_history *send = malloc(sizeof(t_history));
 
     send->text = strdup(argv[0]);

@@ -10,13 +10,6 @@ static void if_registration(cJSON *root, t_use_mutex *mutex) {
     } 
 }
 
-static int callback_persons_id(void *data, int argc, char **argv, char **ColName) {
-    char **new = (char **)data;
-
-    *new = strdup(argv[0]);
-    return 0;
-}
-
 static void set_socket(int fd, char *log, t_use_mutex *mutex) {
     char *ita = NULL;
     char *new = NULL;
@@ -26,14 +19,14 @@ static void set_socket(int fd, char *log, t_use_mutex *mutex) {
 
     ita = mx_itoa(fd);
     asprintf(&new, "persons_id WHERE login = '%s'", log);
-    mx_select("users_id", new, callback_persons_id, &users_id, mutex);
+    mx_select("users_id", new, mx_callback_persons_id, &users_id, mutex);
     free(new);
     asprintf(&new, "%s, %i", users_id, mutex->user_id);
     mx_add_to_table("sockets", "users_id, socket", new, mutex);
     mutex->user_id = atoi(users_id);
     free(new);
     asprintf(&new, "persons_id WHERE login = '%s'", log);
-    mx_select("level", new, callback_persons_id, &level, mutex);
+    mx_select("level", new, mx_callback_persons_id, &level, mutex);
     mutex->lvl = atoi(level);
     free(new);
     free(ita);

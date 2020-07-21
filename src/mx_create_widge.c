@@ -2,7 +2,6 @@
 
 static void design_css(t_widget_my *widge) {
     gtk_widget_set_name(widge->send_button, "send_button");
-    gtk_widget_set_name(widge->list_box, "list_box");
     gtk_widget_set_name(widge->return_sign_in, "return_sign_in");
     gtk_widget_set_name(widge->command_line, "command_line");
     gtk_widget_set_name(widge->who_writing, "who_writing");
@@ -13,9 +12,9 @@ static void design_css(t_widget_my *widge) {
     gtk_widget_set_name(widge->theme_5, "theme_5");
     gtk_widget_set_name(widge->theme_6, "theme_6");
     gtk_widget_set_name(widge->win_sett, "win_sett");
-    gtk_widget_set_name(widge->scrolled, "scrolled");
     gtk_widget_set_name(widge->choose_user, "choose_user");
     gtk_widget_set_name(widge->friends, "friends_listbox");
+    gtk_widget_set_name(widge->sep, "sep");
 }
 
 void relieff_set(t_widget_my *widge) {
@@ -50,7 +49,7 @@ void mx_create_widge(t_widget_my *widge) {
 
     widge->message_win = GTK_FIXED(gtk_builder_get_object (widge->builder, "message_win"));
 
-    widge->list_box = GTK_WIDGET(gtk_builder_get_object(widge->builder, "list_box"));
+    // widge->lisdt_box = GTK_WIDGET(gtk_builder_get_object(widge->builder, "list_box"));
     widge->profile_button = GTK_WIDGET(gtk_builder_get_object(widge->builder, "profile_button"));
     widge->send_button = GTK_WIDGET(gtk_builder_get_object(widge->builder, "send_button"));
 
@@ -74,9 +73,7 @@ void mx_create_widge(t_widget_my *widge) {
 
     widge->main_chat = GTK_WIDGET(gtk_builder_get_object(widge->builder, "main_chat"));
 
-    widge->scrolled = GTK_WIDGET(gtk_builder_get_object(widge->builder, "scrolled"));
-
-    widge->slider_adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(widge->scrolled));
+    // widge->scrolled = GTK_WIDGET(gtk_builder_get_object(widge->builder, "scrolled"));
 
     widge->choose_user = GTK_WIDGET(gtk_builder_get_object(widge->builder, "choose_user"));
 
@@ -84,7 +81,12 @@ void mx_create_widge(t_widget_my *widge) {
 
     widge->search_entry = GTK_WIDGET(gtk_builder_get_object (widge->builder, "search_entry"));
 
+    widge->sep = GTK_WIDGET(gtk_builder_get_object (widge->builder, "sep_hor"));
     mx_mini_profile_gtk(widge);
+    widge->notebook = GTK_WIDGET(gtk_builder_get_object(widge->builder, "notebook"));
+    gtk_notebook_set_show_tabs(GTK_NOTEBOOK(widge->notebook), FALSE);
+
+    widge->search_entry = GTK_WIDGET(gtk_builder_get_object (widge->builder, "search_entry"));
     // gtk_list_box_unselect_all (GTK_LIST_BOX(widge->list_box));
 
     mx_set_images(widge);

@@ -1,6 +1,8 @@
 #include "../inc/uchat.h"
 
-static int callback_persons_id(void *data, int argc, char **argv, char **ColName) {
+int mx_callback_persons_id(void *data, int argc, char **argv, char **ColName) {
+    if (argc < 1)
+        return 0;
     char **new = (char **)data;
 
     *new = strdup(argv[0]);
@@ -19,7 +21,7 @@ void mx_new_chat(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) {
         asprintf(&str1, "'%s %s'", ita, TO->valuestring);
     mx_add_to_table("chats", "chat", str1, mutex);
     asprintf(&tmp, "chats WHERE chat = %s", str1);
-    mx_select("chats_id", tmp, callback_persons_id, &str2, mutex);
+    mx_select("chats_id", tmp, mx_callback_persons_id, &str2, mutex);
     free(tmp);
     free(str1);
     asprintf(&str1, "%d, %d", atoi(TO->valuestring), atoi(str2));

@@ -1,53 +1,81 @@
 
+#online_butt:active {
+    border-width: 0px;
+    background-image: linear-gradient(rgba(62, 92, 86, 1), rgba(126, 123, 123, 0.653));
+}
+
+#online_butt {
+    border-width: 0px;
+    background-image: linear-gradient(rgba(62, 92, 86, 1), rgba(126, 123, 123, 0.653));
+}
+
+#edit {
+    border-width: 0px;
+    background-image: linear-gradient(rgba(126, 123, 123, 0.653), rgba(126, 123, 123, 0.653)); 
+}
+
+
+#chat_button {
+    background-image: linear-gradient(rgba(126, 123, 123, 0.653), rgba(126, 123, 123, 0.653));
+    color: white;
+    border-width: 0px;
+}
+
+#chat_button:active {
+    background-image: linear-gradient(rgba(126, 123, 123, 0.653), rgba(126, 123, 123, 0.653));
+}
+
 #message_to {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8));
+    background-image: linear-gradient(rgba(0, 0, 0, 0.488), rgba(126, 123, 123, 0.653));
+    color: rgb(232, 231, 231);
     box-shadow: none;
+    border-width: 2px;
     text-shadow: none;
 }
 
-#message_to label {
-    color: rgb(26, 89, 97);
+#message_from {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.557), rgb(69, 96, 80));
+    color: rgb(232, 231, 231);
+    box-shadow: none;
+    border-width: 2px;
+    text-shadow: none;
 }
 
+
 window {
-    background-image: linear-gradient(rgb(0, 0, 0), rgba(0, 0, 0, 0.329));
+    background-image: linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0));
 }
 
 button {
-    background-image: linear-gradient(rgba(37, 33, 33, 0.550), rgba(37, 33, 33, 0.550));
+    background-image: linear-gradient(rgb(0, 0, 0), rgba(62, 92, 86, 1));
     border-radius: 10px;
-    border-width: 0px;
-    box-shadow: none;
-    text-shadow: none;
+    border-width: 1px;
+    border-color: rgba(126, 123, 123, 0.653);
+    color: gray;
+    box-shadow: whitesmoke;
+    text-shadow: whitesmoke;
 }
 
 button:active {
+    background-image: linear-gradient(rgb(0, 0, 0), rgba(62, 92, 86, 1));
     box-shadow: none;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8));
-}
-
-button image {
-    box-shadow: none;
-    text-shadow: none;
-}
-
-button label {
-    color: #ffffff;
-    /* text-shadow: none; */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.509), rgba(62, 92, 86, 1));
 }
 
 #user {
     margin-left: 5px;
-    background-image: linear-gradient(rgba(107, 95, 94, 0.521), rgba(107, 95, 94, 0.521));
+    background-image: linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0));
 }
 
 #return_sign_in {
     border-radius: 30px;
-    /* border-color: rgb(32, 177, 39); */
     border-width: 2px;
 }
 
+
 #command_line {
+    border-color: black;
+    color: white;
     border-radius: 10px;
 }
 
@@ -56,39 +84,149 @@ button label {
 }
 
 #who_writing {
-    border-radius: 0px;
+    border-radius: 5px;
+}
+
+#friends_listbox {
+    border-radius: 10px;
+    background-image: linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0), rgba(62, 92, 86, 1));
+    background-repeat: repeat;
 }
 
 #list_box {
-    background-image: url("../img_chat/wallpaper/2.jpg");
-    /* background-image: linear-gradient(rgba(37, 33, 33, 0.801), rgba(37, 33, 33, 0.801)); */
+    background: url("../img_chat/wallpaper/1.jpg");
+    background-repeat: repeat;
+    background-size: contain;
+    background-color: black;
 }
-/* 
 #theme_1 {
-    background-image: url("/Users/opoliarenk/Desktop/chat/img_chat/wallpaper/2.jpg");
+    border-color: rgba(62, 92, 86, 1);
+    border-width: 3px;
+    background-image: linear-gradient(rgb(130, 130, 130), rgb(130, 130, 130));
+}
+
+#theme_1:active {
+    border-color: blue;
+    background-image: linear-gradient(rgba(221, 152, 235, 0.4), rgba(178, 193, 233, 0.4), rgba(38, 145, 145, 0.4));
 }
 
 #theme_2 {
-    background-image: url("/Users/opoliarenk/Desktop/chat/img_chat/wallpaper/wall.jpg");
+    border-color: rgba(62, 92, 86, 1);
+    border-width: 3px;
+    background-image: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
+}
+
+#theme_2:active {
+    border-color: blue;
+    background-image: linear-gradient(rgba(237, 212, 178, 0.845), rgba(255, 255, 255, 0.769), rgba(221, 152, 221, 0.797));
 }
 
 #theme_3 {
-    background-image: linear-gradient(rgb(255, 255, 255), rgb(0, 255, 221));
+    border-color:rgba(62, 92, 86, 1);
+    border-width: 3px;
+    background-image: linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0));
+}
+
+#theme_3:active {
+    border-color: blue;
+    background-image: linear-gradient(rgba(139, 75, 182, 0.646), rgba(46, 99, 213, 0.632), rgb(0, 0, 0));
+}
+
+/* #theme_1 {
+    border-color: rgb(231, 216, 216);
+    border-width: 3px;
+    background-image: linear-gradient(rgba(221, 152, 235, 0.4), rgba(178, 193, 233, 0.4), rgba(38, 145, 145, 0.4));
 } */
 
-/* #win_sett {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.521), rgba(255, 255, 255, 0.685));
+/* #theme_1:active {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5));
+}
+
+#theme_2 {
+    border-color: rgb(231, 216, 216);
+    border-width: 3px;
+    background-image: linear-gradient(rgba(221, 152, 221, 0.527), rgba(82, 79, 79, 0.521));
+}
+
+#theme_3 {
+    border-color: rgb(231, 216, 216);
+    border-width: 3px;
+    background-image: linear-gradient(rgba(160, 152, 235, 0.527), rgba(233, 178, 228, 0.521));
+}
+
+#theme_4 {
+    border-color: rgb(231, 216, 216);
+    border-width: 3px;
+    background-image: linear-gradient(rgba(224, 172, 172, 0.527), rgba(129, 47, 47, 0.521));
+}
+
+#theme_5 {
+    border-color: rgb(231, 216, 216);
+    border-width: 3px;
+    background-image: linear-gradient(rgba(138, 219, 148, 0.527), rgba(27, 97, 19, 0.521));
+}
+
+#theme_6 {
+    border-color: rgb(231, 216, 216);
+    border-width: 3px;
+    background-image: linear-gradient(rgba(126, 149, 212, 0.274),rgba(62, 92, 86, 1));
 } */
+
+#win_sett {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.521), rgba(62, 92, 86, 1));
+}
 
 #choose_user {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.801), rgba(0, 0, 0, 0.699));
+    border-radius: 10px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.502), rgba(62, 92, 86, 1));
 }
 
-/* label {
-    color: #ffffff;
-} */
-
-#row {
-    margin-top: 5px;
+#row_to {
+    margin-top: 1px;
+    margin-bottom: 1px;
     padding-right: 5px;
 }
+
+#row_from {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    padding-left: 5px;
+}
+
+#install_button {
+    border-width: 0px;
+    background-image: linear-gradient(rgb(0, 0, 0), rgba(62, 92, 86, 1));
+}
+
+#mess_date {
+    margin-top: 2px;
+    margin-right: 6px;
+    color: rgb(255, 255, 255);
+}
+
+#mess_date_f {
+    margin-top: 2px;
+    margin-left: 6px;
+    color: rgb(255, 255, 255);
+}
+
+
+#username_mess {
+    margin-bottom: 2px;
+    margin-right: 6px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+#username_name_f {
+    margin-bottom: 2px;
+    margin-left: 6px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+
+#scrolled {
+    border-radius: 10px;
+}
+

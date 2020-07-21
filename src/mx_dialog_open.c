@@ -1,26 +1,28 @@
 #include "../inc/uchat.h" 
 
-char *mx_strnew(const int size) {
-    char *str = NULL;
+// char *mx_strnew(const int size) {
+//     char *str = NULL;
 
-    if(size < 0) {
-        return NULL;
-    }
-    else {
-        str = (char *) malloc(size + 1);
-        for(int i = 0; i < size; i++) {
-            str[i] = '\0';
-        }
-        str[size] = '\0';
-    }
-    return str;
-}
+//     if(size < 0) {
+//         return NULL;
+//     }
+//     else {
+//         str = (char *) malloc(size + 1);
+//         for(int i = 0; i < size; i++) {
+//             str[i] = '\0';
+//         }
+//         str[size] = '\0';
+//     }
+//     return str;
+// }
 
 static char *parsing_filename(char *filename, t_widget_my *widge) {
     int i = strlen(filename) - 1;
 
     for (; filename[i] != '.'; i--) {}
     widge->int_of_dot = i;
+    for (; filename[i] != '/'; i--) {}
+    widge->int_of_slesh = i;
     return &filename[widge->int_of_dot + 1];
 }
 
@@ -41,26 +43,29 @@ void sending_file(t_widget_my *widge) {
         widge->bytes = mx_len_of_file(widge->filename);
         read(stream, str, widge->bytes);
         write(widge->sockfd, str, widge->bytes);
-        //send(widge->sockfd, str, widge->bytes);
+        //write(1, str, widge->bytes);
         close(stream);
     }
-    else {
+    else
         write(2, "error in sending file\n", 23);
-    }
 }
 
 static cJSON *create_json(t_widget_my *widge) {
     cJSON *send = cJSON_CreateObject();
+    cJSON *IF_MESS = cJSON_CreateTrue();
     cJSON *TO = cJSON_CreateString(widge->to);
-    cJSON *MESS = cJSON_CreateString("/Users/ndykyy/Desktop/");//okolevatov
     cJSON *TYPE = cJSON_CreateString(parsing_filename(widge->filename, widge));
+    cJSON *MESS = cJSON_CreateString(&widge->filename[widge->int_of_slesh + 1]);
     cJSON *BYTES = cJSON_CreateNumber(widge->bytes);
+    cJSON *CHAT_ID = cJSON_CreateString("1");
     char *file_without_dot = strdup(widge->filename);
 
+    cJSON_AddItemToObject(send, "IF_MESS", IF_MESS);
     cJSON_AddItemToObject(send, "TO", TO);
     cJSON_AddItemToObject(send, "MESS", MESS);
     cJSON_AddItemToObject(send, "TYPE", TYPE);
     cJSON_AddItemToObject(send, "BYTES", BYTES);
+    cJSON_AddItemToObject(send, "CHAT_ID", CHAT_ID);
     //free(&file_without_dot);
     return send;
 }
@@ -84,10 +89,10 @@ void mx_dialog_open(t_widget_my *widge) {
         widge->bytes = mx_len_of_file(widge->filename);
         printf("bytes = %d filename = %s\n", widge->bytes, widge->filename);
 
-        //write(1, file, widge->bytes);
         file_js = create_json(widge);
         str_js = cJSON_Print(file_js);
         write(widge->sockfd, str_js, strlen(str_js));
+        //write(1, str_js, strlen(str_js));
         sending_file(widge);
         mx_send_file_to(widge, widge->filename);
         g_free (widge->filename);
