@@ -231,25 +231,27 @@ void *Read(void *dat) {
     t_list *p = widge->login_id;
 
     while(1) {
-        
-        len = read(widge->sockfd, buff, 2048);
-        json = cJSON_Parse(buff);
+        len = SSL_read(widge->ssl, buff, 2048);
+        // len = read(widge->sockfd, buff, 2048);
+        if (len > 0) {
+            json = cJSON_Parse(buff);
 
         //chats
-        if (if_chats(json))
-            mx_parse_chats(json, widge);
+            if (if_chats(json))
+                mx_parse_chats(json, widge);
         //online
-        if (if_online(json)) {
-            free_list(&widge->login_id);
-            mx_parse_whoonline(widge, json);
-        }
+            if (if_online(json)) {
+                free_list(&widge->login_id);
+                mx_parse_whoonline(widge, json);
+            }
         printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
         //mess
-        if (if_mess(json))
-            parse_mess(json, widge);
+            if (if_mess(json))
+                parse_mess(json, widge);
 
-        bzero(buff, 2048);
-        cJSON_Delete(json);
+            bzero(buff, 2048);
+            cJSON_Delete(json);
+        }
     }
     int exit;
     pthread_exit(&exit);
@@ -335,17 +337,21 @@ void mx_connection(t_widget_my *widge) {
     serv_addr.sin_family = AF_INET;
     bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(portno);
-
+    printf("lol\n");
     if (connect(widge->sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
         perror("ERROR connecting");
         exit(1);
     }
+    printf("lol1\n");
+    widge->ssl = mx_ssl(widge->sockfd);
     asprintf(&str, "{\"LOGIN\":\"%s\",\"PASS\":\"%s\"}\n", widge->login, mx_hash(widge->login, widge->pass)); //записываем в строку логин и пароль для Лехи
-    write(widge->sockfd, str, strlen(str)); //отпраявляем логин и пароль Лехе
+    SSL_write(widge->ssl, str, strlen(str));
+    // write(widge->sockfd, str, strlen(str)); //отпраявляем логин и пароль Лехе
     free(str);
-    
-
-    read(widge->sockfd, buff, 2048);
+printf("lol2\n");
+    SSL_read(widge->ssl, buff, 2048);
+    // read(widge->sockfd, buff, 2048);
+    printf("lol3\n");
     json = cJSON_Parse(buff);
     if (if_online(json))
         mx_parse_whoonline(widge, json);

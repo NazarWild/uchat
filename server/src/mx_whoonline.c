@@ -1,9 +1,10 @@
 #include "../inc/uchat.h"
 
-static void send_online(cJSON *ON, int fd) {
+static void send_online(cJSON *ON, t_use_mutex *mutex) {
     char *string = cJSON_Print(ON);
 
-    write(fd, string, 2048); //nd
+    // write(fd, string, 2048); //nd
+    SSL_write(mutex->my_ssl, string, 2048);
     free(string);
 }
 
@@ -62,7 +63,7 @@ void mx_whoonline(t_use_mutex *mutex) {
         adding_param(online, struco);
         online_struct = online_struct->next;
     }
-    send_online(on, mutex->cli_fd);
+    send_online(on, mutex);
     mx_free_online(tmp);
     cJSON_Delete(on);
 }

@@ -34,7 +34,8 @@ static void *some_sending(void *parametr) {
     // tut nado podgrughat s db v client
     //posle chego podgrugat vse chati, to est CHATS:
     mx_chats_send(param);
-    while(read(param->cli_fd, buff, 2048) > 0) { //tut budu parsit info from JSON file
+    while (SSL_read(param->my_ssl, buff, 2048) > 0) {
+    // while(read(param->cli_fd, buff, 2048) > 0) { //tut budu parsit info from JSON file
         request_json = cJSON_Parse(buff);
         if (parse_object(request_json, param) == false)
             break;
@@ -84,6 +85,8 @@ int main(int argc, char *argv[]) {
         }
         ssl = SSL_new(ctx);
         SSL_set_fd(ssl, param.cli_fd);
+        if (SSL_accept(ssl) == -1)     /* do SSL-protocol accept */
+            ERR_print_errors_fp(stderr);
         param.my_ssl = ssl;
         param.ssl_list = &list;
         printf("THIS SHIT CONNECTED: %s\n", inet_ntoa(cli_addr.sin_addr));

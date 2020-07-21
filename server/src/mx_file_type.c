@@ -1,8 +1,7 @@
 #include "../inc/uchat.h"
 
-static char *creating(cJSON* TYPE, cJSON* BYTES, cJSON* MESS, t_use_mutex *mutex) {
-    //char *tmp = mx_strjoin(MESS->valuestring, TYPE->valuestring);
-    char *path =  mx_strjoin("file_serv/", MESS->valuestring);//пусть отправляет название с точкой в конце
+static char *creating(cJSON* TYPE, cJSON* BYTES, char *mess, t_use_mutex *mutex) {
+    char *path =  mx_strjoin("file_serv/", mess);//пусть отправляет название с точкой в конце
     int stream = open(path, O_RDWR | O_CREAT | O_APPEND, S_IRWXU);
     char *buff = (char *)malloc(sizeof(char) * BYTES->valueint);
 
@@ -10,7 +9,6 @@ static char *creating(cJSON* TYPE, cJSON* BYTES, cJSON* MESS, t_use_mutex *mutex
     write(stream, buff, BYTES->valueint);
     close(stream);
     free(buff);
-    //free(tmp);
     return path;
 }
 
@@ -25,9 +23,21 @@ static void send_cj(cJSON *root, t_use_mutex *mutex, char *path) {
     write(atoi(TO->valuestring), str, strlen(str));
     free(str);
     str = (char *) malloc(sizeof(char) * BYTES->valueint);
-    read(fd, str, BYTES->valueint);
-    write(atoi(TO->valuestring), str, BYTES->valueint);
+    SSL_read(mutex->my_ssl, str, BYTES->valueint);
+    // read(fd, str, BYTES->valueint);
+    // write(atoi(TO->valuestring), str, BYTES->valueint);
+    mx_send_user_with_dif_sock(mutex, atoi(TO->valuestring), str, BYTES->valueint);
     free(str);
+}
+
+static char *name_add_file(cJSON* CHAT_ID, cJSON* MESS, t_use_mutex *mutex) {
+    char *name = NULL;
+    char *data = NULL;
+
+    mx_add_message(atoi(CHAT_ID->valuestring), name, 1, mutex);
+    asprintf(&name, "messeges where text = '%s'", MESS->valuestring);
+    mx_select("max(text_id)", name, mx_callback_persons_id, data, mutex);
+    return data;
 }
 
 void mx_file_type(cJSON *root, t_use_mutex *mutex) { 
@@ -38,8 +48,7 @@ void mx_file_type(cJSON *root, t_use_mutex *mutex) {
     char *path = NULL;
 
     if (strcmp("text", TYPE->valuestring) != 0) {
-        path = creating(TYPE, BYTES, MESS, mutex);
-        mx_add_message(atoi(CHAT_ID->valuestring), path, 1, mutex);
+        path = creating(TYPE, BYTES, name_add_file(CHAT_ID, MESS, mutex), mutex);
         send_cj(root, mutex, path);
     }
     free(path);

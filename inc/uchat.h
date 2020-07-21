@@ -18,6 +18,8 @@
 #include <sys/stat.h>
 #include <arpa/inet.h>
 #include <openssl/sha.h>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
 
 #define PORT 6969
 #define USERS 200
@@ -212,6 +214,8 @@ typedef struct s_widget_my {
     int int_of_dot;
     int int_of_slesh;
     t_list *login_id;
+
+    SSL *ssl;
 }              t_widget_my;
 
 int mx_log_in(char *login, char *pass, t_widget_my *widge);
@@ -261,5 +265,7 @@ char *mx_hash(char *login, char *pass);
 void mx_create_chat(t_page *page, t_widget_my *widge, const gchar *text);
 char *mx_itoa(int number);
 char *mx_strnew(const int size);
+
+SSL *mx_ssl(int fd);
 
 #endif
