@@ -113,6 +113,8 @@ typedef struct s_widget_my {
 
     GtkWidget *search_entry;
 
+    GtkWidget *sep;
+
     //images
     GdkPixbuf *profile_img;
     GdkPixbuf *smile_img;

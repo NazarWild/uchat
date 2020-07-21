@@ -16,6 +16,7 @@ static void design_css(t_widget_my *widge) {
     gtk_widget_set_name(widge->scrolled, "scrolled");
     gtk_widget_set_name(widge->choose_user, "choose_user");
     gtk_widget_set_name(widge->friends, "friends_listbox");
+    gtk_widget_set_name(widge->sep, "sep");
 }
 
 void relieff_set(t_widget_my *widge) {
@@ -83,6 +84,8 @@ void mx_create_widge(t_widget_my *widge) {
     widge->papa_bot = GTK_WIDGET(gtk_builder_get_object (widge->builder, "papa_bot"));
 
     widge->search_entry = GTK_WIDGET(gtk_builder_get_object (widge->builder, "search_entry"));
+
+    widge->sep = GTK_WIDGET(gtk_builder_get_object (widge->builder, "sep_hor"));
     // gtk_list_box_unselect_all (GTK_LIST_BOX(widge->list_box));
 
     mx_set_images(widge);
