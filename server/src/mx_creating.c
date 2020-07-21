@@ -1,18 +1,11 @@
 #include "../inc/uchat.h"
 
-static int callback_persons_id(void *data, int argc, char **argv, char **ColName) {
-    char **new = (char **)data;
-
-    *new = strdup(argv[0]);
-    return 0;
-}
-
 static bool same_login(char *login, t_use_mutex *mutex) {
     char *str = NULL;
     char *data = NULL;
 
     asprintf(&str, "persons_id where login = '%s'", login);
-    mx_select("login", str, callback_persons_id, &data, mutex);
+    mx_select("login", str, mx_callback_persons_id, &data, mutex);
     free(str);
     if (data != NULL && strcmp(login, data) == 0)
         return false;

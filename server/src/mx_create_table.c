@@ -12,30 +12,12 @@ void mx_create_table(char *name_table, char *values_table) {
     free(sql);
 }
 
-void mx_tables() {
-    mx_create_table("persons_id",
-                    "users_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    "login TEXT, "
-                    "pass TEXT,"
-                    "theme INT,"
-                    "language INT,"
-                    "status TEXT,"
-                    "level INT, "
-                    "photo TEXT,"
-                    "fullname TEXT,"
-                    "date_of_birthd TEXT");
+static void tables () {
     mx_create_table("chats",
                     "chats_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     "chat TEXT NOT NULL"); 
-    mx_create_table("users_chat",
-                    "users_id INT, "
-                    "chats_id INT, "
-                    "PRIMARY KEY (users_id, chats_id) "
-                    "FOREIGN KEY(users_id) REFERENCES persons_id(users_id), "
-                    "FOREIGN KEY (chats_id) REFERENCES chats(chats_id) "
-                    "ON DELETE CASCADE ON UPDATE CASCADE");
     mx_create_table("messeges",
-                    "text_id INTEGER PRIMARY KEY AUTOINCREMENT, " //i dont know just create this shit 
+                    "text_id INTEGER PRIMARY KEY AUTOINCREMENT, " 
                     "users_id INT, "
                     "chats_id INT, "
                     "text TEXT, "
@@ -47,7 +29,28 @@ void mx_tables() {
     mx_create_table("sockets",
                     "users_id INT, "
                     "socket INT DEFAULT -1, "
-                    // "online INT DEFAULT 1, "
                     "FOREIGN KEY(users_id) REFERENCES persons_id(users_id)"
                     "ON DELETE CASCADE ON UPDATE CASCADE ");
+}
+
+void mx_tables() {
+    mx_create_table("persons_id",
+                    "users_id INTEGER PRIMARY KEY AUTOINCREMENT, " 
+                    "login TEXT, "
+                    "pass TEXT,"
+                    "theme INT,"
+                    "language INT,"
+                    "status TEXT,"
+                    "level INT, "
+                    "photo TEXT,"
+                    "fullname TEXT,"
+                    "date_of_birthd TEXT");
+    mx_create_table("users_chat",
+                    "users_id INT, "
+                    "chats_id INT, "
+                    "PRIMARY KEY (users_id, chats_id) "
+                    "FOREIGN KEY(users_id) REFERENCES persons_id(users_id), "
+                    "FOREIGN KEY (chats_id) REFERENCES chats(chats_id) "
+                    "ON DELETE CASCADE ON UPDATE CASCADE");
+    tables();
 }

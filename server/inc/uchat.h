@@ -112,9 +112,11 @@ char *mx_strnew(const int size);
 void mx_chats_send(t_use_mutex *mutex);
 void mx_new_chat(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex);
 void mx_group_chat(cJSON* root, t_use_mutex *mutex);
-void mx_send_group(cJSON* MESS, cJSON* USERS_GRP, cJSON* CHAT_ID, t_use_mutex *mutex);
+void mx_send_group(cJSON* MESS, cJSON* USERS_GRP, cJSON* CHAT_ID,
+                                                    t_use_mutex *mutex);
 SSL_CTX* mx_initserverctx(void);
 void mx_loadcertificates(SSL_CTX* ctx, char* CertFile, char* KeyFile);
-
+int mx_callback_persons_id(void *data, int argc, char **argv,
+                                                        char **ColName);
 
 #endif

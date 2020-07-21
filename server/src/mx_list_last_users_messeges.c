@@ -1,10 +1,14 @@
 #include "../inc/uchat.h"
 int callback_list(void *data, int argc, char **argv, char **ColName) {
+    if (argc < 1)
+        return 0;
     mx_push_front((t_list **)data, strdup(argv[0]));
     return 0;
 }
 
 int callback_list_last_users_messeges(void *data, int argc, char **argv, char **ColName) {
+    if (argc < 1)
+        return 0;
     t_sqlite *lite = malloc(sizeof(t_sqlite));
     t_messeges *send = malloc(sizeof(t_messeges));
     t_list *who_is_here = 0;

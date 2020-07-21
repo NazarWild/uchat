@@ -81,15 +81,12 @@ void mx_create_widge(t_widget_my *widge) {
 
     widge->search_entry = GTK_WIDGET(gtk_builder_get_object (widge->builder, "search_entry"));
 
-<<<<<<< HEAD
     widge->sep = GTK_WIDGET(gtk_builder_get_object (widge->builder, "sep_hor"));
-=======
     mx_mini_profile_gtk(widge);
     widge->notebook = GTK_WIDGET(gtk_builder_get_object(widge->builder, "notebook"));
     gtk_notebook_set_show_tabs(GTK_NOTEBOOK(widge->notebook), FALSE);
 
     widge->search_entry = GTK_WIDGET(gtk_builder_get_object (widge->builder, "search_entry"));
->>>>>>> master
     // gtk_list_box_unselect_all (GTK_LIST_BOX(widge->list_box));
 
     mx_set_images(widge);

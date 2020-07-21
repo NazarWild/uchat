@@ -1,13 +1,5 @@
 #include "../inc/uchat.h"
 
-static int callback_persons_id(void *data, int argc, char **argv,
-                                                        char **ColName) {
-    char **new = (char **)data;
-
-    *new = strdup(argv[0]);
-    return 0;
-}
-
 // int callback_int(void *data, int argc, char **argv, char **ColName) {
 //     int *result = (int *)data;
 //     *result = atoi(argv[0]);
@@ -70,7 +62,7 @@ void mx_add_message(int chats_id, char *text, int type_text,
 
     text = mx_parse_str(text);
     lite->data = &time;
-    lite->callback = callback_persons_id;
+    lite->callback = mx_callback_persons_id;
     lite->sql = "SELECT datetime('now','localtime');";
     mx_sqlite(lite, mutex);
     asprintf(&sql, "%i, %i, '%s', %i, '%s'", mutex->user_id, chats_id, text,
