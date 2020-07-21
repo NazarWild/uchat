@@ -28,6 +28,8 @@ FILES = u_server \
 		mx_send_group \
 		mx_ssl \
 		mx_search_ssl \
+		mx_prof_photo \
+		mx_usr_prof \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

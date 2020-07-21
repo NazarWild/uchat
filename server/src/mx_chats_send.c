@@ -34,8 +34,6 @@ void mx_chats_send(t_use_mutex *mutex) {
     char *str = NULL;
     cJSON *if_chats = NULL;
 
-    write(1, "\n\n", 2);
-
     if (chats != NULL) {
         if_chats = cJSON_CreateTrue();
         users = cJSON_CreateArray();
@@ -59,7 +57,7 @@ void mx_chats_send(t_use_mutex *mutex) {
     // write(mutex->cli_fd, str, strlen(str));
     SSL_write(mutex->my_ssl, str, strlen(str));
     //write(1, str, strlen(str));
+    // write(mutex->cli_fd, str, strlen(str));
     cJSON_Delete(users);
     free(str);
-    write(1, "\n\n", 2);
 }

@@ -18,6 +18,7 @@
 #include <sqlite3.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
+#include <sys/stat.h>
 
 #define PORT 6969
 #define USERS 200
@@ -93,7 +94,7 @@ void mx_add_message(int chats_id, char *text, int type_text,
 void mx_delete_from_db(char *name_table, char *condition, t_use_mutex *mutex);
 t_list *mx_history_chat(int text_id, int chats_id, t_use_mutex *mutex);
 t_list *mx_list_last_users_messeges(t_use_mutex *mutex);
-void mx_answers_papa(t_use_mutex *mutex);
+void mx_answers_papa(t_use_mutex *mutex, char *mess);
 
 int main(int argc, char *argv[]);
 bool mx_registr(t_use_mutex *mutex); //server
@@ -117,6 +118,9 @@ void mx_send_group(cJSON* MESS, cJSON* USERS_GRP, cJSON* CHAT_ID,
                                                     t_use_mutex *mutex);
 int mx_callback_persons_id(void *data, int argc, char **argv,
                                                         char **ColName);
+int mx_len_of_file(char *file);
+void mx_prof_photo(cJSON *root, t_use_mutex *mutex);
+void mx_usr_prof(cJSON *root, t_use_mutex *mutex);
 
 // SSL_TLS
 SSL_CTX* mx_initserverctx(void);
