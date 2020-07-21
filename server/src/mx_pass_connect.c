@@ -8,7 +8,7 @@ static int callback_persons_id(void *data, int argc, char **argv,
     return 0;
 }
 
-bool mx_pass_connect(char *login, char *pass, use_mutex_t *mutex) {
+bool mx_pass_connect(char *login, char *pass, t_use_mutex *mutex) {
     char *str = NULL;
     char *data = NULL;
     char *log = mx_parse_str(login);

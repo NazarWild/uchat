@@ -7,7 +7,7 @@ static int callback_persons_id(void *data, int argc, char **argv, char **ColName
     return 0;
 }
 
-static bool same_login(char *login, use_mutex_t *mutex) {
+static bool same_login(char *login, t_use_mutex *mutex) {
     char *str = NULL;
     char *data = NULL;
 
@@ -19,7 +19,7 @@ static bool same_login(char *login, use_mutex_t *mutex) {
     return true;
 }
 
-void mx_creating(cJSON* root, use_mutex_t *mutex) {      
+void mx_creating(cJSON* root, t_use_mutex *mutex) {      
     cJSON* log = cJSON_GetObjectItemCaseSensitive(root, "LOGIN");
     cJSON* pass = cJSON_GetObjectItemCaseSensitive(root, "PASS");
     char *add_this = NULL;

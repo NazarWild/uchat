@@ -7,7 +7,7 @@ static int callback_persons_id(void *data, int argc, char **argv, char **ColName
     return 0;
 }
 
-static int creating_chat(cJSON* MESS, use_mutex_t *mutex) {
+static int creating_chat(cJSON* MESS, t_use_mutex *mutex) {
     char *str1 = NULL;
     char *str2 = NULL;
     char *ita = mx_itoa(mutex->user_id);
@@ -22,7 +22,7 @@ static int creating_chat(cJSON* MESS, use_mutex_t *mutex) {
     return atoi(str2);
 }
 
-static void new_group_chat(use_mutex_t *mutex, cJSON* USERS_GRP, cJSON* MESS) {
+static void new_group_chat(t_use_mutex *mutex, cJSON* USERS_GRP, cJSON* MESS) {
     cJSON *USER = NULL;
     cJSON *USER_ID = NULL;
     int chat_id = creating_chat(MESS, mutex);
@@ -36,7 +36,7 @@ static void new_group_chat(use_mutex_t *mutex, cJSON* USERS_GRP, cJSON* MESS) {
     }
 }
 
-void mx_group_chat(cJSON* root, use_mutex_t *mutex) {
+void mx_group_chat(cJSON* root, t_use_mutex *mutex) {
     cJSON* CHAT_ID = cJSON_GetObjectItemCaseSensitive(root, "CHAT_ID");
     cJSON* MESS = cJSON_GetObjectItemCaseSensitive(root, "MESS");
     cJSON* USERS_GRP = cJSON_GetObjectItemCaseSensitive(root, "USERS");

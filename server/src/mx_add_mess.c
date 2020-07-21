@@ -14,7 +14,7 @@ static int callback_persons_id(void *data, int argc, char **argv,
 //     return 0;
 // }
 
-// int mx_get_id_and_create_chat(int login1, int login2, use_mutex_t *mutex) {
+// int mx_get_id_and_create_chat(int login1, int login2, t_use_mutex *mutex) {
 //     char *sql;
 //     int id;
 //     char *new_name;
@@ -31,7 +31,7 @@ static int callback_persons_id(void *data, int argc, char **argv,
 //     return id;
 // }
 
-// void mx_add_users_to_chat(int login, int chats_id, use_mutex_t *mutex) {
+// void mx_add_users_to_chat(int login, int chats_id, t_use_mutex *mutex) {
 //     char *sql;
 
 //     asprintf(&sql, "%i, %i", login, chats_id);
@@ -63,7 +63,7 @@ char *mx_parse_str(char *str) {
 }
 
 void mx_add_message(int chats_id, char *text, int type_text,
-                                                use_mutex_t *mutex) {
+                                                t_use_mutex *mutex) {
     char *sql;
     char *time;
     t_sqlite *lite = malloc(sizeof(t_sqlite) * 1);

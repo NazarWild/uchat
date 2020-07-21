@@ -9,6 +9,7 @@ FILES = mx_log_in \
 	mx_create_widge \
 	main \
 	mx_profile_gtk \
+	mx_mini_profile_gtk \
 	mx_photo_set \
 	mx_message_to \
 	mx_message_from \
@@ -23,9 +24,7 @@ FILES = mx_log_in \
 	theme_4 \
 	theme_5 \
 	theme_6 \
-	remove_friend_list \
 	send_file_to \
-	remove_mess \
 	mx_realloc \
 	mx_time_mess_from \
 	mx_time_mess_to \
@@ -34,7 +33,9 @@ FILES = mx_log_in \
 	mx_hash_to_string \
 	mx_hash \
 	mx_find_login_by_id \
-
+	mx_create_chat \
+	mx_itoa \
+	mx_strnew \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

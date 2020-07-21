@@ -3,7 +3,6 @@
 static void send_online(cJSON *ON, int fd) {
     char *string = cJSON_Print(ON);
 
-    write(1, string, strlen(string));
     write(fd, string, 2048); //nd
     free(string);
 }
@@ -40,7 +39,7 @@ static void adding_param(cJSON *online, t_online *arr_users) {
     cJSON_AddItemToObject(online, "online", online_bool);
 }
 
-void mx_whoonline(use_mutex_t *mutex) {
+void mx_whoonline(t_use_mutex *mutex) {
     t_list *tmp = mx_where_not_1(mutex);
     t_list *online_struct = tmp;
     cJSON *on = cJSON_CreateObject();

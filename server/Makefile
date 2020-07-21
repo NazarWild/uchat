@@ -26,6 +26,7 @@ FILES = u_server \
 		mx_new_chat \
 		mx_group_chat \
 		mx_send_group \
+		mx_ssl \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
@@ -46,8 +47,8 @@ all: install
 install: $(NAME)
 
 $(NAME) : $(SRC) $(INC)
-	@clang $(CFLAGS) -c $(SRC_COMPILE) #-I/usr/local/opt/openssl/include 
-	@clang $(CFLAGS) $(OBJ) -o $(NAME) -l sqlite3 #-L/usr/local/opt/openssl/lib/ -I/usr/local/opt/openssl/include -lssl -lcrypto
+	@clang $(CFLAGS) -c $(SRC_COMPILE) -I/usr/local/opt/openssl/include 
+	@clang $(CFLAGS) $(OBJ) -o $(NAME) -l sqlite3 -L/usr/local/opt/openssl/lib/ -I/usr/local/opt/openssl/include -lssl -lcrypto
 	@mkdir -p obj
 	@cp $(OBJ) obj/
 	@rm -rf $(OBJ)

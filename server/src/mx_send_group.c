@@ -7,7 +7,7 @@ static int callback_persons_id(void *data, int argc, char **argv, char **ColName
     return 0;
 }
 
-static void send_mess(int socket, cJSON* CHAT_ID, use_mutex_t *mutex, cJSON* MESS) {
+static void send_mess(int socket, cJSON* CHAT_ID, t_use_mutex *mutex, cJSON* MESS) {
     char *str = NULL;
 
     asprintf(&str, "{\"FROM\":%d,\"MESS\":%s,\"CHAT_ID\":%d}\n", 
@@ -16,7 +16,7 @@ static void send_mess(int socket, cJSON* CHAT_ID, use_mutex_t *mutex, cJSON* MES
     free(str);
 }
 
-void mx_send_group(cJSON* MESS, cJSON* USERS_GRP, cJSON* CHAT_ID, use_mutex_t *mutex) {
+void mx_send_group(cJSON* MESS, cJSON* USERS_GRP, cJSON* CHAT_ID, t_use_mutex *mutex) {
     cJSON *USER = NULL;
     cJSON *USER_ID = NULL;
     char *str = NULL;

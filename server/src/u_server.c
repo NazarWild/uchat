@@ -1,6 +1,6 @@
 #include "../inc/uchat.h"
 
-static bool parse_object(cJSON *root, use_mutex_t *param) {
+static bool parse_object(cJSON *root, t_use_mutex *param) {
     // тут буду смотреть кому сообщение и смотрерть через бд его дескриптор, после чего отсылать сообщение 
     // если дескриптор -1, то пользователь не в сети и буду записывать в бд сообщение сразу 
     // после чего как только он зайдет надо будет подгружать сообщения 
@@ -17,15 +17,16 @@ static bool parse_object(cJSON *root, use_mutex_t *param) {
 }
 
 static void *some_sending(void *parametr) {
-    use_mutex_t *param = (use_mutex_t *) malloc(sizeof(use_mutex_t));
-    use_mutex_t *tmp = (use_mutex_t *) parametr;
+    t_use_mutex *param = (t_use_mutex *) malloc(sizeof(t_use_mutex));
+    t_use_mutex *tmp = (t_use_mutex *) parametr;
     char buff[2048];
     int ret = 0;
     cJSON* request_json = NULL;
 
     param->mutex = tmp->mutex;
     param->cli_fd = tmp->cli_fd;
-
+    param->my_ssl = tmp->my_ssl;
+    param->ssl_list = tmp->ssl_list;
 
     if (mx_registr(param) == false) //otpravliaem cJSON chto ne poluchilos voiti i zacrivaem potok
         pthread_exit(&ret);
@@ -37,7 +38,7 @@ static void *some_sending(void *parametr) {
         request_json = cJSON_Parse(buff);
         if (parse_object(request_json, param) == false)
             break;
-        bzero(buff, 1024);
+        bzero(buff, 2048);
     }
     mx_delete_socket(param);
     printf("EXIT FROM THREAD\n");
@@ -51,8 +52,8 @@ int main(int argc, char *argv[]) {
     int clen = sizeof(cli_addr);
     pthread_t thread; 
 
-    use_mutex_t param; //creting mutex
-    pthread_mutex_t mute;
+    t_use_mutex param; //creting mutex
+    pthread_mutex_t mute; // mutex
 
     pthread_mutex_init(&mute, NULL);
     param.mutex = &mute;
@@ -71,11 +72,20 @@ int main(int argc, char *argv[]) {
         exit(2);
     }
     listen(server_fd, USERS);
+    SSL_CTX *ctx = mx_initserverctx();
+    SSL *ssl = NULL;
+    mx_loadcertificates(ctx, "CertFile.pem", "CertFile.pem");
+    t_list * list = NULL;
+
     while (1) {
         if ((param.cli_fd = accept(server_fd, (struct sockaddr *) &cli_addr, (socklen_t *) &clen)) < 0) {
             perror("ACCEPTING ERROR");
             exit(3);
         }
+        ssl = SSL_new(ctx);
+        SSL_set_fd(ssl, param.cli_fd);
+        param.my_ssl = ssl;
+        param.ssl_list = &list;
         printf("THIS SHIT CONNECTED: %s\n", inet_ntoa(cli_addr.sin_addr));
         if (pthread_create(&thread, NULL, some_sending, (void *) &param) < 0) {
             perror("CREATING THREAD ERROR");
@@ -83,5 +93,6 @@ int main(int argc, char *argv[]) {
         }
     }
     pthread_mutex_destroy(&mute);
+    SSL_CTX_free(ctx);
     return 0;
 }

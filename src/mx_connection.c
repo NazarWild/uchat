@@ -1,11 +1,23 @@
 #include "../inc/uchat.h"
 
-void mx_create_chat(GtkWidget* widget, void *data) {
+void check_chat(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
+    t_list *list = widge->login_id;
 
-    gtk_widget_grab_focus (widge->command_line);
-    gtk_entry_set_text(GTK_ENTRY(widget), "");
-    gtk_entry_set_placeholder_text(GTK_ENTRY(widget), "No such user");
+    const gchar *find_login = gtk_entry_get_text(GTK_ENTRY(widget));
+
+    while (strcmp(find_login, list->login) != 0 && list->next != NULL) {
+        list = list->next;
+    }
+    if (strcmp(find_login, list->login) == 0) {
+        t_page *page = malloc(sizeof(t_page));
+        // mx_create_chat(page, widge, list->login);
+        mx_create_friend(widge, list->login, list->online, page);
+    }
+    else {
+        gtk_entry_set_text(GTK_ENTRY(widget), "");
+        gtk_entry_set_placeholder_text(GTK_ENTRY(widget), "No such user");
+    }
 }
 
 void mx_pop_front(t_list **head) {
@@ -61,14 +73,13 @@ void mx_parse_whoonline(t_widget_my *widge, cJSON *json) {
 
         write(1, "=======USER=======\n", strlen("===================\n"));
         printf("LOGIN : %s\nID = %s\nONLINE = %d\n", login->valuestring, user_id->valuestring, online->valueint);
-        write(1, "===================\n", strlen("===================\n"));
+        write(1, "==================\n", strlen("==================\n"));
         mx_push_back(&widge->login_id, login->valuestring, user_id->valuestring, online->valueint);
-        //if (online->valueint == 1)
-        mx_create_friend(widge, login->valuestring, online->valueint);
-    }   
+    }
+    write(1, "=====================\n\n", strlen("=====================\n\n"));
 }
 
-static void change_pos(GtkWidget *widget, void *data) {
+void change_pos(GtkWidget *widget, void *data) {
     static gdouble uper = 0;
 
     if (uper != gtk_adjustment_get_upper(GTK_ADJUSTMENT(widget))) {
@@ -80,10 +91,12 @@ static void change_pos(GtkWidget *widget, void *data) {
 void mx_papa_bot(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     char *login = (char *) gtk_button_get_label(GTK_BUTTON(widget));
+    widge->login_list = strdup(login);
     
     gtk_button_set_label (GTK_BUTTON(widge->who_writing), login);
-    mx_remove_mess(widge);
-    widge->to = login;
+
+    int i = (int)g_object_get_data(G_OBJECT(widget), "id");
+    gtk_notebook_set_current_page(GTK_NOTEBOOK(widge->notebook), i);
 }
 
 void hazker_mode(GtkWidget* widget, void *dat) {
@@ -128,18 +141,17 @@ void setting_win(GtkWidget* widget, void *dat) {
     gtk_widget_show_all(widge->win_sett);
 }
 
-static void send_message(GtkWidget* widget, void *dat) {
+void send_message(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
     char *str; //строка которую отправляем Лехе
-    char *message = (char *)gtk_entry_get_text(GTK_ENTRY(widget)); //считываем данные с ввода
+    char *message = (char *)gtk_entry_get_text(GTK_ENTRY(widge->command_line)); //считываем данные с ввода
 
     if (strlen(message) == 0) { //если пустая строка, ничего не делать
         printf("Are you kidding me?\n");
     }
     else {
         mx_message_to(widge, message);
-        mx_remove_friend_list(widge);
-        asprintf(&str, "{\"IF_MESS\":true,\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\",\"CHAT_ID\":\"0\"}\n", widge->to, message);
+        asprintf(&str, "{\"IF_MESS\":true,\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\",\"CHAT_ID\":\"1\"}\n", widge->to, message);
         //write(1, str, strlen(str));
         write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
         gtk_entry_set_text(GTK_ENTRY(widge->command_line), ""); //обнуляем вводимую строку, следовательно обнуляеться message
@@ -147,7 +159,7 @@ static void send_message(GtkWidget* widget, void *dat) {
     }
 }
 
-static bool if_online(cJSON *js) {
+bool if_online(cJSON *js) {
     cJSON *online = cJSON_GetObjectItemCaseSensitive(js, "USERS");
 
     if(cJSON_IsTrue(online) == 1)
@@ -155,7 +167,7 @@ static bool if_online(cJSON *js) {
     return false;
 }
 
-static bool if_chats(cJSON *js) {
+bool if_chats(cJSON *js) {
     cJSON *chats = cJSON_GetObjectItemCaseSensitive(js, "if_chats");
 
     if(cJSON_IsTrue(chats) == 1)
@@ -163,7 +175,7 @@ static bool if_chats(cJSON *js) {
     return false;
 }
 
-static bool if_mess(cJSON *js) {
+bool if_mess(cJSON *js) {
     cJSON *mess = cJSON_GetObjectItemCaseSensitive(js, "IF_MESS");
 
     if(cJSON_IsTrue(mess) == 1)
@@ -171,7 +183,7 @@ static bool if_mess(cJSON *js) {
     return false;
 }
 
-static void parse_mess(cJSON *js, t_widget_my *widge) {
+void parse_mess(cJSON *js, t_widget_my *widge) {
     cJSON *mess = cJSON_GetObjectItemCaseSensitive(js, "MESS");
     cJSON *to = cJSON_GetObjectItemCaseSensitive(js, "TO");
 
@@ -180,7 +192,7 @@ static void parse_mess(cJSON *js, t_widget_my *widge) {
     write(1, mess->valuestring, strlen(mess->valuestring));
 }
 
-static void mx_parse_chats(cJSON *json, t_widget_my *widge) {
+void mx_parse_chats(cJSON *json, t_widget_my *widge) {
     cJSON *chats = cJSON_GetObjectItemCaseSensitive(json, "chats");
 
     if(cJSON_IsFalse(chats) != 1) {
@@ -188,23 +200,30 @@ static void mx_parse_chats(cJSON *json, t_widget_my *widge) {
         cJSON *last_mess = NULL;
         cJSON *who_write = NULL;
         cJSON *arr = NULL;
-        //cJSON *who_in_chat = NULL;
+        cJSON *arr_2 = NULL;
+        cJSON *who_in_chat = NULL;
 
         write(1, "=======CHATS=======\n\n", strlen("===================\n\n"));
         cJSON_ArrayForEach(arr, chats) { 
             id = cJSON_GetObjectItemCaseSensitive(arr, "id");
             last_mess = cJSON_GetObjectItemCaseSensitive(arr, "last_mess");
             who_write = cJSON_GetObjectItemCaseSensitive(arr, "who_write");
-            //who_in_chat = cJSON_GetObjectItemCaseSensitive(arr, "who_in_chat");
+            who_in_chat = cJSON_GetObjectItemCaseSensitive(arr, "who_in_chat");
             printf("=======CHAT ID %s=======\n", id->valuestring);
             printf("MESS : %s\nWHO_WRITE : %s\n", last_mess->valuestring,  mx_find_login_by_id(widge->login_id, who_write->valuestring));
+            printf("=======WHO IN CHAT =======\n");
+            cJSON_ArrayForEach(arr_2, who_in_chat) {
+                printf("%s\t",arr_2->valuestring);
+            }
+            printf("\n");
             printf("=====================\n");
             //mx_push_back();
         }
+        write(1, "=====================\n\n", strlen("=====================\n\n"));
     }
 }
 
-static void *Read(void *dat) {
+void *Read(void *dat) {
     t_widget_my *widge = (t_widget_my *) dat;
     char buff[2048];
     int len;
@@ -216,14 +235,16 @@ static void *Read(void *dat) {
         len = read(widge->sockfd, buff, 2048);
         json = cJSON_Parse(buff);
 
+        //chats
         if (if_chats(json))
             mx_parse_chats(json, widge);
-
+        //online
         if (if_online(json)) {
             free_list(&widge->login_id);
             mx_parse_whoonline(widge, json);
         }
-
+        printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
+        //mess
         if (if_mess(json))
             parse_mess(json, widge);
 
@@ -232,8 +253,24 @@ static void *Read(void *dat) {
     }
     int exit;
     pthread_exit(&exit);
-    return (void*)0;
+    return (void *)0;
 }
+
+// void *Update(void *dat) {
+//     t_widget_my *widge = (t_widget_my *) dat;
+//     char *str;
+
+//     while(1) {
+//         sleep(20);//-----------------------------------------------------periods of update
+//         asprintf(&str, "{\"IF_MESS\": false }\n");
+//         write(widge->sockfd, str, strlen(str));
+//         printf("\n-----------------------------------------------I AM %s\n", widge->login);
+//         free(str);
+//     }
+//     int exit;
+//     pthread_exit(&exit);
+//     return (void *)0;
+// }
 
 void profile(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
@@ -244,6 +281,32 @@ void profile(GtkWidget* widget, void *data) {
         widge->on_profile = 1;
         mx_profile_gtk(widge);
     }
+}
+//////////////////
+gboolean show_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
+    t_widget_my *widge = (t_widget_my *)data;
+    
+    gtk_widget_show (widge->mini_window_profile);
+    return false;
+}
+
+gboolean hide_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
+    t_widget_my *widge = (t_widget_my *)data;
+    
+    gtk_widget_hide (widge->mini_window_profile);
+    return false;
+}
+
+void mx_create_bot(t_widget_my *widge) {
+    t_page *page = malloc(sizeof(t_page));
+    int i = 0;
+
+    g_object_set_data(G_OBJECT(widge->papa_bot), "id", (gpointer)(i));
+    mx_create_chat(page, widge, "Papa BOT");
+    mx_push_front_gtk(&widge->page_list, page);
+    widge->login_list = strdup("Papa BOT");
+    gtk_button_set_label(GTK_BUTTON(widge->who_writing), "Papa BOT");
+    gtk_notebook_set_current_page(GTK_NOTEBOOK(widge->notebook), 0);
 }
 
 void mx_connection(t_widget_my *widge) {
@@ -280,6 +343,8 @@ void mx_connection(t_widget_my *widge) {
     asprintf(&str, "{\"LOGIN\":\"%s\",\"PASS\":\"%s\"}\n", widge->login, mx_hash(widge->login, widge->pass)); //записываем в строку логин и пароль для Лехи
     write(widge->sockfd, str, strlen(str)); //отпраявляем логин и пароль Лехе
     free(str);
+    
+
     read(widge->sockfd, buff, 2048);
     json = cJSON_Parse(buff);
     if (if_online(json))
@@ -288,16 +353,28 @@ void mx_connection(t_widget_my *widge) {
     gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
+        mx_create_bot(widge);//создаем окно бота
+        g_signal_connect (widge->who_writing, "enter-notify-event", G_CALLBACK(show_mini_profile), widge);
+        g_signal_connect (widge->who_writing, "leave-notify-event", G_CALLBACK(hide_mini_profile), widge);
         g_signal_connect (widge->profile_button, "clicked", G_CALLBACK(profile), widge);
-        g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
-        g_signal_connect (widge->command_line, "activate", G_CALLBACK(send_message), widge);
+        // g_signal_connect (widge->command_line, "activate", G_CALLBACK(send_message), widge);
         g_signal_connect (widge->achiev, "clicked", G_CALLBACK(hazker_mode), widge);
         g_signal_connect (widge->setting, "clicked", G_CALLBACK(mx_setting_win), widge);
         g_signal_connect (widge->file_button, "clicked", G_CALLBACK(send_file), widge);
-        g_signal_connect(widge->slider_adj, "changed", G_CALLBACK(change_pos), NULL);
         g_signal_connect(widge->papa_bot, "clicked", G_CALLBACK(mx_papa_bot), widge);
-        g_signal_connect (widge->search_entry, "activate", G_CALLBACK(mx_create_chat), widge);
+        ///////////////////////////////////////////////////////////////////////////////
+        // char *login = (char *) gtk_button_get_label(GTK_BUTTON(widge->papa_bot));
+    
+        // widge->to = login;
+        // gtk_button_set_label (GTK_BUTTON(widge->who_writing), login);
+        // mx_create_chat(widge->papa_bot, widge);
+        ///////////////////////////////////////////////////////////////////////////////
+        g_signal_connect (widge->search_entry, "activate", G_CALLBACK(check_chat), widge);
+        g_signal_connect(widge->command_line, "activate", G_CALLBACK(send_message), widge);
+        g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
+        
         pthread_create(&preg, 0, Read, widge);
+        //pthread_create(&preg, 0, Update, widge);
     }
     else {
         gtk_widget_show(GTK_WIDGET(widge->wrong_login));
