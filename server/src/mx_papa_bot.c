@@ -17,7 +17,7 @@ static void start(t_use_mutex *mutex) {
     // nachinaem cacueto zagadku proveriaya na raiting i v zavisimosti ot raitinga vivodim zagadku
     // pervaya zagadka shifr cezara
     if (mutex->lvl == 0) {
-        
+        write(mutex->cli_fd, "{\"FROM\":\"PAPA_BOT\",\"MESS\":\"Khoor, Zruog! Dqg Zhofrph wr rxu fkdw!\",\n", 68);
     }
 
 }
@@ -34,8 +34,8 @@ void mx_papa_bot(cJSON *MESS, t_use_mutex *mutex) { //vsegda nado budet otpravli
         mylvl(mutex);
     else if (strcmp(mess, "./start") == 0)
         start(mutex);
-    else if (strncmp(mess, "./answer:", 10) == 0) 
-        mx_answers_papa(mutex);
+    else if (strncmp(mess, "./answer:", 9) == 0) 
+        mx_answers_papa(mutex, mess);
     else 
         command_false(mutex);
 }
