@@ -26,12 +26,30 @@ static void creating_cJSON(cJSON *users, t_messeges *chat) { // надо зна�
     free(str);
 }
 
+static void cjson_cycles(cJSON *users, t_list *chats, cJSON *info) {
+    while(chats) {
+        info = cJSON_CreateObject();
+        cJSON_AddItemToArray(users, info);
+        creating_cJSON(info, (t_messeges *) chats->data);
+        chats = chats->next;
+    }
+}
+
+static void lol_send(t_use_mutex *mutex, cJSON *root) {
+    char *str = NULL;
+        str = cJSON_Print(root);
+    // write(mutex->cli_fd, str, strlen(str));
+    SSL_write(mutex->my_ssl, str, strlen(str));
+    //write(1, str, strlen(str));
+    // write(mutex->cli_fd, str, strlen(str));
+    free(str);
+}
+
 void mx_chats_send(t_use_mutex *mutex) {
     t_list *chats = mx_list_last_users_messeges(mutex);
     cJSON *root = cJSON_CreateObject();
     cJSON *users = NULL;
     cJSON *info = NULL;
-    char *str = NULL;
     cJSON *if_chats = NULL;
 
     if (chats != NULL) {
@@ -47,17 +65,7 @@ void mx_chats_send(t_use_mutex *mutex) {
         cJSON_AddItemToObject(root, "chats", users);
         write(1, "DELETING", 8);
     }
-    while(chats) {
-        info = cJSON_CreateObject();
-        cJSON_AddItemToArray(users, info);
-        creating_cJSON(info, (t_messeges *) chats->data);
-        chats = chats->next;
-    }
-    str = cJSON_Print(root);
-    // write(mutex->cli_fd, str, strlen(str));
-    SSL_write(mutex->my_ssl, str, strlen(str));
-    //write(1, str, strlen(str));
-    // write(mutex->cli_fd, str, strlen(str));
+    cjson_cycles(users, chats, info);
+    lol_send(mutex, root);
     cJSON_Delete(users);
-    free(str);
 }

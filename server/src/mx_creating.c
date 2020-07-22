@@ -3,9 +3,11 @@
 static bool same_login(char *login, t_use_mutex *mutex) {
     char *str = NULL;
     char *data = NULL;
+    t_select *select;
 
     asprintf(&str, "persons_id where login = '%s'", login);
-    mx_select("login", str, mx_callback_persons_id, &data, mutex);
+    select = mx_struct_select("login", str, mx_callback_persons_id, &data);
+    mx_select(select, mutex);
     free(str);
     if (data != NULL && strcmp(login, data) == 0)
         return false;

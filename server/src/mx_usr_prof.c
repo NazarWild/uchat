@@ -5,10 +5,13 @@ static char *theme_lang(cJSON *root, t_use_mutex *mutex) {
     char *tmp1 = NULL;
     char *request = NULL;
     cJSON* USR_ID = cJSON_GetObjectItemCaseSensitive(root, "USR_ID");
+    t_select *select;
 
     asprintf(&request, "persons_id WHERE users_id = %d", USR_ID->valueint);
-    mx_select("theme", request, mx_callback_persons_id, tmp, mutex);
-    mx_select("language", request, mx_callback_persons_id, tmp1, mutex);
+    select = mx_struct_select("theme", request, mx_callback_persons_id, tmp);
+    mx_select(select, mutex);
+    select = mx_struct_select("language", request, mx_callback_persons_id, tmp1);
+    mx_select(select, mutex);
     free(request);
     asprintf(&request, "{\"THEME\":\"%s\",\"LANGUAGE\":\"%s\",", tmp, tmp1);
     free(tmp1);
@@ -21,10 +24,13 @@ static char *stat_level(cJSON *root, t_use_mutex *mutex) {
     char *tmp1 = NULL;
     char *request = NULL;
     cJSON* USR_ID = cJSON_GetObjectItemCaseSensitive(root, "USR_ID");
+    t_select *select;
 
     asprintf(&request, "persons_id WHERE users_id = %d", USR_ID->valueint);
-    mx_select("status", request, mx_callback_persons_id, tmp, mutex);
-    mx_select("level", request, mx_callback_persons_id, tmp1, mutex);
+    select = mx_struct_select("status", request, mx_callback_persons_id, tmp);
+    mx_select(select, mutex);
+    select = mx_struct_select("level", request, mx_callback_persons_id, tmp1);
+    mx_select(select, mutex);
     free(request);
     asprintf(&request, "\"STATUS\":\"%s\",\"LEVEL\":\"%d\",", tmp, atoi(tmp1));
     free(tmp1);
@@ -37,9 +43,11 @@ static int photo_usr(cJSON *root, t_use_mutex *mutex) {
     char *request = NULL;
     char *tmp = NULL;
     int a;
+    t_select *select;
 
     asprintf(&request, "persons_id WHERE users_id = %d", USR_ID->valueint);
-    mx_select("photo", request, mx_callback_persons_id, tmp, mutex);
+    select = mx_struct_select("photo", request, mx_callback_persons_id, tmp);
+    mx_select(select, mutex);
     free(request);
     request = mx_strjoin("file_serv/", tmp);
     free(tmp);
@@ -53,10 +61,13 @@ static char *date_fullname(cJSON *root, t_use_mutex *mutex) {
     char *request = NULL;
     int SIZE_BYTES = photo_usr(root, mutex);
     cJSON* USR_ID = cJSON_GetObjectItemCaseSensitive(root, "USR_ID");
+    t_select *select;
 
     asprintf(&request, "persons_id WHERE users_id = %d", USR_ID->valueint);
-    mx_select("date_of_birthd", request, mx_callback_persons_id, tmp, mutex);
-    mx_select("fullname", request, mx_callback_persons_id, tmp1, mutex);
+    select = mx_struct_select("date_of_birthd", request, mx_callback_persons_id, tmp);
+    mx_select(select, mutex);
+    select = mx_struct_select("fullname", request, mx_callback_persons_id, tmp1);
+    mx_select(select, mutex);
     free(request);
     asprintf(&request, "\"DATE_OF_BIRTH\":%s,\"FULLNAME\":\"%s\",\"PHOTO_SIZE\":%d}\n", tmp, tmp1, SIZE_BYTES);
     free(tmp1);

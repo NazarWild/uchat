@@ -5,11 +5,13 @@ static int creating_chat(cJSON* MESS, t_use_mutex *mutex) {
     char *str2 = NULL;
     char *ita = mx_itoa(mutex->user_id);
     char *tmp = NULL;
+    t_select *select;
 
     asprintf(&str1, "'%s %s'", ita, MESS->valuestring);
     mx_add_to_table("chats", "chat", str1, mutex);
     asprintf(&tmp, "chats WHERE chat = %s", str1);
-    mx_select("chats_id", tmp, mx_callback_persons_id, &str2, mutex);
+    select = mx_struct_select("chats_id", tmp, mx_callback_persons_id, &str2);
+    mx_select(select, mutex);
     free(tmp);
     free(str1);
     return atoi(str2);

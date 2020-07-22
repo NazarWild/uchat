@@ -11,9 +11,11 @@ t_list *mx_search_ssl(t_use_mutex *mutex, int id) {
     t_list *list = 0;
     int users_id;
     char *sql = 0;
+    t_select *select;
 
     asprintf(&sql, "sockets where socket = %i", id);
-    mx_select("users_id", sql, callback_int, &users_id, mutex);
+    select = mx_struct_select("users_id", sql, callback_int, &users_id);
+    mx_select(select, mutex);
     for (t_list *new = (t_list *)mutex->ssl_list; new != 0; new = new->next) {
         ssl = new->data;
         if (ssl->user_id == id)

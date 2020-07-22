@@ -60,26 +60,11 @@ void mx_set_value(char *name_table, char *str_change, char *search_condition,
     free(lite);
 }
 
-void mx_select(char *search, char *tables,
-                int (*callback)(void *, int, char **, char **),
-                void *data, t_use_mutex *mutex) { // структура
-    char *sql = 0;
-    t_sqlite *lite = malloc(sizeof(t_sqlite) * 1);
-
-    asprintf(&sql, "SELECT %s FROM %s;", search, tables);
-    lite->callback = callback;
-    lite->data = data;
-    lite->sql = sql;
-    mx_sqlite(lite, mutex);
-    free(sql);
-    free(lite);
-}
-
 void mx_delete_from_db(char *name_table, char *condition, t_use_mutex *mutex) {
     char *sql = 0;
     t_sqlite *lite = malloc(sizeof(t_sqlite) * 1);
 
-    asprintf(&sql, "DELETE FROM %s WHERE %s;", name_table, condition);
+    asprintf(&sql, "DELETE FROM %s WHERE %s ;", name_table, condition);
     lite->callback = NULL;
     lite->data = NULL;
     lite->sql = sql;
