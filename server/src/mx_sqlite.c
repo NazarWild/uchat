@@ -64,7 +64,7 @@ void mx_delete_from_db(char *name_table, char *condition, t_use_mutex *mutex) {
     char *sql = 0;
     t_sqlite *lite = malloc(sizeof(t_sqlite) * 1);
 
-    asprintf(&sql, "DELETE FROM %s WHERE %s;", name_table, condition);
+    asprintf(&sql, "DELETE FROM %s WHERE %s ;", name_table, condition);
     lite->callback = NULL;
     lite->data = NULL;
     lite->sql = sql;

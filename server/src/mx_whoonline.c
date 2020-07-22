@@ -47,7 +47,6 @@ void mx_whoonline(t_use_mutex *mutex) {
     cJSON *users = cJSON_CreateArray();
     cJSON *online = NULL;
     cJSON *str = NULL;
-
     t_online *struco = NULL;
 
     int count_of = count_of_struct(online_struct);

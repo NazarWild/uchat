@@ -10,14 +10,21 @@ static void if_registration(cJSON *root, t_use_mutex *mutex) {
     } 
 }
 
+static void ssl(t_use_mutex *mutex) {
+    t_ssl *ssl = (t_ssl *) malloc(sizeof(t_ssl));
 
+    ssl->ssl = mutex->my_ssl;
+    ssl->user_id = mutex->user_id;
+    pthread_mutex_lock(mutex->mutex);
+    mx_push_front(mutex->ssl_list, ssl);
+    pthread_mutex_unlock(mutex->mutex);
+}
 
 static void set_socket(int fd, char *log, t_use_mutex *mutex) {
     char *ita = NULL;
     char *new = NULL;
     char *users_id = NULL;
     char *level = NULL;
-    t_ssl *ssl = (t_ssl *) malloc(sizeof(t_ssl));
     t_select *select;
 
     ita = mx_itoa(fd);
@@ -26,7 +33,6 @@ static void set_socket(int fd, char *log, t_use_mutex *mutex) {
     mx_select(select, mutex);
     free(new);
     asprintf(&new, "%s, %i", users_id, mutex->cli_fd);
-    printf("lol\n");
     mx_add_to_table("sockets", "users_id, socket", new, mutex);
     mutex->user_id = atoi(users_id);
     free(new);
@@ -37,11 +43,7 @@ static void set_socket(int fd, char *log, t_use_mutex *mutex) {
     free(new);
     free(ita);
     free(users_id);
-    ssl->ssl = mutex->my_ssl;
-    ssl->user_id = mutex->user_id;
-    pthread_mutex_lock(mutex->mutex);
-    mx_push_front(mutex->ssl_list, ssl);
-    pthread_mutex_unlock(mutex->mutex);
+    ssl(mutex);
 }
 
 static bool loging(cJSON *root, int fd, t_use_mutex *mutex) {
@@ -67,6 +69,7 @@ static bool loging(cJSON *root, int fd, t_use_mutex *mutex) {
 bool mx_registr(t_use_mutex *mutex) {
     char buff[2048];
     cJSON* request_json = NULL;
+
     if(SSL_read(mutex->my_ssl, buff, 2048) > 0) {
     // if (read(mutex->cli_fd, buff, 2048) > 0) { 
         request_json = cJSON_Parse(buff);
