@@ -12,7 +12,7 @@ static void send_mess(int to, char *mess, int chat_id, t_use_mutex *mutex) {
 static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) {
     char *str1 = NULL;
     char *data = NULL;
-    int chat_id = atoi(CHAT_ID->valuestring);
+    int chat_id = atoi(CHAT_ID->valuestring); 
     t_select *select;
 
     asprintf(&str1, "sockets where users_id = %d", atoi(TO->valuestring));

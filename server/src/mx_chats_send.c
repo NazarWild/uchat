@@ -63,7 +63,6 @@ void mx_chats_send(t_use_mutex *mutex) {
         users = cJSON_CreateFalse();
         cJSON_AddItemToObject(root, "if_chats", if_chats);
         cJSON_AddItemToObject(root, "chats", users);
-        write(1, "DELETING", 8);
     }
     cjson_cycles(users, chats, info);
     lol_send(mutex, root);

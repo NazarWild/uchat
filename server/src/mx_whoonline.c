@@ -4,7 +4,8 @@ static void send_online(cJSON *ON, t_use_mutex *mutex) {
     char *string = cJSON_Print(ON);
 
     // write(fd, string, 2048); //nd
-    SSL_write(mutex->my_ssl, string, 2048);
+    SSL_write(mutex->my_ssl, string, strlen(string));
+    write(1, string, strlen(string));
     free(string);
 }
 
@@ -30,17 +31,19 @@ static void adding_sys(cJSON *root) {
 static void adding_param(cJSON *online, t_online *arr_users) {
     cJSON *user_id = NULL;
     cJSON *online_bool = NULL;
+    char *str = mx_itoa(arr_users->id);
 
-    user_id = cJSON_CreateString( mx_itoa(arr_users->id));
+    user_id = cJSON_CreateString(str);
     cJSON_AddItemToObject(online, "user_id", user_id);
     if (arr_users->online == 1) 
         online_bool = cJSON_CreateTrue();
     else 
         online_bool = cJSON_CreateFalse();
     cJSON_AddItemToObject(online, "online", online_bool);
+    free(str);
 }
 
-void mx_whoonline(t_use_mutex *mutex) {
+void mx_whoonline(t_use_mutex *mutex) { 
     t_list *tmp = mx_where_not_1(mutex);
     t_list *online_struct = tmp;
     cJSON *on = cJSON_CreateObject();

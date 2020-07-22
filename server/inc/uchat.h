@@ -96,7 +96,7 @@ void mx_push_front(t_list **list, void *data);
 void mx_add_message(int chats_id, char *text, int type_text,
                                                 t_use_mutex *mutex);
 void mx_delete_from_db(char *name_table, char *condition, t_use_mutex *mutex);
-t_list *mx_history_chat(int text_id, int chats_id, t_use_mutex *mutex);
+t_list *mx_history_chat(int chats_id, t_use_mutex *mutex);
 t_list *mx_list_last_users_messeges(t_use_mutex *mutex);
 void mx_answers_papa(t_use_mutex *mutex, char *mess);
 
@@ -134,5 +134,7 @@ void mx_send_user_with_dif_sock(t_use_mutex *mutex, int who, char *str,
                                                                 int bytes);
 t_select *mx_struct_select(char *search, char *tables,
             int (*callback)(void *, int, char **, char **), void *data);
+void mx_slast_mess(cJSON *root, t_use_mutex *param);
+void mx_change_mess(cJSON *root, t_use_mutex *param);
 
 #endif
