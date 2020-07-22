@@ -7,6 +7,9 @@ static bool parse_object(cJSON *root, t_use_mutex *param) {
     //show who online
     mx_whoonline(param);
 
+    // отсылаю новые и старые чаты 
+    mx_chats_send(param);
+
     //тут буду отсылать последние сообщение по запросу пользователя с их текст-айдишниками
     //mx_slast_mess();
 

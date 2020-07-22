@@ -6,6 +6,7 @@
         "string_view": "c",
         "vector": "c",
         "malloc.h": "c",
-        "sstream": "c"
+        "sstream": "c",
+        "__mutex_base": "c"
     }
 }
