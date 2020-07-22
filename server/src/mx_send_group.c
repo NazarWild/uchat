@@ -15,11 +15,13 @@ void mx_send_group(cJSON* MESS, cJSON* USERS_GRP, cJSON* CHAT_ID, t_use_mutex *m
     cJSON *USER_ID = NULL;
     char *str = NULL;
     char *data = NULL;
+    t_select *select;
 
     cJSON_ArrayForEach(USER, USERS_GRP) {
         USER_ID = cJSON_GetObjectItemCaseSensitive(USER, "USER_ID");
         asprintf(&str, "sockets WHERE users_id = %d", atoi(USER_ID->valuestring));
-        mx_select("socket", str, mx_callback_persons_id, &data, mutex);
+        select = mx_struct_select("socket", str, mx_callback_persons_id, &data);
+        mx_select(select, mutex);
         if (data != NULL) {
             send_mess(atoi(data), CHAT_ID, mutex, MESS);
             free(data);

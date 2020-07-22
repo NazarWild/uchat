@@ -30,6 +30,7 @@ FILES = u_server \
 		mx_search_ssl \
 		mx_prof_photo \
 		mx_usr_prof \
+		mx_select \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

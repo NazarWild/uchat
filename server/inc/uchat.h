@@ -25,35 +25,35 @@
 typedef struct s_list {
     void *data;
     struct s_list *next;
-} t_list;
+}              t_list;
 typedef struct s_login_pass {
     char *login;
     char *pass;
     // int socket;
-} t_login_pass;
+}              t_login_pass;
 
 typedef struct s_sqlite {
     char *sql;
     int (*callback)(void *, int, char **, char **);
     void *data;
-} t_sqlite;
+}              t_sqlite;
 
 typedef struct s_history {
     char *text;
     int text_id;
     int chats_id;
-} t_history;
+}              t_history;
 
 typedef struct s_online {
     char *login;
     int id;
     bool online;
-} t_online;
+}              t_online;
 
 typedef struct s_ssl {
     int user_id;
     SSL *ssl;
-} t_ssl;
+}              t_ssl;
 
 typedef struct s_use_mutex {
     pthread_mutex_t *mutex;
@@ -62,16 +62,22 @@ typedef struct s_use_mutex {
     short int lvl;
     SSL * my_ssl;
     t_list **ssl_list;
-} t_use_mutex;
-
-
+}              t_use_mutex;
 
 typedef struct s_messeges {
     char *text;
     int chats_id;
     t_list *who_is_here;
     int who_write;
-} t_messeges;
+}              t_messeges;
+
+typedef struct s_select {
+    char *search;
+    char *tables;
+    int (*callback)(void *, int, char **, char **);
+    void *data;
+}              t_select;
+
 
 char *mx_parse_str(char *str);
 void mx_sqlite(t_sqlite *lite, t_use_mutex *mutex);
@@ -81,9 +87,7 @@ void mx_add_to_table(char *name_table, char *values_table, char *values,
                                                         t_use_mutex *mutex);
 void mx_set_value(char *name_table, char *str_change, char *search_condition,
                                                         t_use_mutex *mutex);
-void mx_select(char *search, char *tables,
-                int (*callback)(void *, int, char **, char **),
-                void *data, t_use_mutex *mutex);
+void mx_select(t_select *select, t_use_mutex *mutex);
 bool mx_path_connect(char *login, char *pass, t_use_mutex *mutex);
 t_list *mx_where_not_1(t_use_mutex *mutex);
 void mx_pop_front(t_list **head);
@@ -124,10 +128,11 @@ void mx_usr_prof(cJSON *root, t_use_mutex *mutex);
 
 // SSL_TLS
 SSL_CTX* mx_initserverctx(void);
-// SSL *mx_search_ssl(t_use_mutex *mutex, int id);
 t_list *mx_search_ssl(t_use_mutex *mutex, int id);
 void mx_loadcertificates(SSL_CTX* ctx, char* CertFile, char* KeyFile);
 void mx_send_user_with_dif_sock(t_use_mutex *mutex, int who, char *str,
                                                                 int bytes);
+t_select *mx_struct_select(char *search, char *tables,
+            int (*callback)(void *, int, char **, char **), void *data);
 
 #endif

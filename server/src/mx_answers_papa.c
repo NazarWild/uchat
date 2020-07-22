@@ -21,10 +21,12 @@ static void level_up(t_use_mutex *mutex) {
 
 void mx_answers_papa(t_use_mutex *mutex, char *mess) {
     char *data = NULL;
-    char *new = NULL; 
+    char *new = NULL;
+    t_select *select;
 
     asprintf(&new, "persons_id WHERE users_id = %d", mutex->user_id);
-    mx_select("level", new, mx_callback_persons_id, &data, mutex);
+    select = mx_struct_select("level", new, callback_persons_id, &data);
+    mx_select(select, mutex);
     free(new);
     mutex->lvl = atoi(data);
     // poluchaem iz db raiting 

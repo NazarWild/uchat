@@ -12,13 +12,28 @@ int callback_list_history(void *data, int argc, char **argv, char **ColName) {
     return 0;
 }
 
+// t_list *mx_history_chat(int text_id, int chats_id, t_use_mutex *mutex) {
+//     t_list *list = 0;
+//     t_sqlite *lite = malloc(sizeof(t_sqlite));
+//     char *sql = 0;
+
+//     asprintf(&sql, "select text, text_id, chats_id from messeges where chats_id = %i "
+//     "and text_id > %i order by text_id desc limit 10;", chats_id, text_id);
+//     lite->data = &list;
+//     lite->callback = callback_list_history;
+//     lite->sql = sql;
+//     mx_sqlite(lite, mutex);
+//     free(sql);
+//     free(lite);
+//     return list;
+// }
 t_list *mx_history_chat(int text_id, int chats_id, t_use_mutex *mutex) {
     t_list *list = 0;
     t_sqlite *lite = malloc(sizeof(t_sqlite));
     char *sql = 0;
 
-    asprintf(&sql, "select text,text_id, chats_id from messeges where chats_id = %i "
-    "and text_id > %i order by text_id desc limit 10;", chats_id, text_id);
+    asprintf(&sql, "select text, text_id, chats_id from messeges where chats_id = %i "
+    " order by text_id desc;", chats_id, text_id);
     lite->data = &list;
     lite->callback = callback_list_history;
     lite->sql = sql;

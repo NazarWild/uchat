@@ -13,9 +13,11 @@ static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) 
     char *str1 = NULL;
     char *data = NULL;
     int chat_id = atoi(CHAT_ID->valuestring);
+    t_select *select;
 
     asprintf(&str1, "sockets where users_id = %d", atoi(TO->valuestring));
-    mx_select("socket", str1, mx_callback_persons_id, &data, mutex);
+    select = mx_struct_select("socket", str1, mx_callback_persons_id, &data);
+    mx_select(select, mutex);
     free(str1);
     if (data != NULL)
         send_mess(atoi(data), MESS->valuestring, atoi(CHAT_ID->valuestring), mutex);

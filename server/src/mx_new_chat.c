@@ -14,6 +14,7 @@ void mx_new_chat(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) {
     char *str2 = NULL;
     char *tmp = NULL;
     char *ita = mx_itoa(mutex->user_id);
+    t_select *select;
 
     if (atoi(TO->valuestring) < mutex->user_id)
         asprintf(&str1, "'%s %s'", TO->valuestring, ita);
@@ -21,7 +22,8 @@ void mx_new_chat(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) {
         asprintf(&str1, "'%s %s'", ita, TO->valuestring);
     mx_add_to_table("chats", "chat", str1, mutex);
     asprintf(&tmp, "chats WHERE chat = %s", str1);
-    mx_select("chats_id", tmp, mx_callback_persons_id, &str2, mutex);
+    select = mx_struct_select("chats_id", tmp, mx_callback_persons_id, &str2);
+    mx_select(select, mutex);
     free(tmp);
     free(str1);
     asprintf(&str1, "%d, %d", atoi(TO->valuestring), atoi(str2));

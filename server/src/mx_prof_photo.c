@@ -14,9 +14,11 @@ static int size_of_file(cJSON *root, t_use_mutex *mutex) {
     char *request = NULL;
     char *tmp = NULL;
     int a;
+    t_select *select;
 
     asprintf(&request, "persons_id WHERE users_id = %d", USR_ID->valueint);
-    mx_select("photo", request, mx_callback_persons_id, tmp, mutex);
+    select = mx_struct_select("photo", request, mx_callback_persons_id, tmp);
+    mx_select(select, mutex);
     free(request);
     request = mx_strjoin("file_serv/", tmp);
     free(tmp);
@@ -31,9 +33,11 @@ void mx_prof_photo(cJSON *root, t_use_mutex *mutex) { // перессылка ф
     char *request = NULL;
     char *tmp = NULL;
     int fd;
+    t_select *select;
 
     asprintf(&request, "persons_id WHERE users_id = %d", USR_ID->valueint);
-    mx_select("photo", request, mx_callback_persons_id, tmp, mutex);
+    select = mx_struct_select("photo", request, mx_callback_persons_id, tmp);
+    mx_select(select, mutex);
     free(request);
     request = mx_strjoin("file_serv/", tmp);
     fd = open(request, O_RDONLY);

@@ -33,10 +33,12 @@ static void send_cj(cJSON *root, t_use_mutex *mutex, char *path) {
 static char *name_add_file(cJSON* CHAT_ID, cJSON* MESS, t_use_mutex *mutex) {
     char *name = NULL;
     char *data = NULL;
+    t_select *select;
 
     mx_add_message(atoi(CHAT_ID->valuestring), name, 1, mutex);
     asprintf(&name, "messeges where text = '%s'", MESS->valuestring);
-    mx_select("max(text_id)", name, mx_callback_persons_id, data, mutex);
+    select = mx_struct_select("max(text_id)", name, mx_callback_persons_id, &data);
+    mx_select(select, mutex);
     return data;
 }
 
