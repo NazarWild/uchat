@@ -22,6 +22,7 @@ void relieff_set(t_widget_my *widge) {
 }
 
 void mx_create_widge(t_widget_my *widge) {
+
     widge->window = GTK_WIDGET(gtk_builder_get_object (widge->builder, "window"));
 
     widge->win_sign = GTK_WIDGET(gtk_builder_get_object (widge->builder, "win_sign"));
@@ -49,7 +50,6 @@ void mx_create_widge(t_widget_my *widge) {
 
     widge->message_win = GTK_FIXED(gtk_builder_get_object (widge->builder, "message_win"));
 
-    // widge->lisdt_box = GTK_WIDGET(gtk_builder_get_object(widge->builder, "list_box"));
     widge->profile_button = GTK_WIDGET(gtk_builder_get_object(widge->builder, "profile_button"));
     widge->send_button = GTK_WIDGET(gtk_builder_get_object(widge->builder, "send_button"));
 
@@ -73,8 +73,6 @@ void mx_create_widge(t_widget_my *widge) {
 
     widge->main_chat = GTK_WIDGET(gtk_builder_get_object(widge->builder, "main_chat"));
 
-    // widge->scrolled = GTK_WIDGET(gtk_builder_get_object(widge->builder, "scrolled"));
-
     widge->choose_user = GTK_WIDGET(gtk_builder_get_object(widge->builder, "choose_user"));
 
     widge->papa_bot = GTK_WIDGET(gtk_builder_get_object (widge->builder, "papa_bot"));
@@ -87,9 +85,10 @@ void mx_create_widge(t_widget_my *widge) {
     gtk_notebook_set_show_tabs(GTK_NOTEBOOK(widge->notebook), FALSE);
 
     widge->search_entry = GTK_WIDGET(gtk_builder_get_object (widge->builder, "search_entry"));
-    // gtk_list_box_unselect_all (GTK_LIST_BOX(widge->list_box));
+    widge->edit_line = GTK_WIDGET(gtk_builder_get_object (widge->builder, "edit_line"));
+    widge->send_edit = GTK_WIDGET(gtk_builder_get_object (widge->builder, "send_edit"));
+    widge->under_edit = GTK_WIDGET(gtk_builder_get_object (widge->builder, "under_edit"));
 
     mx_set_images(widge);
-    // relieff_set(widge);
     design_css(widge);
 }

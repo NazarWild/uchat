@@ -25,8 +25,8 @@ void mx_message_from(t_widget_my *widge, const gchar *text) {
     box3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, TRUE);
     box4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
 
-    user_name = mx_name_mess_to("opoliarenk");
-    data_box = mx_time_mess_to("22:12");
+    user_name = mx_name_mess_from("opoliarenk");
+    data_box = mx_time_mess_from("22:12");
 
     // gtk_box_pack_start(GTK_BOX(box), label, 1, 0, 0);
     // gtk_box_pack_start(GTK_BOX(box3), user_name, 0, 0, 0);
@@ -72,8 +72,6 @@ void mx_message_from(t_widget_my *widge, const gchar *text) {
     gtk_list_box_insert (GTK_LIST_BOX(page->list_box), row, -1);
 
     mx_push_front_gtk(&widge->message_list, mess_struct);
-
-    widge->message_id++;
 
     widge->index_mess_to = gtk_list_box_row_get_index(GTK_LIST_BOX_ROW(row));
 

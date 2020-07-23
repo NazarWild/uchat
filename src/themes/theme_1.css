@@ -33,6 +33,14 @@
     text-shadow: none;
 }
 
+#deleted {
+    background-image: linear-gradient(rgba(178, 193, 233, 0.055), rgba(178, 193, 233, 0.055));
+    color: rgb(87, 76, 75);
+    box-shadow: none;
+    border-width: 1px;
+    text-shadow: none;
+}
+
 #message_from {
     background-image: linear-gradient(rgba(216, 178, 233, 0.3), rgba(216, 178, 233, 0.3));
     color: rgb(87, 76, 75);
@@ -185,5 +193,14 @@ button:active {
 
 #scrolled {
     border-radius: 10px;
+}
+
+#sticker {
+    border-width: 0px;
+    background-image: linear-gradient(rgba(221, 152, 235, 0), rgba(178, 193, 233, 0));
+}
+
+#sticker_win {
+    background-image: linear-gradient(rgba(221, 152, 235, 0.4), rgba(178, 193, 233, 0.4), rgba(38, 145, 145, 0.4));
 }
 

@@ -54,7 +54,7 @@ void mx_create_chat(t_page *page, t_widget_my *widge, const gchar *text) {
     page->list_box = gtk_list_box_new();
 
     gtk_widget_set_name(page->list_box, "list_box");
-    gtk_widget_set_name(page->scroll, "scroll");
+    gtk_widget_set_name(page->scroll, "scrolled");
 
     gtk_notebook_insert_page(GTK_NOTEBOOK(widge->notebook), page->scroll, widge->page_label, -1);
     gtk_container_add(GTK_CONTAINER(page->scroll), page->list_box);

@@ -34,7 +34,8 @@ void p(GtkWidget* widget, void *data) {
             // write(1,"\n", strlen("\n"));
             // write(1, widge->login_list, strlen(widge->login_list));
             // write(1,"\n", strlen("\n"));
-    int i = (int)g_object_get_data(G_OBJECT(widget), "id");
+    int i = (int)(uintptr_t)g_object_get_data(G_OBJECT(widget), "id");
+    printf("*%i*\n", i);
     gtk_notebook_set_current_page(GTK_NOTEBOOK(widge->notebook), i);
 }
 
@@ -90,7 +91,7 @@ void mx_create_friend(t_widget_my *widge, const gchar *text, int online, t_page 
     gtk_list_box_insert (GTK_LIST_BOX(widge->friends), row, -1);
 
     int id = widge->id_lb_sw;
-    g_object_set_data(G_OBJECT(page->friend_butt), "id", (gpointer)(id));
+    g_object_set_data(G_OBJECT(page->friend_butt), "id", (gpointer)(uintptr_t)(id));
 ///////////////////////////////////////////////////////////////////////////////
     mx_create_chat(page, widge, text);
     g_signal_connect (page->friend_butt, "clicked", G_CALLBACK(p), widge);
