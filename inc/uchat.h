@@ -128,6 +128,7 @@ typedef struct s_widget_my {
     gint index_mess_to; //индекс последней строки в списке сообщений (для удаления листа)
     
     int on_profile; //что бы нельзя было открывать несколько профилей одновременно
+    int on_sticker;
 
     gchar *path_file;
 
@@ -143,6 +144,35 @@ typedef struct s_widget_my {
     GtkWidget *page_label;
 
     char *login_list;
+
+    GtkWidget *edit_line;
+    GtkWidget *send_edit;
+    GtkWidget *under_edit;
+
+    GtkWidget *win_stick;
+    GtkWidget *box_stick;
+    GtkWidget *scroll_stick;
+
+    GtkWidget *b1;
+    GtkWidget *b2;
+    GtkWidget *b3;
+    GtkWidget *b4;
+    GtkWidget *b5;
+    GtkWidget *b6;
+    GtkWidget *b7;
+    GtkWidget *b8;
+    GtkWidget *b9;
+    GtkWidget *b10;
+    GtkWidget *b11;
+    GtkWidget *b12;
+    GtkWidget *b13;
+    GtkWidget *b14;
+    GtkWidget *b15;
+    GtkWidget *b16;
+    GtkWidget *b17;
+    GtkWidget *b18;
+    GtkWidget *b19;
+    GtkWidget *b20;
 
     //images
     GdkPixbuf *profile_img;
@@ -164,6 +194,18 @@ typedef struct s_widget_my {
     GdkPixbuf *offline_img;
     GdkPixbuf *trash_img;
     GdkPixbuf *installbutt_img;
+    GdkPixbuf *b1_img;
+    GdkPixbuf *b2_img;
+    GdkPixbuf *b3_img;
+    GdkPixbuf *b4_img;
+    GdkPixbuf *b5_img;
+    GdkPixbuf *b6_img;
+    GdkPixbuf *b7_img;
+    GdkPixbuf *b8_img;
+    GdkPixbuf *b9_img;
+    GdkPixbuf *b10_img;
+    GdkPixbuf *b11_img;
+    GdkPixbuf *b12_img;
 
     GtkWidget *profile_icon;
     GtkWidget *smile_icon;
@@ -184,6 +226,18 @@ typedef struct s_widget_my {
     GtkWidget *offline_icon;
     GtkWidget *trash_icon;
     GtkWidget *installbutt_icon;
+    GtkWidget *b1_icon;
+    GtkWidget *b2_icon;
+    GtkWidget *b3_icon;
+    GtkWidget *b4_icon;
+    GtkWidget *b5_icon;
+    GtkWidget *b6_icon;
+    GtkWidget *b7_icon;
+    GtkWidget *b8_icon;
+    GtkWidget *b9_icon;
+    GtkWidget *b10_icon;
+    GtkWidget *b11_icon;
+    GtkWidget *b12_icon;
     //
 
     //ndykyy
@@ -246,6 +300,7 @@ void mx_remove_friend_list(t_widget_my *widge);
 void mx_remove_mess(void *data);
 void *mx_realloc(void *ptr, size_t size, ssize_t from);
 void mx_send_file_to(t_widget_my *widge, const gchar *text);
+void mx_send_file_from(t_widget_my *widge, const gchar *text);
 GtkWidget *mx_time_mess_to(char *data);
 GtkWidget *mx_name_mess_to(char *user);
 GtkWidget *mx_time_mess_from(char *data);
@@ -265,6 +320,14 @@ char *mx_hash(char *login, char *pass);
 void mx_create_chat(t_page *page, t_widget_my *widge, const gchar *text);
 char *mx_itoa(int number);
 char *mx_strnew(const int size);
+
+void *mx_memrchr(const void *s, int c, size_t n);
+
+void mx_delete_row(GtkWidget *list_box, gint index);
+void mx_delete_rows(GtkWidget *widget, void *data);
+
+void mx_sticker(GtkWidget* widget, void *data);
+void mx_create_stick(t_widget_my *widge);
 
 SSL *mx_ssl(int fd);
 

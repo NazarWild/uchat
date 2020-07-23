@@ -39,9 +39,6 @@ void mx_message_to(t_widget_my *widge, const gchar *text) {
     t_message *mess_struct = malloc(sizeof(t_message));
     GtkWidget *row, *box, *box2, *label, *box_in, *box3, *user_name, *data_box, *box4, *trash;
     char *to;
-    int i = 0;
-
-    // widge->message_send = mx_realloc(widge->message_send, (widge->message_id + 1) * sizeof(widge->message_send), widge->message_id);
 
     trash = gtk_button_new();
 
@@ -104,18 +101,24 @@ void mx_message_to(t_widget_my *widge, const gchar *text) {
         list = list->next;
     }
 ///////////////////////////////////////////////////////////////////////////////
+    char *id_list = strdup(data_me);
+    g_object_set_data(G_OBJECT(trash), "id_list", id_list);
+
+///////////////////////////////////////////////////////////////////////////////
     gtk_list_box_insert (GTK_LIST_BOX(page->list_box), row, -1);
 
     g_signal_connect(mess_struct->message, "clicked", G_CALLBACK(pt), widge);
 
     mx_push_front_gtk(&widge->message_list, mess_struct);
 
-    widge->message_id++;
-
     widge->index_mess_to = gtk_list_box_row_get_index(GTK_LIST_BOX_ROW(row));
 
-    printf("here\n");
-    gtk_widget_show_all (page->list_box);
+    int i = widge->index_mess_to;
+    g_object_set_data(G_OBJECT(trash), "index_row", (gpointer)(uintptr_t)(i));
+
+    g_signal_connect(trash, "clicked", G_CALLBACK(mx_delete_rows), widge);
+
+    gtk_widget_show_all(page->list_box);
 }
 
 

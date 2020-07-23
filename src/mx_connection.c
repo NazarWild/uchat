@@ -11,6 +11,7 @@ void check_chat(GtkWidget* widget, void *data) {
     }
     if (strcmp(find_login, list->login) == 0) {
         t_page *page = malloc(sizeof(t_page));
+        gtk_entry_set_text(GTK_ENTRY(widget), "");
         // mx_create_chat(page, widge, list->login);
         mx_create_friend(widge, list->login, list->online, page);
     }
@@ -95,7 +96,7 @@ void mx_papa_bot(GtkWidget* widget, void *data) {
     
     gtk_button_set_label (GTK_BUTTON(widge->who_writing), login);
 
-    int i = (int)g_object_get_data(G_OBJECT(widget), "id");
+    int i = (int)(uintptr_t)g_object_get_data(G_OBJECT(widget), "id");
     gtk_notebook_set_current_page(GTK_NOTEBOOK(widge->notebook), i);
 }
 
@@ -303,7 +304,7 @@ void mx_create_bot(t_widget_my *widge) {
     t_page *page = malloc(sizeof(t_page));
     int i = 0;
 
-    g_object_set_data(G_OBJECT(widge->papa_bot), "id", (gpointer)(i));
+    g_object_set_data(G_OBJECT(widge->papa_bot), "id", (gpointer)(uintptr_t)(i));
     mx_create_chat(page, widge, "Papa BOT");
     mx_push_front_gtk(&widge->page_list, page);
     widge->login_list = strdup("Papa BOT");
@@ -337,21 +338,17 @@ void mx_connection(t_widget_my *widge) {
     serv_addr.sin_family = AF_INET;
     bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(portno);
-    printf("lol\n");
     if (connect(widge->sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
         perror("ERROR connecting");
         exit(1);
     }
-    printf("lol1\n");
     widge->ssl = mx_ssl(widge->sockfd);
     asprintf(&str, "{\"LOGIN\":\"%s\",\"PASS\":\"%s\"}\n", widge->login, mx_hash(widge->login, widge->pass)); //записываем в строку логин и пароль для Лехи
     SSL_write(widge->ssl, str, strlen(str));
     // write(widge->sockfd, str, strlen(str)); //отпраявляем логин и пароль Лехе
     free(str);
-printf("lol2\n");
     SSL_read(widge->ssl, buff, 2048);
     // read(widge->sockfd, buff, 2048);
-    printf("lol3\n");
     json = cJSON_Parse(buff);
     if (if_online(json))
         mx_parse_whoonline(widge, json);
@@ -359,6 +356,7 @@ printf("lol2\n");
     gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
+        mx_create_stick(widge);
         mx_create_bot(widge);//создаем окно бота
         g_signal_connect (widge->who_writing, "enter-notify-event", G_CALLBACK(show_mini_profile), widge);
         g_signal_connect (widge->who_writing, "leave-notify-event", G_CALLBACK(hide_mini_profile), widge);
@@ -378,7 +376,7 @@ printf("lol2\n");
         g_signal_connect (widge->search_entry, "activate", G_CALLBACK(check_chat), widge);
         g_signal_connect(widge->command_line, "activate", G_CALLBACK(send_message), widge);
         g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
-        
+        g_signal_connect (widge->sticker_pack, "clicked", G_CALLBACK(mx_sticker), widge);
         pthread_create(&preg, 0, Read, widge);
         //pthread_create(&preg, 0, Update, widge);
     }

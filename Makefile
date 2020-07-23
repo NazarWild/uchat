@@ -37,6 +37,11 @@ FILES = mx_log_in \
 	mx_itoa \
 	mx_strnew \
 	mx_ssl \
+	send_file_from \
+	mx_memrchr \
+	mx_delete_row \
+	mx_delete_rows \
+	mx_sticker \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
