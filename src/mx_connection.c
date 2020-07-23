@@ -361,18 +361,10 @@ void mx_connection(t_widget_my *widge) {
         g_signal_connect (widge->who_writing, "enter-notify-event", G_CALLBACK(show_mini_profile), widge);
         g_signal_connect (widge->who_writing, "leave-notify-event", G_CALLBACK(hide_mini_profile), widge);
         g_signal_connect (widge->profile_button, "clicked", G_CALLBACK(profile), widge);
-        // g_signal_connect (widge->command_line, "activate", G_CALLBACK(send_message), widge);
         g_signal_connect (widge->achiev, "clicked", G_CALLBACK(hazker_mode), widge);
         g_signal_connect (widge->setting, "clicked", G_CALLBACK(mx_setting_win), widge);
         g_signal_connect (widge->file_button, "clicked", G_CALLBACK(send_file), widge);
         g_signal_connect(widge->papa_bot, "clicked", G_CALLBACK(mx_papa_bot), widge);
-        ///////////////////////////////////////////////////////////////////////////////
-        // char *login = (char *) gtk_button_get_label(GTK_BUTTON(widge->papa_bot));
-    
-        // widge->to = login;
-        // gtk_button_set_label (GTK_BUTTON(widge->who_writing), login);
-        // mx_create_chat(widge->papa_bot, widge);
-        ///////////////////////////////////////////////////////////////////////////////
         g_signal_connect (widge->search_entry, "activate", G_CALLBACK(check_chat), widge);
         g_signal_connect(widge->command_line, "activate", G_CALLBACK(send_message), widge);
         g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
