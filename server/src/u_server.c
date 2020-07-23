@@ -4,23 +4,28 @@ static bool parse_object(cJSON *root, t_use_mutex *param) {
     // тут буду смотреть кому сообщение и смотрерть через бд его дескриптор, после чего отсылать сообщение 
     // если дескриптор -1, то пользователь не в сети и буду записывать в бд сообщение сразу 
     // после чего как только он зайдет надо будет подгружать сообщения 
+
+    // char *str = NULL;
+
+    // str = cJSON_Print(root);
+    // write(1, str, strlen(str));
     //show who online
-    mx_whoonline(param);
+    mx_whoonline(root, param);
 
     // отсылаю новые и старые чаты 
-    mx_chats_send(param);
+    mx_chats_send(root, param);
 
     //тут буду отсылать последние сообщение по запросу пользователя с их текст-айдишниками
-    mx_slast_mess(root, param);
+    //mx_slast_mess(root, param);
 
     //на изменение сообщения
-    mx_change_mess(root, param);
+    //mx_change_mess(root, param);
 
     //на удаление сообщения
     // mx_dell_mess();
 
     //sending info about user which you want
-    mx_usr_prof(root, param);
+    //mx_usr_prof(root, param);
 
     //delete account 
     if (mx_delete(param, root) == true)
@@ -47,17 +52,18 @@ static void *some_sending(void *parametr) {
 
     if (mx_registr(param) == false) //otpravliaem cJSON chto ne poluchilos voiti i zacrivaem potok
         pthread_exit(&ret);
-
     // tut nado podgrughat s db v client
     //posle chego podgrugat vse chati, to est CHATS:
-    mx_chats_send(param);
-    // my profile сделать тут как отсылаю пользователю его профиль
+    // mx_chats_send(param);
+    // сделать тут как отсылаю пользователю его профиль
+    // my profile 
 
     while (SSL_read(param->my_ssl, buff, 2048) > 0) {
-    // while(read(param->cli_fd, buff, 2048) > 0) { //tut budu parsit info from JSON file
+    //while(read(param->cli_fd, buff, 2048) > 0) { //tut budu parsit info from JSON file
         request_json = cJSON_Parse(buff);
-        if (parse_object(request_json, param) == false)
+        if (parse_object(request_json, param) == false) {
             break;
+        }
         bzero(buff, 2048);
     }
     mx_delete_socket(param);

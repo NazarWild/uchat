@@ -3,7 +3,7 @@
 static void send_mess(int to, char *mess, int chat_id, t_use_mutex *mutex) {
     char *new = NULL;
 
-    asprintf(&new, "{\"FROM\":%d,\"MESS\":\"%s\",\"CHAT_ID\":%d}\n", mutex->user_id, mess, chat_id);
+    asprintf(&new, "{\"IF_MESS\":true,\"FROM\":%d,\"MESS\":\"%s\",\"CHAT_ID\":%d}\n", mutex->user_id, mess, chat_id);
     //write(to, new, strlen(new)); не знаю или это надо если есть функа ниже, которая отправляет на SSL указатель сообщения
     mx_send_user_with_dif_sock(mutex, to, new, strlen(new));
     free(new);
@@ -12,7 +12,7 @@ static void send_mess(int to, char *mess, int chat_id, t_use_mutex *mutex) {
 static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) {
     char *str1 = NULL;
     char *data = NULL;
-    int chat_id = atoi(CHAT_ID->valuestring); 
+    int chat_id = atoi(CHAT_ID->valuestring);  
     t_select *select;
 
     asprintf(&str1, "sockets where users_id = %d", atoi(TO->valuestring));
@@ -20,7 +20,7 @@ static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) 
     mx_select(select, mutex);
     free(str1);
     if (data != NULL)
-        send_mess(atoi(data), MESS->valuestring, atoi(CHAT_ID->valuestring), mutex);
+        send_mess(atoi(TO->valuestring), MESS->valuestring, atoi(CHAT_ID->valuestring), mutex);//atoi(TO->valuestring) //atoi(data)
     if (chat_id == 0) //если чата не сущевствует и это новое сообщение, то создаем такой чат
         mx_new_chat(TO, MESS, CHAT_ID, mutex);
     else // в другом случае добавляем сообщение в чат 

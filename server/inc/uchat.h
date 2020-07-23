@@ -107,7 +107,7 @@ void mx_creating(cJSON* root, t_use_mutex *mutex); //server
 bool mx_pass_connect(char *login, char *pass, t_use_mutex *mutex);
 void mx_send_mess(cJSON *root, t_use_mutex *mutex);
 char *mx_itoa(int number);
-void mx_whoonline(t_use_mutex *param); 
+void mx_whoonline(cJSON *root, t_use_mutex *mutex);
 void mx_papa_bot(cJSON *MESS, t_use_mutex *mutex);
 bool mx_delete(t_use_mutex *param, cJSON *root);
 void mx_delete_socket(t_use_mutex *param);
@@ -115,7 +115,7 @@ void mx_free_online(t_list *online_struct);
 void mx_file_type(cJSON *root, t_use_mutex *mutex);
 char *mx_strjoin(const char *s1, const char *s2);
 char *mx_strnew(const int size);
-void mx_chats_send(t_use_mutex *mutex);
+void mx_chats_send(cJSON *root, t_use_mutex *mutex);
 void mx_new_chat(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex);
 void mx_group_chat(cJSON* root, t_use_mutex *mutex);
 void mx_send_group(cJSON* MESS, cJSON* USERS_GRP, cJSON* CHAT_ID,
