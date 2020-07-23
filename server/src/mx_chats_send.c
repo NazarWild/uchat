@@ -41,11 +41,13 @@ static void lol_send(t_use_mutex *mutex, cJSON *root) {
     // write(mutex->cli_fd, str, strlen(str));
     SSL_write(mutex->my_ssl, str, strlen(str));
     //write(1, str, strlen(str));
-    // write(mutex->cli_fd, str, strlen(str));
     free(str);
 }
 
-void mx_chats_send(t_use_mutex *mutex) {
+void mx_chats_send(cJSON *root, t_use_mutex *mutex) {
+    cJSON *wo = cJSON_GetObjectItemCaseSensitive(root, "CHATS_SEND");
+
+    if (cJSON_IsTrue(wo) == 1) {
     t_list *chats = mx_list_last_users_messeges(mutex);
     cJSON *root = cJSON_CreateObject();
     cJSON *users = NULL;
@@ -67,4 +69,5 @@ void mx_chats_send(t_use_mutex *mutex) {
     cjson_cycles(users, chats, info);
     lol_send(mutex, root);
     cJSON_Delete(users);
+    }
 }

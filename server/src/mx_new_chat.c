@@ -13,7 +13,7 @@ void mx_new_chat(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) {
     char *str1 = NULL;
     char *str2 = NULL;
     char *tmp = NULL;
-    char *ita = mx_itoa(mutex->user_id);
+    char *ita = mx_itoa(mutex->user_id); 
     t_select *select;
 
     if (atoi(TO->valuestring) < mutex->user_id)

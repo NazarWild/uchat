@@ -19,7 +19,7 @@ int callback_list_last_users_messeges(void *data, int argc, char **argv,
     send->text = strdup(argv[1]);
     send->who_write = atoi(argv[0]);
     send->chats_id = atoi(argv[2]);
-    asprintf(&lite->sql, "select distinct users_id from users_chat where"
+    asprintf(&lite->sql, "select distinct users_id from users_chat where "
             "chats_id = %i;", send->chats_id);
     mx_sqlite(lite, NULL);
     send->who_is_here = who_is_here;

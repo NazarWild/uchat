@@ -5,7 +5,7 @@ static void send_online(cJSON *ON, t_use_mutex *mutex) {
 
     // write(fd, string, 2048); //nd
     SSL_write(mutex->my_ssl, string, strlen(string));
-    write(1, string, strlen(string));
+    //write(1, string, strlen(string));
     free(string);
 }
 
@@ -43,29 +43,33 @@ static void adding_param(cJSON *online, t_online *arr_users) {
     free(str);
 }
 
-void mx_whoonline(t_use_mutex *mutex) { 
-    t_list *tmp = mx_where_not_1(mutex);
-    t_list *online_struct = tmp;
-    cJSON *on = cJSON_CreateObject();
-    cJSON *users = cJSON_CreateArray();
-    cJSON *online = NULL;
-    cJSON *str = NULL;
-    t_online *struco = NULL;
+void mx_whoonline(cJSON *root, t_use_mutex *mutex) { 
+    cJSON *wo = cJSON_GetObjectItemCaseSensitive(root, "WHO_ONLINE");
+    
+    if (cJSON_IsTrue(wo) == 1) {
+        t_list *tmp = mx_where_not_1(mutex);
+        t_list *online_struct = tmp;
+        cJSON *on = cJSON_CreateObject();
+        cJSON *users = cJSON_CreateArray();
+        cJSON *online = NULL;
+        cJSON *str = NULL;
+        t_online *struco = NULL;
 
-    int count_of = count_of_struct(online_struct);
-    adding_sys(on);
+        int count_of = count_of_struct(online_struct);
+        adding_sys(on);
 
-    cJSON_AddItemToObject(on, "user", users);
-    for (int i = 0; i < count_of; i++) {
-        struco = (t_online*) online_struct->data;
-        online = cJSON_CreateObject();
-        cJSON_AddItemToArray(users, online);
-        str = cJSON_CreateString( struco->login);
-        cJSON_AddItemToObject(online, "login", str);
-        adding_param(online, struco);
-        online_struct = online_struct->next;
+        cJSON_AddItemToObject(on, "user", users);
+        for (int i = 0; i < count_of; i++) {
+            struco = (t_online*) online_struct->data;
+            online = cJSON_CreateObject();
+            cJSON_AddItemToArray(users, online);
+            str = cJSON_CreateString( struco->login);
+            cJSON_AddItemToObject(online, "login", str);
+            adding_param(online, struco);
+            online_struct = online_struct->next;
+        }
+        send_online(on, mutex);
+        mx_free_online(tmp);
+        cJSON_Delete(on);
     }
-    send_online(on, mutex);
-    mx_free_online(tmp);
-    cJSON_Delete(on);
 }
