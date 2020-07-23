@@ -17,6 +17,8 @@ static void create(GtkWidget *b1, char *name_file, GtkWidget *box, t_widget_my *
     gtk_box_pack_start(GTK_BOX(box), b1, 0, 0, 10);
     gtk_widget_set_name(b1, "sticker");
     gtk_widget_set_can_focus(b1, FALSE);
+    g_object_set_data(G_OBJECT(b1), "sticker_path", name_file);
+    g_signal_connect (b1, "clicked", G_CALLBACK(mx_sendsticker), widge);
 }
 
 void create_sticker_1(t_widget_my *widge, GtkWidget *box) {
@@ -66,6 +68,9 @@ void mx_create_stick(t_widget_my *widge) {
 
 void mx_sticker(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
+
+    gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
+    gtk_window_move(GTK_WINDOW(widge->win_stick), widge->window_x, widge->window_y + 520);
 
     if (widge->on_sticker == 0) {
         widge->on_sticker = 1;

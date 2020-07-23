@@ -124,7 +124,6 @@ typedef struct s_widget_my {
     GtkWidget *window_profile; //окно профиля
     GtkWidget *mini_window_profile; //окно профиля
 
-    gint index; //индекс последней строки в списке друзей (для удаления листа)
     gint index_mess_to; //индекс последней строки в списке сообщений (для удаления листа)
     
     int on_profile; //что бы нельзя было открывать несколько профилей одновременно
@@ -173,6 +172,9 @@ typedef struct s_widget_my {
     GtkWidget *b18;
     GtkWidget *b19;
     GtkWidget *b20;
+
+    GtkWidget *list_box;
+    int index;
 
     //images
     GdkPixbuf *profile_img;
@@ -328,6 +330,7 @@ void mx_delete_rows(GtkWidget *widget, void *data);
 
 void mx_sticker(GtkWidget* widget, void *data);
 void mx_create_stick(t_widget_my *widge);
+void mx_sendsticker(GtkWidget *widget, void *data);
 
 SSL *mx_ssl(int fd);
 

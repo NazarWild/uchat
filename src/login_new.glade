@@ -97,19 +97,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel">
-                <property name="width_request">0</property>
-                <property name="height_request">0</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Choose language :</property>
-              </object>
-              <packing>
-                <property name="x">20</property>
-                <property name="y">125</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkButton" id="back">
                 <property name="label" translatable="yes">back</property>
                 <property name="width_request">80</property>
@@ -120,20 +107,6 @@
               </object>
               <packing>
                 <property name="x">130</property>
-                <property name="y">110</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="lang_ukr">
-                <property name="label" translatable="yes">укр</property>
-                <property name="width_request">80</property>
-                <property name="height_request">50</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="x">220</property>
                 <property name="y">110</property>
               </packing>
             </child>
@@ -363,7 +336,7 @@
                     <property name="y">10</property>
                   </packing>
                 </child>
-                <!-- <child>
+                <child>
                   <object class="GtkButton" id="send_edit">
                     <property name="width_request">0</property>
                     <property name="height_request">0</property>
@@ -400,13 +373,13 @@
                     <property name="max_length">70</property>
                     <property name="has_frame">False</property>
                     <property name="shadow_type">none</property>
-                    <property name="primary_icon_pixbuf">../img_chat/arrow.png</property>
+                    <property name="primary_icon_pixbuf">../img_chat/edit.png</property>
                   </object>
                   <packing>
                     <property name="x">119</property>
                     <property name="y">9.9</property>
                   </packing>
-                </child> -->
+                </child>
                 <child>
                   <object class="GtkButton" id="send_button">
                     <property name="width_request">0</property>

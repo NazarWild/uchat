@@ -22,7 +22,6 @@ void relieff_set(t_widget_my *widge) {
 }
 
 void mx_create_widge(t_widget_my *widge) {
-
     widge->window = GTK_WIDGET(gtk_builder_get_object (widge->builder, "window"));
 
     widge->win_sign = GTK_WIDGET(gtk_builder_get_object (widge->builder, "win_sign"));
@@ -57,6 +56,8 @@ void mx_create_widge(t_widget_my *widge) {
 
     widge->who_writing = GTK_WIDGET(gtk_builder_get_object(widge->builder, "who_writing"));
 
+    
+
     widge->sticker_pack = GTK_WIDGET(gtk_builder_get_object(widge->builder, "sticker_pack"));
     widge->file_button = GTK_WIDGET(gtk_builder_get_object(widge->builder, "file_button"));
     widge->achiev = GTK_WIDGET(gtk_builder_get_object(widge->builder, "achiev"));
@@ -80,11 +81,11 @@ void mx_create_widge(t_widget_my *widge) {
     widge->search_entry = GTK_WIDGET(gtk_builder_get_object (widge->builder, "search_entry"));
 
     widge->sep = GTK_WIDGET(gtk_builder_get_object (widge->builder, "sep_hor"));
-    mx_mini_profile_gtk(widge);
     widge->notebook = GTK_WIDGET(gtk_builder_get_object(widge->builder, "notebook"));
     gtk_notebook_set_show_tabs(GTK_NOTEBOOK(widge->notebook), FALSE);
 
     widge->search_entry = GTK_WIDGET(gtk_builder_get_object (widge->builder, "search_entry"));
+
     widge->edit_line = GTK_WIDGET(gtk_builder_get_object (widge->builder, "edit_line"));
     widge->send_edit = GTK_WIDGET(gtk_builder_get_object (widge->builder, "send_edit"));
     widge->under_edit = GTK_WIDGET(gtk_builder_get_object (widge->builder, "under_edit"));

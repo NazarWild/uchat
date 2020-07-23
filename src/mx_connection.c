@@ -285,6 +285,7 @@ void profile(GtkWidget* widget, void *data) {
         mx_profile_gtk(widge);
     }
 }
+
 //////////////////
 gboolean show_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
     t_widget_my *widge = (t_widget_my *)data;
@@ -295,7 +296,7 @@ gboolean show_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
 
 gboolean hide_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
     t_widget_my *widge = (t_widget_my *)data;
-    
+
     gtk_widget_hide (widge->mini_window_profile);
     return false;
 }
@@ -344,10 +345,14 @@ void mx_connection(t_widget_my *widge) {
     }
     widge->ssl = mx_ssl(widge->sockfd);
     asprintf(&str, "{\"LOGIN\":\"%s\",\"PASS\":\"%s\"}\n", widge->login, mx_hash(widge->login, widge->pass)); //записываем в строку логин и пароль для Лехи
+    printf("here\n");
     SSL_write(widge->ssl, str, strlen(str));
     // write(widge->sockfd, str, strlen(str)); //отпраявляем логин и пароль Лехе
+    printf("here\n");
     free(str);
+    printf("here\n");
     SSL_read(widge->ssl, buff, 2048);
+    printf("here\n");
     // read(widge->sockfd, buff, 2048);
     json = cJSON_Parse(buff);
     if (if_online(json))
@@ -356,6 +361,10 @@ void mx_connection(t_widget_my *widge) {
     gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
+        mx_mini_profile_gtk(widge);
+        gtk_widget_hide(widge->send_edit);
+        gtk_widget_hide(widge->under_edit);
+        gtk_widget_hide(widge->edit_line);
         mx_create_stick(widge);
         mx_create_bot(widge);//создаем окно бота
         g_signal_connect (widge->who_writing, "enter-notify-event", G_CALLBACK(show_mini_profile), widge);

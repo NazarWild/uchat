@@ -1,7 +1,6 @@
 #include "../inc/uchat.h"
 
-int main(int argc, char *argv[]) {
-    t_widget_my *widge = (t_widget_my *)malloc(sizeof(t_widget_my));
+static void set_zero_widge(t_widget_my *widge) {
     widge->message_id = 0;
     widge->id_friend = 0;
     widge->on_profile = 0;
@@ -9,8 +8,12 @@ int main(int argc, char *argv[]) {
     widge->id_lb_sw = 1;
     widge->page_list = malloc(sizeof(t_list_gtk));
     widge->message_list = malloc(sizeof(t_list_gtk));
+}
 
-    // widge->mess_arr = g_array_new(TRUE, TRUE, sizeof widge->message_send);
+int main(int argc, char *argv[]) {
+    t_widget_my *widge = (t_widget_my *)malloc(sizeof(t_widget_my));
+
+    set_zero_widge(widge);
 
     GError *error = NULL;
 

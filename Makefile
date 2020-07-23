@@ -42,6 +42,7 @@ FILES = mx_log_in \
 	mx_delete_row \
 	mx_delete_rows \
 	mx_sticker \
+	mx_sendsticker \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

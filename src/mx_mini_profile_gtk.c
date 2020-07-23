@@ -22,9 +22,10 @@ void mx_mini_profile_gtk(t_widget_my *widge) {
     widge->mini_window_profile = gtk_window_new (GTK_WINDOW_POPUP);
 
     gtk_window_set_default_size(GTK_WINDOW(widge->mini_window_profile), 350, 120);
-    // gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
-    // gtk_window_move(GTK_WINDOW(widge->mini_window_profile), widge->window_x + 100, widge->window_y + 72);
-
+    //set position for mini profile
+    gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
+    gtk_window_move(GTK_WINDOW(widge->mini_window_profile), widge->window_x + 100, widge->window_y - 160);
+    // 
     status = gtk_label_new("IN LOVE");
     date = gtk_label_new("27.10.1999");
     name = gtk_label_new("Дикий Назар");
