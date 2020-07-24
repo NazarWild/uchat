@@ -18,10 +18,11 @@ static void create(GtkWidget *b1, char *name_file, GtkWidget *box, t_widget_my *
     gtk_widget_set_name(b1, "sticker");
     gtk_widget_set_can_focus(b1, FALSE);
     g_object_set_data(G_OBJECT(b1), "sticker_path", name_file);
-    g_signal_connect (b1, "clicked", G_CALLBACK(mx_sendsticker), widge);
+    widge->sticker_to = 1;
+    g_signal_connect (b1, "clicked", G_CALLBACK(mx_sendsticker_to), widge);
 }
 
-void create_sticker_1(t_widget_my *widge, GtkWidget *box) {
+static void create_sticker_1(t_widget_my *widge, GtkWidget *box) {
     create(widge->b1, "./stickers/1.png", box, widge);
     create(widge->b2, "./stickers/2.png", box, widge);
     create(widge->b3, "./stickers/3.png", box, widge);
@@ -46,22 +47,15 @@ void create_sticker_1(t_widget_my *widge, GtkWidget *box) {
 
 void mx_create_stick(t_widget_my *widge) {
     widge->win_stick = gtk_window_new(GTK_WINDOW_POPUP);
-
     gtk_window_set_default_size(GTK_WINDOW(widge->win_stick), 805, 160);
     gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
     gtk_window_move(GTK_WINDOW(widge->win_stick), widge->window_x, widge->window_y + 520);
-
     widge->scroll_stick = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(widge->scroll_stick), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-
     widge->box_stick = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
-
     create_sticker_1(widge, widge->box_stick);
-
     gtk_container_add(GTK_CONTAINER(widge->scroll_stick), widge->box_stick);
-
     gtk_container_add(GTK_CONTAINER(widge->win_stick), widge->scroll_stick);
-
     gtk_widget_set_name(widge->win_stick, "sticker_win");
 }
 
@@ -71,7 +65,6 @@ void mx_sticker(GtkWidget* widget, void *data) {
 
     gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
     gtk_window_move(GTK_WINDOW(widge->win_stick), widge->window_x, widge->window_y + 520);
-
     if (widge->on_sticker == 0) {
         widge->on_sticker = 1;
         gtk_widget_show_all(widge->win_stick);

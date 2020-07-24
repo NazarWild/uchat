@@ -16,7 +16,7 @@ static GtkWidget *create_s(t_widget_my *widge, GtkWidget *sticker) {
     return b1;
 }
 
-void mx_sendsticker(GtkWidget *widget, void *data) {
+void mx_sendsticker_to(GtkWidget *widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     t_message *mess_struct = malloc(sizeof(t_message));
     GtkWidget *row, *box, *box2, *label, *box_in, *box3, *user_name, *data_box, *box4, *trash;
@@ -41,15 +41,13 @@ void mx_sendsticker(GtkWidget *widget, void *data) {
     box3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, TRUE);
     box4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
 
-    user_name = mx_name_mess_to("opoliarenk");
-    data_box = mx_time_mess_to("22:12");
-
     widge->trash_img = gdk_pixbuf_new_from_file("./img_chat/trash.png", NULL);
     widge->trash_img = gdk_pixbuf_scale_simple(widge->trash_img, 20, 20, GDK_INTERP_BILINEAR);
     widge->trash_icon = gtk_image_new_from_pixbuf(widge->trash_img);
     gtk_button_set_image (GTK_BUTTON(trash), widge->trash_icon);
-    printf("qwertyj\n");
 
+    user_name = mx_name_mess_to("opoliarenk");
+    data_box = mx_time_mess_to("22:12");
     gtk_box_pack_start(GTK_BOX(box), label, 1, 0, 0);
     gtk_box_pack_start(GTK_BOX(box3), user_name, 0, 0, 0);
     gtk_box_pack_start(GTK_BOX(box4), trash, 0, 0, 0);
@@ -57,18 +55,27 @@ void mx_sendsticker(GtkWidget *widget, void *data) {
     gtk_box_pack_start(GTK_BOX(box3), box4, 1, 0, 0);
     gtk_box_pack_start(GTK_BOX(box3), data_box, 0, 0, 0);
     gtk_box_pack_start(GTK_BOX(box2), box3, 1, 0, 0);
-    printf("qwertyj\n");
-
     gtk_container_add_with_properties (GTK_CONTAINER (box_in), box, "expand", TRUE, NULL);
     gtk_container_add(GTK_CONTAINER (box_in), box2);
+    // else {
+    //     user_name = mx_name_mess_from("opoliarenk");
+    //     data_box = mx_time_mess_from("22:12");
+    //     gtk_box_pack_start(GTK_BOX(box3), user_name, 0, 0, 0);
+    //     gtk_box_pack_start(GTK_BOX(box4), mess_struct->message, 1, 0, 0);
+    //     gtk_box_pack_start(GTK_BOX(box3), box4, 1, 0, 0);
+    //     gtk_box_pack_start(GTK_BOX(box3), data_box, 0, 0, 0);
+    //     gtk_box_pack_start(GTK_BOX(box2), box3, 1, 0, 0);
+    //     gtk_box_pack_start(GTK_BOX(box), label, 1, 0, 0);
 
+    //     gtk_container_add(GTK_CONTAINER (box_in), box2);
+    //     gtk_container_add_with_properties (GTK_CONTAINER (box_in), box, "expand", TRUE, NULL);
+    // }
     gtk_container_add (GTK_CONTAINER (row), box_in);
 
     gtk_widget_set_name(row, "row_to");
     gtk_widget_set_name(trash, "edit");
 
     gtk_widget_set_can_focus(row, FALSE);
-    printf("qwertyj\n");
     gtk_widget_set_can_focus(trash, FALSE);
 ///////////////////////////////////////////////////////////////////////////////
     t_page *page;
@@ -84,11 +91,8 @@ void mx_sendsticker(GtkWidget *widget, void *data) {
         list = list->next;
     }
 ///////////////////////////////////////////////////////////////////////////////
-    printf("qwertyj\n");
-
     char *id_list = strdup(data_me);
     g_object_set_data(G_OBJECT(trash), "id_list", id_list);
-
 ///////////////////////////////////////////////////////////////////////////////
     gtk_list_box_insert (GTK_LIST_BOX(page->list_box), row, -1);
 
@@ -100,7 +104,6 @@ void mx_sendsticker(GtkWidget *widget, void *data) {
     g_object_set_data(G_OBJECT(trash), "index_row", (gpointer)(uintptr_t)(i));
 
     g_signal_connect(trash, "clicked", G_CALLBACK(mx_delete_rows), widge);
-    printf("qwertyj\n");
 
     gtk_widget_show_all(page->list_box);
 }

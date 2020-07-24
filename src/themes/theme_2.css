@@ -93,43 +93,6 @@ button:active {
     background-image: linear-gradient(rgba(139, 75, 182, 0.646),rgba(46, 99, 213, 0.632), rgb(0, 0, 0));
 }
 
-
-/* #theme_1 {
-    border-color: rgb(231, 216, 216);
-    border-width: 3px;
-    background-image: linear-gradient(rgba(221, 152, 235, 0.527), rgba(178, 193, 233, 0.521), rgba(38, 145, 145, 0.521));
-}
-
-#theme_2 {
-    border-color: rgb(231, 216, 216);
-    border-width: 3px;
-    background-image: linear-gradient(rgba(221, 152, 221, 0.527), rgba(82, 79, 79, 0.521));
-}
-
-#theme_3 {
-    border-color: rgb(231, 216, 216);
-    border-width: 3px;
-    background-image: linear-gradient(rgba(160, 152, 235, 0.527), rgba(233, 178, 228, 0.521));
-}
-
-#theme_4 {
-    border-color: rgb(231, 216, 216);
-    border-width: 3px;
-    background-image: linear-gradient(rgba(224, 172, 172, 0.527), rgba(129, 47, 47, 0.521));
-}
-
-#theme_5 {
-    border-color: rgb(231, 216, 216);
-    border-width: 3px;
-    background-image: linear-gradient(rgba(138, 219, 148, 0.527), rgba(27, 97, 19, 0.521));
-}
-
-#theme_6 {
-    border-color: rgb(231, 216, 216);
-    border-width: 3px;
-    background-image: linear-gradient(rgba(126, 149, 212, 0.274), rgba(0, 89, 255, 0.212));
-} */
-
 #win_sett {
     background-image: linear-gradient(rgba(255, 255, 255, 0.521), rgba(255, 255, 255, 0.685));
 }

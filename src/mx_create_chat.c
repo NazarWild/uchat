@@ -46,26 +46,20 @@ void mx_push_front_gtk(t_list_gtk **list, void *data) {
 
 
 void mx_create_chat(t_page *page, t_widget_my *widge, const gchar *text) {
-    widge->page_label = gtk_button_new();
+    char *str = strdup(text);
 
+    widge->page_label = gtk_button_new();
     page->scroll = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(page->scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-
     page->list_box = gtk_list_box_new();
-
     gtk_widget_set_name(page->list_box, "list_box");
     gtk_widget_set_name(page->scroll, "scrolled");
-
+    gtk_widget_set_can_focus(page->list_box, FALSE);
+    gtk_widget_set_can_focus(page->scroll, FALSE);
     gtk_notebook_insert_page(GTK_NOTEBOOK(widge->notebook), page->scroll, widge->page_label, -1);
     gtk_container_add(GTK_CONTAINER(page->scroll), page->list_box);
     page->slider_adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(page->scroll));
-
-    char *str = strdup(text);
     g_object_set_data(G_OBJECT(page->list_box), "id", (gpointer)(str));
-
-    printf("{%s}; id = [%s]\n", text, (char*)g_object_get_data(G_OBJECT(page->list_box), "id"));
-
     g_signal_connect(page->slider_adj, "changed", G_CALLBACK(change_pos), NULL);
-
     gtk_widget_show_all(widge->notebook);
 }
