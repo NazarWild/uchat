@@ -1,6 +1,11 @@
 #include "../inc/uchat.h"
 
 
+char *mx_change_to_valid_time(char *full_time) {
+    full_time[19] = '\0';
+    return &full_time[4];
+}
+
 void mx_message_to(t_widget_my *widge, const gchar *text) {
     t_message *mess_struct = malloc(sizeof(t_message));
     GtkWidget *row, *box, *box2, *label, *box_in, *box3, *user_name, *data_box, *box4, *trash;
@@ -25,8 +30,10 @@ void mx_message_to(t_widget_my *widge, const gchar *text) {
     box3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, TRUE);
     box4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
 
-    user_name = mx_name_mess_to("opoliarenk");
-    data_box = mx_time_mess_to("22:12");
+    user_name = mx_name_mess_to(widge->login);
+    time_t lt = time(NULL);
+    widge->localtime = mx_change_to_valid_time(asctime(localtime(&lt)));
+    data_box = mx_time_mess_to(widge->localtime);
 
     widge->trash_img = gdk_pixbuf_new_from_file("./img_chat/trash.png", NULL);
     widge->trash_img = gdk_pixbuf_scale_simple(widge->trash_img, 20, 20, GDK_INTERP_BILINEAR);

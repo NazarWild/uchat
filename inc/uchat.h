@@ -20,28 +20,28 @@
 #include <openssl/sha.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
+#include <time.h>
 
 #define PORT 6969
 #define USERS 200
 
 typedef struct s_message {
     GtkWidget *message;
-    char *login;
     int chat_id;
     int message_id;
-} t_message;
+}              t_message;
 
 typedef struct s_page {
     GtkWidget *list_box;
     GtkWidget *scroll;
     GtkAdjustment *slider_adj;
     GtkWidget *friend_butt;
-} t_page;
+}              t_page;
 
 typedef struct s_list_gtk {
     void *data;
     struct s_list_gtk *next;
-} t_list_gtk;
+}              t_list_gtk;
 
 typedef struct s_list {
     char *login;
@@ -49,6 +49,13 @@ typedef struct s_list {
     bool online;
     struct s_list *next;
 }              t_list;
+
+typedef struct s_list_box {
+    int chat_id;
+    int listbox_id;
+    int user_id;
+    struct s_list_box *next;
+}              t_list_box;
 
 typedef struct s_widget_my {
     t_list_gtk *message_list;
@@ -270,6 +277,13 @@ typedef struct s_widget_my {
     int int_of_dot;
     int int_of_slesh;
     t_list *login_id;
+    char *localtime;
+
+    int chat_id;
+    int listbox_id;
+    t_list_box *chat_listbox_id;
+    int cur_chat_id;
+    int to_whom;
 
     SSL *ssl;
 }              t_widget_my;
@@ -323,6 +337,12 @@ void mx_create_chat(t_page *page, t_widget_my *widge, const gchar *text);
 char *mx_itoa(int number);
 char *mx_strnew(const int size);
 
+//list_pack_4_box_n_chat_id//
+void mx_pop_front_listbox(t_list_box **head);
+void free_list_listbox(t_list_box **head);
+t_list_box *mx_create_node_listbox(int chat_id, int listtox_id, int user_id);
+void mx_push_back_listbox(t_list_box **list, int chat_id, int listbox_id, int user_id);
+//
 void *mx_memrchr(const void *s, int c, size_t n);
 
 void mx_delete_row(GtkWidget *list_box, gint index);
@@ -333,5 +353,4 @@ void mx_create_stick(t_widget_my *widge);
 void mx_sendsticker(GtkWidget *widget, void *data);
 
 SSL *mx_ssl(int fd);
-
 #endif

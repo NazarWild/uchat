@@ -42,8 +42,7 @@ void sending_file(t_widget_my *widge) {
 
         widge->bytes = mx_len_of_file(widge->filename);
         read(stream, str, widge->bytes);
-        // write(widge->sockfd, str, widge->bytes);
-        SSL_write(widge->ssl, str, widge->bytes);
+        write(widge->sockfd, str, widge->bytes);
         //write(1, str, widge->bytes);
         close(stream);
     }
@@ -58,7 +57,8 @@ static cJSON *create_json(t_widget_my *widge) {
     cJSON *TYPE = cJSON_CreateString(parsing_filename(widge->filename, widge));
     cJSON *MESS = cJSON_CreateString(&widge->filename[widge->int_of_slesh + 1]);
     cJSON *BYTES = cJSON_CreateNumber(widge->bytes);
-    cJSON *CHAT_ID = cJSON_CreateString("1");
+    cJSON *CHAT_ID = cJSON_CreateString(mx_itoa(widge->cur_chat_id));
+    cJSON *DATE = cJSON_CreateString(widge->localtime);;
     char *file_without_dot = strdup(widge->filename);
 
     cJSON_AddItemToObject(send, "IF_MESS", IF_MESS);
@@ -67,6 +67,7 @@ static cJSON *create_json(t_widget_my *widge) {
     cJSON_AddItemToObject(send, "TYPE", TYPE);
     cJSON_AddItemToObject(send, "BYTES", BYTES);
     cJSON_AddItemToObject(send, "CHAT_ID", CHAT_ID);
+    cJSON_AddItemToObject(send, "DATE", DATE);
     //free(&file_without_dot);
     return send;
 }
@@ -92,7 +93,7 @@ void mx_dialog_open(t_widget_my *widge) {
 
         file_js = create_json(widge);
         str_js = cJSON_Print(file_js);
-        write(widge->sockfd, str_js, strlen(str_js));
+        SSL_write(widge->ssl, str_js, strlen(str_js));
         //write(1, str_js, strlen(str_js));
         sending_file(widge);
         mx_send_file_to(widge, widge->filename);

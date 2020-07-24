@@ -22,20 +22,31 @@ static void change_pos(GtkWidget *widget, void *data) {
     }
 }
 
+int mx_choose_chat_box(t_list_box *p, int listbox_id) {
+    while(p) {
+        if (p->listbox_id == listbox_id)
+            return p->chat_id;
+        p = p->next;
+    }
+    return 0;
+}
+
 void p(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     widge->login_list = (char *) gtk_button_get_label(GTK_BUTTON(widget));
     t_list *p = widge->login_id;
+    int i;
 
     gtk_button_set_label (GTK_BUTTON(widge->who_writing), widge->login_list);
-    // mx_remove_mess(widge);
-    widge->to = find_id(p, widge->login_list);
+    free(widge->to);
+    widge->to = strdup(find_id(p, widge->login_list)); 
             // write(1, widge->to, strlen(widge->to));
             // write(1,"\n", strlen("\n"));
             // write(1, widge->login_list, strlen(widge->login_list));
             // write(1,"\n", strlen("\n"));
-    int i = (int)(uintptr_t)g_object_get_data(G_OBJECT(widget), "id");
-    printf("*%i*\n", i);
+
+    i = (int)(uintptr_t)g_object_get_data(G_OBJECT(widget), "id");
+    widge->cur_chat_id = mx_choose_chat_box(widge->chat_listbox_id, i);
     gtk_notebook_set_current_page(GTK_NOTEBOOK(widge->notebook), i);
 }
 
@@ -90,8 +101,9 @@ void mx_create_friend(t_widget_my *widge, const gchar *text, int online, t_page 
 
     gtk_list_box_insert (GTK_LIST_BOX(widge->friends), row, -1);
 
-    int id = widge->id_lb_sw;
-    g_object_set_data(G_OBJECT(page->friend_butt), "id", (gpointer)(uintptr_t)(id));
+    widge->listbox_id = widge->id_lb_sw;
+    g_object_set_data(G_OBJECT(page->friend_butt), "id", (gpointer)(uintptr_t)(widge->listbox_id));
+    mx_push_back_listbox(&widge->chat_listbox_id, widge->chat_id, widge->listbox_id, widge->to_whom);//1 - chat-id 2 - list_box_id
 ///////////////////////////////////////////////////////////////////////////////
     mx_create_chat(page, widge, text);
     g_signal_connect (page->friend_butt, "clicked", G_CALLBACK(p), widge);

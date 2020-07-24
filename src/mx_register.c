@@ -22,7 +22,6 @@ int mx_register(char *login, char *pass, t_widget_my *widge) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
     }
-    printf("kek\n");
     bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
@@ -34,12 +33,12 @@ int mx_register(char *login, char *pass, t_widget_my *widge) {
     }
     widge->ssl = mx_ssl(sockfd);
     asprintf(&str, "{\"REG\":true,\"LOGIN\":\"%s\",\"PASS\":\"%s\"}\n", login, mx_hash(login, pass)); //записываем в строку логин и пароль для Лехи
-    // write(sockfd, str, strlen(str)); //отпраявляем логин и пароль Лехе
+    //write(sockfd, str, strlen(str)); //отпраявляем логин и пароль Лехе
     SSL_write(widge->ssl, str, strlen(str));
     free(str);
     char buff[1024];
     SSL_read(widge->ssl, buff, 1024);
-    // read(sockfd, buff, 1024);
+    //read(sockfd, buff, 1024);
     // gtk_widget_hide(GTK_WIDGET(widge->name_exists));
     if (atoi(buff) == -2) {
         gtk_widget_show(GTK_WIDGET(widge->name_exists));

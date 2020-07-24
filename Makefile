@@ -43,6 +43,7 @@ FILES = mx_log_in \
 	mx_delete_rows \
 	mx_sticker \
 	mx_sendsticker \
+	list_pack_4_box_n_chat_id \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
