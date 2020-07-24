@@ -25,6 +25,21 @@
 #define PORT 6969
 #define USERS 200
 
+typedef struct s_row_mess {
+    //send message
+    GtkWidget *trash;
+    GtkWidget *row;
+    GtkWidget *box;
+    GtkWidget *box2;
+    GtkWidget *label;
+    GtkWidget *box_in;
+    GtkWidget *box3;
+    GtkWidget *nickname;
+    GtkWidget *data_box;
+    GtkWidget *box4;
+    GtkWidget *installbutt;
+} t_row_mess;
+
 typedef struct s_message {
     GtkWidget *message;
     int chat_id;
@@ -90,8 +105,6 @@ typedef struct s_widget_my {
     GtkLabel *wrong_login; // ошибка входа
     GtkFixed *message_win; //окно переписки
 
-    // GtkWidget **list_box; //массив лист боксов для переписки
-    // GtkWidget **scroll; //массив окон скрола для переписки
     GtkWidget *profile_button; //кнопка профиля
     GtkWidget *send_button; //кнопка отправки собщения
 
@@ -115,9 +128,6 @@ typedef struct s_widget_my {
     GtkWidget *theme_1;
     GtkWidget *theme_2;
     GtkWidget *theme_3;
-    GtkWidget *theme_4;
-    GtkWidget *theme_5;
-    GtkWidget *theme_6;
     //
 
     GtkWidget *back; //кнопка выхода из настроек
@@ -134,11 +144,8 @@ typedef struct s_widget_my {
     gint index_mess_to; //индекс последней строки в списке сообщений (для удаления листа)
     
     int on_profile; //что бы нельзя было открывать несколько профилей одновременно
-    int on_sticker;
+    int on_sticker; //что бы нельзя было открывать несколько стикерпаков одновременно
 
-    gchar *path_file;
-
-    // GtkWidget **message_send; //массив сообщений
     int message_id; //id сообщения
 
     GtkWidget *papa_bot; //папа бот...
@@ -151,14 +158,13 @@ typedef struct s_widget_my {
 
     char *login_list;
 
-    GtkWidget *edit_line;
-    GtkWidget *send_edit;
-    GtkWidget *under_edit;
-
     GtkWidget *win_stick;
     GtkWidget *box_stick;
     GtkWidget *scroll_stick;
 
+    int sticker_to;
+
+    //button for sticker
     GtkWidget *b1;
     GtkWidget *b2;
     GtkWidget *b3;
@@ -179,10 +185,7 @@ typedef struct s_widget_my {
     GtkWidget *b18;
     GtkWidget *b19;
     GtkWidget *b20;
-
-    GtkWidget *list_box;
-    int index;
-
+    //
     //images
     GdkPixbuf *profile_img;
     GdkPixbuf *smile_img;
@@ -351,6 +354,62 @@ void mx_delete_rows(GtkWidget *widget, void *data);
 void mx_sticker(GtkWidget* widget, void *data);
 void mx_create_stick(t_widget_my *widge);
 void mx_sendsticker(GtkWidget *widget, void *data);
+int mx_log_in(char *login, char *pass, t_widget_my *widge);//auditor +
+int mx_register(char *login, char *pass, t_widget_my *widge);//auditor -
+void mx_connection(t_widget_my *widge);//auditor -
+void mx_create_widge(t_widget_my *widge);//auditor +
+void mx_login_win(t_widget_my *widge);//auditor +
+int main (int argc, char *argv[]);//auditor +
+void mx_chat_win(t_widget_my *widge);//auditor +
+void mx_message_from(t_widget_my *widge, const gchar *text);//auditor -
+void mx_message_to(t_widget_my *widge, const gchar *text);//auditor -
+void mx_create_friend(t_widget_my *widge, const gchar *text, int online, t_page *page);//auditor -
+void mx_set_images(t_widget_my *widge);//auditor +
+void mx_setting_win(GtkWidget* widget, void *dat);//auditor +
+
+void mx_theme_1(GtkWidget* widget, void *dat);//auditor +
+void mx_theme_2(GtkWidget* widget, void *dat);//auditor +
+void mx_theme_3(GtkWidget* widget, void *dat);//auditor +
+
+void mx_pop_front_gtk(t_list_gtk **head);//auditor +
+t_list_gtk *mx_create_node_gtk(void *data);//auditor +
+void mx_push_front_gtk(t_list_gtk **list, void *data);//auditor +
+
+void mx_remove_friend_list(t_widget_my *widge);//auditor -
+void mx_remove_mess(void *data);//auditor -
+void mx_send_file_to(t_widget_my *widge, const gchar *text);//auditor -
+void mx_send_file_from(t_widget_my *widge, const gchar *text);//auditor -
+GtkWidget *mx_time_mess_to(char *data);//auditor +
+GtkWidget *mx_name_mess_to(char *user);//auditor +
+GtkWidget *mx_time_mess_from(char *data);//auditor +
+GtkWidget *mx_name_mess_from(char *user);//auditor +
+
+void mx_profile_gtk(t_widget_my *widge);//auditor -
+void mx_mini_profile_gtk(t_widget_my *widge);//auditor -
+void mx_photo_set(t_widget_my *widge);//auditor -
+bool mx_parse_sign_in(t_widget_my *widge, char *log, char *pass, char *rpt);//auditor +
+
+void mx_dialog_open(t_widget_my *widge);//auditor -
+char *mx_find_login_by_id(t_list *p, char *id);//auditor +
+
+char *mx_hash_to_string(unsigned char *hash);//auditor +
+char *mx_hash(char *login, char *pass);//auditor +
+
+void mx_create_chat(t_page *page, t_widget_my *widge, const gchar *text);//auditor +
+char *mx_itoa(int number);//auditor -
+char *mx_strnew(const int size);//auditor +
+
+void *mx_memrchr(const void *s, int c, size_t n);//auditor +
+
+void mx_delete_row(GtkWidget *list_box, gint index);//auditor +
+void mx_delete_rows(GtkWidget *widget, void *data);//auditor -
+
+void mx_sticker(GtkWidget* widget, void *data);//auditor +
+void mx_create_stick(t_widget_my *widge);//auditor +
+void mx_sendsticker_to(GtkWidget *widget, void *data);//auditor -
+void mx_sendsticker_from(char *file_name, t_widget_my *widge);
+
+void mx_send_message(GtkWidget* widget, void *dat);
 
 SSL *mx_ssl(int fd);
 #endif

@@ -133,7 +133,6 @@ void theme_3(GtkWidget* widget, void *dat) {
     gtk_widget_show_all(widge->main_chat);
 }
 
-
 void setting_win(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
@@ -358,15 +357,22 @@ void profile(GtkWidget* widget, void *data) {
 //////////////////
 gboolean show_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
     t_widget_my *widge = (t_widget_my *)data;
-
+    
+    //set position for mini profile
     gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
     gtk_window_move(GTK_WINDOW(widge->mini_window_profile), widge->window_x + 100, widge->window_y - 160);
+    // 
     gtk_widget_show (widge->mini_window_profile);
     return false;
 }
 
 gboolean hide_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
     t_widget_my *widge = (t_widget_my *)data;
+
+    //set position for mini profile
+    gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
+    gtk_window_move(GTK_WINDOW(widge->mini_window_profile), widge->window_x + 100, widge->window_y - 160);
+    // 
 
     gtk_widget_hide (widge->mini_window_profile);
     return false;
@@ -426,9 +432,6 @@ void mx_connection(t_widget_my *widge) {
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
         mx_mini_profile_gtk(widge);
-        gtk_widget_hide(widge->send_edit);
-        gtk_widget_hide(widge->under_edit);
-        gtk_widget_hide(widge->edit_line);
         mx_create_stick(widge);
         mx_create_bot(widge);//создаем окно бота
         g_signal_connect (widge->who_writing, "enter-notify-event", G_CALLBACK(show_mini_profile), widge);
@@ -439,8 +442,8 @@ void mx_connection(t_widget_my *widge) {
         g_signal_connect (widge->file_button, "clicked", G_CALLBACK(send_file), widge);
         g_signal_connect(widge->papa_bot, "clicked", G_CALLBACK(mx_papa_bot), widge);
         g_signal_connect (widge->search_entry, "activate", G_CALLBACK(check_chat), widge);
-        g_signal_connect(widge->command_line, "activate", G_CALLBACK(send_message), widge);
-        g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
+        g_signal_connect(widge->command_line, "activate", G_CALLBACK(mx_send_message), widge);
+        g_signal_connect (widge->send_button, "clicked", G_CALLBACK(mx_send_message), widge);
         g_signal_connect (widge->sticker_pack, "clicked", G_CALLBACK(mx_sticker), widge);
         pthread_create(&preg, 0, Read, widge);
         pthread_create(&preg, 0, Update, widge);

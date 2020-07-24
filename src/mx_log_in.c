@@ -5,7 +5,7 @@ int mx_log_in(char *login, char *pass, t_widget_my *widge) {
     widge->pass = strdup(pass);
     widge->cur_chat_id = 0;
     widge->to = strdup("PAPA_BOT");
-    
+
     mx_connection(widge);
     return 1;
 }

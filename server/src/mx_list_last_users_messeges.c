@@ -53,7 +53,7 @@ t_list *mx_list_last_users_messeges(t_use_mutex *mutex) {
     char *sql;
     t_list *chats = 0;
 
-    asprintf(&sql, "select distinct chats_id from messeges where users_id = %d order by text_id desc;", mutex->user_id);
+    asprintf(&sql, "select chats_id from users_chat where users_id = %d;", mutex->user_id);
     lite->data = &chats;
     lite->callback = callback_list;
     lite->sql = sql;
