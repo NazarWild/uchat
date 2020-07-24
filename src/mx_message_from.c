@@ -3,7 +3,6 @@
 void mx_message_from(t_widget_my *widge, const gchar *text) {
     t_message *mess_struct = malloc(sizeof(t_message));
     t_row_mess *row_s = malloc(sizeof(t_row_mess));
-    int i = 0;
 
     row_s->row = gtk_list_box_row_new ();
     gtk_widget_set_size_request(row_s->row, 590, 30);

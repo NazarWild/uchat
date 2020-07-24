@@ -40,6 +40,7 @@ FILES = mx_log_in \
 	mx_sticker \
 	mx_sendsticker_to \
 	mx_send_message \
+	mx_sendsticker_from \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

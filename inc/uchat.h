@@ -26,6 +26,7 @@
 
 typedef struct s_row_mess {
     //send message
+    GtkWidget *trash;
     GtkWidget *row;
     GtkWidget *box;
     GtkWidget *box2;
@@ -35,6 +36,7 @@ typedef struct s_row_mess {
     GtkWidget *nickname;
     GtkWidget *data_box;
     GtkWidget *box4;
+    GtkWidget *installbutt;
 } t_row_mess;
 
 typedef struct s_message {
@@ -328,7 +330,7 @@ void mx_delete_rows(GtkWidget *widget, void *data);//auditor -
 void mx_sticker(GtkWidget* widget, void *data);//auditor +
 void mx_create_stick(t_widget_my *widge);//auditor +
 void mx_sendsticker_to(GtkWidget *widget, void *data);//auditor -
-
+void mx_sendsticker_from(char *file_name, t_widget_my *widge);
 
 void mx_send_message(GtkWidget* widget, void *dat);
 
