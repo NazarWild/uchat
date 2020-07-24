@@ -131,35 +131,6 @@ void theme_3(GtkWidget* widget, void *dat) {
     gtk_widget_show_all(widge->main_chat);
 }
 
-
-void setting_win(GtkWidget* widget, void *dat) {
-    t_widget_my *widge = (t_widget_my *)dat;
-
-    g_signal_connect (widge->theme_1, "clicked", G_CALLBACK(theme_1), widge);
-    g_signal_connect (widge->theme_2, "clicked", G_CALLBACK(theme_2), widge);
-    g_signal_connect (widge->theme_3, "clicked", G_CALLBACK(theme_3), widge);
-    gtk_widget_hide(widge->main_chat);
-    gtk_widget_show_all(widge->win_sett);
-}
-
-void send_message(GtkWidget* widget, void *dat) {
-    t_widget_my *widge = (t_widget_my *)dat;
-    char *str; //строка которую отправляем Лехе
-    char *message = (char *)gtk_entry_get_text(GTK_ENTRY(widge->command_line)); //считываем данные с ввода
-
-    if (strlen(message) == 0) { //если пустая строка, ничего не делать
-        printf("Are you kidding me?\n");
-    }
-    else {
-        mx_message_to(widge, message);
-        asprintf(&str, "{\"IF_MESS\":true,\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\",\"CHAT_ID\":\"1\"}\n", widge->to, message);
-        //write(1, str, strlen(str));
-        write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
-        gtk_entry_set_text(GTK_ENTRY(widge->command_line), ""); //обнуляем вводимую строку, следовательно обнуляеться message
-        free(str);
-    }
-}
-
 bool if_online(cJSON *js) {
     cJSON *online = cJSON_GetObjectItemCaseSensitive(js, "USERS");
 
@@ -290,12 +261,22 @@ void profile(GtkWidget* widget, void *data) {
 gboolean show_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     
+    //set position for mini profile
+    gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
+    gtk_window_move(GTK_WINDOW(widge->mini_window_profile), widge->window_x + 100, widge->window_y - 160);
+    // 
+
     gtk_widget_show (widge->mini_window_profile);
     return false;
 }
 
 gboolean hide_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
     t_widget_my *widge = (t_widget_my *)data;
+
+    //set position for mini profile
+    gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
+    gtk_window_move(GTK_WINDOW(widge->mini_window_profile), widge->window_x + 100, widge->window_y - 160);
+    // 
 
     gtk_widget_hide (widge->mini_window_profile);
     return false;
@@ -345,14 +326,10 @@ void mx_connection(t_widget_my *widge) {
     }
     widge->ssl = mx_ssl(widge->sockfd);
     asprintf(&str, "{\"LOGIN\":\"%s\",\"PASS\":\"%s\"}\n", widge->login, mx_hash(widge->login, widge->pass)); //записываем в строку логин и пароль для Лехи
-    printf("here\n");
     SSL_write(widge->ssl, str, strlen(str));
     // write(widge->sockfd, str, strlen(str)); //отпраявляем логин и пароль Лехе
-    printf("here\n");
     free(str);
-    printf("here\n");
     SSL_read(widge->ssl, buff, 2048);
-    printf("here\n");
     // read(widge->sockfd, buff, 2048);
     json = cJSON_Parse(buff);
     if (if_online(json))
@@ -362,9 +339,6 @@ void mx_connection(t_widget_my *widge) {
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
         mx_mini_profile_gtk(widge);
-        gtk_widget_hide(widge->send_edit);
-        gtk_widget_hide(widge->under_edit);
-        gtk_widget_hide(widge->edit_line);
         mx_create_stick(widge);
         mx_create_bot(widge);//создаем окно бота
         g_signal_connect (widge->who_writing, "enter-notify-event", G_CALLBACK(show_mini_profile), widge);
@@ -375,8 +349,8 @@ void mx_connection(t_widget_my *widge) {
         g_signal_connect (widge->file_button, "clicked", G_CALLBACK(send_file), widge);
         g_signal_connect(widge->papa_bot, "clicked", G_CALLBACK(mx_papa_bot), widge);
         g_signal_connect (widge->search_entry, "activate", G_CALLBACK(check_chat), widge);
-        g_signal_connect(widge->command_line, "activate", G_CALLBACK(send_message), widge);
-        g_signal_connect (widge->send_button, "clicked", G_CALLBACK(send_message), widge);
+        g_signal_connect(widge->command_line, "activate", G_CALLBACK(mx_send_message), widge);
+        g_signal_connect (widge->send_button, "clicked", G_CALLBACK(mx_send_message), widge);
         g_signal_connect (widge->sticker_pack, "clicked", G_CALLBACK(mx_sticker), widge);
         pthread_create(&preg, 0, Read, widge);
         //pthread_create(&preg, 0, Update, widge);

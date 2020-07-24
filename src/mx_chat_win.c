@@ -6,6 +6,5 @@ void mx_chat_win(t_widget_my *widge) {
     gtk_widget_hide(widge->window);
     gtk_widget_show_all(widge->chat);
     gtk_widget_hide(widge->win_sett);
-
     g_signal_connect (widge->chat, "destroy", G_CALLBACK (gtk_main_quit), NULL);
 }

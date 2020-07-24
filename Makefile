@@ -21,11 +21,7 @@ FILES = mx_log_in \
 	theme_1 \
 	theme_2 \
 	theme_3 \
-	theme_4 \
-	theme_5 \
-	theme_6 \
 	send_file_to \
-	mx_realloc \
 	mx_time_mess_from \
 	mx_time_mess_to \
 	mx_name_mess_from \
@@ -42,7 +38,8 @@ FILES = mx_log_in \
 	mx_delete_row \
 	mx_delete_rows \
 	mx_sticker \
-	mx_sendsticker \
+	mx_sendsticker_to \
+	mx_send_message \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
