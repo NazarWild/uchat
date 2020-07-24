@@ -38,7 +38,7 @@ void mx_tables() {
                     "users_id INTEGER PRIMARY KEY AUTOINCREMENT, " 
                     "login TEXT, "
                     "pass TEXT,"
-                    "theme INT,"
+                    "theme TEXT,"
                     "language INT,"
                     "status TEXT,"
                     "level INT, "
