@@ -67,18 +67,18 @@ void mx_parse_whoonline(t_widget_my *widge, cJSON *json) {
     cJSON *login;
     cJSON *online;
 
-    //write(1, "=======USERS=======\n\n", strlen("===================\n\n"));
+    write(1, "=======USERS=======\n\n", strlen("===================\n\n"));
     cJSON_ArrayForEach(peoples, user) { 
         login = cJSON_GetObjectItemCaseSensitive(peoples, "login");
         user_id = cJSON_GetObjectItemCaseSensitive(peoples, "user_id");
         online = cJSON_GetObjectItemCaseSensitive(peoples, "online");
 
-        //write(1, "=======USER=======\n", strlen("===================\n"));
-        //printf("LOGIN : %s\nID = %s\nONLINE = %d\n", login->valuestring, user_id->valuestring, online->valueint);
-        //write(1, "==================\n", strlen("==================\n"));
+        write(1, "=======USER=======\n", strlen("===================\n"));
+        printf("LOGIN : %s\nID = %s\nONLINE = %d\n", login->valuestring, user_id->valuestring, online->valueint);
+        write(1, "==================\n", strlen("==================\n"));
         mx_push_back(&widge->login_id, login->valuestring, user_id->valuestring, online->valueint);
     }
-    //write(1, "=====================\n\n", strlen("=====================\n\n"));
+    write(1, "=====================\n\n", strlen("=====================\n\n"));
 }
 
 void change_pos(GtkWidget *widget, void *data) {
@@ -166,25 +166,6 @@ char *mx_create_json_mess(char *message, t_widget_my *widge) {
     return str_js;
 }
 
-void send_message(GtkWidget* widget, void *dat) {
-    t_widget_my *widge = (t_widget_my *)dat;
-    char *str; //строка которую отправляем Лехе
-    char *message = (char *)gtk_entry_get_text(GTK_ENTRY(widge->command_line)); //считываем данные с ввода
-
-    if (strlen(message) == 0) { //если пустая строка, ничего не делать
-        printf("Are you kidding me?\n");
-    }
-    else {
-        str = mx_create_json_mess(message, widge);
-        write(1, str, strlen(str)); //отпрвляем Лехе данные
-        SSL_write(widge->ssl, str, strlen(str)); //отпрвляем Лехе данные
-        //write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
-        widge->login_list = strdup(mx_find_login_by_id(widge->login_id, widge->to));
-        mx_message_to(widge, message);
-        gtk_entry_set_text(GTK_ENTRY(widge->command_line), ""); //обнуляем вводимую строку, следовательно обнуляеться message
-    }
-}
-
 bool if_online(cJSON *js) {
     cJSON *online = cJSON_GetObjectItemCaseSensitive(js, "USERS");
 
@@ -233,20 +214,6 @@ bool mx_user_status(t_list *login_id, char *id) {
     return false;
 }
 
-bool mx_check_on_unique_chat_id(int user_id, t_list_box *list, int new_chat_id) {
-    t_list_box *p = list;
-
-    while(p) {
-        if (user_id == p->user_id) {
-            if (p->chat_id == 0)
-                p->chat_id = new_chat_id;
-            return false;
-        }
-        p = p->next;
-    }
-    return true;
-}
-
 void mx_parse_chats(cJSON *json, t_widget_my *widge) {
     cJSON *chats = cJSON_GetObjectItemCaseSensitive(json, "chats");
 
@@ -259,14 +226,15 @@ void mx_parse_chats(cJSON *json, t_widget_my *widge) {
         cJSON *who_in_chat = NULL;
         char *buffer;
 
-        //write(1, "=======CHATS=======\n\n", strlen("===================\n\n"));
+        write(1, "=======CHATS=======\n\n", strlen("===================\n\n"));
         cJSON_ArrayForEach(arr, chats) { 
             id = cJSON_GetObjectItemCaseSensitive(arr, "id");
             last_mess = cJSON_GetObjectItemCaseSensitive(arr, "last_mess");
             who_write = cJSON_GetObjectItemCaseSensitive(arr, "who_write");
             who_in_chat = cJSON_GetObjectItemCaseSensitive(arr, "who_in_chat");
-            //printf("=======CHAT ID %s=======\n", id->valuestring);
+            printf("=======CHAT ID %s=======\n", id->valuestring);
             //printf("MESS : %s\nWHO_WRITE : %s\n", last_mess->valuestring,  who_write->valuestring);
+            printf("WHO_WRITE : %s\n", who_write->valuestring);
             //printf("=======WHO IN CHAT =======\n");
             cJSON_ArrayForEach(arr_2, who_in_chat) {
                 //printf("%s\t",arr_2->valuestring);
@@ -274,19 +242,11 @@ void mx_parse_chats(cJSON *json, t_widget_my *widge) {
                     widge->to_whom = atoi(arr_2->valuestring);
                 }
             }
-            //printf("\nWHO IN CHAT WITH ME ---------------------------  [%d]\n",widge->to_whom);
+            printf("\nWHO IN CHAT WITH ME ---------------------------  [%d]\n",widge->to_whom);
             //printf("\n");
-            //printf("=====================\n");
-            if (widge->to_whom != 0) {
-                t_page *page = malloc(sizeof(t_page));
-
-                if (mx_check_on_unique_chat_id(widge->to_whom, widge->chat_listbox_id, atoi(id->valuestring))) {
-                    widge->chat_id = atoi(id->valuestring);
-                    mx_create_friend(widge, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)), mx_user_status(widge->login_id, mx_itoa(widge->to_whom)), page);
-                }
-            }
+            printf("=====================\n");
         }
-        //write(1, "=====================\n\n", strlen("=====================\n\n"));
+        write(1, "=====================\n\n", strlen("=====================\n\n"));
     }
 }
 
@@ -301,7 +261,7 @@ void *Read(void *dat) {
         //len = read(widge->sockfd, buff, 2048);
         if (len > 0) {
             json = cJSON_Parse(buff);
-        printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
+        //printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
         //chats
         if (if_chats(json))
             mx_parse_chats(json, widge);
@@ -334,7 +294,7 @@ void *Update(void *dat) {
         free(str);
         asprintf(&str1, "{\"CHATS_SEND\": true }\n");
         SSL_write(widge->ssl, str1, strlen(str1));
-        printf("\n----------------UPDATE----------------\n________________[%s] here________________\nwidge->cur_chat_id = %d\n", widge->login, widge->cur_chat_id);
+        printf("\n----------------UPDATE----------------\n\n________________[%s] here________________\n", widge->login);
         free(str1);
         sleep(10);//-----------------------------------------------------periods of update
     }

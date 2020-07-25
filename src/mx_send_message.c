@@ -9,11 +9,12 @@ void mx_send_message(GtkWidget* widget, void *dat) {
         printf("Are you kidding me?\n");
     }
     else {
+        str = mx_create_json_mess(message, widge);
+        write(1, str, strlen(str)); //отпрвляем Лехе данные
+        SSL_write(widge->ssl, str, strlen(str)); //отпрвляем Лехе данные
+        //write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
+        widge->login_list = strdup(mx_find_login_by_id(widge->login_id, widge->to));
         mx_message_to(widge, message);
-        asprintf(&str, "{\"IF_MESS\":true,\"TO\":\"%s\",\"MESS\":\"%s\",\"TYPE\":\"text\",\"CHAT_ID\":\"1\"}\n", widge->to, message);
-        //write(1, str, strlen(str));
-        write(widge->sockfd, str, strlen(str)); //отпрвляем Лехе данные
         gtk_entry_set_text(GTK_ENTRY(widge->command_line), ""); //обнуляем вводимую строку, следовательно обнуляеться message
-        free(str);
     }
 }

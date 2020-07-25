@@ -23,7 +23,7 @@ static char *parsing_filename(char *filename, t_widget_my *widge) {
     widge->int_of_dot = i;
     for (; filename[i] != '/'; i--) {}
     widge->int_of_slesh = i;
-    return &filename[widge->int_of_dot + 1];
+    return &filename[widge->int_of_dot];
 }
 
 int mx_len_of_file(char *file) {
@@ -57,7 +57,8 @@ static cJSON *create_json(t_widget_my *widge) {
     cJSON *TYPE = cJSON_CreateString(parsing_filename(widge->filename, widge));
     cJSON *MESS = cJSON_CreateString(&widge->filename[widge->int_of_slesh + 1]);
     cJSON *BYTES = cJSON_CreateNumber(widge->bytes);
-    cJSON *CHAT_ID = cJSON_CreateString(mx_itoa(widge->cur_chat_id));
+    //cJSON *CHAT_ID = cJSON_CreateString(mx_itoa(widge->cur_chat_id));
+    cJSON *CHAT_ID = cJSON_CreateString("2");
     cJSON *DATE = cJSON_CreateString(widge->localtime);;
     char *file_without_dot = strdup(widge->filename);
 

@@ -39,14 +39,9 @@ void p(GtkWidget* widget, void *data) {
 
     gtk_button_set_label (GTK_BUTTON(widge->who_writing), widge->login_list);
     free(widge->to);
-    widge->to = strdup(find_id(p, widge->login_list)); 
-            // write(1, widge->to, strlen(widge->to));
-            // write(1,"\n", strlen("\n"));
-            // write(1, widge->login_list, strlen(widge->login_list));
-            // write(1,"\n", strlen("\n"));
+    widge->to = strdup(find_id(p, widge->login_list));
 
     i = (int)(uintptr_t)g_object_get_data(G_OBJECT(widget), "id");
-    widge->cur_chat_id = mx_choose_chat_box(widge->chat_listbox_id, i);
     gtk_notebook_set_current_page(GTK_NOTEBOOK(widge->notebook), i);
 }
 
@@ -101,9 +96,8 @@ void mx_create_friend(t_widget_my *widge, const gchar *text, int online, t_page 
 
     gtk_list_box_insert (GTK_LIST_BOX(widge->friends), row, -1);
 
-    widge->listbox_id = widge->id_lb_sw;
-    g_object_set_data(G_OBJECT(page->friend_butt), "id", (gpointer)(uintptr_t)(widge->listbox_id));
-    mx_push_back_listbox(&widge->chat_listbox_id, widge->chat_id, widge->listbox_id, widge->to_whom);//1 - chat-id 2 - list_box_id
+    int i = widge->id_lb_sw;
+    g_object_set_data(G_OBJECT(page->friend_butt), "id", (gpointer)(uintptr_t)(i));
 ///////////////////////////////////////////////////////////////////////////////
     mx_create_chat(page, widge, text);
     g_signal_connect (page->friend_butt, "clicked", G_CALLBACK(p), widge);

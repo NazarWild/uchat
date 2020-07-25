@@ -410,6 +410,7 @@ void mx_sendsticker_to(GtkWidget *widget, void *data);//auditor -
 void mx_sendsticker_from(char *file_name, t_widget_my *widge);
 
 void mx_send_message(GtkWidget* widget, void *dat);
+char *mx_create_json_mess(char *message, t_widget_my *widge);
 
 SSL *mx_ssl(int fd);
 #endif
