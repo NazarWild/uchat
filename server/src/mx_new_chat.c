@@ -29,10 +29,12 @@ void mx_new_chat(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) {
     asprintf(&str1, "%d, %d", atoi(TO->valuestring), atoi(str2));
     mx_add_to_table("users_chat", "users_id, chats_id", str1, mutex);
     free(str1);
-    asprintf(&str1, "%d, %d", mutex->user_id, atoi(str2));
-    mx_add_to_table("users_chat", "users_id, chats_id", str1, mutex);
+    if (atoi(TO->valuestring) != mutex->user_id) {
+        asprintf(&str1, "%d, %d", mutex->user_id, atoi(str2));
+        mx_add_to_table("users_chat", "users_id, chats_id", str1, mutex);
+        free(str1);
+    }
     mx_add_message(atoi(str2), MESS->valuestring, 0, mutex);
     free(str2);
-    free(str1);
     free(ita);
 }

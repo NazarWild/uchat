@@ -4,9 +4,17 @@ static char *creating(cJSON* TYPE, cJSON* BYTES, char *mess, t_use_mutex *mutex)
     char *path =  mx_strjoin("file_serv/", mess);//пусть отправляет название с точкой в конце
     int stream = open(path, O_RDWR | O_CREAT | O_APPEND, S_IRWXU);
     char *buff = (char *)malloc(sizeof(char) * BYTES->valueint);
+    int bytes = 0;
 
-    recv(mutex->cli_fd, buff, BYTES->valueint, MSG_WAITALL);
-    write(stream, buff, BYTES->valueint);
+    //recv(mutex->cli_fd, buff, BYTES->valueint, MSG_WAITALL);
+
+    //new added ---------------------------
+    while (bytes += SSL_read(mutex->my_ssl, buff, BYTES->valueint) < BYTES->valueint) {
+        write(stream, buff, BYTES->valueint);
+    }
+    //maybe del ---------------------------
+    
+    // write(stream, buff, BYTES->valueint);
     close(stream);
     free(buff);
     return path;
@@ -47,7 +55,7 @@ static void send_cj(cJSON *root, t_use_mutex *mutex, char *path) {
     free(str);
 }
 
-static char *name_add_file(cJSON* CHAT_ID, cJSON* MESS, t_use_mutex *mutex) {
+static char *name_add_file(cJSON* CHAT_ID, cJSON* MESS, cJSON* TYPE, t_use_mutex *mutex) {
     char *name = NULL;
     char *data = NULL;
     t_select *select;
@@ -56,7 +64,10 @@ static char *name_add_file(cJSON* CHAT_ID, cJSON* MESS, t_use_mutex *mutex) {
     asprintf(&name, "messeges where text = '%s' and chats_id = %d", MESS->valuestring, atoi(CHAT_ID->valuestring));
     select = mx_struct_select("max(text_id)", name, mx_callback_persons_id, &data);
     mx_select(select, mutex);
-    return data;
+    free(name);
+    name = mx_strjoin(data, TYPE->valuestring);
+    free(data);
+    return name;
 }
 
 void mx_file_type(cJSON *root, t_use_mutex *mutex) { 
@@ -67,7 +78,7 @@ void mx_file_type(cJSON *root, t_use_mutex *mutex) {
     char *path = NULL;
 
     if (strcmp("text", TYPE->valuestring) != 0) {
-        path = creating(TYPE, BYTES, name_add_file(CHAT_ID, MESS, mutex), mutex);
+        path = creating(TYPE, BYTES, name_add_file(CHAT_ID, MESS, TYPE, mutex), mutex);
         send_cj(root, mutex, path);
     }
     free(path);

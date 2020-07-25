@@ -49,7 +49,7 @@ t_list *return_last_list(t_list *chats, t_use_mutex *mutex) {
 }
 
 t_list *mx_list_last_users_messeges(t_use_mutex *mutex) {
-    t_sqlite *lite = malloc(sizeof(t_sqlite));
+    t_sqlite *lite = malloc(sizeof(t_sqlite)); 
     char *sql;
     t_list *chats = 0;
 

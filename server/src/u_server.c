@@ -12,7 +12,7 @@ static bool parse_object(cJSON *root, t_use_mutex *param) {
     mx_chats_send(root, param);
 
     //тут буду отсылать последние сообщение по запросу пользователя с их текст-айдишниками
-    mx_slast_mess(root, param);
+    //mx_slast_mess(root, param);
 
     //на изменение сообщения
     //mx_change_mess(root, param);
