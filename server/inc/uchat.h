@@ -136,5 +136,6 @@ t_select *mx_struct_select(char *search, char *tables,
             int (*callback)(void *, int, char **, char **), void *data);
 void mx_slast_mess(cJSON *root, t_use_mutex *param);
 void mx_change_mess(cJSON *root, t_use_mutex *param);
+void mx_change_prof(cJSON *root, t_use_mutex *param);
 
 #endif
