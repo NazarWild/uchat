@@ -35,6 +35,7 @@ FILES = u_server \
 		mx_where_not_1 \
 		mx_slast_mess \
 		mx_change_mess \
+		mx_change_prof \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

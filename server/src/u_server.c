@@ -23,6 +23,9 @@ static bool parse_object(cJSON *root, t_use_mutex *param) {
     //sending info about user which you want
     //mx_usr_prof(root, param);
 
+    // changing my profile
+    //mx_change_prof(root, param);
+
     //delete account 
     if (mx_delete(param, root) == true)
         return false;
@@ -50,12 +53,12 @@ static void *some_sending(void *parametr) {
         pthread_exit(&ret);
     // tut nado podgrughat s db v client
     //posle chego podgrugat vse chati, to est CHATS:
-    // mx_chats_send(param);
     // сделать тут как отсылаю пользователю его профиль
+
     // my profile 
+    // tut sdelau 
 
     while (SSL_read(param->my_ssl, buff, 2048) > 0) {
-    //while(read(param->cli_fd, buff, 2048) > 0) { //tut budu parsit info from JSON file
         request_json = cJSON_Parse(buff);
         if (parse_object(request_json, param) == false) {
             break;
