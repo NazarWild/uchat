@@ -260,7 +260,7 @@ typedef struct s_widget_my {
     GtkWidget *fullname_entry;
     GtkWidget *nickname_entry;
     GtkWidget *birth_entry;
-    GtkWidget *status;
+    GtkWidget *level;
     GtkWidget *profile_photo_button;
     GtkWidget *man1;
     GtkWidget *man2;
@@ -290,6 +290,11 @@ typedef struct s_widget_my {
     int to_whom;
 
     SSL *ssl;
+    GtkWidget *mini_level;
+    GtkWidget *mini_date;
+    GtkWidget *mini_name;
+    GtkWidget *mini_nick;
+    GtkWidget *mini_photo;
 }              t_widget_my;
 
 int mx_log_in(char *login, char *pass, t_widget_my *widge);
