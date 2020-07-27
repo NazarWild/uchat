@@ -30,6 +30,7 @@ void mx_send_user_with_dif_sock(t_use_mutex *mutex, int who, char *str, int byte
 
     for (t_list *list = mx_search_ssl(mutex, who); list != NULL; list = list->next) {
         ssl = list->data;
+        write(1, str, strlen(str));
         SSL_write(ssl, str, bytes);
     }
 }

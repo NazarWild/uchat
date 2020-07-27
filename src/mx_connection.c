@@ -11,8 +11,8 @@ void check_chat(GtkWidget* widget, void *data) {
     if (strcmp(find_login, list->login) == 0) {
         t_page *page = malloc(sizeof(t_page));
 
+        widge->chat_id = 0;
         mx_create_friend(widge, list->login, list->online, page);
-        widge->cur_chat_id = 0;
         gtk_entry_set_text(GTK_ENTRY(widget), "");
         ////////////////////////////////////////////////////////////////////////
     }
@@ -95,6 +95,7 @@ void mx_papa_bot(GtkWidget* widget, void *data) {
     char *login = (char *) gtk_button_get_label(GTK_BUTTON(widget));
     int i;
 
+    //mx_set_mini_profile();
     widge->login_list = strdup(login);
     gtk_button_set_label (GTK_BUTTON(widge->who_writing), login);
 
@@ -197,8 +198,15 @@ void parse_mess(cJSON *js, t_widget_my *widge) {
     cJSON *CHAT_ID = cJSON_GetObjectItemCaseSensitive(js, "CHAT_ID");
 
 
-    printf("\nХТО НАПИСАВ - %s\n", mx_find_login_by_id(widge->login_id, mx_itoa(from->valueint)));
+    //printf("\nХТО НАПИСАВ - %s\n", mx_find_login_by_id(widge->login_id, mx_itoa(from->valueint)));
     widge->login_list = strdup(mx_find_login_by_id(widge->login_id, mx_itoa(from->valueint)));
+    if (mx_unique_listbox_id(widge, widge->login_list)) {
+        t_page *page = malloc(sizeof(t_page));
+
+        //printf("CHAT_ID - %s\n", CHAT_ID->valuestring);
+        //widge->chat_id = atoi(CHAT_ID->valuestring);
+        mx_create_friend(widge, widge->login_list, 1, page);
+    }
     mx_message_from(widge, mess->valuestring);
     write(1, mess->valuestring, strlen(mess->valuestring));
 }
@@ -224,29 +232,30 @@ void mx_parse_chats(cJSON *json, t_widget_my *widge) {
         cJSON *arr = NULL;
         cJSON *arr_2 = NULL;
         cJSON *who_in_chat = NULL;
-        char *buffer;
 
-        write(1, "=======CHATS=======\n\n", strlen("===================\n\n"));
+        //write(1, "=======CHATS=======\n\n", strlen("===================\n\n"));
         cJSON_ArrayForEach(arr, chats) { 
             id = cJSON_GetObjectItemCaseSensitive(arr, "id");
             last_mess = cJSON_GetObjectItemCaseSensitive(arr, "last_mess");
             who_write = cJSON_GetObjectItemCaseSensitive(arr, "who_write");
             who_in_chat = cJSON_GetObjectItemCaseSensitive(arr, "who_in_chat");
-            printf("=======CHAT ID %s=======\n", id->valuestring);
-            //printf("MESS : %s\nWHO_WRITE : %s\n", last_mess->valuestring,  who_write->valuestring);
-            printf("WHO_WRITE : %s\n", who_write->valuestring);
+            //printf("=======CHAT ID %s=======\n", id->valuestring);
             //printf("=======WHO IN CHAT =======\n");
             cJSON_ArrayForEach(arr_2, who_in_chat) {
                 //printf("%s\t",arr_2->valuestring);
-                if (strcmp(widge->login, mx_find_login_by_id(widge->login_id, arr_2->valuestring)) != 0) {
-                    widge->to_whom = atoi(arr_2->valuestring);
-                }
+                widge->to_whom = atoi(arr_2->valuestring);
             }
-            printf("\nWHO IN CHAT WITH ME ---------------------------  [%d]\n",widge->to_whom);
-            //printf("\n");
-            printf("=====================\n");
+            //printf("\nme[%s] --- him[%s]\n", widge->login, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)));
+            //printf("=====================\n");
+            if (mx_unique_listbox_id(widge, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)))) {
+                t_page *page = malloc(sizeof(t_page));
+
+                widge->chat_id = atoi(id->valuestring);
+                mx_create_friend(widge, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)), mx_user_status(widge->login_id, mx_itoa(widge->to_whom)), page);
+            }
+            mx_update_chat_id(widge, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)), atoi(id->valuestring));
         }
-        write(1, "=====================\n\n", strlen("=====================\n\n"));
+        //write(1, "=====================\n\n", strlen("=====================\n\n"));
     }
 }
 
@@ -258,7 +267,6 @@ void *Read(void *dat) {
 
     while(1) {
         len = SSL_read(widge->ssl, buff, 2048);
-        //len = read(widge->sockfd, buff, 2048);
         if (len > 0) {
             json = cJSON_Parse(buff);
         //printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
@@ -294,9 +302,8 @@ void *Update(void *dat) {
         free(str);
         asprintf(&str1, "{\"CHATS_SEND\": true }\n");
         SSL_write(widge->ssl, str1, strlen(str1));
-        printf("\n----------------UPDATE----------------\n\n________________[%s] here________________\n", widge->login);
         free(str1);
-        sleep(10);//-----------------------------------------------------periods of update
+        sleep(5);//-----------------------------------------------------periods of update
     }
     int exit;
     pthread_exit(&exit);

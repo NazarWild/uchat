@@ -22,24 +22,20 @@ static void change_pos(GtkWidget *widget, void *data) {
     }
 }
 
-int mx_choose_chat_box(t_list_box *p, int listbox_id) {
-    while(p) {
-        if (p->listbox_id == listbox_id)
-            return p->chat_id;
-        p = p->next;
-    }
-    return 0;
-}
-
 void p(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     widge->login_list = (char *) gtk_button_get_label(GTK_BUTTON(widget));
     t_list *p = widge->login_id;
     int i;
+    char *str;
 
     gtk_button_set_label (GTK_BUTTON(widge->who_writing), widge->login_list);
     free(widge->to);
     widge->to = strdup(find_id(p, widge->login_list));
+
+    asprintf(&str, "{\"USR_PROF\": true, \"USR_ID\": %d}\n", atoi(widge->to));
+    SSL_write(widge->ssl, str, strlen(str));
+    free(str);
 
     i = (int)(uintptr_t)g_object_get_data(G_OBJECT(widget), "id");
     gtk_notebook_set_current_page(GTK_NOTEBOOK(widge->notebook), i);

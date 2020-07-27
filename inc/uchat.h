@@ -38,7 +38,15 @@ typedef struct s_row_mess {
     GtkWidget *data_box;
     GtkWidget *box4;
     GtkWidget *installbutt;
-} t_row_mess;
+}              t_row_mess;
+
+typedef struct s_profile_list {
+    char *fullname;
+    char *nickname;
+    char *birth;
+    char *status;
+    char *resource;
+}              t_profile_list;
 
 typedef struct s_message {
     GtkWidget *message;
@@ -64,13 +72,6 @@ typedef struct s_list {
     bool online;
     struct s_list *next;
 }              t_list;
-
-typedef struct s_list_box {
-    int chat_id;
-    int listbox_id;
-    int user_id;
-    struct s_list_box *next;
-}              t_list_box;
 
 typedef struct s_widget_my {
     t_list_gtk *message_list;
@@ -282,9 +283,9 @@ typedef struct s_widget_my {
     t_list *login_id;
     char *localtime;
 
+    t_profile_list *user_profile;
+
     int chat_id;
-    int listbox_id;
-    t_list_box *chat_listbox_id;
     int cur_chat_id;
     int to_whom;
 
@@ -332,6 +333,7 @@ bool mx_parse_sign_in(t_widget_my *widge, char *log, char *pass, char *rpt);
 
 void mx_dialog_open(t_widget_my *widge);
 char *mx_find_login_by_id(t_list *p, char *id);
+char *mx_find_id_by_login(t_list *p, char *login);
 
 char *mx_hash_to_string(unsigned char *hash);
 char *mx_hash(char *login, char *pass);
@@ -340,12 +342,6 @@ void mx_create_chat(t_page *page, t_widget_my *widge, const gchar *text);
 char *mx_itoa(int number);
 char *mx_strnew(const int size);
 
-//list_pack_4_box_n_chat_id//
-void mx_pop_front_listbox(t_list_box **head);
-void free_list_listbox(t_list_box **head);
-t_list_box *mx_create_node_listbox(int chat_id, int listtox_id, int user_id);
-void mx_push_back_listbox(t_list_box **list, int chat_id, int listbox_id, int user_id);
-//
 void *mx_memrchr(const void *s, int c, size_t n);
 
 void mx_delete_row(GtkWidget *list_box, gint index);
@@ -411,6 +407,13 @@ void mx_sendsticker_from(char *file_name, t_widget_my *widge);
 
 void mx_send_message(GtkWidget* widget, void *dat);
 char *mx_create_json_mess(char *message, t_widget_my *widge);
+
+bool mx_unique_listbox_id(t_widget_my *widge, char *login);
+void mx_update_chat_id(t_widget_my *widge, char *login, int new_chat_id);
+void mx_set_cur_chat_id(t_widget_my *widge);
+
+char *mx_type_of_file(char *filename, t_widget_my *widge);
+int mx_len_of_file(char *file);
 
 SSL *mx_ssl(int fd);
 #endif
