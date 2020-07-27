@@ -325,6 +325,11 @@ void profile(GtkWidget* widget, void *data) {
 gboolean show_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     
+
+    //gtk_label_set_text (widge->mini_level, "LEVEL : 0");
+    //gtk_label_set_text (widge->mini_date, widge->user_profile->birth);
+    //gtk_label_set_text (widge->mini_name, widge->user_profile->fullname);
+    //gtk_label_set_text (widge->mini_nick, widge->user_profile->nickname);
     //set position for mini profile
     gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
     gtk_window_move(GTK_WINDOW(widge->mini_window_profile), widge->window_x + 100, widge->window_y - 160);
@@ -339,7 +344,7 @@ gboolean hide_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
     //set position for mini profile
     gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
     gtk_window_move(GTK_WINDOW(widge->mini_window_profile), widge->window_x + 100, widge->window_y - 160);
-    // 
+    //
 
     gtk_widget_hide (widge->mini_window_profile);
     return false;

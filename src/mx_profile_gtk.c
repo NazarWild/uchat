@@ -45,25 +45,25 @@ static bool parsing_profile_data(t_widget_my *widge, char *birth) {
     return true;
 }
 
-char *mx_create_json_profile(t_widget_my *widge, char *nick, char *full, char *birth, char *status, char *filename) {
+char *mx_create_json_profile(t_widget_my *widge, char *nick, char *full, char *birth, char *filename) {
     cJSON *send = cJSON_CreateObject();
-    cJSON *IF_PROF = cJSON_CreateTrue();
+    cJSON *CHANGE_PROF = cJSON_CreateTrue();
     cJSON *USER_ID = cJSON_CreateString(mx_find_id_by_login(widge->login_id, widge->login));
     cJSON *FULL = cJSON_CreateString(full);
     cJSON *NICK = cJSON_CreateString(nick);
-    cJSON *STATUS = cJSON_CreateString(status);
     cJSON *BIRTH = cJSON_CreateString(birth);
+    // cJSON *THEME = cJSON_CreateNumber();
     cJSON *TYPE = cJSON_CreateString(mx_type_of_file(filename, widge));
     cJSON *BYTES = cJSON_CreateNumber(mx_len_of_file(filename));
     char *str_js = NULL;
 
-    cJSON_AddItemToObject(send, "IF_PROF", IF_PROF);
+    cJSON_AddItemToObject(send, "CHANGE_PROF", CHANGE_PROF);
     cJSON_AddItemToObject(send, "USER_ID", USER_ID);
     cJSON_AddItemToObject(send, "FULL", FULL);
     cJSON_AddItemToObject(send, "NICK", NICK);
-    cJSON_AddItemToObject(send, "STATUS", STATUS);
     cJSON_AddItemToObject(send, "BIRTH", BIRTH);
-    cJSON_AddItemToObject(send, "TYPE", TYPE);
+    //cJSON_AddItemToObject(send, "THEME", THEME);
+    cJSON_AddItemToObject(send, "PHOTO", TYPE);
     cJSON_AddItemToObject(send, "BYTES", BYTES);
     str_js = cJSON_Print(send);
     write(1, str_js, strlen(str_js));
@@ -79,16 +79,14 @@ void func(GtkWidget* widget, void *data) {
     const gchar *full = gtk_entry_get_text(GTK_ENTRY(widge->fullname_entry));
     const gchar *nick = gtk_entry_get_text(GTK_ENTRY(widge->nickname_entry));
     const gchar *birth = gtk_entry_get_text(GTK_ENTRY(widge->birth_entry));
-    char *statu = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(widge->status));
 
     widge->user_profile->fullname = strdup((char *) full);
     widge->user_profile->nickname = strdup((char *) nick);
     if (parsing_profile_data(widge, (char *) birth))
         widge->user_profile->birth = strdup((char *) birth);
-    widge->user_profile->status = statu;
     widge->user_profile->resource = widge->res_png;
 
-    mx_create_json_profile(widge, (char *) full, (char *) nick, (char *) birth, (char *) statu, widge->res_png);
+    mx_create_json_profile(widge, (char *) full, (char *) nick, (char *) birth, widge->res_png);
     //SSL_write(widge->ssl, str, strlen(str));
     //free(str);
 }
@@ -113,7 +111,7 @@ void mx_profile_gtk(t_widget_my *widge) {
     GtkWidget *save;
     GtkWidget *delete_b;//button
     GtkWidget *logout_b;//button
-    GtkWidget *status;//combo box text
+    GtkWidget *level;//label - level
     GtkWidget *label;//label
     GtkWidget *lbl;//label
     GtkWidget *full;//label
@@ -163,16 +161,11 @@ void mx_profile_gtk(t_widget_my *widge) {
     if (widge->user_profile->birth != NULL)
         gtk_entry_set_text(GTK_ENTRY(birth_entry), widge->user_profile->birth);
     gtk_entry_set_placeholder_text(GTK_ENTRY(birth_entry), "[dd.mm.year]");
-    label = gtk_label_new("STATUS");
+    label = gtk_label_new("LEVEL");
     full = gtk_label_new("FULLNAME");
     nick = gtk_label_new("NICKNAME");
     birth = gtk_label_new("DATE OF BIRTH");
-    status = gtk_combo_box_text_new();
-    gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(status), "1", "SINGLE");
-    gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(status), "2", "IN LOVE");
-    gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(status), "3", "MARRIED");
-    gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(status), "4", "IT'S COMPLICATED");
-    gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(status), "5", "IN LOVE WITH GOD");
+    level = gtk_label_new("0");
     lbl = gtk_label_new("PERSONAL DATA");
     save = gtk_button_new_with_label("SAVE");
     delete_b = gtk_button_new_with_label ("DELETE ACCOUNT");
@@ -180,7 +173,7 @@ void mx_profile_gtk(t_widget_my *widge) {
 
     //box2
     gtk_box_pack_start(GTK_BOX(box2), label, 1, 0, 5);
-    gtk_box_pack_start(GTK_BOX(box2), status, 1, 0, 5);
+    gtk_box_pack_start(GTK_BOX(box2), level, 1, 0, 5);
     gtk_box_pack_start(GTK_BOX(box2), nick, 0, 0, 1);
     gtk_box_pack_start(GTK_BOX(box2), sep_h1, 1, 0, 5);//sep
     gtk_box_pack_start(GTK_BOX(box2), nick_entry, 0, 0, 1);
@@ -210,7 +203,7 @@ void mx_profile_gtk(t_widget_my *widge) {
     widge->nickname = GTK_LABEL(nick);
     widge->birth = GTK_LABEL(birth);
     widge->fullname = GTK_LABEL(full);
-    widge->status = status;
+    widge->level = level;
     g_signal_connect(save, "clicked", G_CALLBACK(func), widge);
     g_signal_connect(delete_b, "clicked", G_CALLBACK(delete), widge);
     g_signal_connect(logout_b, "clicked", G_CALLBACK(logout), widge);
