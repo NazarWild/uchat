@@ -1,20 +1,6 @@
 #include "../inc/uchat.h"
 
-static GtkWidget *create_s_from(t_widget_my *widge, char *name_file) {
-    GdkPixbuf *sticker_img;
-    GtkWidget *sticker_icon;
-    
-    GtkWidget *b1 = gtk_button_new();
-    sticker_img = gdk_pixbuf_new_from_file(name_file, NULL);
-    sticker_img = gdk_pixbuf_scale_simple(sticker_img, 150, 150, GDK_INTERP_BILINEAR);
-    sticker_icon = gtk_image_new_from_pixbuf(sticker_img);
-    gtk_button_set_image (GTK_BUTTON(b1), sticker_icon);
-    gtk_widget_set_name(b1, "sticker");
-    gtk_widget_set_can_focus(b1, FALSE);
-    return b1;
-}
-
-void mx_sendsticker_from(char *file_name, t_widget_my *widge) {
+void mx_sendphoto_from(char *file_name, t_widget_my *widge) {
     t_message *mess_struct = malloc(sizeof(t_message));
     t_row_mess *row_mess = malloc(sizeof(t_row_mess));
 
@@ -25,7 +11,7 @@ void mx_sendsticker_from(char *file_name, t_widget_my *widge) {
 
     row_mess->label = gtk_label_new("");
 
-    mess_struct->message = create_s_from(widge, file_name);
+    mess_struct->message = create_f(widge, file_name);
 
     row_mess->box_in = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
     gtk_widget_set_size_request(row_mess->box_in, 590, 30);

@@ -27,6 +27,7 @@ void mx_photo_set(t_widget_my *widge) {
         gtk_button_set_image (GTK_BUTTON(widge->profile_photo_button), photo);
 
         widge->res_png = filename;
+
         g_free (filename);
     }
     gtk_widget_destroy (dialog);
