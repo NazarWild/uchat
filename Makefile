@@ -38,10 +38,16 @@ FILES = mx_log_in \
 	mx_delete_row \
 	mx_delete_rows \
 	mx_sticker \
-	list_pack_4_box_n_chat_id \
+	mx_unique_listbox_id \
 	mx_sendsticker_to \
 	mx_send_message \
 	mx_sendsticker_from \
+	mx_update_chat_id \
+	mx_set_cur_chat_id \
+	mx_type_of_file \
+	mx_len_of_file \
+	mx_sendphoto_from \
+	mx_sendphoto_to \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 

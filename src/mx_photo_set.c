@@ -16,7 +16,6 @@ void mx_photo_set(t_widget_my *widge) {
 
         GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
         filename = gtk_file_chooser_get_filename (chooser);
-        printf("filename = %s\n", filename);
 
         GdkPixbuf *photo_prof;
         GtkWidget *photo;
@@ -26,7 +25,8 @@ void mx_photo_set(t_widget_my *widge) {
         photo = gtk_image_new_from_pixbuf(photo_prof);
         gtk_button_set_image (GTK_BUTTON(widge->profile_photo_button), photo);
 
-        widge->res_png = filename;
+        free(widge->res_png);
+        widge->res_png = strdup(filename);
         g_free (filename);
     }
     gtk_widget_destroy (dialog);

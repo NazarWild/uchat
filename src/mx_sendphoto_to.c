@@ -1,22 +1,34 @@
 #include "../inc/uchat.h"
 
-static GtkWidget *create_s_from(t_widget_my *widge, char *name_file) {
-    GdkPixbuf *sticker_img;
-    GtkWidget *sticker_icon;
+GtkWidget *create_f(t_widget_my *widge, char *name_file) {
+    GdkPixbuf *photo_img;
+    GtkWidget *photo_icon;
+    int i;
     
     GtkWidget *b1 = gtk_button_new();
-    sticker_img = gdk_pixbuf_new_from_file(name_file, NULL);
-    sticker_img = gdk_pixbuf_scale_simple(sticker_img, 150, 150, GDK_INTERP_BILINEAR);
-    sticker_icon = gtk_image_new_from_pixbuf(sticker_img);
-    gtk_button_set_image (GTK_BUTTON(b1), sticker_icon);
+    photo_img = gdk_pixbuf_new_from_file(name_file, NULL);
+    int width_pix = gdk_pixbuf_get_width (photo_img);
+    int height_pix = gdk_pixbuf_get_height (photo_img);
+
+    if (width_pix > 300) {
+        for (i = 0; width_pix - 1 != 300; i++) {}
+        width_pix -= i;
+        height_pix -= i;
+    }
+
+    photo_img = gdk_pixbuf_scale_simple(photo_img, width_pix, height_pix, GDK_INTERP_BILINEAR);
+    photo_icon = gtk_image_new_from_pixbuf(photo_img);
+    gtk_button_set_image (GTK_BUTTON(b1), photo_icon);
     gtk_widget_set_name(b1, "sticker");
     gtk_widget_set_can_focus(b1, FALSE);
     return b1;
 }
 
-void mx_sendsticker_from(char *file_name, t_widget_my *widge) {
+void mx_sendphoto_to(char *file_name, t_widget_my *widge) {
     t_message *mess_struct = malloc(sizeof(t_message));
     t_row_mess *row_mess = malloc(sizeof(t_row_mess));
+
+    row_mess->trash = gtk_button_new();
 
     row_mess->row = gtk_list_box_row_new ();
     gtk_widget_set_size_request(row_mess->row, 590, 30);
@@ -25,7 +37,7 @@ void mx_sendsticker_from(char *file_name, t_widget_my *widge) {
 
     row_mess->label = gtk_label_new("");
 
-    mess_struct->message = create_s_from(widge, file_name);
+    mess_struct->message = create_f(widge, file_name);
 
     row_mess->box_in = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
     gtk_widget_set_size_request(row_mess->box_in, 590, 30);
@@ -35,22 +47,30 @@ void mx_sendsticker_from(char *file_name, t_widget_my *widge) {
     row_mess->box3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, TRUE);
     row_mess->box4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
 
-    row_mess->nickname = mx_name_mess_from("opoliarenk");
-    row_mess->data_box = mx_time_mess_from("22:12");
+    widge->trash_img = gdk_pixbuf_new_from_file("./img_chat/trash.png", NULL);
+    widge->trash_img = gdk_pixbuf_scale_simple(widge->trash_img, 20, 20, GDK_INTERP_BILINEAR);
+    widge->trash_icon = gtk_image_new_from_pixbuf(widge->trash_img);
+    gtk_button_set_image (GTK_BUTTON(row_mess->trash), widge->trash_icon);
+
+    row_mess->nickname = mx_name_mess_to("opoliarenk");
+    row_mess->data_box = mx_time_mess_to("22:12");
+    gtk_box_pack_start(GTK_BOX(row_mess->box), row_mess->label, 1, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box3), row_mess->nickname, 0, 0, 0);
+    gtk_box_pack_start(GTK_BOX(row_mess->box4), row_mess->trash, 0, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box4), mess_struct->message, 1, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box3), row_mess->box4, 1, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box3), row_mess->data_box, 0, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box2), row_mess->box3, 1, 0, 0);
-    gtk_box_pack_start(GTK_BOX(row_mess->box), row_mess->label, 1, 0, 0);
-
-    gtk_container_add(GTK_CONTAINER (row_mess->box_in), row_mess->box2);
     gtk_container_add_with_properties (GTK_CONTAINER (row_mess->box_in), row_mess->box, "expand", TRUE, NULL);
+    gtk_container_add(GTK_CONTAINER (row_mess->box_in), row_mess->box2);
+
     gtk_container_add (GTK_CONTAINER (row_mess->row), row_mess->box_in);
 
-    gtk_widget_set_name(row_mess->row, "row_from");
+    gtk_widget_set_name(row_mess->row, "row_to");
+    gtk_widget_set_name(row_mess->trash, "edit");
 
     gtk_widget_set_can_focus(row_mess->row, FALSE);
+    gtk_widget_set_can_focus(row_mess->trash, FALSE);
 ///////////////////////////////////////////////////////////////////////////////
     t_page *page;
     t_list_gtk *list = widge->page_list;
@@ -65,11 +85,19 @@ void mx_sendsticker_from(char *file_name, t_widget_my *widge) {
         list = list->next;
     }
 ///////////////////////////////////////////////////////////////////////////////
+    char *id_list = strdup(data_me);
+    g_object_set_data(G_OBJECT(row_mess->trash), "id_list", id_list);
+///////////////////////////////////////////////////////////////////////////////
     gtk_list_box_insert (GTK_LIST_BOX(page->list_box), row_mess->row, -1);
 
     mx_push_front_gtk(&widge->message_list, mess_struct);
 
     widge->index_mess_to = gtk_list_box_row_get_index(GTK_LIST_BOX_ROW(row_mess->row));
+
+    int i = widge->index_mess_to;
+    g_object_set_data(G_OBJECT(row_mess->trash), "index_row", (gpointer)(uintptr_t)(i));
+
+    g_signal_connect(row_mess->trash, "clicked", G_CALLBACK(mx_delete_rows), widge);
 
     gtk_widget_show_all(page->list_box);
 }

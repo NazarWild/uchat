@@ -1,5 +1,9 @@
 #include "../inc/uchat.h"
 
+static void send_deleted() {
+
+}
+
 void mx_dell_mess(cJSON *root, t_use_mutex *mutex) {
     cJSON* DELL_MESS = cJSON_GetObjectItemCaseSensitive(root, "DELL_MESS");
     cJSON* TEXT_ID = NULL;

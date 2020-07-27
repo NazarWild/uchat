@@ -6,7 +6,6 @@ static void set_zero_widge(t_widget_my *widge) {
     widge->on_profile = 0;
     widge->on_sticker = 0;
     widge->id_lb_sw = 1;
-    widge->page_list = malloc(sizeof(t_list_gtk));
     widge->message_list = malloc(sizeof(t_list_gtk));
 }
 

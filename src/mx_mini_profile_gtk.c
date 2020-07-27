@@ -1,16 +1,11 @@
 #include "../inc/uchat.h"
 
 void mx_mini_profile_gtk(t_widget_my *widge) {
-    GtkWidget *date;//label
-    GtkWidget *nick;//label
-    GtkWidget *name;//label
-    GtkWidget *status;//label
     GdkPixbuf *anon_pix;
-    GtkWidget *photo;
 
-    anon_pix = gdk_pixbuf_new_from_file("img_chat/anonym.png", NULL);
+    anon_pix = gdk_pixbuf_new_from_file(widge->res_png, NULL);
     anon_pix = gdk_pixbuf_scale_simple(anon_pix, 100, 100, GDK_INTERP_BILINEAR);
-    photo = gtk_image_new_from_pixbuf(anon_pix);
+    widge->mini_photo = gtk_image_new_from_pixbuf(anon_pix);
 
     GtkWidget *sep_h = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
     GtkWidget *sep_v = gtk_separator_new(GTK_ORIENTATION_VERTICAL);
@@ -26,19 +21,18 @@ void mx_mini_profile_gtk(t_widget_my *widge) {
     gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
     gtk_window_move(GTK_WINDOW(widge->mini_window_profile), widge->window_x + 100, widge->window_y - 160);
     // 
-    status = gtk_label_new("IN LOVE");
-    date = gtk_label_new("27.10.1999");
-    name = gtk_label_new("Дикий Назар");
-    nick = gtk_label_new("wildscorpi");
-
+    widge->mini_level = gtk_label_new("LEVEL : 0");
+    widge->mini_date = gtk_label_new("your date of birth");
+    widge->mini_name = gtk_label_new("your fullname");
+    widge->mini_nick = gtk_label_new("your nickname");
     //box2
-    gtk_box_pack_start(GTK_BOX(box2), name, 0, 0, 20);
-    gtk_box_pack_start(GTK_BOX(box2), status, 0, 0, 20);
-    gtk_box_pack_start(GTK_BOX(box2), date, 0, 0, 20);
+    gtk_box_pack_start(GTK_BOX(box2), widge->mini_name, 0, 0, 20);
+    gtk_box_pack_start(GTK_BOX(box2), widge->mini_level, 0, 0, 20);
+    gtk_box_pack_start(GTK_BOX(box2), widge->mini_date, 0, 0, 20);
     //box1
-    gtk_box_pack_start(GTK_BOX(box1), photo, 0, 0, 1);
+    gtk_box_pack_start(GTK_BOX(box1), widge->mini_photo, 0, 0, 1);
     gtk_box_pack_start(GTK_BOX(box1), sep_h, 0, 0, 1);//sep-h
-    gtk_box_pack_start(GTK_BOX(box1), nick, 1, 0, 1);
+    gtk_box_pack_start(GTK_BOX(box1), widge->mini_nick, 1, 0, 1);
     //box
     gtk_box_pack_start(GTK_BOX(box), box2, 1, 0, 1);
     gtk_box_pack_start(GTK_BOX(box), sep_v, 0, 0, 1);//sep-v

@@ -1,22 +1,6 @@
 #include "../inc/uchat.h" 
 
-// char *mx_strnew(const int size) {
-//     char *str = NULL;
-
-//     if(size < 0) {
-//         return NULL;
-//     }
-//     else {
-//         str = (char *) malloc(size + 1);
-//         for(int i = 0; i < size; i++) {
-//             str[i] = '\0';
-//         }
-//         str[size] = '\0';
-//     }
-//     return str;
-// }
-
-static char *parsing_filename(char *filename, t_widget_my *widge) {
+char *mx_parsing_filename(char *filename, t_widget_my *widge) {
     int i = strlen(filename) - 1;
 
     for (; filename[i] != '.'; i--) {}
@@ -24,15 +8,6 @@ static char *parsing_filename(char *filename, t_widget_my *widge) {
     for (; filename[i] != '/'; i--) {}
     widge->int_of_slesh = i;
     return &filename[widge->int_of_dot];
-}
-
-int mx_len_of_file(char *file) {
-    struct stat lt;
-    int file_size = 0;
-
-    stat(file, &lt);
-    file_size = lt.st_size;
-    return file_size;
 }
 
 void sending_file(t_widget_my *widge) {
@@ -54,7 +29,7 @@ static cJSON *create_json(t_widget_my *widge) {
     cJSON *send = cJSON_CreateObject();
     cJSON *IF_MESS = cJSON_CreateTrue();
     cJSON *TO = cJSON_CreateString(widge->to);
-    cJSON *TYPE = cJSON_CreateString(parsing_filename(widge->filename, widge));
+    cJSON *TYPE = cJSON_CreateString(mx_parsing_filename(widge->filename, widge));
     cJSON *MESS = cJSON_CreateString(&widge->filename[widge->int_of_slesh + 1]);
     cJSON *BYTES = cJSON_CreateNumber(widge->bytes);
     //cJSON *CHAT_ID = cJSON_CreateString(mx_itoa(widge->cur_chat_id));

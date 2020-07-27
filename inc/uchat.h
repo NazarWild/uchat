@@ -38,7 +38,15 @@ typedef struct s_row_mess {
     GtkWidget *data_box;
     GtkWidget *box4;
     GtkWidget *installbutt;
-} t_row_mess;
+}              t_row_mess;
+
+typedef struct s_profile_list {
+    char *fullname;
+    char *nickname;
+    char *birth;
+    char *status;
+    char *resource;
+}              t_profile_list;
 
 typedef struct s_message {
     GtkWidget *message;
@@ -64,13 +72,6 @@ typedef struct s_list {
     bool online;
     struct s_list *next;
 }              t_list;
-
-typedef struct s_list_box {
-    int chat_id;
-    int listbox_id;
-    int user_id;
-    struct s_list_box *next;
-}              t_list_box;
 
 typedef struct s_widget_my {
     t_list_gtk *message_list;
@@ -259,7 +260,7 @@ typedef struct s_widget_my {
     GtkWidget *fullname_entry;
     GtkWidget *nickname_entry;
     GtkWidget *birth_entry;
-    GtkWidget *status;
+    GtkWidget *level;
     GtkWidget *profile_photo_button;
     GtkWidget *man1;
     GtkWidget *man2;
@@ -282,13 +283,18 @@ typedef struct s_widget_my {
     t_list *login_id;
     char *localtime;
 
+    t_profile_list *user_profile;
+
     int chat_id;
-    int listbox_id;
-    t_list_box *chat_listbox_id;
     int cur_chat_id;
     int to_whom;
 
     SSL *ssl;
+    GtkWidget *mini_level;
+    GtkWidget *mini_date;
+    GtkWidget *mini_name;
+    GtkWidget *mini_nick;
+    GtkWidget *mini_photo;
 }              t_widget_my;
 
 int mx_log_in(char *login, char *pass, t_widget_my *widge);
@@ -332,6 +338,7 @@ bool mx_parse_sign_in(t_widget_my *widge, char *log, char *pass, char *rpt);
 
 void mx_dialog_open(t_widget_my *widge);
 char *mx_find_login_by_id(t_list *p, char *id);
+char *mx_find_id_by_login(t_list *p, char *login);
 
 char *mx_hash_to_string(unsigned char *hash);
 char *mx_hash(char *login, char *pass);
@@ -340,12 +347,6 @@ void mx_create_chat(t_page *page, t_widget_my *widge, const gchar *text);
 char *mx_itoa(int number);
 char *mx_strnew(const int size);
 
-//list_pack_4_box_n_chat_id//
-void mx_pop_front_listbox(t_list_box **head);
-void free_list_listbox(t_list_box **head);
-t_list_box *mx_create_node_listbox(int chat_id, int listtox_id, int user_id);
-void mx_push_back_listbox(t_list_box **list, int chat_id, int listbox_id, int user_id);
-//
 void *mx_memrchr(const void *s, int c, size_t n);
 
 void mx_delete_row(GtkWidget *list_box, gint index);
@@ -354,63 +355,75 @@ void mx_delete_rows(GtkWidget *widget, void *data);
 void mx_sticker(GtkWidget* widget, void *data);
 void mx_create_stick(t_widget_my *widge);
 void mx_sendsticker(GtkWidget *widget, void *data);
-int mx_log_in(char *login, char *pass, t_widget_my *widge);//auditor +
-int mx_register(char *login, char *pass, t_widget_my *widge);//auditor -
-void mx_connection(t_widget_my *widge);//auditor -
-void mx_create_widge(t_widget_my *widge);//auditor +
-void mx_login_win(t_widget_my *widge);//auditor +
-int main (int argc, char *argv[]);//auditor +
-void mx_chat_win(t_widget_my *widge);//auditor +
-void mx_message_from(t_widget_my *widge, const gchar *text);//auditor -
-void mx_message_to(t_widget_my *widge, const gchar *text);//auditor -
-void mx_create_friend(t_widget_my *widge, const gchar *text, int online, t_page *page);//auditor -
-void mx_set_images(t_widget_my *widge);//auditor +
-void mx_setting_win(GtkWidget* widget, void *dat);//auditor +
+int mx_log_in(char *login, char *pass, t_widget_my *widge);
+int mx_register(char *login, char *pass, t_widget_my *widge);
+void mx_connection(t_widget_my *widge);
+void mx_create_widge(t_widget_my *widge);
+void mx_login_win(t_widget_my *widge);
+int main (int argc, char *argv[]);
+void mx_chat_win(t_widget_my *widge);
+void mx_message_from(t_widget_my *widge, const gchar *text);
+void mx_message_to(t_widget_my *widge, const gchar *text);
+void mx_create_friend(t_widget_my *widge, const gchar *text, int online, t_page *page);
+void mx_set_images(t_widget_my *widge);
+void mx_setting_win(GtkWidget* widget, void *dat);
 
-void mx_theme_1(GtkWidget* widget, void *dat);//auditor +
-void mx_theme_2(GtkWidget* widget, void *dat);//auditor +
-void mx_theme_3(GtkWidget* widget, void *dat);//auditor +
+void mx_theme_1(GtkWidget* widget, void *dat);
+void mx_theme_2(GtkWidget* widget, void *dat);
+void mx_theme_3(GtkWidget* widget, void *dat);
 
-void mx_pop_front_gtk(t_list_gtk **head);//auditor +
-t_list_gtk *mx_create_node_gtk(void *data);//auditor +
-void mx_push_front_gtk(t_list_gtk **list, void *data);//auditor +
+void mx_pop_front_gtk(t_list_gtk **head);
+t_list_gtk *mx_create_node_gtk(void *data);
+void mx_push_front_gtk(t_list_gtk **list, void *data);
 
-void mx_remove_friend_list(t_widget_my *widge);//auditor -
-void mx_remove_mess(void *data);//auditor -
-void mx_send_file_to(t_widget_my *widge, const gchar *text);//auditor -
-void mx_send_file_from(t_widget_my *widge, const gchar *text);//auditor -
-GtkWidget *mx_time_mess_to(char *data);//auditor +
-GtkWidget *mx_name_mess_to(char *user);//auditor +
-GtkWidget *mx_time_mess_from(char *data);//auditor +
-GtkWidget *mx_name_mess_from(char *user);//auditor +
+void mx_remove_friend_list(t_widget_my *widge);
+void mx_remove_mess(void *data);
+void mx_send_file_to(t_widget_my *widge, const gchar *text);
+void mx_send_file_from(t_widget_my *widge, const gchar *text);
+GtkWidget *mx_time_mess_to(char *data);
+GtkWidget *mx_name_mess_to(char *user);
+GtkWidget *mx_time_mess_from(char *data);
+GtkWidget *mx_name_mess_from(char *user);
 
-void mx_profile_gtk(t_widget_my *widge);//auditor -
-void mx_mini_profile_gtk(t_widget_my *widge);//auditor -
-void mx_photo_set(t_widget_my *widge);//auditor -
-bool mx_parse_sign_in(t_widget_my *widge, char *log, char *pass, char *rpt);//auditor +
+void mx_profile_gtk(t_widget_my *widge);
+void mx_mini_profile_gtk(t_widget_my *widge);
+void mx_photo_set(t_widget_my *widge);
+bool mx_parse_sign_in(t_widget_my *widge, char *log, char *pass, char *rpt);
 
-void mx_dialog_open(t_widget_my *widge);//auditor -
-char *mx_find_login_by_id(t_list *p, char *id);//auditor +
+void mx_dialog_open(t_widget_my *widge);
+char *mx_find_login_by_id(t_list *p, char *id);
 
-char *mx_hash_to_string(unsigned char *hash);//auditor +
-char *mx_hash(char *login, char *pass);//auditor +
+char *mx_hash_to_string(unsigned char *hash);
+char *mx_hash(char *login, char *pass);
 
-void mx_create_chat(t_page *page, t_widget_my *widge, const gchar *text);//auditor +
-char *mx_itoa(int number);//auditor -
-char *mx_strnew(const int size);//auditor +
+void mx_create_chat(t_page *page, t_widget_my *widge, const gchar *text);
+char *mx_itoa(int number);
+char *mx_strnew(const int size);
 
-void *mx_memrchr(const void *s, int c, size_t n);//auditor +
+void *mx_memrchr(const void *s, int c, size_t n);
 
-void mx_delete_row(GtkWidget *list_box, gint index);//auditor +
-void mx_delete_rows(GtkWidget *widget, void *data);//auditor -
+void mx_delete_row(GtkWidget *list_box, gint index);
+void mx_delete_rows(GtkWidget *widget, void *data);
 
-void mx_sticker(GtkWidget* widget, void *data);//auditor +
-void mx_create_stick(t_widget_my *widge);//auditor +
-void mx_sendsticker_to(GtkWidget *widget, void *data);//auditor -
+void mx_sticker(GtkWidget* widget, void *data);
+void mx_create_stick(t_widget_my *widge);
+void mx_sendsticker_to(GtkWidget *widget, void *data);
 void mx_sendsticker_from(char *file_name, t_widget_my *widge);
+
+GtkWidget *create_f(t_widget_my *widge, char *name_file);
+void mx_sendphoto_from(char *file_name, t_widget_my *widge);
+void mx_sendphoto_to(char *file_name, t_widget_my *widge);
+
 
 void mx_send_message(GtkWidget* widget, void *dat);
 char *mx_create_json_mess(char *message, t_widget_my *widge);
+
+bool mx_unique_listbox_id(t_widget_my *widge, char *login);
+void mx_update_chat_id(t_widget_my *widge, char *login, int new_chat_id);
+void mx_set_cur_chat_id(t_widget_my *widge);
+
+char *mx_type_of_file(char *filename, t_widget_my *widge);
+int mx_len_of_file(char *file);
 
 SSL *mx_ssl(int fd);
 #endif
