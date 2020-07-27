@@ -291,7 +291,7 @@ void *Read(void *dat) {
     return (void *)0;
 }
 
-void *Update(void *dat) {
+void * Update(void *dat) {
     t_widget_my *widge = (t_widget_my *) dat;
     char *str;
     char *str1;
