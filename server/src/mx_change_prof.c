@@ -17,7 +17,7 @@ static void update1(cJSON *root, t_use_mutex *param) {
 }
 
 static void photo_upload(int fd, int bytes, t_use_mutex *param) {
-    int len;
+    int len = 0;
     char *buff = (char*)malloc(sizeof(char) * bytes);
 
     while ((len += SSL_read(param->my_ssl, buff, bytes)) < bytes)

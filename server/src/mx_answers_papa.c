@@ -35,7 +35,7 @@ void mx_answers_papa(t_use_mutex *mutex, char *mess) {
         char *new = mx_strnew(strlen(mess) - 9);
         int j = 0;
 
-        for (int i = 9; i < strlen(mess); i++) 
+        for (size_t i = 9; i < strlen(mess); i++) 
             new[j] = mess[i];
         if (strcmp(new, answ) == 0) {
             level_up(mutex);

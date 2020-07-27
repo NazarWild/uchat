@@ -6,7 +6,8 @@
 
 # text editors
 *.dms
-*.sw?
+*.s[a-v][a-z]
+*.sw[a-p]
 *.vscode
 
 # preprocessing, object, assembly, debug
@@ -14,8 +15,12 @@
 *.dSYM
 
 # out, exe
+*.a
+*.so
+*.dll
 *.out
 *.exe
+*.dylib
 
 # text files
 *.txt
@@ -26,3 +31,4 @@
 data_base.db
 uchat
 uchat_server
+!local_lib/lib/*

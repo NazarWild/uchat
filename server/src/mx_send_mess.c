@@ -41,7 +41,7 @@ void mx_send_mess(cJSON *root, t_use_mutex *mutex) { //надо отправля
         cJSON* BYTES = cJSON_GetObjectItemCaseSensitive(root, "BYTES");
         cJSON* CHAT_ID = cJSON_GetObjectItemCaseSensitive(root, "CHAT_ID");
 
-        if (strcmp("text", TYPE->valuestring) == 0) {
+        if (strcmp("text", TYPE->valuestring) == 0 || strcmp("sticker", TYPE->valuestring) == 0) {
             if (strcmp(TO->valuestring, "PAPA_BOT") == 0) {
                 mx_papa_bot(MESS, mutex);
                 return ;

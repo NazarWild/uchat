@@ -4,14 +4,14 @@ GtkWidget *create_f(t_widget_my *widge, char *name_file) {
     GdkPixbuf *photo_img;
     GtkWidget *photo_icon;
     int i;
-    
+
     GtkWidget *b1 = gtk_button_new();
     photo_img = gdk_pixbuf_new_from_file(name_file, NULL);
     int width_pix = gdk_pixbuf_get_width (photo_img);
     int height_pix = gdk_pixbuf_get_height (photo_img);
 
     if (width_pix > 300) {
-        for (i = 0; width_pix - 1 != 300; i++) {}
+        for (i = 0; width_pix - i != 300; i++) {}
         width_pix -= i;
         height_pix -= i;
     }
