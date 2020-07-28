@@ -436,6 +436,6 @@ gboolean mx_idle_show(void *widget);
 gboolean mx_idle_hide(void *widget);
 gboolean mx_idle_destroy(void *widget);
 
-
+bool mx_if_photo(char *filename, t_widget_my *widge);
 SSL *mx_ssl(int fd);
 #endif
