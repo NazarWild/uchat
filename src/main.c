@@ -27,12 +27,13 @@ static void gtk_init_func(int argc, char *argv[], t_widget_my *widge) {
     }
     mx_create_widge(widge);
     mx_login_win(widge);
-    gtk_main ();
+    gtk_main();
 }
 
 int main(int argc, char *argv[]) {
     t_widget_my *widge = (t_widget_my *)malloc(sizeof(t_widget_my));
 
+    widge->exit = 0;
     memset(widge, 0, sizeof(t_widget_my));
     if (argc == 3) {               //dodat check na pravelnist vvoda
         widge->ip = argv[1];

@@ -13,7 +13,7 @@ OBJ_DIR = obj/
 SRC = $(wildcard src/*.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
-CFLAGS = -std=c11 -pipe -g3 -fsanitize=address
+CFLAGS = -std=c11 -pipe -g3 -fsanitize=address,undefined
 
 LFLAGS = -I/usr/local/opt/openssl/include -lsqlite3 \
 	-L/usr/local/opt/openssl/lib/ -I/usr/local/opt/openssl/include \
