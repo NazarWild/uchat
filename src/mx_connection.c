@@ -210,7 +210,7 @@ bool if_mess(cJSON *js) {
 void parse_mess(cJSON *js, t_widget_my *widge) {
     cJSON *mess = cJSON_GetObjectItemCaseSensitive(js, "MESS");
     cJSON *from = cJSON_GetObjectItemCaseSensitive(js, "FROM");
-    //cJSON *TYPE = cJSON_GetObjectItemCaseSensitive(js, "TYPE");
+    cJSON *TYPE = cJSON_GetObjectItemCaseSensitive(js, "TYPE");
     cJSON *CHAT_ID = cJSON_GetObjectItemCaseSensitive(js, "CHAT_ID");
 
 
@@ -286,9 +286,9 @@ void *Read(void *dat) {
     int len;
     cJSON *json;
 
-    while(SSL_read(widge->ssl, buff, 2048)> 0) {
+    while(SSL_read(widge->ssl, buff, 2048) > 0) {
         json = cJSON_Parse(buff);
-        //printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
+        printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
         //chats
         write(1, "chats\n", strlen("chats\n"));
         if (if_chats(json))
