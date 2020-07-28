@@ -262,13 +262,11 @@ void mx_parse_chats(cJSON *json, t_widget_my *widge) {
 void *Read(void *dat) {
     t_widget_my *widge = (t_widget_my *) dat;
     char buff[2048];
-    int len;
+    // int len;
     cJSON *json;
 
-    while(1) {
-        len = SSL_read(widge->ssl, buff, 2048);
-        if (len > 0) {
-            json = cJSON_Parse(buff);
+    while(SSL_read(widge->ssl, buff, 2048) > 0) {
+        json = cJSON_Parse(buff);
         //printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
         //chats
         if (if_chats(json))
@@ -284,7 +282,6 @@ void *Read(void *dat) {
 
         bzero(buff, 2048);
         cJSON_Delete(json);
-        }
     }
     int exit;
     pthread_exit(&exit);
