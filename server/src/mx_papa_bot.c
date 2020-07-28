@@ -16,7 +16,7 @@ static void start(t_use_mutex *mutex) {
     // nachinaem cacueto zagadku proveriaya na raiting i v zavisimosti ot raitinga vivodim zagadku
     // pervaya zagadka shifr cezara
     if (mutex->lvl == 0) {
-        SSL_write(mutex->my_ssl, "{\"FROM\":\"PAPA_BOT\",\"MESS\":\"Khoor, Zruog! Dqg Zhofrph wr rxu fkdw!\",\n", 68);
+        SSL_write(mutex->my_ssl, "{\"FROM\":\"PAPA_BOT\",\"MESS\":\"TASK C.: Khoor, Zruog! Dqg Zhofrph wr rxu fkdw!\",\n", 77);
     }
 
 }
@@ -24,7 +24,7 @@ static void start(t_use_mutex *mutex) {
 static void command_false(t_use_mutex *mutex) {
     // commanda ne izvestna
     // write(mutex->cli_fd, "Chto eto za slovo?", 18);
-    SSL_write(mutex->my_ssl, "Chto eto za slovo?", 18);
+    SSL_write(mutex->my_ssl, "{\"FROM\":\"PAPA_BOT\",\"MESS\":\"Chto eto za slovo?\",\n", 49);
 }
 
 void mx_papa_bot(cJSON *MESS, t_use_mutex *mutex) { //vsegda nado budet otpravliat chto oni v etom chate ili tipa togo chtobi pisat im commands
@@ -36,6 +36,8 @@ void mx_papa_bot(cJSON *MESS, t_use_mutex *mutex) { //vsegda nado budet otpravli
         start(mutex);
     else if (strncmp(mess, "./answer:", 9) == 0) 
         mx_answers_papa(mutex, mess);
+    else if (strcmp(mess, "./random_user") == 0)
+        mx_random_user(mutex);
     else 
         command_false(mutex);
 }

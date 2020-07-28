@@ -4,13 +4,15 @@
 
 char *find_id(t_list *list, char *login) {
     t_list *p = list;
+    t_login *log = p->data;
 
     while (p) {
-        if (strcmp(p->login, login) == 0)
+        log = p->data;
+        if (mx_strcmp(log->login, login) == 0)
             break;
         p = p->next;
     }
-    return p->id;
+    return log->id;
 }
 
 static void change_pos(GtkWidget *widget, void *data) {

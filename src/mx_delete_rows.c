@@ -62,7 +62,7 @@ void mx_delete_rows(GtkWidget *widget, void *data) {
 
     char *id_list = (char *)g_object_get_data(G_OBJECT(widget), "id_list");
 
-    while (list->next != NULL) {
+    while (list) {
         page = (t_page *)list->data;
         data_me = (char*)g_object_get_data(G_OBJECT(page->list_box), "id");
         printf("{%s} {%s}\n", id_list, data_me);

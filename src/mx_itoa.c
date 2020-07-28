@@ -21,7 +21,7 @@ char *mx_itoa(int number) {
         buff = buff * (-1);
         k++;
     }
-    char *arr = (char*) malloc(sizeof(char) * k);
+    char *arr = mx_strnew(k);//(char*) malloc(sizeof(char) * k);
 
     for (int i = k - 1; i >= 0; i--) {
         arr[i] = (buff % 10) + 48;

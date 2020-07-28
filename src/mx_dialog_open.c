@@ -18,7 +18,6 @@ void sending_file(t_widget_my *widge) {
         widge->bytes = mx_len_of_file(widge->filename);
         read(stream, str, widge->bytes);
         write(widge->sockfd, str, widge->bytes);
-        //write(1, str, widge->bytes);
         close(stream);
     }
     else
@@ -48,6 +47,17 @@ static cJSON *create_json(t_widget_my *widge) {
     return send;
 }
 
+bool mx_if_photo(char *filename, t_widget_my *widge) {
+    char *type = mx_parsing_filename(filename, widge);
+
+    if (strcmp(type, ".png") == 0
+        || strcmp(type, ".jpg") == 0
+        || strcmp(type, ".jpeg") == 0
+        || strcmp(type, ".gif") == 0)
+        return true;
+    return false;
+}
+
 void mx_dialog_open(t_widget_my *widge) {
     GtkWidget *dialog;
     GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
@@ -67,12 +77,14 @@ void mx_dialog_open(t_widget_my *widge) {
         widge->bytes = mx_len_of_file(widge->filename);
         printf("bytes = %d filename = %s\n", widge->bytes, widge->filename);
 
+        if (mx_if_photo(widge->filename, widge))
+            mx_sendphoto_to(widge->filename, widge);
+        else
+            mx_send_file_to(widge, widge->filename);
         file_js = create_json(widge);
         str_js = cJSON_Print(file_js);
         SSL_write(widge->ssl, str_js, strlen(str_js));
-        //write(1, str_js, strlen(str_js));
         sending_file(widge);
-        mx_send_file_to(widge, widge->filename);
         g_free (widge->filename);
     }
     gtk_widget_destroy (dialog);

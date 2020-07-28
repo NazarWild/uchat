@@ -6,7 +6,6 @@ static void set_zero_widge(t_widget_my *widge) {
     widge->on_profile = 0;
     widge->on_sticker = 0;
     widge->id_lb_sw = 1;
-    widge->message_list = malloc(sizeof(t_list_gtk));
 }
 
 static void gtk_init_func(int argc, char *argv[], t_widget_my *widge) {
@@ -34,6 +33,7 @@ static void gtk_init_func(int argc, char *argv[], t_widget_my *widge) {
 int main(int argc, char *argv[]) {
     t_widget_my *widge = (t_widget_my *)malloc(sizeof(t_widget_my));
 
+    memset(widge, 0, sizeof(t_widget_my));
     if (argc == 3) {               //dodat check na pravelnist vvoda
         widge->ip = argv[1];
         widge->port = atoi(argv[2]);
