@@ -18,7 +18,6 @@ static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) 
     select = mx_struct_select("socket", str1, mx_callback_persons_id, &data);
     mx_select(select, mutex);
     free(str1);
-    write(1, "PROBLEM 2\n", 10);
     if (data != NULL) {
         write(1, data, strlen(data));
         send_mess(atoi(TO->valuestring), MESS->valuestring, atoi(CHAT_ID->valuestring), mutex);//atoi(TO->valuestring) //atoi(data)
@@ -27,7 +26,6 @@ static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) 
         mx_new_chat(TO, MESS, CHAT_ID, mutex);
     else // в другом случае добавляем сообщение в чат 
         mx_add_message(chat_id, MESS->valuestring, 0, mutex);
-    write(1, "PROBLEM 3\n", 10);
     free(data);
 }
 
@@ -46,7 +44,6 @@ void mx_send_mess(cJSON *root, t_use_mutex *mutex) { //надо отправля
                 mx_papa_bot(MESS, mutex);
                 return ;
             }
-            write(1, "PROBLEM 1\n", 10);
             sockets(TO, MESS, CHAT_ID, mutex);
         }
         else if (strcmp("group_text", TYPE->valuestring) == 0 
