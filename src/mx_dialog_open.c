@@ -13,15 +13,11 @@ char *mx_parsing_filename(char *filename, t_widget_my *widge) {
 void sending_file(t_widget_my *widge) {
     if(widge->filename) {
         int stream = open(widge->filename, O_RDONLY);
-        printf("here1\n");
         char str[mx_len_of_file(widge->filename)];
-        printf("here2\n");
+
         widge->bytes = mx_len_of_file(widge->filename);
-        printf("here3\n");
         read(stream, str, widge->bytes);
-        printf("here4\n");
-        SSL_write(widge->ssl, str, widge->bytes);
-        printf("here5\n");
+        write(widge->sockfd, str, widge->bytes);
         close(stream);
     }
     else

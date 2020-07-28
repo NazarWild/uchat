@@ -6,7 +6,7 @@ void check_chat(GtkWidget* widget, void *data) {
     const gchar *find_login = gtk_entry_get_text(GTK_ENTRY(widget));
     t_login *log = list->data;
 
-    while (strcmp(find_login, log->login) != 0 && list->next != NULL) {
+    while (strcmp(find_login, log->login) != 0 && list) {
         log = list->data;
         list = list->next;
     }
@@ -202,7 +202,7 @@ bool if_mess(cJSON *js) {
         return true;
     return false;
 }
-
+///TUT
 void parse_mess(cJSON *js, t_widget_my *widge) {
     cJSON *mess = cJSON_GetObjectItemCaseSensitive(js, "MESS");
     cJSON *from = cJSON_GetObjectItemCaseSensitive(js, "FROM");
@@ -212,7 +212,6 @@ void parse_mess(cJSON *js, t_widget_my *widge) {
 
     //printf("\nХТО НАПИСАВ - %s\n", mx_find_login_by_id(widge->login_id, mx_itoa(from->valueint)));
     widge->login_list = strdup(mx_find_login_by_id(widge->login_id, mx_itoa(from->valueint)));
-    printf("---------------------------------------parse mess\n");
     if (mx_unique_listbox_id(widge, widge->login_list)) {
         t_page *page = malloc(sizeof(t_page));
 
@@ -220,8 +219,8 @@ void parse_mess(cJSON *js, t_widget_my *widge) {
         //widge->chat_id = atoi(CHAT_ID->valuestring);
         mx_create_friend(widge, widge->login_list, 1, page);
     }
+    printf("MESS - [%s]\n", mess->valuestring);
     mx_message_from(widge, mess->valuestring);
-    write(1, mess->valuestring, strlen(mess->valuestring));
 }
 
 bool mx_user_status(t_list *login_id, char *id) {
@@ -287,18 +286,20 @@ void *Read(void *dat) {
             json = cJSON_Parse(buff);
         //printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
         //chats
-
+        write(1, "chats\n", strlen("chats\n"));
         if (if_chats(json))
             mx_parse_chats(json, widge);
         //online
+        write(1, "if_ONLINE\n", strlen("if_ONLINE\n"));
         if (if_online(json)) {
             free_list(&widge->login_id);
             mx_parse_whoonline(widge, json);
         }
         //mess
+        write(1, "if_mess\n", strlen("if_mess\n"));
         if (if_mess(json))
             parse_mess(json, widge);
-
+        write(1, "if_mess\n", strlen("if_mess\n"));
         bzero(buff, 2048);
         cJSON_Delete(json);
         }

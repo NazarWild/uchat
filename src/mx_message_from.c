@@ -23,7 +23,6 @@ void mx_message_from(t_widget_my *widge, const gchar *text) {
 
     row_s->nickname = mx_name_mess_from("opoliarenk");
     row_s->data_box = mx_time_mess_from("22:12");
-
     gtk_box_pack_start(GTK_BOX(row_s->box3), row_s->nickname, 0, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_s->box3), mess_struct->message, 1, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_s->box3), row_s->data_box, 0, 0, 0);
@@ -47,18 +46,16 @@ void mx_message_from(t_widget_my *widge, const gchar *text) {
     while (list) {
         page = (t_page *)list->data;
         data_me = (char*)g_object_get_data(G_OBJECT(page->list_box), "id");
-        printf("{%s} {%s}\n", widge->login_list, data_me);
-        if (strcmp(widge->login_list, data_me) == 0) {
+        printf("MESS FROM {%s} {%s}\n", widge->login_list, data_me);
+        if (mx_strcmp(widge->login_list, data_me) == 0) {
             break;
         }
         list = list->next;
     }
 ///////////////////////////////////////////////////////////////////////////////
     gtk_list_box_insert (GTK_LIST_BOX(page->list_box), row_s->row, -1);
-
     mx_push_front_gtk(&widge->message_list, mess_struct);
 
     widge->index_mess_to = gtk_list_box_row_get_index(GTK_LIST_BOX_ROW(row_s->row));
-
-    gtk_widget_show_all (page->list_box);
+    gtk_widget_show_all (page->list_box);//
 }
