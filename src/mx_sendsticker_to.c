@@ -91,5 +91,6 @@ void mx_sendsticker_to(GtkWidget *widget, void *data) {
 
     g_signal_connect(row_mess->trash, "clicked", G_CALLBACK(mx_delete_rows), widge);
 
-    gtk_widget_show_all(page->list_box);
+    gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, page->list_box);
+    // gtk_widget_show_all(page->list_box);
 }

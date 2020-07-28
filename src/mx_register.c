@@ -41,10 +41,14 @@ int mx_register(char *login, char *pass, t_widget_my *widge) {
     //read(sockfd, buff, 1024);
     // gtk_widget_hide(GTK_WIDGET(widge->name_exists));
     if (atoi(buff) == -2) {
+        // gdk_threads_add_idle ((GSourceFunc) mx_idle_show, widge->name_exists);
         gtk_widget_show(GTK_WIDGET(widge->name_exists));
         gtk_label_set_text(widge->name_exists, "REGISTER FALSE");
     }
     else {
+        // gdk_threads_add_idle ((GSourceFunc) mx_idle_hide, widge->name_exists);
+        // gdk_threads_add_idle ((GSourceFunc) mx_idle_hide, widge->win_reg);
+        // gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, widge->win_sign);
         gtk_widget_hide(GTK_WIDGET(widge->name_exists));
         gtk_widget_hide(widge->win_reg);
         gtk_widget_show_all(widge->win_sign);

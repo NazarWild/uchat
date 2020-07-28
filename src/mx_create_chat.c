@@ -32,7 +32,7 @@ t_list_gtk *mx_create_node_gtk(void *data) {
 }
 
 void mx_push_front_gtk(t_list_gtk **list, void *data) {
-    if(*list  == 0) {
+    if(*list == NULL) {
         *list = mx_create_node_gtk(data);
         return;
     }
@@ -65,5 +65,6 @@ void mx_create_chat(t_page *page, t_widget_my *widge, const gchar *text) {
 
     //printf("-%s- -- \n", (char *)g_object_get_data(G_OBJECT(page->list_box), "id"));
     g_signal_connect(page->slider_adj, "changed", G_CALLBACK(change_pos), NULL);
-    gtk_widget_show_all(widge->notebook);
+    gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, widge->notebook);
+    // gtk_widget_show_all(widge->notebook);
 }

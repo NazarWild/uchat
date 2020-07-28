@@ -210,5 +210,6 @@ void mx_profile_gtk(t_widget_my *widge) {
     g_signal_connect(png, "clicked", G_CALLBACK(set_photo), widge);
     g_signal_connect(widge->window_profile, "destroy", G_CALLBACK(profile_exit), widge);
     gtk_container_add (GTK_CONTAINER (widge->window_profile), box);
-    gtk_widget_show_all (widge->window_profile);
+    gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, widge->window_profile);
+    // gtk_widget_show_all (widge->window_profile);
 }

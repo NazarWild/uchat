@@ -69,7 +69,8 @@ void mx_send_file_from(t_widget_my *widge, const gchar *text) {
 
     mx_push_front_gtk(&widge->message_list, mess_struct);
 
-    gtk_widget_show_all (page->list_box);
+    gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, page->list_box);
+    // gtk_widget_show_all (page->list_box);
 }
 
 

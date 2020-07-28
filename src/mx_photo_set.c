@@ -29,5 +29,6 @@ void mx_photo_set(t_widget_my *widge) {
         widge->res_png = strdup(filename);
         g_free (filename);
     }
-    gtk_widget_destroy (dialog);
+    gdk_threads_add_idle ((GSourceFunc) mx_idle_destroy, dialog);
+    // gtk_widget_destroy (dialog);
 }

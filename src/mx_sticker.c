@@ -4,7 +4,8 @@
 static void hide_win(void *data) {
     t_widget_my *widge = (t_widget_my *)data;
 
-    gtk_widget_hide(widge->win_stick);
+    gdk_threads_add_idle ((GSourceFunc) mx_idle_hide, widge->win_stick);
+    // gtk_widget_hide(widge->win_stick);
     widge->on_sticker = 0;
 }
 
@@ -67,7 +68,8 @@ void mx_sticker(GtkWidget* widget, void *data) {
     gtk_window_move(GTK_WINDOW(widge->win_stick), widge->window_x, widge->window_y + 520);
     if (widge->on_sticker == 0) {
         widge->on_sticker = 1;
-        gtk_widget_show_all(widge->win_stick);
+        gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, widge->win_stick);
+        // (widge->win_stick);
     }
     else {
         hide_win(widge);

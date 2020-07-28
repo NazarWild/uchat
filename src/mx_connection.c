@@ -142,8 +142,10 @@ void theme_2(GtkWidget* widget, void *dat) {
 void theme_3(GtkWidget* widget, void *dat) {
     t_widget_my *widge = (t_widget_my *)dat;
 
-    gtk_widget_hide(widge->win_sett);
-    gtk_widget_show_all(widge->main_chat);
+    gdk_threads_add_idle ((GSourceFunc) mx_idle_hide, widge->win_sett);
+    // gtk_widget_hide(widge->win_sett);
+    gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, widge->main_chat);
+    // gtk_widget_show_all(widge->main_chat);
 }
 
 void setting_win(GtkWidget* widget, void *dat) {
@@ -152,8 +154,10 @@ void setting_win(GtkWidget* widget, void *dat) {
     g_signal_connect (widge->theme_1, "clicked", G_CALLBACK(theme_1), widge);
     g_signal_connect (widge->theme_2, "clicked", G_CALLBACK(theme_2), widge);
     g_signal_connect (widge->theme_3, "clicked", G_CALLBACK(theme_3), widge);
-    gtk_widget_hide(widge->main_chat);
-    gtk_widget_show_all(widge->win_sett);
+    gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, widge->win_sett);
+    gdk_threads_add_idle ((GSourceFunc) mx_idle_hide, widge->main_chat);
+    // gtk_widget_hide(widge->main_chat);
+    // gtk_widget_show_all(widge->win_sett);
 }
 
 char *mx_create_json_mess(char *message, t_widget_my *widge) {
@@ -211,6 +215,7 @@ void parse_mess(cJSON *js, t_widget_my *widge) {
 
 
     //printf("\nХТО НАПИСАВ - %s\n", mx_find_login_by_id(widge->login_id, mx_itoa(from->valueint)));
+    printf("mx_itoa(from) - %s\n", mx_itoa(from->valueint));
     widge->login_list = strdup(mx_find_login_by_id(widge->login_id, mx_itoa(from->valueint)));
     if (mx_unique_listbox_id(widge, widge->login_list)) {
         t_page *page = malloc(sizeof(t_page));
@@ -226,6 +231,7 @@ void parse_mess(cJSON *js, t_widget_my *widge) {
 bool mx_user_status(t_list *login_id, char *id) {
     t_list *p = login_id;
     t_login *log = p->data;
+
 
     while(p) {
         log = p->data;
@@ -297,8 +303,9 @@ void *Read(void *dat) {
         }
         //mess
         write(1, "if_mess\n", strlen("if_mess\n"));
-        if (if_mess(json))
+        if (if_mess(json)) {
             parse_mess(json, widge);
+        }
         write(1, "if_mess\n", strlen("if_mess\n"));
         bzero(buff, 2048);
         cJSON_Delete(json);
@@ -342,6 +349,7 @@ void profile(GtkWidget* widget, void *data) {
 }
 
 //////////////////
+
 gboolean show_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     GdkPixbuf *anon_pix;
@@ -356,8 +364,9 @@ gboolean show_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
     //set position for mini profile
     gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
     gtk_window_move(GTK_WINDOW(widge->mini_window_profile), widge->window_x + 100, widge->window_y - 160);
-    // 
-    gtk_widget_show (widge->mini_window_profile);
+    //
+    gtk_widget_show(widge->mini_window_profile);
+    // gdk_threads_add_idle ((GSourceFunc) mx_idle_show, widge->mini_window_profile);
     return false;
 }
 
@@ -369,6 +378,7 @@ gboolean hide_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
     gtk_window_move(GTK_WINDOW(widge->mini_window_profile), widge->window_x + 100, widge->window_y - 160);
     //
 
+    // gdk_threads_add_idle ((GSourceFunc) mx_idle_hide, widge->mini_window_profile);
     gtk_widget_hide (widge->mini_window_profile);
     return false;
 }
@@ -384,6 +394,7 @@ void mx_create_bot(t_widget_my *widge) {
     gtk_button_set_label(GTK_BUTTON(widge->who_writing), "Papa BOT");
     gtk_notebook_set_current_page(GTK_NOTEBOOK(widge->notebook), 0);
 }
+
 
 void mx_connection(t_widget_my *widge) {
     int portno;
@@ -424,6 +435,7 @@ void mx_connection(t_widget_my *widge) {
     free(str);
     //read(widge->sockfd, buff, 2048);
     SSL_read(widge->ssl, buff, 2048);
+    // gdk_threads_add_idle ((GSourceFunc) mx_idle_hide, widge->wrong_login);
     gtk_widget_hide(GTK_WIDGET(widge->wrong_login));
     if (atoi(buff) != -1) {
         mx_chat_win(widge);
@@ -445,6 +457,7 @@ void mx_connection(t_widget_my *widge) {
         pthread_create(&preg, 0, Read, widge);
     }
     else {
+        // gdk_threads_add_idle ((GSourceFunc) mx_idle_show, widge->wrong_login);
         gtk_widget_show(GTK_WIDGET(widge->wrong_login));
         gtk_label_set_text(widge->wrong_login, "WRONG LOGIN OR PASSWORD");
     }

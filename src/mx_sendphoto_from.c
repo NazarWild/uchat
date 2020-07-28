@@ -57,5 +57,6 @@ void mx_sendphoto_from(char *file_name, t_widget_my *widge) {
 
     widge->index_mess_to = gtk_list_box_row_get_index(GTK_LIST_BOX_ROW(row_mess->row));
 
-    gtk_widget_show_all(page->list_box);
+    gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, page->list_box);
+    // gtk_widget_show_all(page->list_box);
 }
