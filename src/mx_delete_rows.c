@@ -47,7 +47,8 @@ void try_function(t_widget_my *widge, GtkWidget *list_box, gint index) {
 
     mx_push_front_gtk(&widge->message_list, mess_struct);
 
-    gtk_widget_show_all(list_box);
+    gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, list_box);
+    // gtk_widget_show_all(list_box);
 }
 
 

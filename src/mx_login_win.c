@@ -6,6 +6,8 @@ void to_reg(GtkWidget* widget, void*data) {
     gtk_entry_set_text(GTK_ENTRY(widge->user_name), "");
     gtk_entry_set_text(GTK_ENTRY(widge->user_password), "");
     gtk_label_set_text(widge->wrong_login, "");
+    // gdk_threads_add_idle ((GSourceFunc) mx_idle_hide, widge->win_sign);
+    // gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, widge->win_reg);
     gtk_widget_hide(widge->win_sign);
     gtk_widget_show_all(widge->win_reg);
 }
@@ -13,10 +15,13 @@ void to_reg(GtkWidget* widget, void*data) {
 void to_sign_in(GtkWidget* widget, void*data) {
     t_widget_my *widge = (t_widget_my*)data;
 
+    // gdk_threads_add_idle ((GSourceFunc) mx_idle_hide, widge->name_exists);
     gtk_widget_hide(GTK_WIDGET(widge->name_exists));
     gtk_entry_set_text(GTK_ENTRY(widge->create_user_name), "");
     gtk_entry_set_text(GTK_ENTRY(widge->create_user_password), "");
     gtk_entry_set_text(GTK_ENTRY(widge->repeat_user_password), "");
+    // gdk_threads_add_idle ((GSourceFunc) mx_idle_hide, widge->win_reg);
+    // gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, widge->win_sign);
     gtk_widget_hide(widge->win_reg);
     gtk_widget_show_all(widge->win_sign);
 }
@@ -40,6 +45,7 @@ void to_chat(GtkWidget* widget, void *data) {
     const gchar *user_password = gtk_entry_get_text(GTK_ENTRY(widge->user_password));
 
     if (strlen(user_name) == 0 || strlen(user_password) == 0) {
+        // gdk_threads_add_idle ((GSourceFunc) mx_idle_show, widge->wrong_login);
         gtk_widget_show(GTK_WIDGET(widge->wrong_login));
         gtk_label_set_text(widge->wrong_login, "FILL ALL THE BLANK");
         gtk_entry_set_text(GTK_ENTRY(widge->repeat_user_password), "");
@@ -49,6 +55,10 @@ void to_chat(GtkWidget* widget, void *data) {
 }
 
 void mx_login_win(t_widget_my *widge) {
+    // gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, widge->window);
+    // gdk_threads_add_idle ((GSourceFunc) mx_idle_hide, widge->win_reg);
+    // gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, widge->win_sign);
+
     gtk_widget_show_all(widge->window);
     gtk_widget_hide(widge->win_reg);
     gtk_widget_show_all(widge->win_sign);

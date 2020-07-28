@@ -43,7 +43,6 @@ void p(GtkWidget* widget, void *data) {
     gtk_notebook_set_current_page(GTK_NOTEBOOK(widge->notebook), i);
 }
 
-
 void mx_online_img(t_widget_my *widge, int online, GtkWidget *button) {
     if (online == 1) {
         widge->online_img = gdk_pixbuf_new_from_file("./img_chat/plus.png", NULL);
@@ -106,6 +105,5 @@ void mx_create_friend(t_widget_my *widge, const gchar *text, int online, t_page 
     widge->id_lb_sw++;
 
     // widge->index = gtk_list_box_row_get_index(GTK_LIST_BOX_ROW(row));
-
-    gtk_widget_show_all (widge->friends);
+    gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, widge->friends);
 }

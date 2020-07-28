@@ -38,6 +38,7 @@ typedef struct s_row_mess {
     GtkWidget *data_box;
     GtkWidget *box4;
     GtkWidget *installbutt;
+    GtkWidget *message;
 }              t_row_mess;
 
 typedef struct s_profile_list {
@@ -299,6 +300,7 @@ typedef struct s_widget_my {
     GtkWidget *mini_name;
     GtkWidget *mini_nick;
     GtkWidget *mini_photo;
+    volatile int exit;
 }              t_widget_my;
 
 int mx_log_in(char *login, char *pass, t_widget_my *widge);
@@ -308,7 +310,6 @@ void mx_create_widge(t_widget_my *widge);
 void mx_login_win(t_widget_my *widge);
 int main (int argc, char *argv[]);
 void mx_chat_win(t_widget_my *widge);
-void mx_message_from(t_widget_my *widge, const gchar *text);
 void mx_message_to(t_widget_my *widge, const gchar *text);
 void mx_create_friend(t_widget_my *widge, const gchar *text, int online, t_page *page);
 void mx_set_images(t_widget_my *widge);
@@ -370,7 +371,6 @@ void mx_message_from(t_widget_my *widge, const gchar *text);
 void mx_message_to(t_widget_my *widge, const gchar *text);
 void mx_create_friend(t_widget_my *widge, const gchar *text, int online, t_page *page);
 void mx_set_images(t_widget_my *widge);
-void mx_setting_win(GtkWidget* widget, void *dat);
 
 void mx_theme_1(GtkWidget* widget, void *dat);
 void mx_theme_2(GtkWidget* widget, void *dat);
@@ -430,6 +430,12 @@ char *mx_type_of_file(char *filename, t_widget_my *widge);
 int mx_len_of_file(char *file);
 
 int mx_strcmp(char *s1, char *s2);
+
+gboolean mx_idle_showall(void *widget);
+gboolean mx_idle_show(void *widget);
+gboolean mx_idle_hide(void *widget);
+gboolean mx_idle_destroy(void *widget);
+
 
 SSL *mx_ssl(int fd);
 #endif

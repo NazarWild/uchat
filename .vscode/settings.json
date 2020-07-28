@@ -7,6 +7,7 @@
         "vector": "c",
         "malloc.h": "c",
         "sstream": "c",
-        "__mutex_base": "c"
+        "__mutex_base": "c",
+        "bitset": "c"
     }
 }

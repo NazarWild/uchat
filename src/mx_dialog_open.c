@@ -87,5 +87,6 @@ void mx_dialog_open(t_widget_my *widge) {
         sending_file(widge);
         g_free (widge->filename);
     }
-    gtk_widget_destroy (dialog);
+    gdk_threads_add_idle ((GSourceFunc) mx_idle_destroy, dialog);
+    // gtk_widget_destroy (dialog);
 }

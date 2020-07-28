@@ -39,6 +39,8 @@ void mx_mini_profile_gtk(t_widget_my *widge) {
     gtk_box_pack_start(GTK_BOX(box), box1, 1, 0, 1);
 
     gtk_container_add (GTK_CONTAINER (widge->mini_window_profile), box);
+    // gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, widge->mini_window_profile);
     gtk_widget_show_all (widge->mini_window_profile);
+    // gdk_threads_add_idle ((GSourceFunc) mx_idle_hide, widge->mini_window_profile);
     gtk_widget_hide (widge->mini_window_profile);
 }
