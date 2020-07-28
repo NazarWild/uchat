@@ -73,4 +73,5 @@ void mx_add_message(int chats_id, char *text, int type_text,
     free(time);
     free(text);
     free(lite);
+    // write(1, "OH MY GOD THIS IS SHIT WORK!\n", 29);
 }
