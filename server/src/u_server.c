@@ -80,6 +80,9 @@ int main(int argc, char *argv[]) {
     pthread_mutex_init(&mute, NULL);
     param.mutex = &mute;
 
+    //maybe del this
+    setsockopt(server_fd, SOL_SOCKET, SO_NOSIGPIPE, NULL, 0);
+    //
     mx_tables();
     if (argc > 1)
         inet_aton(argv[1], &serv_addr.sin_addr);
@@ -91,7 +94,7 @@ int main(int argc, char *argv[]) {
     serv_addr.sin_port = htons(PORT);
     if (bind(server_fd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
         perror("BINDING ERROR");
-        exit(2);
+        exit(2); 
     }
     listen(server_fd, USERS);
     SSL_CTX *ctx = mx_initserverctx();
@@ -101,9 +104,12 @@ int main(int argc, char *argv[]) {
 
     while (1) {
         if ((param.cli_fd = accept(server_fd, (struct sockaddr *) &cli_addr, (socklen_t *) &clen)) < 0) {
-            perror("ACCEPTING ERROR");
+            perror("ACCEPTING ERROR"); 
             exit(3);
         }
+        //maybe del this
+        setsockopt(param.cli_fd, SOL_SOCKET, SO_NOSIGPIPE, NULL, 0);
+        //
         ssl = SSL_new(ctx);
         SSL_set_fd(ssl, param.cli_fd);
         if (SSL_accept(ssl) == -1)     /* do SSL-protocol accept */
