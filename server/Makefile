@@ -13,10 +13,10 @@ OBJ_DIR = obj/
 SRC = $(wildcard src/*.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
-CFLAGS = -std=c11 -pipe -g3 -fsanitize=address,undefined -fno-omit-frame-pointer
+CFLAGS = -std=c11 -pipe -g3 -fsanitize=address
 
-LFLAGS = -I/usr/local/opt/openssl/include -lsqlite3 \
-	-L/usr/local/opt/openssl/lib/ -I/usr/local/opt/openssl/include \
+LFLAGS = -lsqlite3 \
+	-Ilocal_lib/include -L. -Ilocal_lib/include \
 	-lssl -lcrypto
 
 WFLAGS = -Wall -Wextra -Werror -Wpedantic -Wno-unused-command-line-argument \
@@ -34,6 +34,8 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@$(COMPILE) -o $@ -c $<
 
 $(NAME) : $(OBJ_DIR) $(OBJ)
+	@cp local_lib/lib/libcrypto.dylib .
+	@cp local_lib/lib/libssl.dylib .
 	@printf "$K$G COMPILING $R$(NAME)$D\r"
 	@$(COMPILE) $(OBJ) -o $(NAME)
 
@@ -41,7 +43,7 @@ clean:
 	@rm -rf $(OBJ_DIR)
 
 uninstall: clean
-	@rm -rf $(NAME)
+	@rm -rf $(NAME) libcrypto.dylib libssl.dylib
 
 reinstall: uninstall all
 

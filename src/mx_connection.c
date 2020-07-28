@@ -286,10 +286,8 @@ void *Read(void *dat) {
     int len;
     cJSON *json;
 
-    while(1) {
-        len = SSL_read(widge->ssl, buff, 2048);
-        if (len > 0) {
-            json = cJSON_Parse(buff);
+    while(SSL_read(widge->ssl, buff, 2048)> 0) {
+        json = cJSON_Parse(buff);
         //printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
         //chats
         write(1, "chats\n", strlen("chats\n"));
@@ -309,9 +307,9 @@ void *Read(void *dat) {
         write(1, "if_mess\n", strlen("if_mess\n"));
         bzero(buff, 2048);
         cJSON_Delete(json);
-        }
     }
     int exit;
+    widge->exit = 666;
     pthread_exit(&exit);
     return (void *)0;
 }
@@ -321,7 +319,8 @@ void *Update(void *dat) {
     char *str;
     char *str1;
 
-    while(1) {
+    while(widge->exit != 666) {
+        printf("666 = %i\n", widge->exit);
         asprintf(&str, "{\"WHO_ONLINE\": true }\n");
         SSL_write(widge->ssl, str, strlen(str));
         free(str);
@@ -330,6 +329,7 @@ void *Update(void *dat) {
         free(str1);
         sleep(5);//-----------------------------------------------------periods of update
     }
+    exit(666);
     int exit;
     pthread_exit(&exit);
     return (void *)0;
@@ -455,6 +455,7 @@ void mx_connection(t_widget_my *widge) {
         g_signal_connect (widge->sticker_pack, "clicked", G_CALLBACK(mx_sticker), widge);
         pthread_create(&preg, 0, Update, widge);
         pthread_create(&preg, 0, Read, widge);
+        printf("EXIT\n");
     }
     else {
         // gdk_threads_add_idle ((GSourceFunc) mx_idle_show, widge->wrong_login);

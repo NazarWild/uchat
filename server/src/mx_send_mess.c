@@ -18,15 +18,13 @@ static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) 
     select = mx_struct_select("socket", str1, mx_callback_persons_id, &data);
     mx_select(select, mutex);
     free(str1);
-    if (data != NULL) {
-        write(1, data, strlen(data));
+    if (data != NULL) 
         send_mess(atoi(TO->valuestring), MESS->valuestring, atoi(CHAT_ID->valuestring), mutex);//atoi(TO->valuestring) //atoi(data)
-    }
     if (chat_id == 0) //если чата не сущевствует и это новое сообщение, то создаем такой чат
         mx_new_chat(TO, MESS, CHAT_ID, mutex);
     else // в другом случае добавляем сообщение в чат 
         mx_add_message(chat_id, MESS->valuestring, 0, mutex);
-    free(data);
+    free(data); 
 }
 
 void mx_send_mess(cJSON *root, t_use_mutex *mutex) { //надо отправлять чат айди тоже

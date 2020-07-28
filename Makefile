@@ -15,8 +15,7 @@ OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 CFLAGS = -std=c11 -pipe -g3 -fsanitize=address
 
-LFLAGS = -I/usr/local/opt/openssl/include -lsqlite3 \
-	-L/usr/local/opt/openssl/lib/ -I/usr/local/opt/openssl/include \
+LFLAGS = -lsqlite3 \
 	-lssl -lcrypto -lpthread `pkg-config --libs --cflags gtk+-3.0` \
 	-Ilocal_lib/include -L. -Ilocal_lib/include
 

@@ -300,6 +300,7 @@ typedef struct s_widget_my {
     GtkWidget *mini_name;
     GtkWidget *mini_nick;
     GtkWidget *mini_photo;
+    volatile int exit;
 }              t_widget_my;
 
 int mx_log_in(char *login, char *pass, t_widget_my *widge);
