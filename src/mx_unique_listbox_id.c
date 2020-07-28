@@ -8,11 +8,9 @@ bool mx_unique_listbox_id(t_widget_my *widge, char *login) {
     while (list) {
         page = (t_page *)list->data;
         data_me = (char *)g_object_get_data(G_OBJECT(page->list_box), "id");
-        printf("data me - %s login - %s\n", data_me, login);
         if (mx_strcmp(login, data_me) == 0)
             return false;
         list = list->next;
     }
-    printf("hui\n");
     return true;
 }

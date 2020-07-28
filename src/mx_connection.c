@@ -4,15 +4,17 @@ void check_chat(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
     t_list *list = widge->login_id;
     const gchar *find_login = gtk_entry_get_text(GTK_ENTRY(widget));
+    t_login *log = list->data;
 
-    while (strcmp(find_login, list->login) != 0 && list->next != NULL) {
+    while (strcmp(find_login, log->login) != 0 && list->next != NULL) {
+        log = list->data;
         list = list->next;
     }
-    if (strcmp(find_login, list->login) == 0) {
+    if (strcmp(find_login, log->login) == 0) {
         t_page *page = malloc(sizeof(t_page));
 
         widge->chat_id = 0;
-        mx_create_friend(widge, list->login, list->online, page);
+        mx_create_friend(widge, log->login, log->online, page);
         gtk_entry_set_text(GTK_ENTRY(widget), "");
         ////////////////////////////////////////////////////////////////////////
     }
@@ -22,57 +24,50 @@ void check_chat(GtkWidget* widget, void *data) {
     }
 }
 
-void mx_pop_front(t_list **head) {
-    t_list *cur = *head;
-
-    if (cur->next == NULL) {
-        if (malloc_size(*head))
-            free(*head);
-        *head = NULL;
-    }
-    cur = cur->next;
-    if (malloc_size(*head))
-        free(*head);
-    *head = cur;
-    cur = NULL;
-}
-
-static void free_list(t_list **list) {
-    t_list *old = 0;
-
-    for (t_list *new = *list; new != 0; new = old) {
-        old = new->next;
-        if (malloc_size(new->login))
-            free(new->login);
-        if (malloc_size(new->id))
-            free(new->id);
-        mx_pop_front(&new);
-    }
-}
-
-t_list *mx_create_node(char *login, char *id, int online) {
+t_list *mx_create_node(void *data) {
     t_list *head = NULL;
 
     head = malloc(sizeof(t_list));
     if (head == NULL)
         return 0;
-    
-    head->login = strdup(login);
-    head->id = strdup(id);
-    head->online = online;
+    head->data = data;
     head->next = NULL;
     return head;
 }
 
-void mx_push_front(t_list **list, char *login, char *id, int online) {
+void mx_push_front(t_list **list, void *data) {
     t_list *tmp = *list;
 
     if (*list == 0) {
-        *list = mx_create_node(login, id, online);
+        *list = mx_create_node(data);
         return;
     }
-    *list = mx_create_node(login, id, online);
+    *list = mx_create_node(data);
     (*list)->next = tmp;
+}
+
+static void push(t_widget_my *widge, char *login, char *id, int online) {
+    t_login *log = malloc(sizeof(t_login));
+    log->login = strdup(login);
+    log->id = strdup(id);
+    log->online = online;
+
+    mx_push_front(&widge->login_id, log);
+}
+
+static void free_list(t_list **list) {
+    t_list *old = 0;
+    t_login *log = 0;
+
+    for (t_list *new = *list; new != 0; new = old) {
+        log = new->data;
+        old = new->next;
+        free(log->login);
+        free(log->id);
+        free(log);
+        free(new);
+        // mx_pop_front(&new);
+    }
 }
 
 void mx_parse_whoonline(t_widget_my *widge, cJSON *json) {
@@ -82,8 +77,9 @@ void mx_parse_whoonline(t_widget_my *widge, cJSON *json) {
     cJSON *login;
     cJSON *online;
 
+    widge->login_id = 0;
     write(1, "=======USERS=======\n\n", strlen("===================\n\n"));
-    cJSON_ArrayForEach(peoples, user) { 
+    cJSON_ArrayForEach(peoples, user) {
         login = cJSON_GetObjectItemCaseSensitive(peoples, "login");
         user_id = cJSON_GetObjectItemCaseSensitive(peoples, "user_id");
         online = cJSON_GetObjectItemCaseSensitive(peoples, "online");
@@ -91,7 +87,7 @@ void mx_parse_whoonline(t_widget_my *widge, cJSON *json) {
         write(1, "=======USER=======\n", strlen("===================\n"));
         printf("LOGIN : %s\nID = %s\nONLINE = %d\n", login->valuestring, user_id->valuestring, online->valueint);
         write(1, "==================\n", strlen("==================\n"));
-        mx_push_front(&widge->login_id, login->valuestring, user_id->valuestring, online->valueint);
+        push(widge, login->valuestring, user_id->valuestring, online->valueint);
     }
     write(1, "=====================\n\n", strlen("=====================\n\n"));
 }
@@ -230,10 +226,12 @@ void parse_mess(cJSON *js, t_widget_my *widge) {
 
 bool mx_user_status(t_list *login_id, char *id) {
     t_list *p = login_id;
+    t_login *log = p->data;
 
     while(p) {
-        if (mx_strcmp(id, p->id) == 0)
-            return p->online;
+        log = p->data;
+        if (mx_strcmp(id, log->id) == 0)
+            return log->online;
         p = p->next;
     }
     return false;
@@ -265,7 +263,6 @@ void mx_parse_chats(cJSON *json, t_widget_my *widge) {
             }
             // printf("\nme[%s] --- him[%s]\n", widge->login, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)));
             // printf("=====================\n");
-            mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom));
             if (mx_unique_listbox_id(widge, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)))) {
                 t_page *page = malloc(sizeof(t_page));
 
@@ -332,10 +329,12 @@ void *Update(void *dat) {
 
 void profile(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
+    t_login *log = 0;
 
     if (widge->on_profile == 0) {
         t_list *p = widge->login_id;
 
+        log = p->data;
         widge->on_profile = 1;
         mx_profile_gtk(widge);
     }
@@ -409,8 +408,7 @@ void mx_connection(t_widget_my *widge) {
     
     bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
-    //bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
-    strncpy ((char *)&serv_addr.sin_addr.s_addr, (char *)server->h_addr, server->h_length );
+    inet_aton(widge->ip, &serv_addr.sin_addr);
     serv_addr.sin_port = htons(portno);
 
 

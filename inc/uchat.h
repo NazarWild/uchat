@@ -67,11 +67,15 @@ typedef struct s_list_gtk {
 }              t_list_gtk;
 
 typedef struct s_list {
+    void *data;
+    struct s_list *next;
+}              t_list;
+
+typedef struct s_login {
     char *login;
     char *id;
     bool online;
-    struct s_list *next;
-}              t_list;
+}              t_login;
 
 typedef struct s_widget_my {
     t_list_gtk *message_list;
