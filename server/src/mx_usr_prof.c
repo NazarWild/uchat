@@ -1,6 +1,6 @@
 #include "../inc/uchat.h"
 
-static char *theme_lang(cJSON *root, t_use_mutex *mutex) {
+static char *theme_nick(cJSON *root, t_use_mutex *mutex) {
     char *tmp = NULL;
     char *tmp1 = NULL;
     char *request = NULL;
@@ -10,10 +10,10 @@ static char *theme_lang(cJSON *root, t_use_mutex *mutex) {
     asprintf(&request, "persons_id WHERE users_id = %d", USR_ID->valueint);
     select = mx_struct_select("theme", request, mx_callback_persons_id, tmp);
     mx_select(select, mutex);
-    select = mx_struct_select("language", request, mx_callback_persons_id, tmp1);
+    select = mx_struct_select("nickname", request, mx_callback_persons_id, tmp1);
     mx_select(select, mutex);
     free(request);
-    asprintf(&request, "{\"THEME\":\"%s\",\"LANGUAGE\":\"%s\",", tmp, tmp1);
+    asprintf(&request, "{\"THEME\":\"%s\",\"NICKNAME\":\"%s\",", tmp, tmp1);
     free(tmp1);
     free(tmp);
     return request;
@@ -82,7 +82,7 @@ void mx_usr_prof(cJSON *root, t_use_mutex *mutex) {
     char *tmp1 = NULL;
 
     if (cJSON_IsTrue(USR_PROF) == 1) {
-        data = theme_lang(root, mutex);
+        data = theme_nick(root, mutex);
         tmp1 = stat_level(root, mutex);
         tmp = mx_strjoin(data, tmp1);
         free(data);
