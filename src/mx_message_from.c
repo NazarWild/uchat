@@ -44,7 +44,7 @@ void mx_message_from(t_widget_my *widge, const gchar *text) {
     t_page *page;
     t_list_gtk *list = widge->page_list;
     char *data_me;
-    while (list->next != NULL) {
+    while (list) {
         page = (t_page *)list->data;
         data_me = (char*)g_object_get_data(G_OBJECT(page->list_box), "id");
         printf("{%s} {%s}\n", widge->login_list, data_me);

@@ -425,5 +425,7 @@ void mx_set_cur_chat_id(t_widget_my *widge);
 char *mx_type_of_file(char *filename, t_widget_my *widge);
 int mx_len_of_file(char *file);
 
+int mx_strcmp(char *s1, char *s2);
+
 SSL *mx_ssl(int fd);
 #endif
