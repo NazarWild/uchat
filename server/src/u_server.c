@@ -5,28 +5,28 @@ static bool parse_object(cJSON *root, t_use_mutex *param) {
     // если дескриптор -1, то пользователь не в сети и буду записывать в бд сообщение сразу 
     // после чего как только он зайдет надо будет подгружать сообщения 
 
-    //show who online
+    // show who online
     mx_whoonline(root, param);
 
     // отсылаю новые и старые чаты 
     mx_chats_send(root, param);
 
-    //тут буду отсылать последние сообщение по запросу пользователя с их текст-айдишниками
-    //mx_slast_mess(root, param);
+    // тут буду отсылать последние сообщение по запросу пользователя с их текст-айдишниками
+    // mx_slast_mess(root, param);
 
-    //на изменение сообщения
-    //mx_change_mess(root, param);
+    // на изменение сообщения
+    // mx_change_mess(root, param);
 
-    //на удаление сообщения
+    // на удаление сообщения
     // mx_dell_mess();
 
-    //sending info about user which you want
-    //mx_usr_prof(root, param);
+    // sending info about user which you want
+    // mx_usr_prof(root, param);
 
     // changing my profile
-    //mx_change_prof(root, param);
+    // mx_change_prof(root, param);
 
-    //delete account 
+    // delete account 
     if (mx_delete(param, root) == true)
         return false;
 
