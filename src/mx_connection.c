@@ -329,6 +329,7 @@ void *Update(void *dat) {
         free(str1);
         sleep(5);//-----------------------------------------------------periods of update
     }
+    printf("666 end\n");
     exit(666);
     int exit;
     pthread_exit(&exit);

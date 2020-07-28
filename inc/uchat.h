@@ -431,10 +431,10 @@ int mx_len_of_file(char *file);
 
 int mx_strcmp(char *s1, char *s2);
 
-void mx_idle_showall(void *widget);
-void mx_idle_show(void *widget);
-void mx_idle_hide(void *widget);
-void mx_idle_destroy(void *widget);
+gboolean mx_idle_showall(void *widget);
+gboolean mx_idle_show(void *widget);
+gboolean mx_idle_hide(void *widget);
+gboolean mx_idle_destroy(void *widget);
 
 
 SSL *mx_ssl(int fd);

@@ -1,19 +1,23 @@
 #include "../inc/uchat.h"
 
-void mx_idle_showall(void *widget) {
+gboolean mx_idle_showall(void *widget) {
     gtk_widget_show_all((GtkWidget *)widget);//
+    return false;
 }
 
-void mx_idle_hide(void *widget) {
+gboolean mx_idle_hide(void *widget) {
     gtk_widget_hide((GtkWidget *)widget);//
+    return false;
 }
 
-void mx_idle_show(void *widget) {
+gboolean mx_idle_show(void *widget) {
     gtk_widget_show((GtkWidget *)widget);//
+    return false;
 }
 
-void mx_idle_destroy(void *widget) {
+gboolean mx_idle_destroy(void *widget) {
     gtk_widget_destroy((GtkWidget *)widget);//
+    return false;
 }
 
 void mx_message_from(t_widget_my *widge, const gchar *text) {

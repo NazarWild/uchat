@@ -13,7 +13,7 @@ OBJ_DIR = obj/
 SRC = $(wildcard src/*.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
-CFLAGS = -std=c11 -pipe -g3 -fsanitize=address
+CFLAGS = -std=c11 #-pipe -g3 -fsanitize=address
 
 LFLAGS = -lsqlite3 \
 	-lssl -lcrypto -lpthread `pkg-config --libs --cflags gtk+-3.0` \
