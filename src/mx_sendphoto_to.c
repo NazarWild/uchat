@@ -4,7 +4,7 @@ GtkWidget *create_f(t_widget_my *widge, char *name_file) {
     GdkPixbuf *photo_img;
     GtkWidget *photo_icon;
     int i;
-    
+
     GtkWidget *b1 = gtk_button_new();
     photo_img = gdk_pixbuf_new_from_file(name_file, NULL);
     int width_pix = gdk_pixbuf_get_width (photo_img);
@@ -14,7 +14,7 @@ GtkWidget *create_f(t_widget_my *widge, char *name_file) {
         photo_img = gdk_pixbuf_scale_simple(photo_img, width_pix, height_pix, GDK_INTERP_BILINEAR);
     else
         photo_img = gdk_pixbuf_scale_simple(photo_img, 300, 300, GDK_INTERP_BILINEAR);
-
+    
     photo_icon = gtk_image_new_from_pixbuf(photo_img);
 
     gtk_button_set_image (GTK_BUTTON(b1), photo_icon);

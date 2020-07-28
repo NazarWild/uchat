@@ -44,6 +44,7 @@ void mx_tables() {
                     "level INT, "
                     "photo TEXT,"
                     "fullname TEXT,"
+                    "nickname TEXT,"
                     "date_of_birthd TEXT");
     mx_create_table("users_chat",
                     "users_id INT, "

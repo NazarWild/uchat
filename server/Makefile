@@ -1,72 +1,48 @@
+CC = clang
 NAME = uchat_server
 
-FILES = u_server \
-		cJSON \
-		mx_create_table \
-		mx_sqlite \
-		mx_registr \
-		mx_sign_in_error \
-		mx_pass_connect \
-		mx_creating \
-		mx_send_mess \
-		mx_itoa \
-		mx_list \
-		mx_whoonline \
-		mx_add_mess \
-		mx_papa_bot \
-		mx_delete \
-		mx_delete_socket \
-		mx_free_online \
-		mx_file_type \
-		mx_strjoin \
-		mx_strnew \
-		mx_chats_send \
-		mx_list_last_users_messeges \
-		mx_answers_papa \
-		mx_new_chat \
-		mx_group_chat \
-		mx_send_group \
-		mx_ssl \
-		mx_search_ssl \
-		mx_prof_photo \
-		mx_usr_prof \
-		mx_history \
-		mx_select \
-		mx_where_not_1 \
-		mx_slast_mess \
-		mx_change_mess \
+R = \033[1;91m
+G = \033[1;92m
+B = \033[1;94m
+D = \033[0m
+K = \033[K
 
-SRC_PREFFIX = $(addprefix src/, $(FILES))
+SRC_DIR = src/
+OBJ_DIR = obj/
 
-HEADER = inc/uchat.h
+SRC = $(wildcard src/*.c)
+OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
-DEL_SRC = $(addsuffix .c, $(FILES))
+CFLAGS = -std=c11 -pipe -g3 -fsanitize=address,undefined -fno-omit-frame-pointer
 
-SRC = $(addsuffix .c, $(SRC_PREFFIX))
+LFLAGS = -I/usr/local/opt/openssl/include -lsqlite3 \
+	-L/usr/local/opt/openssl/lib/ -I/usr/local/opt/openssl/include \
+	-lssl -lcrypto
 
-SRC_COMPILE = $(addsuffix .c, $(SRC_PREFFIX))
+WFLAGS = -Wall -Wextra -Werror -Wpedantic -Wno-unused-command-line-argument \
+	-Wno-unused-variable -Wno-unused-function -Wno-unused-parameter
 
-OBJ = $(addsuffix .o, $(FILES))
+COMPILE = $(CC) $(CFLAGS) $(LFLAGS) $(WFLAGS)
 
-CFLAGS = -std=c11
+all: $(NAME)
 
-all: install
+$(OBJ_DIR):
+	@mkdir $@
 
-install: $(NAME)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@printf "$K$G COMPILING $B$(<:$(SRC_DIR)%=%)$D\r"
+	@$(COMPILE) -o $@ -c $<
 
-$(NAME) : $(SRC) $(INC)
-	@clang $(CFLAGS) -c $(SRC_COMPILE) -I/usr/local/opt/openssl/include 
-	@clang $(CFLAGS) $(OBJ) -o $(NAME) -l sqlite3 \
-		-L/usr/local/opt/openssl/lib/ -I/usr/local/opt/openssl/include \
-			-lssl -lcrypto
-	@mkdir -p obj
-	@cp $(OBJ) obj/
-	@rm -rf $(OBJ)
+$(NAME) : $(OBJ_DIR) $(OBJ)
+	@printf "$K$G COMPILING $R$(NAME)$D\r"
+	@$(COMPILE) $(OBJ) -o $(NAME)
+
+clean:
+	@rm -rf $(OBJ_DIR)
 
 uninstall: clean
 	@rm -rf $(NAME)
 
-clean:
-	@rm -rf obj
+reinstall: uninstall all
 
-reinstall: uninstall install
+.PHONY: all clean uninstall reinstall

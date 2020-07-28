@@ -51,7 +51,7 @@ void mx_slast_mess(cJSON *root, t_use_mutex *param) {
     cJSON* CHAT_ID = cJSON_GetObjectItemCaseSensitive(root, "CHAT_ID");
     t_list *l = NULL;
 
-    if (cJSON_IsTrue(if_mess) == 1) {
+    if (cJSON_IsTrue(if_mess) == 1 && atoi(CHAT_ID->valuestring) != 0) {
         l = mx_history_chat(atoi(CHAT_ID->valuestring), param);
         send_json_mess(l, param);
     }
