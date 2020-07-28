@@ -13,7 +13,8 @@ static int count_of_mess(t_list *p) {
 static void send_r(cJSON *root, t_use_mutex *param) {
     char *str = cJSON_Print(root);
 
-    write(param->cli_fd, str, strlen(str));
+    //write(param->cli_fd, str, strlen(str));
+    SSL_write(param->my_ssl, str, strlen(str));
 }
 
 static void add_l(t_history *hstr, cJSON *obj) {

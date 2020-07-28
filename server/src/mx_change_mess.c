@@ -10,7 +10,7 @@ static void sending(char *str, cJSON *root, t_use_mutex *param) {
     select = mx_struct_select("socket", str1, mx_callback_persons_id, &data);
     mx_select(select, param);
     if (data != NULL)
-        write(atoi(data), str, strlen(str));
+        SSL_write(param->my_ssl, str, strlen(str));
 }
 
 static void send_new_mess(cJSON *root, t_use_mutex *param) {

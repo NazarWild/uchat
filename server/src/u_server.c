@@ -32,15 +32,13 @@ static bool parse_object(cJSON *root, t_use_mutex *param) {
 
     //send mess and adding to db/ and PAPA_BOT
     mx_send_mess(root, param);
-
-    cJSON_Delete(root);
     return true;
 }
 
 static void *some_sending(void *parametr) {
     t_use_mutex *param = (t_use_mutex *) malloc(sizeof(t_use_mutex));
     t_use_mutex *tmp = (t_use_mutex *) parametr;
-    char buff[2048];
+    char buff[4096];
     int ret = 0;
     cJSON* request_json = NULL;
 
@@ -55,17 +53,16 @@ static void *some_sending(void *parametr) {
     //posle chego podgrugat vse chati, to est CHATS:
     // сделать тут как отсылаю пользователю его профиль
 
-    // my profile 
-    // tut sdelau 
-
-    while (SSL_read(param->my_ssl, buff, 2048) > 0) {
+    while (SSL_read(param->my_ssl, buff, 4096) > 0) {
         request_json = cJSON_Parse(buff);
         if (parse_object(request_json, param) == false) {
+            cJSON_Delete(request_json);
             break;
         }
-        bzero(buff, 2048);
+        bzero(buff, 4096);
     }
     mx_delete_socket(param);
+    free(param);
     printf("EXIT FROM THREAD\n");
     pthread_exit(&ret);
 }

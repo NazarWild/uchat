@@ -21,7 +21,7 @@
 #include <sys/stat.h>
 
 #define PORT 6969
-#define USERS 200
+#define USERS 2000
 typedef struct s_list {
     void *data;
     struct s_list *next;

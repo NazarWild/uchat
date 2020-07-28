@@ -16,7 +16,7 @@ static void level_up(t_use_mutex *mutex) {
     mx_set_value("persons_id", mass, str, mutex);
     free(mass);
     free(str);
-    write(mutex->cli_fd, "{\"FROM\":\"PAPA_BOT\",\"MESS\":\"YEAH! RIGHT ANSWER!\",\n", 49);
+    SSL_write(mutex->my_ssl, "{\"FROM\":\"PAPA_BOT\",\"MESS\":\"YEAH! RIGHT ANSWER!\",\n", 49);
 }
 
 void mx_answers_papa(t_use_mutex *mutex, char *mess) {
@@ -29,6 +29,7 @@ void mx_answers_papa(t_use_mutex *mutex, char *mess) {
     mx_select(select, mutex);
     free(new);
     mutex->lvl = atoi(data);
+    free(data);
     // poluchaem iz db raiting 
     if (mutex->lvl == 0) { 
         char answ[] = "Hello, World! And Welcome to our chat!";

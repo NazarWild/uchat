@@ -17,7 +17,7 @@ bool mx_delete(t_use_mutex *param, cJSON *root) {
     if (cJSON_IsTrue(delete) == 1) {
         //zapros na udalenie danih SQL
         deleteing_request(root, param);
-        write(param->cli_fd, "Your account was succesful deleted", 35);//pishem chto account udachno udalen
+        SSL_write(param->my_ssl, "Your account was succesful deleted", 35);//pishem chto account udachno udalen
         return true;
     }
     return false;

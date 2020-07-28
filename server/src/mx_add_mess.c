@@ -60,11 +60,15 @@ void mx_add_message(int chats_id, char *text, int type_text,
     char *time;
     t_sqlite *lite = malloc(sizeof(t_sqlite) * 1);
 
+    write(1, "OH MY GOD THIS SHIT STARTED WORK!\n", 34);
     text = mx_parse_str(text);
+    write(1, "AFTER PARSING\n", 14);
     lite->data = &time;
     lite->callback = mx_callback_persons_id;
     lite->sql = "SELECT datetime('now','localtime');";
+    write(1, "CREATING COPY FOR LITE\n", 23);
     mx_sqlite(lite, mutex);
+    write(1, "AFTER SOME PROBLEM WITH MX_SQLITE\n", 34);
     asprintf(&sql, "%i, %i, '%s', %i, '%s'", mutex->user_id, chats_id, text,
             type_text, time);
     mx_add_to_table("messeges", "users_id, chats_id, text, type_text, time",
@@ -73,5 +77,5 @@ void mx_add_message(int chats_id, char *text, int type_text,
     free(time);
     free(text);
     free(lite);
-    // write(1, "OH MY GOD THIS IS SHIT WORK!\n", 29);
+    write(1, "OH MY GOD THIS IS SHIT WORK!\n", 29);
 }
