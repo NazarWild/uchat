@@ -48,6 +48,7 @@ FILES = mx_log_in \
 	mx_len_of_file \
 	mx_sendphoto_from \
 	mx_sendphoto_to \
+	mx_strcmp \
 
 SRC_PREFFIX = $(addprefix src/, $(FILES))
 
@@ -63,7 +64,7 @@ OBJ = $(addsuffix .o, $(FILES))
 
 CFLAGS = -std=c11 `pkg-config --cflags gtk+-3.0`  #`pkg-config --libs gtk+-3.0`
 
-OFLAGS = `pkg-config --libs gtk+-3.0` -lpthread
+OFLAGS = `pkg-config --libs gtk+-3.0` -lpthread -fsanitize=address,undefined -g3 -fno-omit-frame-pointer
 
 all: install
 

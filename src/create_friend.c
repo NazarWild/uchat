@@ -6,7 +6,7 @@ char *find_id(t_list *list, char *login) {
     t_list *p = list;
 
     while (p) {
-        if (strcmp(p->login, login) == 0)
+        if (mx_strcmp(p->login, login) == 0)
             break;
         p = p->next;
     }

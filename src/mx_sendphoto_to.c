@@ -10,14 +10,13 @@ GtkWidget *create_f(t_widget_my *widge, char *name_file) {
     int width_pix = gdk_pixbuf_get_width (photo_img);
     int height_pix = gdk_pixbuf_get_height (photo_img);
 
-    if (width_pix > 300) {
-        for (i = 0; width_pix - 1 != 300; i++) {}
-        width_pix -= i;
-        height_pix -= i;
-    }
+    if (width_pix < 400)
+        photo_img = gdk_pixbuf_scale_simple(photo_img, width_pix, height_pix, GDK_INTERP_BILINEAR);
+    else
+        photo_img = gdk_pixbuf_scale_simple(photo_img, 300, 300, GDK_INTERP_BILINEAR);
 
-    photo_img = gdk_pixbuf_scale_simple(photo_img, width_pix, height_pix, GDK_INTERP_BILINEAR);
     photo_icon = gtk_image_new_from_pixbuf(photo_img);
+
     gtk_button_set_image (GTK_BUTTON(b1), photo_icon);
     gtk_widget_set_name(b1, "sticker");
     gtk_widget_set_can_focus(b1, FALSE);
@@ -75,10 +74,9 @@ void mx_sendphoto_to(char *file_name, t_widget_my *widge) {
     t_page *page;
     t_list_gtk *list = widge->page_list;
     char *data_me;
-    while (list->next != NULL) {
+    while (list) {
         page = (t_page *)list->data;
         data_me = (char*)g_object_get_data(G_OBJECT(page->list_box), "id");
-        printf("{%s} {%s}\n", widge->login_list, data_me);
         if (strcmp(widge->login_list, data_me) == 0) {
             break;
         }

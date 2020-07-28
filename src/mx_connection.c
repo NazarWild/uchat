@@ -23,41 +23,56 @@ void check_chat(GtkWidget* widget, void *data) {
 }
 
 void mx_pop_front(t_list **head) {
-    t_list *first = *head;
-    *head = (*head)->next;
-    free(first->login);
-    free(first->id);
-    first->login = NULL;
-    first->id = NULL;
+    t_list *cur = *head;
+
+    if (cur->next == NULL) {
+        if (malloc_size(*head))
+            free(*head);
+        *head = NULL;
+    }
+    cur = cur->next;
+    if (malloc_size(*head))
+        free(*head);
+    *head = cur;
+    cur = NULL;
 }
 
-void free_list(t_list **head) {
-    while(*head)
-        mx_pop_front(head);
+static void free_list(t_list **list) {
+    t_list *old = 0;
+
+    for (t_list *new = *list; new != 0; new = old) {
+        old = new->next;
+        if (malloc_size(new->login))
+            free(new->login);
+        if (malloc_size(new->id))
+            free(new->id);
+        mx_pop_front(&new);
+    }
 }
 
 t_list *mx_create_node(char *login, char *id, int online) {
-    t_list *node = (t_list *) malloc(sizeof(t_list));
+    t_list *head = NULL;
 
-    node->login = strdup(login);
-    node->id = strdup(id);
-    node->online = online;
-    node->next = NULL;  
-    return node;
+    head = malloc(sizeof(t_list));
+    if (head == NULL)
+        return 0;
+    
+    head->login = strdup(login);
+    head->id = strdup(id);
+    head->online = online;
+    head->next = NULL;
+    return head;
 }
 
-void mx_push_back(t_list **list, char *login, char *id, int online){
-    if(*list == NULL) {
+void mx_push_front(t_list **list, char *login, char *id, int online) {
+    t_list *tmp = *list;
+
+    if (*list == 0) {
         *list = mx_create_node(login, id, online);
         return;
     }
-    t_list *copy = *list;
-
-    while(copy->next != NULL) {
-        copy = copy->next;
-    }
-    copy->next = mx_create_node(login, id, online);
-    copy = copy->next;
+    *list = mx_create_node(login, id, online);
+    (*list)->next = tmp;
 }
 
 void mx_parse_whoonline(t_widget_my *widge, cJSON *json) {
@@ -76,7 +91,7 @@ void mx_parse_whoonline(t_widget_my *widge, cJSON *json) {
         write(1, "=======USER=======\n", strlen("===================\n"));
         printf("LOGIN : %s\nID = %s\nONLINE = %d\n", login->valuestring, user_id->valuestring, online->valueint);
         write(1, "==================\n", strlen("==================\n"));
-        mx_push_back(&widge->login_id, login->valuestring, user_id->valuestring, online->valueint);
+        mx_push_front(&widge->login_id, login->valuestring, user_id->valuestring, online->valueint);
     }
     write(1, "=====================\n\n", strlen("=====================\n\n"));
 }
@@ -96,6 +111,7 @@ void mx_papa_bot(GtkWidget* widget, void *data) {
     int i;
 
     //mx_set_mini_profile();
+    widge->to = strdup("PAPA_BOT");
     widge->login_list = strdup(login);
     gtk_button_set_label (GTK_BUTTON(widge->who_writing), login);
 
@@ -200,6 +216,7 @@ void parse_mess(cJSON *js, t_widget_my *widge) {
 
     //printf("\nХТО НАПИСАВ - %s\n", mx_find_login_by_id(widge->login_id, mx_itoa(from->valueint)));
     widge->login_list = strdup(mx_find_login_by_id(widge->login_id, mx_itoa(from->valueint)));
+    printf("---------------------------------------parse mess\n");
     if (mx_unique_listbox_id(widge, widge->login_list)) {
         t_page *page = malloc(sizeof(t_page));
 
@@ -215,7 +232,7 @@ bool mx_user_status(t_list *login_id, char *id) {
     t_list *p = login_id;
 
     while(p) {
-        if (strcmp(id, p->id) == 0)
+        if (mx_strcmp(id, p->id) == 0)
             return p->online;
         p = p->next;
     }
@@ -244,9 +261,11 @@ void mx_parse_chats(cJSON *json, t_widget_my *widge) {
             cJSON_ArrayForEach(arr_2, who_in_chat) {
                 //printf("%s\t",arr_2->valuestring);
                 widge->to_whom = atoi(arr_2->valuestring);
+                printf("to_whom - %s\n", arr_2->valuestring);
             }
-            //printf("\nme[%s] --- him[%s]\n", widge->login, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)));
-            //printf("=====================\n");
+            // printf("\nme[%s] --- him[%s]\n", widge->login, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)));
+            // printf("=====================\n");
+            mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom));
             if (mx_unique_listbox_id(widge, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)))) {
                 t_page *page = malloc(sizeof(t_page));
 
@@ -271,6 +290,7 @@ void *Read(void *dat) {
             json = cJSON_Parse(buff);
         //printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
         //chats
+
         if (if_chats(json))
             mx_parse_chats(json, widge);
         //online
@@ -291,7 +311,7 @@ void *Read(void *dat) {
     return (void *)0;
 }
 
-void * Update(void *dat) {
+void *Update(void *dat) {
     t_widget_my *widge = (t_widget_my *) dat;
     char *str;
     char *str1;
@@ -324,12 +344,15 @@ void profile(GtkWidget* widget, void *data) {
 //////////////////
 gboolean show_mini_profile(GtkWidget* widget, GdkEvent  *event,void *data) {
     t_widget_my *widge = (t_widget_my *)data;
-    
+    GdkPixbuf *anon_pix;
 
-    //gtk_label_set_text (widge->mini_level, "LEVEL : 0");
-    //gtk_label_set_text (widge->mini_date, widge->user_profile->birth);
-    //gtk_label_set_text (widge->mini_name, widge->user_profile->fullname);
-    //gtk_label_set_text (widge->mini_nick, widge->user_profile->nickname);
+    anon_pix = gdk_pixbuf_new_from_file(widge->res_png, NULL);
+    anon_pix = gdk_pixbuf_scale_simple(anon_pix, 100, 100, GDK_INTERP_BILINEAR);
+    gtk_image_set_from_pixbuf(GTK_IMAGE(widge->mini_photo), anon_pix);
+    gtk_label_set_text (GTK_LABEL(widge->mini_level), "LEVEL : 0");
+    gtk_label_set_text (GTK_LABEL(widge->mini_date), widge->user_profile->birth);
+    gtk_label_set_text (GTK_LABEL(widge->mini_name), widge->user_profile->fullname);
+    gtk_label_set_text (GTK_LABEL(widge->mini_nick), widge->user_profile->nickname);
     //set position for mini profile
     gtk_window_get_position(GTK_WINDOW(widge->chat), &widge->window_x, &widge->window_y);
     gtk_window_move(GTK_WINDOW(widge->mini_window_profile), widge->window_x + 100, widge->window_y - 160);
@@ -386,8 +409,10 @@ void mx_connection(t_widget_my *widge) {
     
     bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
+    //bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
+    strncpy ((char *)&serv_addr.sin_addr.s_addr, (char *)server->h_addr, server->h_length );
     serv_addr.sin_port = htons(portno);
+
 
     if (connect(widge->sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
         perror("ERROR connecting");
@@ -417,8 +442,8 @@ void mx_connection(t_widget_my *widge) {
         g_signal_connect(widge->command_line, "activate", G_CALLBACK(mx_send_message), widge);
         g_signal_connect (widge->send_button, "clicked", G_CALLBACK(mx_send_message), widge);
         g_signal_connect (widge->sticker_pack, "clicked", G_CALLBACK(mx_sticker), widge);
-        pthread_create(&preg, 0, Read, widge);
         pthread_create(&preg, 0, Update, widge);
+        pthread_create(&preg, 0, Read, widge);
     }
     else {
         gtk_widget_show(GTK_WIDGET(widge->wrong_login));

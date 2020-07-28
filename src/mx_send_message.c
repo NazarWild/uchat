@@ -9,9 +9,11 @@ void mx_send_message(GtkWidget* widget, void *dat) {
         printf("Are you kidding me?\n");
     }
     else {
-        //free(widge->login_list);
-        printf("login_list == %s\n", mx_find_login_by_id(widge->login_id, widge->to));
-        widge->login_list = strdup(mx_find_login_by_id(widge->login_id, widge->to));
+        if (strcmp(widge->to, "PAPA_BOT") == 0)
+            widge->login_list = strdup("Papa BOT");
+        else
+            widge->login_list = strdup(mx_find_login_by_id(widge->login_id, widge->to));
+        printf("login_list == %s widge->to == %s\n", widge->login_list, widge->to);
         mx_message_to(widge, message);
         mx_set_cur_chat_id(widge);
         str = mx_create_json_mess(message, widge);
