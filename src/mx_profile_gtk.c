@@ -102,12 +102,19 @@ void set_photo(GtkWidget* widget, void *data) {
 
 void delete(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
+    char *str;
 
+    asprintf(&str, "{\"DELETE\":true,\"LOGIN\":\"%s\"}\n", widge->login); //записываем в строку логин и пароль для Лехи
+    SSL_write(widge->ssl, str, strlen(str)); //отпраявляем логин и пароль Лехе
+    free(str);
+    exit(666);
 }
 
 void logout(GtkWidget* widget, void *data) {
     t_widget_my *widge = (t_widget_my *)data;
-   
+
+    gtk_widget_destroy(widge->chat);
+    mx_login_win(widge);
 }
 
 void mx_profile_gtk(t_widget_my *widge) {
@@ -159,7 +166,8 @@ void mx_profile_gtk(t_widget_my *widge) {
     birth_entry = gtk_entry_new();
     gtk_entry_set_text(GTK_ENTRY(full_entry), widge->user_profile->fullname);
     gtk_entry_set_text(GTK_ENTRY(nick_entry), widge->user_profile->nickname);
-    gtk_entry_set_text(GTK_ENTRY(birth_entry), widge->user_profile->birth);
+    if (widge->user_profile->birth != NULL)
+        gtk_entry_set_text(GTK_ENTRY(birth_entry), widge->user_profile->birth);
     gtk_entry_set_placeholder_text(GTK_ENTRY(birth_entry), "[dd.mm.year]");
     label = gtk_label_new("LEVEL");
     full = gtk_label_new("FULLNAME");
@@ -168,8 +176,8 @@ void mx_profile_gtk(t_widget_my *widge) {
     level = gtk_label_new("0");
     lbl = gtk_label_new("PERSONAL DATA");
     save = gtk_button_new_with_label("SAVE");
-    delete_b = gtk_button_new_with_label ("DELETE ACCOUNT");
-    logout_b = gtk_button_new_with_label ("LOG OUT");
+    delete_b = gtk_button_new_with_label ("DELETE ACCOUNT AND EXIT");
+    logout_b = gtk_button_new_with_label ("LOG OUT (exit)");
 
     //box2
     gtk_box_pack_start(GTK_BOX(box2), label, 1, 0, 5);

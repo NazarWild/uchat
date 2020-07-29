@@ -11,7 +11,6 @@ char *mx_find_login_by_id(t_list *login_id, char *id) {
         p = p->next;
         log = p->data;
     }
-    printf("NULL\n");
     return NULL;
 }
 
@@ -26,4 +25,28 @@ char *mx_find_id_by_login(t_list *login_id, char *login) {
         log = p->data;
     }
     return NULL;
+}
+
+bool mx_if_can_get_mess_by_id(t_mess *mess_id, char *id) {
+    t_mess *p = mess_id;
+
+    while(p) {
+        if (mx_strcmp(id, p->id) == 0) {
+            return p->get_messages;
+        }
+        p = p->next;
+    }
+    return true;
+}
+
+void mx_set_get_mess_by_id_true(t_mess *mess_id, char *id) {
+    t_mess *p = mess_id;
+
+    while(p) {
+        if (mx_strcmp(id, p->id) == 0) {
+            p->get_messages = true;
+            break;
+        }
+        p = p->next;
+    }
 }

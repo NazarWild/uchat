@@ -51,6 +51,7 @@ static void push(t_widget_my *widge, char *login, char *id, int online) {
     log->login = strdup(login);
     log->id = strdup(id);
     log->online = online;
+    log->get_messages = false;
 
     mx_push_front(&widge->login_id, log);
 }
@@ -206,9 +207,36 @@ bool if_mess(cJSON *js) {
         return true;
     return false;
 }
+
+bool last_mess(cJSON *js) {
+    cJSON *mess = cJSON_GetObjectItemCaseSensitive(js, "LAST");
+
+    if(cJSON_IsTrue(mess) == 1)
+        return true;
+    return false;
+}
+
 ///TUT
 
-void parse_mess(cJSON *js, t_widget_my *widge) {
+void mx_parse_last_mess(cJSON *json, t_widget_my *widge) {
+    cJSON *messages = cJSON_GetObjectItemCaseSensitive(json, "messages");
+    cJSON *text = NULL;
+    cJSON *user_id = NULL;
+    cJSON *chats_id = NULL;
+    cJSON *arr = NULL;
+
+    write(1, "=======ВІДНОВЛЕННЯ СМС=======\n\n", strlen("=======ВІДНОВЛЕННЯ СМС=======\n\n"));
+    cJSON_ArrayForEach(arr, messages) { 
+        text = cJSON_GetObjectItemCaseSensitive(arr, "text");
+        user_id = cJSON_GetObjectItemCaseSensitive(arr, "user_id");
+        chats_id = cJSON_GetObjectItemCaseSensitive(arr, "chats_id");
+        //printf("TEXT : %s\nUSER_ID : %d\nCHATS_ID : %d\n", text->valuestring, user_id->valueint, chats_id->valueint);
+        printf("CHATS_ID : %d\n", chats_id->valueint);
+    }
+    write(1, "=====================\n\n", strlen("=====================\n\n"));
+}
+
+void mx_parse_mess(cJSON *js, t_widget_my *widge) {
     cJSON *mess = cJSON_GetObjectItemCaseSensitive(js, "MESS");
     cJSON *from = cJSON_GetObjectItemCaseSensitive(js, "FROM");
     cJSON *TYPE = cJSON_GetObjectItemCaseSensitive(js, "TYPE");
@@ -221,9 +249,10 @@ void parse_mess(cJSON *js, t_widget_my *widge) {
         widge->chat_id = atoi(CHAT_ID->valuestring);
         mx_create_friend(widge, widge->login_list, 1, page);
     }
+    printf("TYPE->valuestring ================ %s\n", TYPE->valuestring);
     if (mx_strcmp(TYPE->valuestring, "text") == 0)
         mx_message_from(widge, mess->valuestring);
-    if (mx_strcmp(TYPE->valuestring, "sticker") == 0)
+    if (mx_strcmp(TYPE->valuestring, "sticker") == 0 && mx_strcmp(TYPE->valuestring, "text") != 0)
         mx_sendsticker_from(mess->valuestring, widge);
     if (mx_strcmp(TYPE->valuestring, "text") != 0 && mx_strcmp(TYPE->valuestring, "sticker") != 0) 
         mx_file_receive(js, widge);
@@ -275,6 +304,7 @@ void mx_parse_chats(cJSON *json, t_widget_my *widge) {
                 widge->chat_id = atoi(id->valuestring);
                 //printf("widge->chat_id %d\n", widge->chat_id);
                 mx_create_friend(widge, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)), mx_user_status(widge->login_id, mx_itoa(widge->to_whom)), page);
+                mx_push_front_mess(&widge->mess_id, mx_itoa(widge->to_whom));
             }
             mx_update_chat_id(widge, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)), atoi(id->valuestring));
         }
@@ -284,14 +314,17 @@ void mx_parse_chats(cJSON *json, t_widget_my *widge) {
 
 void *Read(void *dat) {
     t_widget_my *widge = (t_widget_my *) dat;
-    char buff[2048];
+    char buff[4096];
     int len;
     cJSON *json;
 
-    while(SSL_read(widge->ssl, buff, 2048) > 0) {
+    while(SSL_read(widge->ssl, buff, 4096) > 0) {
         json = cJSON_Parse(buff);
-        // printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
+        printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
         // chats
+        write(1, "if_last_mess\n", strlen("if_last_mess\n"));
+        if (last_mess(json))
+            mx_parse_last_mess(json, widge);
         write(1, "chats\n", strlen("chats\n"));
         if (if_chats(json))
             mx_parse_chats(json, widge);
@@ -304,9 +337,8 @@ void *Read(void *dat) {
         //mess
         write(1, "if_mess\n", strlen("if_mess\n"));
         if (if_mess(json))
-            parse_mess(json, widge);
-        write(1, "if_mess[2]\n", strlen("if_mess[]2\n"));
-        bzero(buff, 2048);
+            mx_parse_mess(json, widge);
+        bzero(buff, 4096);
         cJSON_Delete(json);
     }
     int exit;
@@ -327,7 +359,7 @@ void *Update(void *dat) {
         asprintf(&str1, "{\"CHATS_SEND\": true }\n");
         SSL_write(widge->ssl, str1, strlen(str1));
         free(str1);
-        sleep(5);//-----------------------------------------------------periods of update
+        sleep(15);//-----------------------------------------------------periods of update
     }
     printf("SERVER UPAL\n");
     exit(666);

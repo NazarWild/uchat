@@ -8,7 +8,7 @@
 #include <netinet/in.h>
 #include <string.h>
 #include <pthread.h>
-#include <wchar.h>	
+#include <wchar.h>  
 #include <fcntl.h>
 #include <stdbool.h>
 #include <malloc/malloc.h>
@@ -76,7 +76,14 @@ typedef struct s_login {
     char *login;
     char *id;
     bool online;
+    bool get_messages;
 }              t_login;
+
+typedef struct s_mess {
+    char *id;
+    bool get_messages;
+    struct s_mess *next;
+}              t_mess;
 
 typedef struct s_widget_my {
     t_list_gtk *message_list;
@@ -289,6 +296,7 @@ typedef struct s_widget_my {
     char *localtime;
 
     t_profile_list *user_profile;
+    t_mess *mess_id;
 
     int chat_id;
     int cur_chat_id;
@@ -345,6 +353,11 @@ void mx_dialog_open(t_widget_my *widge);
 char *mx_find_login_by_id(t_list *p, char *id);
 char *mx_find_id_by_login(t_list *p, char *login);
 
+bool mx_if_can_get_mess_by_id(t_mess *mess_id, char *id);
+void mx_set_get_mess_by_id_true(t_mess *mess_id, char *id);
+void mx_push_front_mess(t_mess **list, char *id);
+t_mess *mx_create_node_mess(char *id);
+
 char *mx_hash_to_string(unsigned char *hash);
 char *mx_hash(char *login, char *pass);
 
@@ -395,7 +408,6 @@ void mx_photo_set(t_widget_my *widge);
 bool mx_parse_sign_in(t_widget_my *widge, char *log, char *pass, char *rpt);
 
 void mx_dialog_open(t_widget_my *widge);
-char *mx_find_login_by_id(t_list *p, char *id);
 
 char *mx_hash_to_string(unsigned char *hash);
 char *mx_hash(char *login, char *pass);
