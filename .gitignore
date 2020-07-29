@@ -20,7 +20,7 @@
 *.dll
 *.out
 *.exe
-*.dylib
+# *.dylib
 
 # text files
 *.txt
