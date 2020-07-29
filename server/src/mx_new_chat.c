@@ -38,8 +38,6 @@ char *mx_new_chat(cJSON* TO, cJSON* MESS, char *data, t_use_mutex *mutex) {
     mx_select(select, mutex);
     free(tmp);
     free(str1);
-    // if (data != NULL)
-    //     send_mess(atoi(TO->valuestring), MESS->valuestring, atoi(data), mutex);
     asprintf(&str1, "%d, %d", atoi(TO->valuestring), atoi(str2));
     mx_add_to_table("users_chat", "users_id, chats_id", str1, mutex);
     free(str1);

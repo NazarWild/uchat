@@ -10,6 +10,7 @@ static void send_mess(int to, char *mess, int chat_id, t_use_mutex *mutex) {
         type = strdup("sticker");
     else 
         type = strdup("text");
+    write(1, mx_itoa(chat_id), strlen(mx_itoa(chat_id)));
     asprintf(&new, "{\"IF_MESS\":true,\"FROM\":%d,\"MESS\":\"%s\",\"CHAT_ID\":%d,\"TYPE\":\"%s\"}\n", mutex->user_id, mess, chat_id, type);
     mx_send_user_with_dif_sock(mutex, to, new, strlen(new));
     stickers = 0;
@@ -32,7 +33,7 @@ static void sockets(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex) 
     else // в другом случае добавляем сообщение в чат 
         mx_add_message(chat_id, MESS->valuestring, 0, mutex);
     if (data != NULL && chat_id != 0) 
-        send_mess(atoi(TO->valuestring), MESS->valuestring, atoi(CHAT_ID->valuestring), mutex);//atoi(TO->valuestring) //atoi(data)
+        send_mess(atoi(TO->valuestring), MESS->valuestring, chat_id, mutex);//atoi(TO->valuestring) //atoi(data)
     free(data); 
 }
 
