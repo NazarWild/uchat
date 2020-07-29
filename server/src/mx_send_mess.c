@@ -10,7 +10,6 @@ static void send_mess(int to, char *mess, int chat_id, t_use_mutex *mutex) {
         type = strdup("sticker");
     else 
         type = strdup("text");
-    write(1, mx_itoa(chat_id), strlen(mx_itoa(chat_id)));
     asprintf(&new, "{\"IF_MESS\":true,\"FROM\":%d,\"MESS\":\"%s\",\"CHAT_ID\":%d,\"TYPE\":\"%s\"}\n", mutex->user_id, mess, chat_id, type);
     mx_send_user_with_dif_sock(mutex, to, new, strlen(new));
     stickers = 0;
