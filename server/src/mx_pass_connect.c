@@ -15,6 +15,6 @@ bool mx_pass_connect(char *login, char *pass, t_use_mutex *mutex) {
         return false;
     if (strcmp(pass, data) == 0)
         return true;
-    write(1, "NOT LOGGED", 11);
+    write(mutex->fd_log, "NOT LOGGED\n", 11);
     return false;
 }

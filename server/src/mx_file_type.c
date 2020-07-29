@@ -4,18 +4,10 @@ static char *creating(cJSON* TYPE, cJSON* BYTES, char *mess, t_use_mutex *mutex)
     char *path =  mx_strjoin("file_serv/", mess);//пусть отправляет название с точкой в конце
     int stream = open(path, O_RDWR | O_CREAT | O_APPEND, S_IRWXU);
     char *buff = (char *)malloc(sizeof(char) * BYTES->valueint);
-    //int bytes = 0;
 
-    write(1, "File name: ", 11);
-    write(1, path, strlen(path));
+    write(mutex->fd_log, "File name: ", 11);
+    write(mutex->fd_log, path, strlen(path));
     recv(mutex->cli_fd, buff, BYTES->valueint, MSG_WAITALL);
-
-    //new added ---------------------------
-    // while (bytes += SSL_read(mutex->my_ssl, buff, BYTES->valueint) < BYTES->valueint) {
-    //     write(stream, buff, BYTES->valueint);
-    // }
-    //maybe del ---------------------------
-    
     write(stream, buff, BYTES->valueint);
     close(stream);
     free(buff);
@@ -50,7 +42,8 @@ static void send_cj(cJSON *root, t_use_mutex *mutex, char *path) {
 
     if ((sock = on_wich_socket(atoi(TO->valuestring), mutex)) == -1)
         return ;
-    asprintf(&str, "{\"FROM\":%d,\"MESS\":%s,\"TYPE\":%s,\"CHAT_ID\":%s}\n", mutex->user_id, MESS->valuestring, TYPE->valuestring, CHAT_ID->valuestring);
+    asprintf(&str, "{\"IF_MESS\":true,\"FROM\":%d,\"MESS\":\"%s\",\"TYPE\":\"%s\",\"CHAT_ID\":%d,\"BYTES\":%d}\n", 
+            mutex->user_id, MESS->valuestring, TYPE->valuestring, atoi(CHAT_ID->valuestring), BYTES->valueint);
     mx_send_user_with_dif_sock(mutex, atoi(TO->valuestring), str, strlen(str));
     free(str);
     str = (char *) malloc(sizeof(char) * BYTES->valueint);

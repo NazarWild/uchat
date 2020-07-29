@@ -47,10 +47,9 @@ static void cjson_cycles(cJSON *users, t_list *chats, cJSON *info, t_use_mutex *
 
 static void lol_send(t_use_mutex *mutex, cJSON *root) {
     char *str = NULL;
-        str = cJSON_Print(root);
-    // write(mutex->cli_fd, str, strlen(str));
+    
+    str = cJSON_Print(root);
     SSL_write(mutex->my_ssl, str, strlen(str));
-    //write(1, str, strlen(str));
     free(str);
 }
 

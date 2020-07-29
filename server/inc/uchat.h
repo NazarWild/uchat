@@ -40,7 +40,7 @@ typedef struct s_sqlite {
 
 typedef struct s_history {
     char *text;
-    int text_id;
+    int user_id;
     int chats_id;
 }              t_history;
 
@@ -60,6 +60,7 @@ typedef struct s_use_mutex {
     int cli_fd;
     int user_id;
     short int lvl;
+    int fd_log;
     SSL * my_ssl;
     t_list **ssl_list;
 }              t_use_mutex;
@@ -116,7 +117,6 @@ void mx_file_type(cJSON *root, t_use_mutex *mutex);
 char *mx_strjoin(const char *s1, const char *s2);
 char *mx_strnew(const int size);
 void mx_chats_send(cJSON *root, t_use_mutex *mutex);
-void mx_new_chat(cJSON* TO, cJSON* MESS, cJSON* CHAT_ID, t_use_mutex *mutex);
 void mx_group_chat(cJSON* root, t_use_mutex *mutex);
 void mx_send_group(cJSON* MESS, cJSON* USERS_GRP, cJSON* CHAT_ID,
                                                     t_use_mutex *mutex);
@@ -138,5 +138,6 @@ void mx_slast_mess(cJSON *root, t_use_mutex *param);
 void mx_change_mess(cJSON *root, t_use_mutex *param);
 void mx_change_prof(cJSON *root, t_use_mutex *param);
 void mx_random_user(t_use_mutex *mutex);
+char *mx_new_chat(cJSON* TO, cJSON* MESS, char *data, t_use_mutex *mutex);
 
 #endif

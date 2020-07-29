@@ -6,7 +6,7 @@ int callback_list_history(void *data, int argc, char **argv, char **ColName) {
     t_history *send = malloc(sizeof(t_history));
 
     send->text = strdup(argv[0]);
-    send->text_id = atoi(argv[1]);
+    send->user_id = atoi(argv[1]);
     send->chats_id= atoi(argv[1]);
     mx_push_front((t_list **)data, send);
     return 0;
@@ -32,7 +32,7 @@ t_list *mx_history_chat(int chats_id, t_use_mutex *mutex) {
     t_sqlite *lite = malloc(sizeof(t_sqlite));
     char *sql = 0;
 
-    asprintf(&sql, "select text, text_id, chats_id from messeges where chats_id = %i "
+    asprintf(&sql, "select text, users_id, chats_id from messeges where chats_id = %i "
     " order by text_id desc;", chats_id);
     lite->data = &list;
     lite->callback = callback_list_history;

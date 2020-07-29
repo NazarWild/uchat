@@ -55,7 +55,7 @@ static bool loging(cJSON *root, int fd, t_use_mutex *mutex) {
         && cJSON_IsString(pass) && pass->valuestring != NULL) { 
         if(mx_pass_connect(log->valuestring, pass->valuestring, mutex) == true) {
             loggin = mx_parse_str(log->valuestring);
-            write(1, "LOGIN\n" , 7);
+            write(mutex->fd_log, "LOGIN\n" , 7);
             set_socket(fd, loggin, mutex);
             free(loggin);
             return true; 

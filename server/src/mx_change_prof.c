@@ -39,17 +39,15 @@ static void update_photo(cJSON *root, t_use_mutex *param) {
     free(str);
     str = mx_strjoin(data, type->valuestring);
     free(data);
-    data = mx_strjoin("profile_users", str);
+    data = mx_strjoin("profile_users/", str);
     fd = open(data, O_RDWR);
-    if (fd > 0) {
+    if (fd > 0)
         photo_upload(fd, atoi(bytes->valuestring), param);
-    }
     else {
         close(fd);
         fd = open(data, O_RDWR | O_CREAT | O_APPEND, S_IRWXU);
         photo_upload(fd, atoi(bytes->valuestring), param);
     }
-
 }
 
 void mx_change_prof(cJSON *root, t_use_mutex *param) {
