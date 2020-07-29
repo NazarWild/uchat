@@ -230,8 +230,8 @@ void mx_parse_last_mess(cJSON *json, t_widget_my *widge) {
         text = cJSON_GetObjectItemCaseSensitive(arr, "text");
         user_id = cJSON_GetObjectItemCaseSensitive(arr, "user_id");
         chats_id = cJSON_GetObjectItemCaseSensitive(arr, "chats_id");
-        //printf("TEXT : %s\nUSER_ID : %d\nCHATS_ID : %d\n", text->valuestring, user_id->valueint, chats_id->valueint);
-        printf("CHATS_ID : %d\n", chats_id->valueint);
+        printf("TEXT : %s\nUSER_ID : %d\nCHATS_ID : %d\n", text->valuestring, user_id->valueint, chats_id->valueint);
+        //printf("CHATS_ID : %d\n", chats_id->valueint);
     }
     write(1, "=====================\n\n", strlen("=====================\n\n"));
 }
@@ -359,7 +359,7 @@ void *Update(void *dat) {
         asprintf(&str1, "{\"CHATS_SEND\": true }\n");
         SSL_write(widge->ssl, str1, strlen(str1));
         free(str1);
-        sleep(15);//-----------------------------------------------------periods of update
+        sleep(5);//-----------------------------------------------------periods of update
     }
     printf("SERVER UPAL\n");
     exit(666);
