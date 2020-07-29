@@ -34,6 +34,7 @@ static GtkWidget *create_s_to(t_widget_my *widge, GtkWidget *sticker) {
     gtk_button_set_image (GTK_BUTTON(b1), sticker_icon);
     gtk_widget_set_name(b1, "sticker");
     gtk_widget_set_can_focus(b1, FALSE);
+    mx_set_cur_chat_id(widge);
     str_to_send = mx_create_json_sticker(name_file, widge);
     SSL_write(widge->ssl, str_to_send, strlen(str_to_send));
     free(str_to_send);

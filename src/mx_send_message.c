@@ -14,7 +14,6 @@ void mx_send_message(GtkWidget* widget, void *dat) {
         mx_message_to(widge, message);
         mx_set_cur_chat_id(widge);
         str = mx_create_json_mess(message, widge);
-        write(1, str, strlen(str)); //отпрвляем Лехе данные
         SSL_write(widge->ssl, str, strlen(str)); //отпрвляем Лехе данные
         gtk_entry_set_text(GTK_ENTRY(widge->command_line), ""); //обнуляем вводимую строку, следовательно обнуляеться message
     }

@@ -360,7 +360,7 @@ void *Update(void *dat) {
         asprintf(&str1, "{\"CHATS_SEND\": true }\n");
         SSL_write(widge->ssl, str1, strlen(str1));
         free(str1);
-        sleep(5);//-----------------------------------------------------periods of update
+        sleep(1);//-----------------------------------------------------periods of update
     }
     printf("SERVER UPAL\n");
     exit(666);

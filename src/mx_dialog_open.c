@@ -55,7 +55,7 @@ void mx_dialog_open(t_widget_my *widge) {
         widge->filename = gtk_file_chooser_get_filename (chooser);
         widge->bytes = mx_len_of_file(widge->filename);
         //printf("bytes = %d filename = %s\n", widge->bytes, widge->filename);
-
+        mx_set_cur_chat_id(widge);
         if (mx_if_photo(widge->filename, widge))
             mx_sendphoto_to(widge->filename, widge);
         else
