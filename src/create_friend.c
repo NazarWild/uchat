@@ -39,7 +39,6 @@ void p(GtkWidget* widget, void *data) {
     if (mx_if_can_get_mess_by_id(widge->mess_id, widge->to) == false) {
         asprintf(&str, "{\"LAST_MESS\": true, \"CHAT_ID\": %d}\n", widge->cur_chat_id);
         SSL_write(widge->ssl, str, strlen(str));
-        write(1, str, strlen(str));
         free(str);
         mx_set_get_mess_by_id_true(widge->mess_id, widge->to);
     }

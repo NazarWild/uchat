@@ -79,18 +79,18 @@ void mx_parse_whoonline(t_widget_my *widge, cJSON *json) {
     cJSON *online;
 
     widge->login_id = 0;
-    write(1, "=======USERS=======\n\n", strlen("===================\n\n"));
+    //write(1, "=======USERS=======\n\n", strlen("===================\n\n"));
     cJSON_ArrayForEach(peoples, user) {
         login = cJSON_GetObjectItemCaseSensitive(peoples, "login");
         user_id = cJSON_GetObjectItemCaseSensitive(peoples, "user_id");
         online = cJSON_GetObjectItemCaseSensitive(peoples, "online");
 
-        write(1, "=======USER=======\n", strlen("===================\n"));
-        printf("LOGIN : %s\nID = %s\nONLINE = %d\n", login->valuestring, user_id->valuestring, online->valueint);
-        write(1, "==================\n", strlen("==================\n"));
+        //write(1, "=======USER=======\n", strlen("===================\n"));
+        //printf("LOGIN : %s\nID = %s\nONLINE = %d\n", login->valuestring, user_id->valuestring, online->valueint);
+        //write(1, "==================\n", strlen("==================\n"));
         push(widge, login->valuestring, user_id->valuestring, online->valueint);
     }
-    write(1, "=====================\n\n", strlen("=====================\n\n"));
+    //write(1, "=====================\n\n", strlen("=====================\n\n"));
 }
 
 void change_pos(GtkWidget *widget, void *data) {
@@ -225,15 +225,16 @@ void mx_parse_last_mess(cJSON *json, t_widget_my *widge) {
     cJSON *chats_id = NULL;
     cJSON *arr = NULL;
 
-    write(1, "=======ВІДНОВЛЕННЯ СМС=======\n\n", strlen("=======ВІДНОВЛЕННЯ СМС=======\n\n"));
+    // write(1, "=======ВІДНОВЛЕННЯ СМС=======\n\n", strlen("=======ВІДНОВЛЕННЯ СМС=======\n\n"));
     cJSON_ArrayForEach(arr, messages) { 
         text = cJSON_GetObjectItemCaseSensitive(arr, "text");
         user_id = cJSON_GetObjectItemCaseSensitive(arr, "user_id");
         chats_id = cJSON_GetObjectItemCaseSensitive(arr, "chats_id");
-        printf("TEXT : %s\nUSER_ID : %d\nCHATS_ID : %d\n", text->valuestring, user_id->valueint, chats_id->valueint);
+        //printf("TEXT : %s\nUSER_ID : %d\nCHATS_ID : %d\n", text->valuestring, user_id->valueint, chats_id->valueint);
         //printf("CHATS_ID : %d\n", chats_id->valueint);
+        mx_find_listbox_by_chat_id(widge, chats_id->valueint, user_id->valueint, text->valuestring);
     }
-    write(1, "=====================\n\n", strlen("=====================\n\n"));
+    //write(1, "=====================\n\n", strlen("=====================\n\n"));
 }
 
 void mx_parse_mess(cJSON *js, t_widget_my *widge) {
@@ -249,7 +250,7 @@ void mx_parse_mess(cJSON *js, t_widget_my *widge) {
         widge->chat_id = atoi(CHAT_ID->valuestring);
         mx_create_friend(widge, widge->login_list, 1, page);
     }
-    printf("TYPE->valuestring ================ %s\n", TYPE->valuestring);
+    //printf("TYPE->valuestring ================ %s\n", TYPE->valuestring);
     if (mx_strcmp(TYPE->valuestring, "text") == 0)
         mx_message_from(widge, mess->valuestring);
     if (mx_strcmp(TYPE->valuestring, "sticker") == 0 && mx_strcmp(TYPE->valuestring, "text") != 0)
@@ -320,22 +321,22 @@ void *Read(void *dat) {
 
     while(SSL_read(widge->ssl, buff, 4096) > 0) {
         json = cJSON_Parse(buff);
-        printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
+        //printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
         // chats
-        write(1, "if_last_mess\n", strlen("if_last_mess\n"));
+        //write(1, "if_last_mess\n", strlen("if_last_mess\n"));
         if (last_mess(json))
             mx_parse_last_mess(json, widge);
-        write(1, "chats\n", strlen("chats\n"));
+        //write(1, "chats\n", strlen("chats\n"));
         if (if_chats(json))
             mx_parse_chats(json, widge);
         //online
-        write(1, "if_ONLINE\n", strlen("if_ONLINE\n"));
+        //write(1, "if_ONLINE\n", strlen("if_ONLINE\n"));
         if (if_online(json)) {
             free_list(&widge->login_id);
             mx_parse_whoonline(widge, json);
         }
         //mess
-        write(1, "if_mess\n", strlen("if_mess\n"));
+        //write(1, "if_mess\n", strlen("if_mess\n"));
         if (if_mess(json))
             mx_parse_mess(json, widge);
         bzero(buff, 4096);
@@ -492,7 +493,6 @@ void mx_connection(t_widget_my *widge) {
         g_signal_connect (widge->sticker_pack, "clicked", G_CALLBACK(mx_sticker), widge);
         pthread_create(&preg, 0, Update, widge);
         pthread_create(&preg, 0, Read, widge);
-        printf("EXIT\n");
     }
     else {
         // gdk_threads_add_idle ((GSourceFunc) mx_idle_show, widge->wrong_login);

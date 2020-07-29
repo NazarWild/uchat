@@ -22,8 +22,8 @@ void mx_file_receive(cJSON *root, t_widget_my *widge) {
     char *path = NULL;
 
     path = creating(TYPE, BYTES, MESS, widge);
-    write(1, "File name: ", 11);
-    write(1, path, strlen(path));
+    //write(1, "File name: ", 11);
+    //write(1, path, strlen(path));
     if (mx_if_photo_with_type(TYPE->valuestring, widge))
         mx_sendphoto_from(path, widge);
     else

@@ -21,7 +21,6 @@ gboolean mx_idle_destroy(void *widget) {
 }
 
 void mx_message_from(t_widget_my *widge, const gchar *text) {
-    printf("here1\n");
     // t_message *mess_struct = malloc(sizeof(t_message));
     t_row_mess *row_s = malloc(sizeof(t_row_mess));
 
@@ -35,7 +34,6 @@ void mx_message_from(t_widget_my *widge, const gchar *text) {
     // mess_struct->message = gtk_button_new_with_label(text);
     row_s->message = gtk_button_new_with_label(text);
 
-    printf("here2\n");
     row_s->box_in = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
     gtk_widget_set_size_request(row_s->box_in, 590, 30);
 
@@ -54,7 +52,6 @@ void mx_message_from(t_widget_my *widge, const gchar *text) {
     gtk_box_pack_start(GTK_BOX(row_s->box2), row_s->box3, 1, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_s->box), row_s->label, 1, 0, 0);
 
-    printf("here3\n");
     gtk_container_add(GTK_CONTAINER (row_s->box_in), row_s->box2);
     gtk_container_add_with_properties (GTK_CONTAINER (row_s->box_in), row_s->box, "expand", TRUE, NULL);
 
@@ -68,7 +65,6 @@ void mx_message_from(t_widget_my *widge, const gchar *text) {
     // gtk_widget_set_can_focus(mess_struct->message, FALSE);
     gtk_widget_set_can_focus(row_s->row, FALSE);
 ///////////////////////////////////////////////////////////////////////////////
-    printf("here4\n");
     t_page *page;
     t_list_gtk *list = widge->page_list;
     char *data_me;
@@ -79,18 +75,13 @@ void mx_message_from(t_widget_my *widge, const gchar *text) {
         if (strcmp(widge->login_list, data_me) == 0) {
             break;
         }
-        printf("ne norm\n");
         list = list->next;
     }
-    printf("here5\n");
 ///////////////////////////////////////////////////////////////////////////////
     gtk_list_box_insert (GTK_LIST_BOX(page->list_box), row_s->row, -1);
     // mx_push_front_gtk(&widge->message_list, mess_struct);
 
-    printf("here6\n");
     // widge->index_mess_to = gtk_list_box_row_get_index(GTK_LIST_BOX_ROW(row_s->row));
-    printf("here7\n");
     gdk_threads_add_idle ((GSourceFunc) mx_idle_showall, page->list_box);
     //gtk_widget_show_all(page->list_box);//
-    printf("here8\n");
 }

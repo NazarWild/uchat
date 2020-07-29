@@ -458,4 +458,6 @@ char *mx_parsing_filename(char *filename, t_widget_my *widge);
 bool mx_if_photo(char *filename, t_widget_my *widge);
 bool mx_if_photo_with_type(char *type, t_widget_my *widge);
 void mx_file_receive(cJSON *root, t_widget_my *widge);
+
+void mx_find_listbox_by_chat_id(t_widget_my *widge, int chat_id, int user_which_write, char *mess);
 #endif

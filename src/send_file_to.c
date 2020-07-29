@@ -67,7 +67,7 @@ void mx_send_file_to(t_widget_my *widge, const gchar *text) {
     while (list) {
         page = (t_page *)list->data;
         data_me = (char*)g_object_get_data(G_OBJECT(page->list_box), "id");
-        printf("{%s} {%s}\n", widge->login_list, data_me);
+        //printf("{%s} {%s}\n", widge->login_list, data_me);
         if (strcmp(widge->login_list, data_me) == 0) {
             break;
         }

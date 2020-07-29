@@ -54,7 +54,7 @@ void mx_dialog_open(t_widget_my *widge) {
         GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
         widge->filename = gtk_file_chooser_get_filename (chooser);
         widge->bytes = mx_len_of_file(widge->filename);
-        printf("bytes = %d filename = %s\n", widge->bytes, widge->filename);
+        //printf("bytes = %d filename = %s\n", widge->bytes, widge->filename);
 
         if (mx_if_photo(widge->filename, widge))
             mx_sendphoto_to(widge->filename, widge);
