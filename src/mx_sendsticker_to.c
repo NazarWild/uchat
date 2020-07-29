@@ -1,9 +1,31 @@
 #include "../inc/uchat.h"
 
+char *mx_create_json_sticker(char *sticker_name, t_widget_my *widge) {
+    cJSON *send = cJSON_CreateObject();
+    cJSON *IF_MESS = cJSON_CreateTrue();
+    cJSON *TO = cJSON_CreateString(widge->to);
+    cJSON *TYPE = cJSON_CreateString("sticker");
+    cJSON *MESS = cJSON_CreateString(sticker_name);
+    cJSON *BYTES = cJSON_CreateNumber(strlen(sticker_name));
+    cJSON *CHAT_ID = cJSON_CreateString(mx_itoa(widge->cur_chat_id));
+    char *str_js = NULL;
+
+    cJSON_AddItemToObject(send, "IF_MESS", IF_MESS);
+    cJSON_AddItemToObject(send, "TO", TO);
+    cJSON_AddItemToObject(send, "MESS", MESS);
+    cJSON_AddItemToObject(send, "TYPE", TYPE);
+    cJSON_AddItemToObject(send, "BYTES", BYTES);
+    cJSON_AddItemToObject(send, "CHAT_ID", CHAT_ID);
+    str_js = cJSON_Print(send);
+    cJSON_Delete(send);
+    return str_js;
+}
+
 static GtkWidget *create_s_to(t_widget_my *widge, GtkWidget *sticker) {
     char *name_file = (char *)g_object_get_data(G_OBJECT(sticker), "sticker_path");
     GdkPixbuf *sticker_img;
     GtkWidget *sticker_icon;
+    char *str_to_send;
     
     GtkWidget *b1 = gtk_button_new();
     sticker_img = gdk_pixbuf_new_from_file(name_file, NULL);
@@ -12,6 +34,9 @@ static GtkWidget *create_s_to(t_widget_my *widge, GtkWidget *sticker) {
     gtk_button_set_image (GTK_BUTTON(b1), sticker_icon);
     gtk_widget_set_name(b1, "sticker");
     gtk_widget_set_can_focus(b1, FALSE);
+    str_to_send = mx_create_json_sticker(name_file, widge);
+    SSL_write(widge->ssl, str_to_send, strlen(str_to_send));
+    free(str_to_send);
     return b1;
 }
 
@@ -44,8 +69,9 @@ void mx_sendsticker_to(GtkWidget *widget, void *data) {
     widge->trash_icon = gtk_image_new_from_pixbuf(widge->trash_img);
     gtk_button_set_image (GTK_BUTTON(row_mess->trash), widge->trash_icon);
 
-    row_mess->nickname = mx_name_mess_to("opoliarenk");
-    row_mess->data_box = mx_time_mess_to("22:12");
+    row_mess->nickname = mx_name_mess_to(widge->login);
+    row_mess->data_box = mx_time_mess_to("today");
+
     gtk_box_pack_start(GTK_BOX(row_mess->box), row_mess->label, 1, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box3), row_mess->nickname, 0, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box4), row_mess->trash, 0, 0, 0);

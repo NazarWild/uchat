@@ -34,9 +34,12 @@ void p(GtkWidget* widget, void *data) {
     gtk_button_set_label (GTK_BUTTON(widge->who_writing), widge->login_list);
     free(widge->to);
     widge->to = strdup(find_id(p, widge->login_list));
+    widge->login_list = mx_find_login_by_id(widge->login_id, widge->to);
+    mx_set_cur_chat_id(widge);
 
-    asprintf(&str, "{\"USR_PROF\": true, \"USR_ID\": %d}\n", atoi(widge->to));
+    asprintf(&str, "{\"LAST_MESS\": true, \"CHAT_ID\": %d}\n", widge->cur_chat_id);
     SSL_write(widge->ssl, str, strlen(str));
+    write(1, str, strlen(str));
     free(str);
 
     i = (int)(uintptr_t)g_object_get_data(G_OBJECT(widget), "id");

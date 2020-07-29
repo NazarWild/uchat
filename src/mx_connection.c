@@ -207,25 +207,26 @@ bool if_mess(cJSON *js) {
     return false;
 }
 ///TUT
+
 void parse_mess(cJSON *js, t_widget_my *widge) {
     cJSON *mess = cJSON_GetObjectItemCaseSensitive(js, "MESS");
     cJSON *from = cJSON_GetObjectItemCaseSensitive(js, "FROM");
     cJSON *TYPE = cJSON_GetObjectItemCaseSensitive(js, "TYPE");
     cJSON *CHAT_ID = cJSON_GetObjectItemCaseSensitive(js, "CHAT_ID");
 
-
-    //printf("\nХТО НАПИСАВ - %s\n", mx_find_login_by_id(widge->login_id, mx_itoa(from->valueint)));
-    printf("mx_itoa(from) - %s\n", mx_itoa(from->valueint));
     widge->login_list = strdup(mx_find_login_by_id(widge->login_id, mx_itoa(from->valueint)));
     if (mx_unique_listbox_id(widge, widge->login_list)) {
         t_page *page = malloc(sizeof(t_page));
 
-        //printf("CHAT_ID - %s\n", CHAT_ID->valuestring);
-        //widge->chat_id = atoi(CHAT_ID->valuestring);
+        widge->chat_id = atoi(CHAT_ID->valuestring);
         mx_create_friend(widge, widge->login_list, 1, page);
     }
-    printf("MESS - [%s]\n", mess->valuestring);
-    mx_message_from(widge, mess->valuestring);
+    if (mx_strcmp(TYPE->valuestring, "text") == 0)
+        mx_message_from(widge, mess->valuestring);
+    if (mx_strcmp(TYPE->valuestring, "sticker") == 0)
+        mx_sendsticker_from(mess->valuestring, widge);
+    if (mx_strcmp(TYPE->valuestring, "text") != 0 && mx_strcmp(TYPE->valuestring, "sticker") != 0) 
+        mx_file_receive(js, widge);
 }
 
 bool mx_user_status(t_list *login_id, char *id) {
@@ -264,14 +265,15 @@ void mx_parse_chats(cJSON *json, t_widget_my *widge) {
             cJSON_ArrayForEach(arr_2, who_in_chat) {
                 //printf("%s\t",arr_2->valuestring);
                 widge->to_whom = atoi(arr_2->valuestring);
-                printf("to_whom - %s\n", arr_2->valuestring);
+                //printf("to_whom  ===  %s\n", arr_2->valuestring);
             }
             // printf("\nme[%s] --- him[%s]\n", widge->login, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)));
-            // printf("=====================\n");
+            //printf("=====================\n");
             if (mx_unique_listbox_id(widge, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)))) {
                 t_page *page = malloc(sizeof(t_page));
 
                 widge->chat_id = atoi(id->valuestring);
+                //printf("widge->chat_id %d\n", widge->chat_id);
                 mx_create_friend(widge, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)), mx_user_status(widge->login_id, mx_itoa(widge->to_whom)), page);
             }
             mx_update_chat_id(widge, mx_find_login_by_id(widge->login_id, mx_itoa(widge->to_whom)), atoi(id->valuestring));
@@ -288,8 +290,8 @@ void *Read(void *dat) {
 
     while(SSL_read(widge->ssl, buff, 2048) > 0) {
         json = cJSON_Parse(buff);
-        printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
-        //chats
+        // printf("----------WITHOUT PARSING----------\n[%s]\n-----------------------------------\n", buff);
+        // chats
         write(1, "chats\n", strlen("chats\n"));
         if (if_chats(json))
             mx_parse_chats(json, widge);
@@ -301,10 +303,9 @@ void *Read(void *dat) {
         }
         //mess
         write(1, "if_mess\n", strlen("if_mess\n"));
-        if (if_mess(json)) {
+        if (if_mess(json))
             parse_mess(json, widge);
-        }
-        write(1, "if_mess\n", strlen("if_mess\n"));
+        write(1, "if_mess[2]\n", strlen("if_mess[]2\n"));
         bzero(buff, 2048);
         cJSON_Delete(json);
     }
@@ -320,7 +321,6 @@ void *Update(void *dat) {
     char *str1;
 
     while(widge->exit != 666) {
-        printf("666 = %i\n", widge->exit);
         asprintf(&str, "{\"WHO_ONLINE\": true }\n");
         SSL_write(widge->ssl, str, strlen(str));
         free(str);
@@ -329,7 +329,7 @@ void *Update(void *dat) {
         free(str1);
         sleep(5);//-----------------------------------------------------periods of update
     }
-    printf("666 end\n");
+    printf("SERVER UPAL\n");
     exit(666);
     int exit;
     pthread_exit(&exit);
@@ -404,9 +404,13 @@ void mx_connection(t_widget_my *widge) {
     pthread_t preg;
     char *str;
     char buff[2048];
+    //int set = 1;
     cJSON *json;
+
     portno = widge->port;
     widge->sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    //setsockopt(widge->sockfd, SOL_SOCKET, SO_NOSIGPIPE, (void *)&set, sizeof(int));
+
 
     if (widge->sockfd < 0) {
         perror("ERROR opening socket");

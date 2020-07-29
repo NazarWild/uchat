@@ -1,15 +1,5 @@
 #include "../inc/uchat.h" 
 
-char *mx_parsing_filename(char *filename, t_widget_my *widge) {
-    int i = strlen(filename) - 1;
-
-    for (; filename[i] != '.'; i--) {}
-    widge->int_of_dot = i;
-    for (; filename[i] != '/'; i--) {}
-    widge->int_of_slesh = i;
-    return &filename[widge->int_of_dot];
-}
-
 void sending_file(t_widget_my *widge) {
     if(widge->filename) {
         int stream = open(widge->filename, O_RDONLY);
@@ -45,17 +35,6 @@ static cJSON *create_json(t_widget_my *widge) {
     cJSON_AddItemToObject(send, "DATE", DATE);
     //free(&file_without_dot);
     return send;
-}
-
-bool mx_if_photo(char *filename, t_widget_my *widge) {
-    char *type = mx_parsing_filename(filename, widge);
-
-    if (strcmp(type, ".png") == 0
-        || strcmp(type, ".jpg") == 0
-        || strcmp(type, ".jpeg") == 0
-        || strcmp(type, ".gif") == 0)
-        return true;
-    return false;
 }
 
 void mx_dialog_open(t_widget_my *widge) {
