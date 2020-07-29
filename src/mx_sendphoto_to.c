@@ -51,8 +51,9 @@ void mx_sendphoto_to(char *file_name, t_widget_my *widge) {
     widge->trash_icon = gtk_image_new_from_pixbuf(widge->trash_img);
     gtk_button_set_image (GTK_BUTTON(row_mess->trash), widge->trash_icon);
 
-    row_mess->nickname = mx_name_mess_to("opoliarenk");
-    row_mess->data_box = mx_time_mess_to("22:12");
+    row_mess->nickname = mx_name_mess_to(widge->login);
+    row_mess->data_box = mx_time_mess_to("today");
+    
     gtk_box_pack_start(GTK_BOX(row_mess->box), row_mess->label, 1, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box3), row_mess->nickname, 0, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box4), row_mess->trash, 0, 0, 0);

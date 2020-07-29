@@ -7,7 +7,7 @@ void mx_update_chat_id(t_widget_my *widge, char *login, int new_chat_id) {
     int chat_id;
     int new = new_chat_id;
 
-    while (list->next != NULL) { 
+    while (list) { 
         page = (t_page *)list->data;
         data_me = (char *)g_object_get_data(G_OBJECT(page->list_box), "id");
         if (mx_strcmp(login, data_me) == 0)

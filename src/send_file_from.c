@@ -13,7 +13,8 @@ void mx_send_file_from(t_widget_my *widge, const gchar *text) {
 
     row_mess->label = gtk_label_new("");
 
-    mess_struct->message = gtk_button_new_with_label(text);
+    gchar *me = (gchar *)mx_memrchr(text, '/', strlen(text));
+    mess_struct->message = gtk_button_new_with_label(&me[1]);
 
     row_mess->box_in = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
     gtk_widget_set_size_request(row_mess->box_in, 590, 30);
@@ -23,8 +24,8 @@ void mx_send_file_from(t_widget_my *widge, const gchar *text) {
     row_mess->box3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, TRUE);
     row_mess->box4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
 
-    row_mess->nickname = mx_name_mess_from("opoliarenk");
-    row_mess->data_box = mx_time_mess_from("22:12");
+    row_mess->nickname = mx_name_mess_from(widge->login_list);
+    row_mess->data_box = mx_time_mess_from("today");
 
     widge->installbutt_img = gdk_pixbuf_new_from_file("./img_chat/install.png", NULL);
     widge->installbutt_img = gdk_pixbuf_scale_simple(widge->installbutt_img, 20, 20, GDK_INTERP_BILINEAR);
@@ -33,14 +34,14 @@ void mx_send_file_from(t_widget_my *widge, const gchar *text) {
 
     gtk_box_pack_start(GTK_BOX(row_mess->box), row_mess->label, 1, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box3), row_mess->nickname, 0, 0, 0);
-    gtk_box_pack_start(GTK_BOX(row_mess->box4), row_mess->installbutt, 0, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box4), mess_struct->message, 1, 0, 0);
+    gtk_box_pack_start(GTK_BOX(row_mess->box4), row_mess->installbutt, 0, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box3), row_mess->box4, 1, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box3), row_mess->data_box, 0, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box2), row_mess->box3, 1, 0, 0);
 
-    gtk_container_add_with_properties (GTK_CONTAINER (row_mess->box_in), row_mess->box, "expand", TRUE, NULL);
     gtk_container_add(GTK_CONTAINER (row_mess->box_in), row_mess->box2);
+    gtk_container_add_with_properties (GTK_CONTAINER (row_mess->box_in), row_mess->box, "expand", TRUE, NULL);
 
     gtk_container_add (GTK_CONTAINER (row_mess->row), row_mess->box_in);
 

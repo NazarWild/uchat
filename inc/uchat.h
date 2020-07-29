@@ -436,6 +436,14 @@ gboolean mx_idle_show(void *widget);
 gboolean mx_idle_hide(void *widget);
 gboolean mx_idle_destroy(void *widget);
 
-bool mx_if_photo(char *filename, t_widget_my *widge);
+
+char *mx_strjoin(const char *s1, const char *s2);
 SSL *mx_ssl(int fd);
+
+char *mx_change_to_valid_time(char *full_time);
+
+char *mx_parsing_filename(char *filename, t_widget_my *widge);
+bool mx_if_photo(char *filename, t_widget_my *widge);
+bool mx_if_photo_with_type(char *type, t_widget_my *widge);
+void mx_file_receive(cJSON *root, t_widget_my *widge);
 #endif

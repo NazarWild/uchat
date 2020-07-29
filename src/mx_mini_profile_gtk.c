@@ -22,9 +22,9 @@ void mx_mini_profile_gtk(t_widget_my *widge) {
     gtk_window_move(GTK_WINDOW(widge->mini_window_profile), widge->window_x + 100, widge->window_y - 160);
     // 
     widge->mini_level = gtk_label_new("LEVEL : 0");
-    widge->mini_date = gtk_label_new("your date of birth");
-    widge->mini_name = gtk_label_new("your fullname");
-    widge->mini_nick = gtk_label_new("your nickname");
+    widge->mini_date = gtk_label_new(widge->user_profile->birth);
+    widge->mini_name = gtk_label_new(widge->user_profile->fullname);
+    widge->mini_nick = gtk_label_new(widge->user_profile->nickname);
     //box2
     gtk_box_pack_start(GTK_BOX(box2), widge->mini_name, 0, 0, 20);
     gtk_box_pack_start(GTK_BOX(box2), widge->mini_level, 0, 0, 20);

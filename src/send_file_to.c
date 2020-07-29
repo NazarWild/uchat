@@ -25,8 +25,8 @@ void mx_send_file_to(t_widget_my *widge, const gchar *text) {
     row_mess->box3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, TRUE);
     row_mess->box4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
 
-    row_mess->nickname = mx_name_mess_to("opoliarenk");
-    row_mess->data_box = mx_time_mess_to("22:12");
+    row_mess->nickname = mx_name_mess_to(widge->login);
+    row_mess->data_box = mx_time_mess_to("today");
 
     widge->trash_img = gdk_pixbuf_new_from_file("./img_chat/trash.png", NULL);
     widge->trash_img = gdk_pixbuf_scale_simple(widge->trash_img, 20, 20, GDK_INTERP_BILINEAR);

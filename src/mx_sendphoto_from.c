@@ -21,8 +21,9 @@ void mx_sendphoto_from(char *file_name, t_widget_my *widge) {
     row_mess->box3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, TRUE);
     row_mess->box4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
 
-    row_mess->nickname = mx_name_mess_from("opoliarenk");
-    row_mess->data_box = mx_time_mess_from("22:12");
+    row_mess->nickname = mx_name_mess_from(widge->login_list);
+    row_mess->data_box = mx_time_mess_from("today");
+    
     gtk_box_pack_start(GTK_BOX(row_mess->box3), row_mess->nickname, 0, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box4), mess_struct->message, 1, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_mess->box3), row_mess->box4, 1, 0, 0);

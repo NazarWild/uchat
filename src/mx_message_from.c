@@ -44,8 +44,9 @@ void mx_message_from(t_widget_my *widge, const gchar *text) {
     row_s->box3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, TRUE);
     row_s->box4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, TRUE);
 
-    row_s->nickname = mx_name_mess_from("opoliarenk");
-    row_s->data_box = mx_time_mess_from("22:12");
+    row_s->nickname = mx_name_mess_from(widge->login_list);
+    row_s->data_box = mx_time_mess_from("today");
+
     gtk_box_pack_start(GTK_BOX(row_s->box3), row_s->nickname, 0, 0, 0);
     gtk_box_pack_start(GTK_BOX(row_s->box3), row_s->message, 1, 0, 0);
     // gtk_box_pack_start(GTK_BOX(row_s->box3), mess_struct->message, 1, 0, 0);

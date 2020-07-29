@@ -11,6 +11,8 @@ int mx_log_in(char *login, char *pass, t_widget_my *widge) {
     widge->login_id = NULL;
 
 	memset(widge->user_profile, 0, sizeof(t_profile_list));
+    widge->user_profile->fullname = strdup("set this field");
+    widge->user_profile->nickname = strdup("set this field");
     mx_connection(widge);
     return 1;
 }

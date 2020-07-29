@@ -80,10 +80,13 @@ void func(GtkWidget* widget, void *data) {
     const gchar *nick = gtk_entry_get_text(GTK_ENTRY(widge->nickname_entry));
     const gchar *birth = gtk_entry_get_text(GTK_ENTRY(widge->birth_entry));
 
+    free(widge->user_profile->fullname);
     widge->user_profile->fullname = strdup((char *) full);
+    free(widge->user_profile->nickname);
     widge->user_profile->nickname = strdup((char *) nick);
-    if (parsing_profile_data(widge, (char *) birth))
+    if (parsing_profile_data(widge, (char *) birth)) {
         widge->user_profile->birth = strdup((char *) birth);
+    }
     widge->user_profile->resource = widge->res_png;
 
     mx_create_json_profile(widge, (char *) full, (char *) nick, (char *) birth, widge->res_png);
@@ -154,12 +157,9 @@ void mx_profile_gtk(t_widget_my *widge) {
     nick_entry = gtk_entry_new();
     full_entry = gtk_entry_new();
     birth_entry = gtk_entry_new();
-    if (widge->user_profile->fullname != NULL)
-        gtk_entry_set_text(GTK_ENTRY(full_entry), widge->user_profile->fullname);
-    if (widge->user_profile->nickname != NULL)
-        gtk_entry_set_text(GTK_ENTRY(nick_entry), widge->user_profile->nickname);
-    if (widge->user_profile->birth != NULL)
-        gtk_entry_set_text(GTK_ENTRY(birth_entry), widge->user_profile->birth);
+    gtk_entry_set_text(GTK_ENTRY(full_entry), widge->user_profile->fullname);
+    gtk_entry_set_text(GTK_ENTRY(nick_entry), widge->user_profile->nickname);
+    gtk_entry_set_text(GTK_ENTRY(birth_entry), widge->user_profile->birth);
     gtk_entry_set_placeholder_text(GTK_ENTRY(birth_entry), "[dd.mm.year]");
     label = gtk_label_new("LEVEL");
     full = gtk_label_new("FULLNAME");
