@@ -34,13 +34,15 @@ void p(GtkWidget* widget, void *data) {
     gtk_button_set_label (GTK_BUTTON(widge->who_writing), widge->login_list);
     free(widge->to);
     widge->to = strdup(find_id(p, widge->login_list));
-    widge->login_list = mx_find_login_by_id(widge->login_id, widge->to);
+    widge->login_list = strdup(mx_find_login_by_id(widge->login_id, widge->to));
     mx_set_cur_chat_id(widge);
-
-    asprintf(&str, "{\"LAST_MESS\": true, \"CHAT_ID\": %d}\n", widge->cur_chat_id);
-    SSL_write(widge->ssl, str, strlen(str));
-    write(1, str, strlen(str));
-    free(str);
+    if (mx_if_can_get_mess_by_id(widge->mess_id, widge->to) == false) {
+        asprintf(&str, "{\"LAST_MESS\": true, \"CHAT_ID\": %d}\n", widge->cur_chat_id);
+        SSL_write(widge->ssl, str, strlen(str));
+        write(1, str, strlen(str));
+        free(str);
+        mx_set_get_mess_by_id_true(widge->mess_id, widge->to);
+    }
 
     i = (int)(uintptr_t)g_object_get_data(G_OBJECT(widget), "id");
     gtk_notebook_set_current_page(GTK_NOTEBOOK(widge->notebook), i);

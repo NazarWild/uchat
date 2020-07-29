@@ -51,7 +51,7 @@ void to_chat(GtkWidget* widget, void *data) {
         gtk_entry_set_text(GTK_ENTRY(widge->repeat_user_password), "");
     }
     else
-       mx_log_in((char *) user_name, (char *) user_password, widge);
+        mx_log_in((char *) user_name, (char *) user_password, widge);
 }
 
 void mx_login_win(t_widget_my *widge) {
