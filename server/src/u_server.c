@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
     t_use_mutex param; //creting mutex
     pthread_mutex_t mute; // mutex
 
-    //demonize();
+    demonize();
     signal(SIGPIPE, SIG_IGN);
     param.fd_log = create_log();
     pthread_mutex_init(&mute, NULL);
