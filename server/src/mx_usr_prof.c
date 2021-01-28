@@ -49,7 +49,7 @@ static int photo_usr(cJSON *root, t_use_mutex *mutex) {
     select = mx_struct_select("photo", request, mx_callback_persons_id, tmp);
     mx_select(select, mutex);
     free(request);
-    request = mx_strjoin("file_serv/", tmp);
+    request = mx_strjoin("./server/file_serv/", tmp);
     free(tmp);
     a = mx_len_of_file(request);
     return a;

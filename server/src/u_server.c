@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
     listen(server_fd, USERS);
     SSL_CTX *ctx = mx_initserverctx();
     SSL *ssl = NULL;
-    mx_loadcertificates(ctx, "CertFile.pem", "CertFile.pem");
+    mx_loadcertificates(ctx, "./server/CertFile.pem", "./server/CertFile.pem");
     t_list * list = NULL;
     while (1) {
         if ((param.cli_fd = accept(server_fd, (struct sockaddr *) &cli_addr, (socklen_t *) &clen)) < 0)

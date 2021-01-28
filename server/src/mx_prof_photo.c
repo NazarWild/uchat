@@ -20,7 +20,7 @@ static int size_of_file(cJSON *root, t_use_mutex *mutex) {
     select = mx_struct_select("photo", request, mx_callback_persons_id, tmp);
     mx_select(select, mutex);
     free(request);
-    request = mx_strjoin("file_serv/", tmp);
+    request = mx_strjoin("./server/file_serv/", tmp);
     free(tmp);
     a = mx_len_of_file(request);
     free(request);
@@ -39,7 +39,7 @@ void mx_prof_photo(cJSON *root, t_use_mutex *mutex) { // перессылка ф
     select = mx_struct_select("photo", request, mx_callback_persons_id, tmp);
     mx_select(select, mutex);
     free(request);
-    request = mx_strjoin("file_serv/", tmp);
+    request = mx_strjoin("./server/file_serv/", tmp);
     fd = open(request, O_RDONLY);
     free(tmp);
     tmp = (char*)malloc(sizeof(char) * size);
